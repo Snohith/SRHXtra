@@ -33,9 +33,13 @@ export function Footer({ site }: FooterProps) {
         <div className="grid gap-16 lg:grid-cols-[1.5fr_1fr]">
           <div className="max-w-3xl">
             <Link href="/" className="flex items-center gap-4 group">
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent font-black text-black transition-transform group-hover:rotate-12">
-                S
-              </span>
+              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-accent/10 p-1 transition-transform group-hover:rotate-6">
+                <img
+                  src="/logo.png"
+                  alt=""
+                  className="h-full w-full object-contain"
+                />
+              </div>
               <span className="text-3xl font-black uppercase tracking-[0.2em] text-white">
                 {site.siteName}
               </span>

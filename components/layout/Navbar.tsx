@@ -24,10 +24,14 @@ export function Navbar({ site }: NavbarProps) {
               className="group flex items-center gap-3.5"
               aria-label={`${site.siteName} — Home`}
             >
-              {/* Logo mark — slightly larger for editorial weight */}
-              <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent text-[15px] font-black text-black transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(255,130,0,0.55)]">
-                S
-              </span>
+              {/* Logo mark — updated with new brand asset */}
+              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xl bg-accent/10 p-0.5 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(255,130,0,0.4)]">
+                <img
+                  src="/logo.png"
+                  alt=""
+                  className="h-full w-full object-contain"
+                />
+              </div>
               {/* Site name */}
               <span className="text-[16px] font-black uppercase tracking-[0.2em] text-white">
                 {site.siteName}
