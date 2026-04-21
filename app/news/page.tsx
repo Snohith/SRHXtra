@@ -21,6 +21,7 @@ export default function NewsIndexPage() {
         title="Editorial Bulletins"
         description="Official roster updates, injury reports, and executive announcements from the Sunrisers camp. Our analytical coverage ensures you stay ahead of every tactical move."
         variant="hero"
+        headingLevel={1}
       />
 
       {featuredArticle ? (

@@ -21,6 +21,7 @@ export default function GalleryIndexPage() {
         title="The Gallery"
         description="Immersive visual storytelling from the heart of the SRH campaign. High-definition match-night captures, fan culture, and exclusive behind-the-scenes perspectives."
         variant="hero"
+        headingLevel={1}
       />
       
       {featuredAlbum ? (

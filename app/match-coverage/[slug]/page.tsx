@@ -5,7 +5,7 @@ import { ArticleHeader } from "@/components/articles/ArticleHeader";
 import { RelatedArticles } from "@/components/articles/RelatedArticles";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { getArticleBySlug, getArticleSlugs, getRelatedArticles } from "@/lib/content/articles";
-import { resolveArticleImage } from "@/lib/content/images";
+import { getGalleryAlbumForReportSlug, resolveArticleImage } from "@/lib/content/images";
 import { getArticleJsonLd, getBreadcrumbJsonLd } from "@/lib/seo/jsonld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
@@ -56,6 +56,7 @@ export default async function MatchCoverageArticlePage({
   }
 
   const relatedArticles = getRelatedArticles(article);
+  const relatedGalleryAlbum = getGalleryAlbumForReportSlug(article.slug);
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "Match Coverage", href: "/match-coverage/" },
@@ -83,6 +84,11 @@ export default async function MatchCoverageArticlePage({
             <Link className="mt-4 inline-flex text-sm font-semibold text-accent" href="/schedule/">
               Open season schedule
             </Link>
+            {relatedGalleryAlbum ? (
+              <Link className="mt-3 inline-flex text-sm font-semibold text-accent" href={relatedGalleryAlbum.url}>
+                Open related gallery
+              </Link>
+            ) : null}
           </div>
         </aside>
       </div>

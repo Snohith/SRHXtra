@@ -22,6 +22,7 @@ export default function SchedulePage() {
         title="Schedule"
         description={`The official campaign roadmap for ${schedule.season}. Every fixture, every venue, and every tactical battle tracked with clinical precision for the SRH faithful.`}
         variant="hero"
+        headingLevel={1}
       />
 
       <section className="section-stack">

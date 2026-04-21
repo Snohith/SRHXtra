@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import type { Fixture } from "@/lib/content/schedule";
 import { Badge } from "@/components/ui/Badge";
 import { cx } from "@/lib/utils/classes";
@@ -69,6 +71,14 @@ export function ScheduleTable({ fixtures }: ScheduleTableProps) {
                   <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted">
                     POTM: <span className="text-accent">{fixture.playerOfTheMatch}</span>
                   </p>
+                ) : null}
+                {fixture.reportSlug ? (
+                  <Link
+                    href={`/match-coverage/${fixture.reportSlug}/`}
+                    className="inline-flex text-[10px] font-bold uppercase tracking-[0.18em] text-accent underline decoration-accent/30 underline-offset-4 transition hover:text-orange-200"
+                  >
+                    Open report
+                  </Link>
                 ) : null}
               </div>
             </div>

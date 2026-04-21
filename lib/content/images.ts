@@ -80,6 +80,10 @@ function getMatchGalleryLookup() {
   return cachedMatchGalleryLookup;
 }
 
+export function getGalleryAlbumForReportSlug(reportSlug: string) {
+  return getMatchGalleryLookup().get(reportSlug) ?? null;
+}
+
 export function resolveArticleImage(article: Pick<Article, "collection" | "slug" | "coverImage" | "coverAlt" | "title">): ResolvedImage {
   const directCover = cleanImageValue(article.coverImage);
 

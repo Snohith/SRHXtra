@@ -22,6 +22,7 @@ export default function AboutUsPage() {
         title={aboutPage.title}
         description="Sunrisers Hyderabad is more than a franchise; it's a culture of resilience, tactical brilliance, and orange-blooded passion. SRHXtra is the elite editorial mirror to that legacy."
         variant="hero"
+        headingLevel={1}
         action={
           <Button href="/news/" size="sm" variant="secondary" className="border-white/10 bg-white/5 hover:bg-white/10">
             Visit the news desk
@@ -51,6 +52,14 @@ export default function AboutUsPage() {
           title="Editorial Philosophy"
         />
         <ArticleBody content={aboutPage.content} />
+      </section>
+
+      <section className="section-stack">
+        <SectionHeader
+          eyebrow="Editorial Signals"
+          title="Transparency"
+          description="We publish independent SRH coverage and label official-source updates clearly with source links and update timestamps."
+        />
       </section>
 
       <div className="grid gap-6 md:grid-cols-3">

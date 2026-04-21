@@ -31,7 +31,7 @@ export function buildBaseMetadata(): Metadata {
   return {
     metadataBase: new URL(ensureTrailingSlash(getPublicSiteUrl())),
     title: {
-      default: "SRHXtra — Official Sunrisers Hyderabad News & Analysis",
+      default: "SRHXtra — Independent Sunrisers Hyderabad News & Analysis",
       template: site.titleTemplate,
     },
     description: site.defaultDescription,

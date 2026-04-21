@@ -35,6 +35,7 @@ export default function SquadPage() {
         title="Squad"
         description={`The official Sunrisers squad for the ${squad.season} campaign. A collection of world-class talent, emerging stars, and tactical specialists organized for the elite competition.`}
         variant="hero"
+        headingLevel={1}
       />
 
       <div className="grid gap-6 md:grid-cols-3">

@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/Button";
 import { PointsTableCard } from "@/components/points-table/PointsTableCard";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { getPointsTable } from "@/lib/content/points-table";
@@ -19,6 +20,7 @@ export default function PointsTablePage() {
         title="Points Table"
         description="The official state of play. Our standings feed tracks every win, loss, and run-rate shift with clinical precision, ensuring you stay informed on the SRH campaign path."
         variant="hero"
+        headingLevel={1}
       />
 
       {table ? (
@@ -28,6 +30,14 @@ export default function PointsTablePage() {
             title={`Standings • ${table.season}`}
           />
           <PointsTableCard table={table} />
+          <div className="flex flex-wrap gap-3">
+            <Button href="/schedule/" size="sm" variant="secondary">
+              Open schedule
+            </Button>
+            <Button href="/match-coverage/" size="sm" variant="outline">
+              Open match coverage
+            </Button>
+          </div>
         </section>
       ) : (
         <div className="glass-panel p-20 text-center text-muted italic">

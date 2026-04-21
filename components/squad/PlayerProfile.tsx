@@ -69,7 +69,7 @@ export function PlayerProfile({ player }: PlayerProfileProps) {
             <StatItem label="Wickets" value={player.stats.wickets} />
             <StatItem label="Strike Rate" value={player.stats.strikeRate} />
             <StatItem label="Economy" value={player.stats.economy} />
-            <StatItem label="Birthplace" value={player.nationality} />
+            <StatItem label="Country" value={player.nationality} />
           </div>
         </div>
       </div>

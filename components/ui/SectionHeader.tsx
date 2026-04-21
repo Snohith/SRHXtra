@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ElementType, ReactNode } from "react";
 
 import { cx } from "@/lib/utils/classes";
 
@@ -9,6 +9,7 @@ interface SectionHeaderProps {
   action?: ReactNode;
   align?: "start" | "center";
   variant?: "default" | "hero";
+  headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
   className?: string;
 }
 
@@ -19,10 +20,12 @@ export function SectionHeader({
   action,
   align = "start",
   variant = "default",
+  headingLevel = 2,
   className,
 }: SectionHeaderProps) {
   const isHero = variant === "hero";
   const isCenter = align === "center";
+  const HeadingTag = `h${headingLevel}` as ElementType;
 
   return (
     <div
@@ -38,16 +41,15 @@ export function SectionHeader({
         align === "start" && !isHero && "border-l-2 border-accent/30 pl-6 sm:pl-8"
       )}>
         {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
-        <h2 className={cx(
+        <HeadingTag className={cx(
           "mt-3 leading-[1.1] font-black uppercase tracking-tight",
           isHero ? "editorial-title" : "section-title"
         )}>
           {title}
-        </h2>
+        </HeadingTag>
         {description ? <p className={cx("mt-6 body-copy max-w-3xl", isHero && "text-xl sm:text-2xl")}>{description}</p> : null}
       </div>
       {action ? <div className="shrink-0 pb-1">{action}</div> : null}
     </div>
   );
 }
-

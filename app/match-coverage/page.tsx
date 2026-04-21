@@ -21,6 +21,7 @@ export default function MatchCoverageIndexPage() {
         title="Tactical Reports"
         description="Phase-by-phase tactical analysis, verified match facts, and official score summaries. Our match coverage goes beyond the numbers to tell the real story of every SRH encounter."
         variant="hero"
+        headingLevel={1}
       />
 
       {featuredArticle ? (
