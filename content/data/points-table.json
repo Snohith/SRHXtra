@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-04-21T17:01:07.916Z",
+  "updatedAt": "2026-04-21T19:35:51.418Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -52,6 +52,28 @@
     },
     {
       "position": 3,
+      "teamCode": "SRH",
+      "team": "Sunrisers Hyderabad",
+      "matches": 7,
+      "wins": 4,
+      "losses": 3,
+      "noResult": 0,
+      "tied": 0,
+      "points": 8,
+      "netRunRate": "0.820",
+      "for": "1454/140.0",
+      "against": "1285/134.2",
+      "recentForm": [
+        "L",
+        "L",
+        "W",
+        "W",
+        "W"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/SRH.png"
+    },
+    {
+      "position": 4,
       "teamCode": "RR",
       "team": "Rajasthan Royals",
       "matches": 6,
@@ -73,46 +95,24 @@
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png"
     },
     {
-      "position": 4,
-      "teamCode": "SRH",
-      "team": "Sunrisers Hyderabad",
+      "position": 5,
+      "teamCode": "DC",
+      "team": "Delhi Capitals",
       "matches": 6,
       "wins": 3,
       "losses": 3,
       "noResult": 0,
       "tied": 0,
       "points": 6,
-      "netRunRate": "0.566",
-      "for": "1212/120.0",
-      "against": "1090/114.2",
+      "netRunRate": "-0.130",
+      "for": "1081/115.1",
+      "against": "1142/120.0",
       "recentForm": [
         "W",
         "L",
         "L",
         "W",
-        "W"
-      ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/SRH.png"
-    },
-    {
-      "position": 5,
-      "teamCode": "DC",
-      "team": "Delhi Capitals",
-      "matches": 5,
-      "wins": 3,
-      "losses": 2,
-      "noResult": 0,
-      "tied": 0,
-      "points": 6,
-      "netRunRate": "0.310",
-      "for": "886/95.1",
-      "against": "900/100.0",
-      "recentForm": [
-        "W",
-        "W",
-        "L",
-        "L",
-        "W"
+        "L"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/DC.png"
     },
