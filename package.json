@@ -1,24 +1,37 @@
 {
-  "name": "srh-xtra",
+  "name": "srhxtra",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "typecheck": "tsc --noEmit",
+    "update:schedule": "node scripts/update-srh-schedule.mjs",
+    "sync:squad": "node scripts/sync-srh-squad.mjs",
+    "sync:news": "node scripts/sync-official-news.mjs",
+    "sync:match-coverage-sources": "node scripts/sync-match-coverage-sources.mjs",
+    "generate:match-coverage-drafts": "node scripts/generate-match-coverage-drafts.mjs",
+    "polish:match-coverage": "node scripts/polish-match-coverage.mjs",
+    "sync:points-table": "node scripts/sync-points-table.mjs",
+    "sync:gallery": "node scripts/sync-official-gallery.mjs",
+    "sync:official": "node scripts/sync-official-data.mjs"
   },
   "dependencies": {
-    "next": "16.2.3",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "cheerio": "^1.2.0",
+    "gray-matter": "^4.0.3",
+    "next": "^16.2.4",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "remark": "^15.0.1",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.3",
-    "typescript": "^5"
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16",
+    "typescript": "^5.7.2"
   }
 }

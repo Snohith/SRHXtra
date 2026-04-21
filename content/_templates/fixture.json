@@ -1,0 +1,15 @@
+{
+  "id": "[REPLACE_FIXTURE_ID]",
+  "slug": "[REPLACE_SLUG]",
+  "competition": "[REPLACE_COMPETITION]",
+  "opponent": "[REPLACE_OPPONENT]",
+  "date": "[REPLACE_DATE_YYYY-MM-DD]",
+  "time": "[REPLACE_TIME]",
+  "venue": "[REPLACE_VENUE]",
+  "homeAway": "[REPLACE_HOME_OR_AWAY]",
+  "status": "[REPLACE_UPCOMING_OR_COMPLETED]",
+  "result": "[REPLACE_RESULT_OR_REMOVE]",
+  "reportSlug": "[REPLACE_REPORT_SLUG_OR_REMOVE]",
+  "notes": "[REPLACE_NOTES_OR_REMOVE]",
+  "editorialStatus": "replace-before-launch"
+}

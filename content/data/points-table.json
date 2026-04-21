@@ -1,0 +1,230 @@
+{
+  "season": "2026",
+  "updatedAt": "2026-04-19T06:50:37.454Z",
+  "sourcePriority": [
+    "https://www.iplt20.com/points-table/men",
+    "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
+  ],
+  "standings": [
+    {
+      "position": 1,
+      "teamCode": "PBKS",
+      "team": "Punjab Kings",
+      "matches": 5,
+      "wins": 4,
+      "losses": 0,
+      "noResult": 1,
+      "tied": 0,
+      "points": 9,
+      "netRunRate": "1.067",
+      "for": "796/73.1",
+      "against": "785/80.0",
+      "recentForm": [
+        "W",
+        "W",
+        "N",
+        "W",
+        "W"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/PBKS.png"
+    },
+    {
+      "position": 2,
+      "teamCode": "RCB",
+      "team": "Royal Challengers Bengaluru",
+      "matches": 6,
+      "wins": 4,
+      "losses": 2,
+      "noResult": 0,
+      "tied": 0,
+      "points": 8,
+      "netRunRate": "1.171",
+      "for": "1218/110.5",
+      "against": "1157/117.5",
+      "recentForm": [
+        "W",
+        "L",
+        "W",
+        "W",
+        "L"
+      ],
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/NVAlbtIyB81740555172aFPMviEPyJ1710927747rcb.png"
+    },
+    {
+      "position": 3,
+      "teamCode": "RR",
+      "team": "Rajasthan Royals",
+      "matches": 5,
+      "wins": 4,
+      "losses": 1,
+      "noResult": 0,
+      "tied": 0,
+      "points": 8,
+      "netRunRate": "0.889",
+      "for": "849/81.1",
+      "against": "871/91.0",
+      "recentForm": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "L"
+      ],
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png"
+    },
+    {
+      "position": 4,
+      "teamCode": "SRH",
+      "team": "Sunrisers Hyderabad",
+      "matches": 6,
+      "wins": 3,
+      "losses": 3,
+      "noResult": 0,
+      "tied": 0,
+      "points": 6,
+      "netRunRate": "0.566",
+      "for": "1212/120.0",
+      "against": "1090/114.2",
+      "recentForm": [
+        "W",
+        "L",
+        "L",
+        "W",
+        "W"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/SRH.png"
+    },
+    {
+      "position": 5,
+      "teamCode": "DC",
+      "team": "Delhi Capitals",
+      "matches": 5,
+      "wins": 3,
+      "losses": 2,
+      "noResult": 0,
+      "tied": 0,
+      "points": 6,
+      "netRunRate": "0.310",
+      "for": "886/95.1",
+      "against": "900/100.0",
+      "recentForm": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "W"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/DC.png"
+    },
+    {
+      "position": 6,
+      "teamCode": "GT",
+      "team": "Gujarat Titans",
+      "matches": 5,
+      "wins": 3,
+      "losses": 2,
+      "noResult": 0,
+      "tied": 0,
+      "points": 6,
+      "netRunRate": "0.018",
+      "for": "922/98.2",
+      "against": "928/99.1",
+      "recentForm": [
+        "L",
+        "L",
+        "W",
+        "W",
+        "W"
+      ],
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/Rwz7jmxIFN1774445093GT.png"
+    },
+    {
+      "position": 7,
+      "teamCode": "CSK",
+      "team": "Chennai Super Kings",
+      "matches": 6,
+      "wins": 2,
+      "losses": 4,
+      "noResult": 0,
+      "tied": 0,
+      "points": 4,
+      "netRunRate": "-0.780",
+      "for": "1131/120.0",
+      "against": "1131/110.5",
+      "recentForm": [
+        "L",
+        "L",
+        "W",
+        "W",
+        "L"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/CSK.png"
+    },
+    {
+      "position": 8,
+      "teamCode": "LSG",
+      "team": "Lucknow Super Giants",
+      "matches": 5,
+      "wins": 2,
+      "losses": 3,
+      "noResult": 0,
+      "tied": 0,
+      "points": 4,
+      "netRunRate": "-0.804",
+      "for": "793/99.5",
+      "against": "796/91.0",
+      "recentForm": [
+        "L",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/b7GnGJW4bi1772703245LSG.png"
+    },
+    {
+      "position": 9,
+      "teamCode": "MI",
+      "team": "Mumbai Indians",
+      "matches": 5,
+      "wins": 1,
+      "losses": 4,
+      "noResult": 0,
+      "tied": 0,
+      "points": 2,
+      "netRunRate": "-1.076",
+      "for": "926/90.1",
+      "against": "972/85.4",
+      "recentForm": [
+        "W",
+        "L",
+        "L",
+        "L",
+        "L"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/MI.png"
+    },
+    {
+      "position": 10,
+      "teamCode": "KKR",
+      "team": "Kolkata Knight Riders",
+      "matches": 6,
+      "wins": 0,
+      "losses": 5,
+      "noResult": 1,
+      "tied": 0,
+      "points": 1,
+      "netRunRate": "-1.149",
+      "for": "902/100.0",
+      "against": "1005/98.5",
+      "recentForm": [
+        "L",
+        "N",
+        "L",
+        "L",
+        "L"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/KKR.png"
+    }
+  ]
+}

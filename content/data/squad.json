@@ -1,0 +1,507 @@
+{
+  "season": "IPL 2026",
+  "updatedAt": "2026-04-18T21:33:12.920Z",
+  "editorialStatus": "verified",
+  "players": [
+    {
+      "slug": "ishan-kishan",
+      "name": "Ishan Kishan",
+      "fullName": "Ishan Kishan",
+      "role": "Wicketkeeper Batter",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": true,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/164.png",
+      "imageAlt": "Ishan Kishan official SRH headshot",
+      "bio": "A dynamic wicketkeeper-batter at the top of the order, Ishan Kishan has been a mainstay in the TATA IPL since making his debut in 2016, soon after leading India to the final of the U19 World Cup that year. He rose to prominence during his stint with Mumbai Indians, playing a key role in their title-winning campaigns in 2019 and 2020. In the 2020 edition, he was Mumbai’s highest run-scorer, notching up 516 runs at an average of 57.33 while maintaining a 140-plus strike rate. His impact was reflected at the 2022 Mega Auction, where Mumbai Indians secured him for INR 15.75 crore, the highest bid of that edition. Kishan moved to Sunrisers Hyderabad in 2025 and registered his maiden IPL century - 106* against Rajasthan Royals. After leading Jharkhand to the title and shining with the bat in a stellar 2025-26 Syed Mushtaq Ali Trophy, he returned strongly in international cricket, scoring 317 runs at a strike rate of 193.29 in India’s victorious ICC Men’s T20 World Cup 2026 campaign. With Pat Cummins set to miss the start of IPL 2026, SRH chose Kishan as their stand-in captain in the early phase of the tournament.",
+      "stats": {
+        "matches": 124
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "aniket-verma",
+      "name": "Aniket Verma",
+      "fullName": "Aniket Verma",
+      "role": "Batter",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/3576.png",
+      "imageAlt": "Aniket Verma official SRH headshot",
+      "bio": "Aniket Verma, a 24-year-old right-handed batter born in Uttar Pradesh, is a product of raw power and promise. Despite featuring in two domestic T20 seasons for Madhya Pradesh, he had limited opportunities in his early outings. Yet, Sunrisers Hyderabad showed promise in him, acquiring Aniket for INR 30 Lakh at the 2025 mega-auction, based on his performances on the U23 circuit. Aniket made an immediate impact in his debut TATA IPL season. He announced himself with a blistering 74 off 41 balls against DC in just his third match, walking in at 25/3 and smashing six sixes. Over the course of the season, he struck 20 sixes, underlining his reputation as a pure power-hitter. He carried that form into the Syed Mushtaq Ali Trophy in 2025, finishing as Madhya Pradesh’s leading six-hitter with 10 sixes. If given a longer run, his ability to clear boundaries at will could make him one of SRH’s most exciting batting options.",
+      "stats": {
+        "matches": 19
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "smaran-ravichandran",
+      "name": "Smaran Ravichandran",
+      "fullName": "Smaran Ravichandran",
+      "role": "Batter",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/3752.png",
+      "imageAlt": "Smaran Ravichandran official SRH headshot",
+      "bio": "Smaran Ravichandran is a high-intent batter from Karnataka who has taken only two seasons to establish himself in domestic cricket. A left-handed batter, Smaran made his senior debut for Karnataka in the 2024-25 domestic season. In 17 first-class matches so far, he has racked up 1534 runs at an impressive average of 73.04, including three double hundreds. The 22-year-old has also shone in other formats, averaging 50.33 in 18 List A games. In 13 T20s for Karnataka, he averaged 48.90 at a strike rate of 162.45. His standout performance came in the Vijay Hazare Trophy 2025 final, where his match-winning 101 against Vidarbha helped Karnataka lift the trophy. His consistent run earned him his first TATA IPL contract as he was signed by Sunrisers Hyderabad for INR 30 lakhs as a replacement for Australian spinner Adam Zampa. Unfortunately, Smaran got injured, but tracking his progress, SRH retained him for the 2026 TATA IPL.",
+      "stats": {
+        "matches": 0
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "salil-arora",
+      "name": "Salil Arora",
+      "fullName": "Salil Arora",
+      "role": "Wicketkeeper Batter",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": true,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/4556.png",
+      "imageAlt": "Salil Arora official SRH headshot",
+      "bio": "A 23-year-old wicket-keeper batter, Salil Arora comes to the TATA IPL having already established himself in Punjab’s star-studded T20 side. He was Punjab’s highest run-scorer in the 2025/26 Syed Mushtaq Ali Trophy, smashing 358 runs at a strike rate of 198.88. The highlight of his season was an unbeaten 125 off 45 deliveries against the eventual winners Jharkhand, which had nine fours and 11 sixes (102 runs in boundaries). Only Ishan Kishan struck more sixes than him that season. A middle-order batter, Sunrisers Hyderabad paid INR 1.5 Crore to sign him in the 2026 TATA IPL Auction with the vision of adding another six-hitter to their roster.",
+      "stats": {
+        "matches": 4
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "heinrich-klaasen",
+      "name": "Heinrich Klaasen",
+      "fullName": "Heinrich Klaasen",
+      "role": "Wicketkeeper Batter",
+      "nationality": "South African",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": true,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/202.png",
+      "imageAlt": "Heinrich Klaasen official SRH headshot",
+      "bio": "Heinrich Klaasen has emerged as one of the most destructive middle-order batters in white-ball cricket, particularly renowned for his dominance against spin. The world took notice of his talent in the 2023 ODI World Cup, where Klaasen smashed 373 runs for South Africa at a strike rate of 133.21. His knock of 174 off 83 balls against Australia in Centurion is the third highest ODI score batting at number five or below. Klaasen had a modest start in the TATA IPL with RR and RCB but found his groove with Sunrisers Hyderabad in 2023. In fact, he has been a pillar in SRH’s middle order, scoring over 400 runs at a strike rate above 170 in each of his three seasons with the franchise. This includes two hundreds - 104 off 51 balls vs RCB in 2023 and 105* in 39 balls against KKR in 2025. No other SRH batter has hit more sixes than Klaasen’s tally of 88 sixes between 2023 and 2025. Klaasen continues to be a force in SRH’s batting line-up heading into IPL 2026.",
+      "stats": {
+        "matches": 54
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "travis-head",
+      "name": "Travis Head",
+      "fullName": "Travis Head",
+      "role": "Batter",
+      "nationality": "Australian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/37.png",
+      "imageAlt": "Travis Head official SRH headshot",
+      "bio": "Few batters in T20 cricket take the game on as relentlessly as Travis Head. He is an aggressive left-hander with a proven pedigree in big matches, as reflected by his match-winning centuries in the World Test Championship 2021-23 final and ODI World Cup 2023 final. He has carried that intent into the TATA IPL, striking at over 170 in the league and over 150 in T20Is. After a brief stint with RCB, Head found his true impact with Sunrisers Hyderabad in 2024. He hammered 567 runs in the season at a staggering strike rate of 191.55. As things stand before TATA IPL 2026, it is a record for most runs scored by a batter in an IPL season while going at a strike rate of 190-plus. That campaign included a century and a 16-ball fifty, the joint-fastest for SRH. At the top, his partnership with Abhishek Sharma has redefined powerplay batting. The duo holds the two highest powerplay scores in IPL history - 125/0 and 107/0 - underlining their threat factor from ball one. Head remains one of the most feared openers in the IPL heading into 2026.",
+      "stats": {
+        "matches": 43
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "harshal-patel",
+      "name": "Harshal Patel",
+      "fullName": "Harshal Patel",
+      "role": "All-rounder",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/114.png",
+      "imageAlt": "Harshal Patel official SRH headshot",
+      "bio": "Harshal Patel has carved a niche as one of the most effective death-overs specialists in the TATA IPL, built around deceptive slower balls and dipping yorkers. A veteran of over 100 matches with more than 150 wickets, he has consistently found ways to disrupt batters in the latter stages of an innings. After beginning his IPL journey with Royal Challengers Bengaluru in 2012 and later moving to Delhi Capitals, Harshal hit peak form on his return to RCB in 2021. That season, he delivered one of the most remarkable bowling performances in IPL history, claiming 32 wickets — the joint-highest in a single edition — including a hat-trick against Mumbai Indians. The performance earned him a place in India’s T20I setup. Since then, his value has only risen, reflected in successive high-value deals across franchises. He won the Purple Cap again with Punjab, bagging 24 wickets in 2024. Sunrisers Hyderabad secured him for ₹8 crore ahead of the 2025 season, where he accounted for 16 wickets. Harshal will once again be central to SRH’s bowling plans in IPL 2026.",
+      "stats": {
+        "matches": 122
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "kamindu-mendis",
+      "name": "Kamindu Mendis",
+      "fullName": "Kamindu Mendis",
+      "role": "All-rounder",
+      "nationality": "Sri Lankan",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/627.png",
+      "imageAlt": "Kamindu Mendis official SRH headshot",
+      "bio": "Kamindu Mendis is an exciting Sri Lankan all-rounder known for his ambidextrous bowling ability. He can switch between right-arm off-spin and left-arm orthodox spin - a rare skill that allows captains to use him strategically against both right-handed and left-handed batters. Mendis first rose to prominence for his bowling versatility but quickly gained attention for his impressive batting performances at the international level. The young left-hander made waves by matching Don Bradman's record of reaching 1000 Test runs in just 13 innings. Consequently, Sunrisers Hyderabad drafted him into their squad in the TATA IPL 2025 Mega Auction for INR 75 Lakh. He featured in five games and has been retained by SRH for the 2026 season. A key member of Sri Lanka’s squads across formats, Mendis’ one-handed diving stunner of a catch in SRH’s game against Chennai Super Kings last season goes down as one of the greatest grabs in IPL history.",
+      "stats": {
+        "matches": 5
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "harsh-dubey",
+      "name": "Harsh Dubey",
+      "fullName": "Harsh Dubey",
+      "role": "All-rounder",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/1494.png",
+      "imageAlt": "Harsh Dubey official SRH headshot",
+      "bio": "Harsh Dubey, a left-arm spin-bowling all-rounder from Vidarbha, has rapidly gained attention on the back of a record-breaking domestic season. He scripted history in the 2024/25 Ranji Trophy, claiming 69 wickets - the most in a single season - and played a pivotal role in Vidarbha’s title-winning campaign. Sunrisers Hyderabad brought him in as a replacement player during TATA IPL 2025 and Dubey made an immediate impression. In just three matches, he returned with five wickets at an average of 19.60, with his scalps including Virat Kohli, Mitchell Marsh, Andre Russell and Rinku Singh. Beyond his bowling, Dubey has shown signs of growth with the bat. A left-hander capable of contributing lower down the order, he averaged 28.5 in the 2025/26 Ranji season, his best return in the competition. He also registered his maiden T20 fifty for India A in the Rising Stars Asia Cup in Qatar last year. Dubey could double up as an effective spinner and a valuable batter down the order for SRH, which might bring more game time for the 23-year-old in TATA IPL 2026.",
+      "stats": {
+        "matches": 8
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "shivang-kumar",
+      "name": "Shivang Kumar",
+      "fullName": "Shivang Kumar",
+      "role": "All-rounder",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/4561.png",
+      "imageAlt": "Shivang Kumar official SRH headshot",
+      "bio": "Another uncapped spinner in SRH’s camp, Shivang Kumar is a left-arm wrist-spinner from Madhya Pradesh. At 23, Shivang has featured in a handful of white-ball games in domestic cricket - four T20s and three List A matches. However, he has already left a mark with a personal best of 5/45 against Karnataka in Vijay Hazare Trophy and 3/25 against Bihar in Syed Mushtaq Ali Trophy. Sunrisers Hyderabad signed him for the 2026 TATA IPL season at INR 30 Lakh. Shivang also has a List A fifty - 67 off 69 balls against Jharkhand in the 2025/26 season which might give him an edge over other uncapped spin options in SRH’s squad.",
+      "stats": {
+        "matches": 4
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "krains-fuletra",
+      "name": "Krains Fuletra",
+      "fullName": "Krains Fuletra",
+      "role": "All-rounder",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/4557.png",
+      "imageAlt": "Krains Fuletra official SRH headshot",
+      "bio": "A rare left-arm wrist-spinner, Krains Fuletra has quickly emerged as an exciting prospect in Saurashtra’s ranks. He picked four wickets for 67 runs in his two appearances in the U23 One-Day Competition. Spotted by the Saurashtra skipper Jaydev Unadkat (also part of the SRH squad this year), Fuletra was then fast-tracked into the Vijay Hazare Trophy squad during the 2024/25 season. Placing faith in him at the 2026 TATA IPL Auction, Sunrisers Hyderabad handed him his maiden IPL contract for INR 30 Lakh. At just 21, Fuletra remains raw, having played only three white-ball games at the senior level. However, he adds an exciting dimension to SRH’s spin options heading into a new season.",
+      "stats": {
+        "matches": 0
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "liam-livingstone",
+      "name": "Liam Livingstone",
+      "fullName": "Liam Livingstone",
+      "role": "All-rounder",
+      "nationality": "English",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/183.png",
+      "imageAlt": "Liam Livingstone official SRH headshot",
+      "bio": "Liam Livingstone is a T20 cricketer built in the lab - a ferocious power-hitter against both pace and spin, and a useful spinner who can bowl both off-spin and wrist-spin. He began his TATA IPL journey for RR in 2019, however, opportunities were limited in initial years. Livingstone then smashed a 42-ball hundred for England, their fastest at the time and his stocks boomed exponentially. Livingstone bagged an INR 11.5 Crore contract from Punjab Kings for the 2022 season and hammered 437 runs across 14 games, striking at 182.08. Later that year, he was part of England’s T20 World Cup-winning squad in Australia. Livingstone has been ranked the number one T20I all-rounder on ICC rankings twice - in 2021 and 2024. He was part of RCB’s winning squad in 2025 and in the 2026 TATA IPL Auction, SRH produced a winning bid of INR 13 Crore to sign him, defeating KKR and LSG in the bidding process.",
+      "stats": {
+        "matches": 50
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "abhishek-sharma",
+      "name": "Abhishek Sharma",
+      "fullName": "Abhishek Sharma",
+      "role": "All-rounder",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/212.png",
+      "imageAlt": "Abhishek Sharma official SRH headshot",
+      "bio": "Abhishek Sharma’s TATA IPL journey has been one of transformation: from a middle-order prospect at Delhi Capitals to one of the most explosive openers in the league with Sunrisers Hyderabad. Fresh off India’s U19 World Cup-winning campaign in 2018, he announced himself with an unbeaten 46 off 19 balls on debut. Since moving to SRH, Abhishek has found his true calling at the top of the order. Given an extended run as an opener from IPL 2022 onwards, he has amassed 1575 runs at a strike rate of 167.37, redefining aggressive batting in the powerplay. In recent years, he has taken power-hitting to another level, striking at nearly 198.92 for SRH and over 190.46 for India in T20Is, where he has already crossed 1000 runs. In the recently-concluded ICC Men’s T20 World Cup 2026, Abhishek’s 21-ball 52 laid the perfect foundation for India to power a gigantic score of 255/5 in the final against New Zealand. Coming fresh off a World Cup win, Abhishek would be brimming with confidence to deliver another great season with the bat at a high strike rate.",
+      "stats": {
+        "matches": 82
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "nitish-kumar-reddy",
+      "name": "Nitish Kumar Reddy",
+      "fullName": "Nitish Kumar Reddy",
+      "role": "All-rounder",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/1944.png",
+      "imageAlt": "Nitish Kumar Reddy official SRH headshot",
+      "bio": "2024 was a big year for Nitish Kumar Reddy. He made his TATA IPL debut for Sunrisers Hyderabad in 2023 but got an extended run in the subsequent season, playing 13 games. Reddy scored 303 runs at a strike rate of 142.92. The Andhra-born also showed his capability to contribute handy overs with the ball, including a match-winning spell of 2/17 that had key wickets of Tristan Stubbs and Rishabh Pant. With the Indian team looking for more seam-bowling all-round options at that point, Reddy made his debut for India across all formats. His maiden Test ton in December 2024 - 114 against Australia - is the highest score at the iconic MCG by a batter from number eight or below. Thus, it wasn’t a surprise when SRH named him in their five retentions ahead of the 2025 season. Reddy featured in only three games in the 2025-26 Syed Mushtaq Ali Trophy, but scored at a strike rate of 137.25 while picking six wickets with the ball. He finished the season with a player-of-the-match performance - 45 (22) & 2/32 against the eventual winners, Jharkhand. Given his all-round value, Reddy continues to be a first-choice playing XI option for SRH in TATA IPL 2026.",
+      "stats": {
+        "matches": 33
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "pat-cummins",
+      "name": "Pat Cummins",
+      "fullName": "Pat Cummins",
+      "role": "Bowler",
+      "nationality": "Australian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/33.png",
+      "imageAlt": "Pat Cummins official SRH headshot",
+      "bio": "Pat Cummins has evolved into one of the TATA IPL’s most influential overseas players, combining high-quality fast bowling with strong leadership credentials. After making his debut with Kolkata Knight Riders in 2014 and a brief stint with Delhi Capitals, Cummins returned to KKR and produced one of the most memorable all-round moments in IPL history, smashing a 14-ball fifty in IPL 2022 — then the joint-fastest in the league. Next year, he won the World Test Championship and the ODI World Cup as Australia’s captain. Naturally, his value peaked at the IPL 2024 auction, where Sunrisers Hyderabad secured him for INR 20.50 crore, making him one of the most expensive buys in the tournament’s history. Appointed captain straightaway, Cummins made an immediate impact, leading SRH to a runner-up finish in his very first season at the helm. He also snapped 18 wickets, the most for him in a season. Retained ahead of IPL 2026, Cummins continues to lead Sunrisers Hyderabad, bringing immense leadership experience and tactical clarity to the side.",
+      "stats": {
+        "matches": 72
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "zeeshan-ansari",
+      "name": "Zeeshan Ansari",
+      "fullName": "Zeeshan Ansari",
+      "role": "Bowler",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/3575.png",
+      "imageAlt": "Zeeshan Ansari official SRH headshot",
+      "bio": "Zeeshan Ansari is a young leg-break bowler from Uttar Pradesh. The youngster was a part of India’s squad in the 2016 ICC Men’s U19 World Cup and climbed up the ranks with strong performances at the domestic level. That helped him secure an INR 40 Lakh deal with Sunrisers Hyderabad in the TATA IPL 2025 Mega Auction. Zeeshan had a promising start, dismissing three key players of the Delhi line-up - Jake Fraser-McGurk, Faf du Plessis and KL Rahul. Overall, he featured in 10 games in the season. Known for toppling batters with googlies and an uncanny ability to bowl at the death for a wrist-spinner, Zeeshan was retained by SRH for TATA IPL 2026.",
+      "stats": {
+        "matches": 10
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "jaydev-unadkat",
+      "name": "Jaydev Unadkat",
+      "fullName": "Jaydev Unadkat",
+      "role": "Bowler",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/180.png",
+      "imageAlt": "Jaydev Unadkat official SRH headshot",
+      "bio": "Jaydev Unadkat, an experienced left-arm pacer who thrives on variations, has been a consistent presence in the TATA IPL since 2010. Unadkat, who has 483 first-class wickets to his name, made his debut with KKR, before playing for multiple franchises, including his current team SRH. Unadkat’s best came in 2017 when he claimed 24 wickets in the season at an average of 13.41 runs per wicket. His brilliant run included his second-best IPL figures (5/30) and his maiden IPL hat-trick. It led to Unadkat earning an INR 11.5 Crore deal with RR in 2018. Returning to SRH after stints with Mumbai Indians and Lucknow Super Giants, Unadkat pouched 11 wickets in the 2025 season at an average of 15.90. Retained for TATA IPL 2026, the 34-year-old would have the extra responsibility of lifting SRH’s bowling, which is the weaker suit of their squad. Having also represented India across formats, since first making his international debut in Tests in 2010, Unadkat’s experience will be vital for SRH.",
+      "stats": {
+        "matches": 116
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "eshan-malinga",
+      "name": "Eshan Malinga",
+      "fullName": "Eshan Malinga",
+      "role": "Bowler",
+      "nationality": "Sri Lankan",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/3339.png",
+      "imageAlt": "Eshan Malinga official SRH headshot",
+      "bio": "Eshan Malinga is an emerging fast bowler from Sri Lanka, known for his ability to generate pace and deliver sharp spells. The 25-year-old rose through the domestic circuit with consistent performances and has been a regular presence in Sri Lanka A sides. His progress earned him an ODI call-up in early 2025, followed by a T20I debut in November the same year. Sunrisers Hyderabad secured him for INR 1.20 Crore at the 2025 TATA IPL Mega Auction, and Malinga made an immediate impact in his debut season. Featuring in seven matches, he claimed 13 wickets at an average of 18.90, showcasing his knack for breakthroughs. Malinga presents a strong option to step up as SRH’s lead overseas seamer. His pace and wicket-taking ability could play a crucial role in shaping their bowling attack early in the season.",
+      "stats": {
+        "matches": 12
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "sakib-hussain",
+      "name": "Sakib Hussain",
+      "fullName": "Sakib Hussain",
+      "role": "Bowler",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/3104.png",
+      "imageAlt": "Sakib Hussain official SRH headshot",
+      "bio": "Sakib Hussain is a right-arm seamer who made his T20 debut for Bihar in the 2022/23 Syed Mushtaq Ali Trophy. Only 17 years old then, he registered figures of 4 for 20 runs in two overs in his second game. Despite limited opportunities, Hussain has been pushing his case for bigger things and picked his maiden five-for in the 2025/26 edition of Ranji Trophy - 6/41 against Arunachal Pradesh. Hussain’s grind has been noticed by the IPL scouts. He was first signed by Kolkata Knight Riders for IPL 2024. Yet to make his debut in the league, Hussain will now join Sunrisers Hyderabad for TATA IPL 2026 at INR 30 Lakh.",
+      "stats": {
+        "matches": 1
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "onkar-tarmale",
+      "name": "Onkar Tarmale",
+      "fullName": "Onkar Tarmale",
+      "role": "Bowler",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/4560.png",
+      "imageAlt": "Onkar Tarmale official SRH headshot",
+      "bio": "Onkar Tarmale is a young right-arm seamer from Mumbai who brings raw pace to the table, consistently operating in the high 140 kph range. At just 22, he is still in the early stages of his career but has already shown promise in domestic cricket. Tarmale has featured in a handful of matches for Mumbai across formats, returning nine wickets from two first-class and four List A appearances. While his exposure remains limited, his ability to generate pace sets him apart. Sunrisers Hyderabad have signed him for his maiden TATA IPL season, adding a developing quick to their ranks. With pace as his primary weapon, Tarmale arrives as a prospect who could grow into a useful option under the guidance of Pat Cummins, Harshal Patel and Jaydev Unadkat.",
+      "stats": {
+        "matches": 0
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "amit-kumar",
+      "name": "Amit Kumar",
+      "fullName": "Amit Kumar",
+      "role": "Bowler",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/4559.png",
+      "imageAlt": "Amit Kumar official SRH headshot",
+      "bio": "Amit Kumar, a middle-order batter from Himachal Pradesh, brings experience and domestic pedigree to Sunrisers Hyderabad for TATA IPL 2026. He made an immediate impact at the start of his career, scoring an unbeaten 119 on his Ranji Trophy debut in the 2011/12 season, a knock that earned him the Player of the Match award. Amit played a key role in Himachal Pradesh’s Vijay Hazare Trophy triumph in 2021/22 - their only major trophy in the national domestic circuit. He scored 275 runs in the tournament at an average of 39.28, showcasing his ability to anchor innings and handle spin effectively. He can also bowl leg-spin if needed. While his appearances in T20 cricket have been limited in recent years, his overall body of work includes more than 3500 runs in domestic cricket. Sunrisers Hyderabad secured him for INR 30 lakh, adding an experienced option to their batting group.",
+      "stats": {
+        "matches": 0
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "praful-hinge",
+      "name": "Praful Hinge",
+      "fullName": "Praful Hinge",
+      "role": "Bowler",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/4558.png",
+      "imageAlt": "Praful Hinge official SRH headshot",
+      "bio": "Praful Hinge is a young right-arm seamer from Vidarbha who has steadily built his reputation in red-ball cricket. In just 10 first-class matches, the 24-year-old has claimed 27 wickets at an average of 26.7, highlighting his ability as a workhorse. His exposure to T20 cricket has been limited so far, but he made a tidy impression in his only appearance. Opening the bowling alongside Umesh Yadav, Hinge returned figures of 1 for 23 in four overs against Andhra. Sunrisers Hyderabad have brought him in for INR 30 Lakh ahead of TATA IPL 2026, adding him as a backup pace option. Still early in his career, Hinge now steps into a setup featuring Pat Cummins, Harshal Patel and Jaydev Unadkat - an environment that could accelerate his development.",
+      "stats": {
+        "matches": 1
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "shivam-mavi",
+      "name": "Shivam Mavi",
+      "fullName": "Shivam Mavi",
+      "role": "Bowler",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/154.png",
+      "imageAlt": "Shivam Mavi official SRH headshot",
+      "bio": "A seam-bowling all-rounder from Noida, Shivam Mavi first came into the limelight by clocking over 140kph consistently at the 2018 U19 World Cup. Kolkata Knight Riders rewarded his potential, picking him for INR 3 crore at the 2018 TATA IPL auction. That year, Mavi made his debut in T20s, in List A as well as first-class cricket. Since then, injuries have become a recurring part of his career, halting him from getting regular opportunities. Mavi still kept fighting. In 2021, he bagged 11 wickets at an average of 21.18. In the 2022/23 Ranji Trophy season, he emerged as Uttar Pradesh’s highest wicket-taker, snapping 19 wickets at 16.78 runs apiece. Consequently, he featured in six T20Is for India early in 2023 and impressed on his debut with 4/22 against Sri Lanka. Apart from KKR, Mavi has also been with GT and LSG without getting any game time. He had a terrific 2025/26 Ranji Trophy season where he picked 18 wickets and also piled up his maiden first-class hundred (101*). Mavi has now been picked by Sunrisers Hyderabad for the 2026 TATA IPL and could develop into a vital cog in their all-rounders’ department.",
+      "stats": {
+        "matches": 32
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "dilshan-madushanka",
+      "name": "Dilshan Madushanka",
+      "fullName": "Dilshan Madushanka",
+      "role": "Bowler",
+      "nationality": "Sri Lanka",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/1018.png",
+      "imageAlt": "Dilshan Madushanka official SRH headshot",
+      "bio": "Sri Lankan left-arm speedster Dilshan Madushanka has rapidly ascended to become one of the most lethal exponents of the new ball in modern-day limited-overs cricket. Known for his ability to swing the ball sharply into the right-hander at pace, the 25-year-old made the world take notice during the 2023 ICC Men’s ODI World Cup, where he finished as one of the tournament's leading wicket-takers with 21 scalps, including a memorable five-wicket haul against India. Ever since making his T20I debut in 2022, Madushanka has represented Sri Lanka across all three formats in international cricket. The young pacer was added to Sunrisers Hyderabad’s squad for TATA IPL 2026 as an injury replacement for Brydon Carse. Though still uncapped in the IPL, Madushanka was part of the Mumbai Indians squad for the 2024 season before an injury unfortunately ended his season early. He will be keen to make his opportunity count, if he gets to play, and learn from experienced campaigners like Pat Cummins, Jaydev Unadkat, and Harshal Patel, among others.",
+      "stats": {
+        "matches": 0
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
+      "slug": "gerald-coetzee",
+      "name": "Gerald Coetzee",
+      "fullName": "Gerald Coetzee",
+      "role": "Bowler",
+      "nationality": "South African",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/IPLHeadshot2026/2535.png",
+      "imageAlt": "Gerald Coetzee official SRH headshot",
+      "bio": null,
+      "stats": {
+        "matches": 14
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    }
+  ]
+}

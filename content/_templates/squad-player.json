@@ -1,0 +1,23 @@
+{
+  "slug": "[REPLACE_SLUG]",
+  "name": "[REPLACE_SHORT_NAME]",
+  "fullName": "[REPLACE_FULL_NAME]",
+  "role": "[REPLACE_ROLE]",
+  "nationality": "[REPLACE_NATIONALITY]",
+  "battingStyle": "[REPLACE_BATTING_STYLE_OR_REMOVE]",
+  "bowlingStyle": "[REPLACE_BOWLING_STYLE_OR_REMOVE]",
+  "jerseyNumber": "[REPLACE_JERSEY_NUMBER_OR_REMOVE]",
+  "captain": false,
+  "wicketkeeper": false,
+  "image": "/images/players/[REPLACE_IMAGE_FILE]",
+  "imageAlt": "[REPLACE_IMAGE_ALT]",
+  "bio": "[REPLACE_BIO]",
+  "editorialStatus": "replace-before-launch",
+  "stats": {
+    "matches": "[REPLACE_MATCHES]",
+    "runs": "[REPLACE_RUNS_OR_REMOVE]",
+    "wickets": "[REPLACE_WICKETS_OR_REMOVE]",
+    "strikeRate": "[REPLACE_STRIKE_RATE_OR_REMOVE]",
+    "economy": "[REPLACE_ECONOMY_OR_REMOVE]"
+  }
+}

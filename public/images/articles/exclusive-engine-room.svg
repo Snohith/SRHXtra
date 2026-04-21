@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Editorial feature graphic for Inside the Orange Engine Room">
+  <rect width="1200" height="675" fill="#0a0b0d" />
+  <g fill="none" stroke="#f97316" stroke-width="22">
+    <circle cx="360" cy="340" r="150" />
+    <circle cx="760" cy="340" r="220" stroke-opacity="0.45" />
+  </g>
+  <path d="M520 300h180v80H520z" fill="#fb923c" fill-opacity="0.5" />
+</svg>

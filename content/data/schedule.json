@@ -1,0 +1,172 @@
+{
+  "season": "2026",
+  "updatedAt": "2026-04-18T21:05:56.078Z",
+  "fixtures": [
+    {
+      "id": "ipl-2026-2417",
+      "slug": "ipl-2026-match-2417-srh-vs-rcb",
+      "competition": "IPL 2026",
+      "opponent": "Royal Challengers Bengaluru",
+      "date": "2026-03-28",
+      "time": "19:30 IST",
+      "venue": "M Chinnaswamy Stadium, Bengaluru",
+      "homeAway": "away",
+      "status": "completed",
+      "result": "Royal Challengers Bengaluru Won by 6 Wickets",
+      "reportSlug": "match-1-srh-vs-rcb"
+    },
+    {
+      "id": "ipl-2026-2422",
+      "slug": "ipl-2026-match-2422-srh-vs-kkr",
+      "competition": "IPL 2026",
+      "opponent": "Kolkata Knight Riders",
+      "date": "2026-04-02",
+      "time": "19:30 IST",
+      "venue": "Eden Gardens, Kolkata",
+      "homeAway": "away",
+      "status": "completed",
+      "result": "Sunrisers Hyderabad Won by 65 Runs",
+      "reportSlug": "match-6-srh-vs-kkr"
+    },
+    {
+      "id": "ipl-2026-2426",
+      "slug": "ipl-2026-match-2426-srh-vs-lsg",
+      "competition": "IPL 2026",
+      "opponent": "Lucknow Super Giants",
+      "date": "2026-04-05",
+      "time": "15:30 IST",
+      "venue": "Rajiv Gandhi International Stadium, Hyderabad",
+      "homeAway": "home",
+      "status": "completed",
+      "result": "Lucknow Super Giants Won by 5 Wickets",
+      "reportSlug": "match-10-srh-vs-lsg"
+    },
+    {
+      "id": "ipl-2026-2433",
+      "slug": "ipl-2026-match-2433-srh-vs-pbks",
+      "competition": "IPL 2026",
+      "opponent": "Punjab Kings",
+      "date": "2026-04-11",
+      "time": "15:30 IST",
+      "venue": "New International Cricket Stadium, New Chandigarh",
+      "homeAway": "away",
+      "status": "completed",
+      "result": "Punjab Kings Won by 6 Wickets",
+      "reportSlug": "match-17-srh-vs-pbks"
+    },
+    {
+      "id": "ipl-2026-2461",
+      "slug": "ipl-2026-match-2461-srh-vs-rr",
+      "competition": "IPL 2026",
+      "opponent": "Rajasthan Royals",
+      "date": "2026-04-13",
+      "time": "19:30 IST",
+      "venue": "Rajiv Gandhi International Stadium, Hyderabad",
+      "homeAway": "home",
+      "status": "completed",
+      "result": "Sunrisers Hyderabad Won by 57 Runs",
+      "reportSlug": "match-21-srh-vs-rr"
+    },
+    {
+      "id": "ipl-2026-2467",
+      "slug": "ipl-2026-match-2467-srh-vs-csk",
+      "competition": "IPL 2026",
+      "opponent": "Chennai Super Kings",
+      "date": "2026-04-18",
+      "time": "19:30 IST",
+      "venue": "Rajiv Gandhi International Stadium, Hyderabad",
+      "homeAway": "home",
+      "status": "completed",
+      "result": "Sunrisers Hyderabad Won by 10 Runs",
+      "reportSlug": "match-27-srh-vs-csk"
+    },
+    {
+      "id": "ipl-2026-2471",
+      "slug": "ipl-2026-match-2471-srh-vs-dc",
+      "competition": "IPL 2026",
+      "opponent": "Delhi Capitals",
+      "date": "2026-04-21",
+      "time": "19:30 IST",
+      "venue": "Rajiv Gandhi International Stadium, Hyderabad",
+      "homeAway": "home",
+      "status": "upcoming"
+    },
+    {
+      "id": "ipl-2026-2476",
+      "slug": "ipl-2026-match-2476-srh-vs-rr",
+      "competition": "IPL 2026",
+      "opponent": "Rajasthan Royals",
+      "date": "2026-04-25",
+      "time": "19:30 IST",
+      "venue": "Sawai Mansingh Stadium, Jaipur",
+      "homeAway": "away",
+      "status": "upcoming"
+    },
+    {
+      "id": "ipl-2026-2481",
+      "slug": "ipl-2026-match-2481-srh-vs-mi",
+      "competition": "IPL 2026",
+      "opponent": "Mumbai Indians",
+      "date": "2026-04-29",
+      "time": "19:30 IST",
+      "venue": "Wankhede Stadium, Mumbai",
+      "homeAway": "away",
+      "status": "upcoming"
+    },
+    {
+      "id": "ipl-2026-2485",
+      "slug": "ipl-2026-match-2485-srh-vs-kkr",
+      "competition": "IPL 2026",
+      "opponent": "Kolkata Knight Riders",
+      "date": "2026-05-03",
+      "time": "15:30 IST",
+      "venue": "Rajiv Gandhi International Stadium, Hyderabad",
+      "homeAway": "home",
+      "status": "upcoming"
+    },
+    {
+      "id": "ipl-2026-2489",
+      "slug": "ipl-2026-match-2489-srh-vs-pbks",
+      "competition": "IPL 2026",
+      "opponent": "Punjab Kings",
+      "date": "2026-05-06",
+      "time": "19:30 IST",
+      "venue": "Rajiv Gandhi International Stadium, Hyderabad",
+      "homeAway": "home",
+      "status": "upcoming"
+    },
+    {
+      "id": "ipl-2026-2496",
+      "slug": "ipl-2026-match-2496-srh-vs-gt",
+      "competition": "IPL 2026",
+      "opponent": "Gujarat Titans",
+      "date": "2026-05-12",
+      "time": "19:30 IST",
+      "venue": "Narendra Modi Stadium, Ahmedabad",
+      "homeAway": "away",
+      "status": "upcoming"
+    },
+    {
+      "id": "ipl-2026-2503",
+      "slug": "ipl-2026-match-2503-srh-vs-csk",
+      "competition": "IPL 2026",
+      "opponent": "Chennai Super Kings",
+      "date": "2026-05-18",
+      "time": "19:30 IST",
+      "venue": "MA Chidambaram Stadium, Chennai",
+      "homeAway": "away",
+      "status": "upcoming"
+    },
+    {
+      "id": "ipl-2026-2507",
+      "slug": "ipl-2026-match-2507-srh-vs-rcb",
+      "competition": "IPL 2026",
+      "opponent": "Royal Challengers Bengaluru",
+      "date": "2026-05-22",
+      "time": "19:30 IST",
+      "venue": "Rajiv Gandhi International Stadium, Hyderabad",
+      "homeAway": "home",
+      "status": "upcoming"
+    }
+  ]
+}

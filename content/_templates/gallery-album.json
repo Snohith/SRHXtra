@@ -1,0 +1,22 @@
+{
+  "slug": "[REPLACE_SLUG]",
+  "title": "[REPLACE_TITLE]",
+  "description": "[REPLACE_DESCRIPTION]",
+  "publishedAt": "[REPLACE_ISO_DATE]",
+  "updatedAt": "[REPLACE_ISO_DATE]",
+  "coverImage": "/images/gallery/[REPLACE_COVER_FILE]",
+  "coverAlt": "[REPLACE_COVER_ALT]",
+  "tags": ["[REPLACE_TAG_ONE]", "[REPLACE_TAG_TWO]"],
+  "seoTitle": "[REPLACE_SEO_TITLE]",
+  "seoDescription": "[REPLACE_SEO_DESCRIPTION]",
+  "editorialStatus": "replace-before-launch",
+  "photos": [
+    {
+      "src": "/images/gallery/[REPLACE_PHOTO_FILE]",
+      "alt": "[REPLACE_PHOTO_ALT]",
+      "caption": "[REPLACE_CAPTION]",
+      "width": 1600,
+      "height": 900
+    }
+  ]
+}

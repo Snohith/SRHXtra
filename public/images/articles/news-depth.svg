@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Editorial graphic for SRH squad depth coverage">
+  <rect width="1200" height="675" fill="#11141a" />
+  <circle cx="240" cy="180" r="130" fill="#fb923c" fill-opacity="0.35" />
+  <circle cx="540" cy="320" r="150" fill="#f97316" fill-opacity="0.28" />
+  <circle cx="900" cy="220" r="120" fill="#fdba74" fill-opacity="0.24" />
+  <rect x="140" y="470" width="920" height="70" rx="35" fill="#f8fafc" fill-opacity="0.1" />
+</svg>

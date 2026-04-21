@@ -1,0 +1,48 @@
+{
+  "siteName": "SRHXtra",
+  "siteUrl": "https://srhxtra.com",
+  "defaultTitle": "SRHXtra",
+  "titleTemplate": "%s | SRHXtra",
+  "defaultDescription": "Independent SRH coverage with match reports, tactical features, galleries, and fast editorial updates for the orange faithful.",
+  "defaultOgImage": "/og/default-og.svg",
+  "locale": "en_IN",
+  "tagline": "Independent SRH coverage for supporters who want more than recycled headlines.",
+  "footerHeadline": "Matchday urgency, editorial depth, and a cleaner SRH view every week.",
+  "socials": {
+    "x": "https://x.com/srhxtra",
+    "instagram": "https://instagram.com/srhxtra",
+    "youtube": "https://youtube.com/@srhxtra",
+    "email": "editor@srhxtra.com"
+  },
+  "navLinks": [
+    { "label": "News", "href": "/news/" },
+    { "label": "Match Coverage", "href": "/match-coverage/" },
+    { "label": "Points Table", "href": "/points-table/" },
+    { "label": "Gallery", "href": "/gallery/" },
+    { "label": "Schedule", "href": "/schedule/" },
+    { "label": "Squad", "href": "/squad/" },
+    { "label": "About Us", "href": "/about-us/" }
+  ],
+  "footerLinks": [
+    { "label": "Home", "href": "/" },
+    { "label": "About Us", "href": "/about-us/" },
+    { "label": "News", "href": "/news/" }
+  ],
+  "organization": {
+    "name": "SRHXtra",
+    "description": "SRHXtra is an independent SRH fan publication focused on sharper match reporting, tactical context, galleries, and editorial storytelling built for supporters.",
+    "logo": "/images/site/logo-mark.svg",
+    "sameAs": [
+      "https://x.com/srhxtra",
+      "https://instagram.com/srhxtra",
+      "https://youtube.com/@srhxtra"
+    ]
+  },
+  "homepage": {
+    "heroTitle": "Sharper coverage for the orange faithful.",
+    "heroDescription": "Fast, focused, editorial-first coverage for SRH supporters.",
+    "featuredNewsSlug": "official-news-sunrisers-hyderabad-pick-gerald-coetzee-as-injury-replacement-for-david-payne",
+    "featuredGallerySlug": "opening-night-energy",
+    "nextFixtureId": "fixture-002"
+  }
+}
