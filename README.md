@@ -239,25 +239,41 @@ Rules:
 
 ## Vercel Deployment
 
-Recommended for seamless Next.js static exports.
+The site is configured for static export and can be deployed directly to Vercel.
 
-Build settings:
+### 1. Build Settings
+- **Framework Preset**: `Next.js`
+- **Build Command**: `npm run build`
+- **Output Directory**: `out`
 
-- Framework preset: `Next.js`
-- Build command: `npm run build`
-- Output directory: `out`
+### 2. Environment Variables
+Ensure the following is set in **Project Settings > Environment Variables**:
+- `NEXT_PUBLIC_SITE_URL`: `https://srhxtra.vercel.app` (or your custom domain)
 
-Environment variables:
-
-- `NEXT_PUBLIC_SITE_URL=https://your-domain.com`
-
-Suggested deployment flow:
-
+### 3. Suggested Flow
 1. Connect the repository to Vercel.
-2. In Project Settings > General, ensure the Framework Preset is Next.js and Output Directory is overridden to `out`.
-3. Set `NEXT_PUBLIC_SITE_URL` to your production domain in the Environment Variables.
-4. Deploy the project.
-5. Verify `/robots.txt`, `/sitemap.xml`, and canonical tags in the live environment.
+2. Configure the build settings and environment variable.
+3. Deploy the project.
+4. Verify `/robots.txt`, `/sitemap.xml`, and canonical tags in the live environment.
+
+## Google Search Console & SEO Readiness
+
+To ensure the site is properly indexed by Google:
+
+### 1. Verification
+- Add a new property in [Google Search Console](https://search.google.com/search-console/) for `https://srhxtra.vercel.app/`.
+- Verify ownership using the **HTML file** method (upload the file to `public/` and push to GitHub) or the **DNS record** method.
+
+### 2. Sitemap Submission
+- Once verified, go to **Index > Sitemaps**.
+- Enter `sitemap.xml` and click **Submit**.
+- The sitemap URL is: `https://srhxtra.vercel.app/sitemap.xml`
+
+### 3. Robots.txt
+- Verify that `https://srhxtra.vercel.app/robots.txt` is accessible and points to the correct sitemap URL.
+
+### 4. Indexing Request
+- For critical pages like the Homepage, News, and Match Coverage, use the **URL Inspection** tool in Search Console and click **Request Indexing** to speed up the process.
 
 ## Cloudflare Pages
 

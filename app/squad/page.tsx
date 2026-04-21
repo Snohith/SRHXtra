@@ -5,7 +5,8 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 import { formatDisplayDate } from "@/lib/utils/date";
 
 export const metadata = buildPageMetadata({
-  title: "Squad",
+  title: "SRH IPL 2026 Squad — Full Sunrisers Hyderabad Roster",
+  description: "Complete Sunrisers Hyderabad squad for IPL 2026. Player profiles, roles, batting and bowling styles, career statistics, and official roster updates.",
   path: "/squad/",
 });
 

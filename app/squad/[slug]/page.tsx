@@ -28,12 +28,12 @@ export async function generateMetadata({
   const playerImage = resolvePlayerImage(player);
 
   return buildPageMetadata({
-    title: player.name,
-    description: player.bio ?? `${player.name} squad profile.`,
+    title: `${player.name} Profile — Sunrisers Hyderabad Squad`,
+    description: player.bio ?? `Official squad profile for ${player.name}, ${player.role} for Sunrisers Hyderabad. View career stats, batting and bowling styles, and latest updates.`,
     path: `/squad/${player.slug}/`,
     image: playerImage.src,
     type: "profile",
-    tags: [player.role, player.nationality],
+    tags: [player.role, player.nationality, "SRH", "IPL 2026"],
   });
 }
 

@@ -4,7 +4,8 @@ import { getArticlesByCollection } from "@/lib/content/articles";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
-  title: "News",
+  title: "SRH News — Squad Updates & Official Announcements",
+  description: "Official Sunrisers Hyderabad news covering squad changes, injury replacements, captaincy announcements, and player availability updates for the IPL 2026 campaign.",
   path: "/news/",
 });
 

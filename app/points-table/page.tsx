@@ -4,7 +4,8 @@ import { getPointsTable } from "@/lib/content/points-table";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
-  title: "Points Table",
+  title: "IPL 2026 Points Table — SRH Standings Tracker",
+  description: "Live IPL 2026 points table tracking Sunrisers Hyderabad's standings, wins, losses, and net run rate across the full league season.",
   path: "/points-table/",
 });
 

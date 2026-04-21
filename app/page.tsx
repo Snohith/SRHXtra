@@ -20,8 +20,8 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 const site = getSiteConfig();
 
 export const metadata = buildPageMetadata({
-  title: site.defaultTitle,
-  description: site.defaultDescription,
+  title: "Sunrisers Hyderabad News, Match Reports & IPL 2026 Coverage",
+  description: "The premier independent destination for Sunrisers Hyderabad supporters. Featuring sharper match coverage, tactical analysis, official squad updates, and immersive photo galleries for the Orange Army.",
   path: "/",
 });
 

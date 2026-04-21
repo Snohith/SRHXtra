@@ -29,9 +29,9 @@ export function buildBaseMetadata(): Metadata {
   const site = getSiteConfig();
 
   return {
-    metadataBase: new URL(ensureTrailingSlash(site.siteUrl)),
+    metadataBase: new URL(ensureTrailingSlash(getPublicSiteUrl())),
     title: {
-      default: site.defaultTitle,
+      default: "SRHXtra — Official Sunrisers Hyderabad News & Analysis",
       template: site.titleTemplate,
     },
     description: site.defaultDescription,
@@ -54,6 +54,8 @@ export function buildBaseMetadata(): Metadata {
       title: site.defaultTitle,
       description: site.defaultDescription,
       images: [buildAbsoluteUrl(site.defaultOgImage)],
+      site: "@srhxtra",
+      creator: "@srhxtra",
     },
   };
 }

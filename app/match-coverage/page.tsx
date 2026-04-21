@@ -4,7 +4,8 @@ import { getArticlesByCollection } from "@/lib/content/articles";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
-  title: "Match Coverage",
+  title: "SRH Match Coverage — Tactical Reports & Match Analysis",
+  description: "Phase-by-phase tactical analysis, official match facts, and in-depth reports for every Sunrisers Hyderabad encounter in IPL 2026. Beyond the scorecard.",
   path: "/match-coverage/",
 });
 

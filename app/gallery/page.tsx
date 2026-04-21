@@ -4,7 +4,8 @@ import { getAllGalleryAlbums } from "@/lib/content/gallery";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
-  title: "Gallery",
+  title: "SRH Photo Gallery — Match Night Photography & Visual Stories",
+  description: "Official Sunrisers Hyderabad photo galleries from IPL 2026 match nights. High-definition match photography, fan culture, and exclusive visual coverage.",
   path: "/gallery/",
 });
 

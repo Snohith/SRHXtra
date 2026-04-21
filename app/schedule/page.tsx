@@ -5,7 +5,8 @@ import { getFixturesByStatus, getSchedule } from "@/lib/content/schedule";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
-  title: "Schedule",
+  title: "SRH IPL 2026 Schedule — Fixtures, Results & Match Dates",
+  description: "Full Sunrisers Hyderabad fixture list for IPL 2026. Upcoming match dates, venues, kick-off times, and completed match results in one place.",
   path: "/schedule/",
 });
 

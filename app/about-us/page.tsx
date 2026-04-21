@@ -9,8 +9,8 @@ const aboutPage = getStaticPage("about-us");
 const site = getSiteConfig();
 
 export const metadata = buildPageMetadata({
-  title: aboutPage.seoTitle ?? aboutPage.title,
-  description: aboutPage.seoDescription,
+  title: "About SRHXtra — Our Independent SRH Editorial Mission",
+  description: "Learn about the mission behind SRHXtra: providing Sunrisers Hyderabad supporters with a cleaner, sharper, and more analytical view of the franchise beyond recycled headlines.",
   path: "/about-us/",
 });
 
