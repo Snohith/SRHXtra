@@ -24,7 +24,7 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata = {
   ...buildBaseMetadata(),
   verification: {
-    google: "googledebe64d42fb21aa9",
+    google: "Aml-PVKvuQ9NV_ptwl8NC1zkrlr6Jcof1JBhpBwI2_0",
   },
 };
 
