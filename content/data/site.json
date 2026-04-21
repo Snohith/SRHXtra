@@ -1,6 +1,6 @@
 {
   "siteName": "SRHXtra",
-  "siteUrl": "https://srhxtra.com",
+  "siteUrl": "https://srhxtra.vercel.app",
   "defaultTitle": "SRHXtra",
   "titleTemplate": "%s | SRHXtra",
   "defaultDescription": "Independent SRH coverage with match reports, tactical features, galleries, and fast editorial updates for the orange faithful.",
