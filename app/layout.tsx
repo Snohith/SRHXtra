@@ -21,7 +21,12 @@ const jakarta = Plus_Jakarta_Sans({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-export const metadata = buildBaseMetadata();
+export const metadata = {
+  ...buildBaseMetadata(),
+  verification: {
+    google: "googledebe64d42fb21aa9",
+  },
+};
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   const site = getSiteConfig();
