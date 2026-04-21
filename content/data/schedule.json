@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-04-18T21:05:56.078Z",
+  "updatedAt": "2026-04-21T14:07:08.610Z",
   "fixtures": [
     {
       "id": "ipl-2026-2417",
@@ -89,7 +89,8 @@
       "time": "19:30 IST",
       "venue": "Rajiv Gandhi International Stadium, Hyderabad",
       "homeAway": "home",
-      "status": "upcoming"
+      "status": "upcoming",
+      "notes": "Official IPL status: Live"
     },
     {
       "id": "ipl-2026-2476",
