@@ -77,7 +77,7 @@ export function MobileMenu({ links, siteName }: MobileMenuProps) {
         aria-modal="true"
         aria-label="Navigation menu"
         className={cx(
-          "fixed left-0 right-0 top-[calc(56px+2px)] z-50 transition-all duration-300 ease-out",
+          "fixed left-0 right-0 top-[calc(70px)] z-50 transition-all duration-300 ease-out",
           isOpen
             ? "translate-y-0 opacity-100 pointer-events-auto"
             : "-translate-y-3 opacity-0 pointer-events-none"
