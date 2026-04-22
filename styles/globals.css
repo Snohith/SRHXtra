@@ -28,6 +28,7 @@
 html {
   color-scheme: dark;
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
@@ -42,6 +43,7 @@ body {
   font-family: var(--font-body-family);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
 a {
@@ -163,10 +165,12 @@ a {
   }
 
   .editorial-title {
-    font-size: 3rem;
+    font-size: clamp(2.15rem, 10vw, 3rem);
     font-weight: 900;
     line-height: 1.1;
     letter-spacing: -0.02em;
+    text-wrap: balance;
+    word-break: normal;
   }
 
   @media (min-width: 640px) {

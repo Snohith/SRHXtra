@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 import { getPublicSiteUrl, getSiteConfig } from "@/lib/content/site";
 
@@ -73,10 +73,23 @@ export function buildBaseMetadata(): Metadata {
     keywords: DEFAULT_KEYWORDS,
     alternates: {
       canonical: buildAbsoluteUrl("/"),
+      languages: {
+        "en-IN": buildAbsoluteUrl("/"),
+      },
     },
     category: "sports",
     creator: site.organization.name,
     publisher: site.organization.name,
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
+    appleWebApp: {
+      capable: true,
+      title: site.siteName,
+      statusBarStyle: "black-translucent",
+    },
     referrer: "origin-when-cross-origin",
     robots: {
       index: true,
@@ -125,6 +138,19 @@ export function buildBaseMetadata(): Metadata {
       ],
     },
     manifest: "/site.webmanifest",
+  };
+}
+
+export function buildBaseViewport(): Viewport {
+  return {
+    width: "device-width",
+    initialScale: 1,
+    viewportFit: "cover",
+    themeColor: [
+      { media: "(prefers-color-scheme: dark)", color: "#050608" },
+      { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    ],
+    colorScheme: "dark",
   };
 }
 

@@ -31,6 +31,20 @@ export function getOrganizationJsonLd() {
   };
 }
 
+export function getWebsiteJsonLd() {
+  const site = getSiteConfig();
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.siteName,
+    description: site.defaultDescription,
+    url: buildAbsoluteUrl("/"),
+    inLanguage: "en-IN",
+    publisher: getPublisherObject(),
+  };
+}
+
 interface JsonLdBreadcrumbItem {
   name: string;
   url: string;

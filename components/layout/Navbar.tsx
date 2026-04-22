@@ -14,18 +14,18 @@ export function Navbar({ site }: NavbarProps) {
       {/* Precision orange top rule — editorial masthead signal */}
       <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-accent/60 to-transparent" aria-hidden="true" />
 
-      <div className="border-b border-white/[0.07] bg-background/90 backdrop-blur-2xl">
-        <div className="shell-wide flex h-[68px] items-center justify-between gap-8">
+      <div className="border-b border-white/[0.1] bg-background shadow-[0_10px_28px_rgba(0,0,0,0.55)] md:bg-background/95 md:backdrop-blur-2xl">
+        <div className="shell-wide flex h-[68px] items-center justify-between gap-3 sm:gap-8">
 
           {/* Left — Brand block */}
-          <div className="flex min-w-0 shrink-0 items-center gap-5">
+          <div className="flex min-w-0 shrink items-center gap-2.5 sm:gap-5">
             <Link
               href="/"
-              className="group flex items-center gap-3.5"
+              className="group flex min-w-0 items-center gap-2.5 sm:gap-3.5"
               aria-label={`${site.siteName} — Home`}
             >
               {/* Logo mark — updated with new brand asset */}
-              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xl bg-accent/10 p-0.5 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(255,130,0,0.4)]">
+              <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-accent/10 p-0.5 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(255,130,0,0.4)] sm:h-10 sm:w-10 sm:rounded-xl">
                 <img
                   src="/logo.png"
                   alt=""
@@ -33,7 +33,7 @@ export function Navbar({ site }: NavbarProps) {
                 />
               </div>
               {/* Site name */}
-              <span className="text-[16px] font-black uppercase tracking-[0.2em] text-white">
+              <span className="truncate text-[11px] font-black uppercase tracking-[0.18em] text-white sm:text-[16px] sm:tracking-[0.2em]">
                 {site.siteName}
               </span>
             </Link>
@@ -51,7 +51,7 @@ export function Navbar({ site }: NavbarProps) {
           <NavLinks links={site.navLinks} />
 
           {/* Mobile trigger */}
-          <div className="md:hidden">
+          <div className="shrink-0 md:hidden">
             <MobileMenu links={site.navLinks} siteName={site.siteName} />
           </div>
         </div>

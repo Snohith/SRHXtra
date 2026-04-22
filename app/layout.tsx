@@ -6,8 +6,8 @@ import "@/styles/globals.css";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { getSiteConfig } from "@/lib/content/site";
-import { getOrganizationJsonLd } from "@/lib/seo/jsonld";
-import { buildBaseMetadata } from "@/lib/seo/metadata";
+import { getOrganizationJsonLd, getWebsiteJsonLd } from "@/lib/seo/jsonld";
+import { buildBaseMetadata, buildBaseViewport } from "@/lib/seo/metadata";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -28,9 +28,12 @@ export const metadata = {
   },
 };
 
+export const viewport = buildBaseViewport();
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   const site = getSiteConfig();
   const organizationJsonLd = getOrganizationJsonLd();
+  const websiteJsonLd = getWebsiteJsonLd();
 
   return (
     <html className={`${outfit.variable} ${jakarta.variable}`} lang="en" suppressHydrationWarning>
@@ -38,6 +41,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <div className="min-h-screen">
           <script
             dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+            type="application/ld+json"
+          />
+          <script
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
             type="application/ld+json"
           />
           <Navbar site={site} />

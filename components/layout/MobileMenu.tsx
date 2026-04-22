@@ -21,6 +21,31 @@ export function MobileMenu({ links, siteName }: MobileMenuProps) {
     setIsOpen(false);
   }, [pathname]);
 
+  // Prevent background scroll when drawer is open.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    }
+
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [isOpen]);
+
   function isActive(href: string): boolean {
     if (href === "/") return pathname === "/";
     return pathname.startsWith(href);
@@ -35,7 +60,7 @@ export function MobileMenu({ links, siteName }: MobileMenuProps) {
         aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
         onClick={() => setIsOpen((c) => !c)}
         className={cx(
-          "flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-lg border transition-all duration-200",
+          "relative z-[75] flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-lg border transition-all duration-200",
           isOpen
             ? "border-accent/40 bg-accent/10"
             : "border-white/10 bg-white/[0.04] hover:border-white/20 hover:bg-white/[0.07]"
@@ -61,42 +86,40 @@ export function MobileMenu({ links, siteName }: MobileMenuProps) {
         />
       </button>
 
-      {/* Backdrop */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
-          aria-hidden="true"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-
-      {/* Slide-down panel */}
+      {/* Full-screen drawer */}
       <div
         id="mobile-nav-panel"
         role="dialog"
         aria-modal="true"
         aria-label="Navigation menu"
         className={cx(
-          "fixed left-0 right-0 top-[calc(70px)] z-50 transition-all duration-300 ease-out",
+          "fixed inset-0 z-[70] transition-all duration-300 ease-out md:hidden",
           isOpen
-            ? "translate-y-0 opacity-100 pointer-events-auto"
-            : "-translate-y-3 opacity-0 pointer-events-none"
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         )}
       >
-        <div className="mx-4 overflow-hidden rounded-xl border border-white/[0.09] bg-background/95 shadow-[0_24px_64px_rgba(0,0,0,0.7)] backdrop-blur-2xl">
-          {/* Panel header */}
-          <div className="flex items-center gap-3 border-b border-white/[0.07] px-5 py-4">
-            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-accent text-[11px] font-black text-black">
-              S
-            </span>
-            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-white/60">
-              {siteName}
-            </span>
+        <button
+          type="button"
+          aria-label="Close navigation menu"
+          className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+          onClick={() => setIsOpen(false)}
+        />
+
+        <div className="relative flex h-full flex-col bg-background pt-[70px]">
+          <div className="border-b border-white/[0.1] bg-surface px-5 py-4">
+            <div className="mx-auto flex w-full max-w-xl items-center gap-3">
+              <span className="flex h-7 w-7 items-center justify-center rounded-md bg-accent text-xs font-black text-black">
+                S
+              </span>
+              <span className="text-xs font-black uppercase tracking-[0.22em] text-white">
+                {siteName}
+              </span>
+            </div>
           </div>
 
-          {/* Nav links */}
-          <nav aria-label="Mobile navigation" className="p-3">
-            <ul className="grid gap-1">
+          <nav aria-label="Mobile navigation" className="flex-1 overflow-y-auto px-5 pb-8 pt-5">
+            <ul className="mx-auto grid w-full max-w-xl gap-2">
               {links.map((link) => {
                 const active = isActive(link.href);
                 return (
@@ -106,19 +129,23 @@ export function MobileMenu({ links, siteName }: MobileMenuProps) {
                       aria-current={active ? "page" : undefined}
                       onClick={() => setIsOpen(false)}
                       className={cx(
-                        "flex items-center justify-between rounded-lg px-4 py-3 text-[11px] font-bold uppercase tracking-[0.15em] transition-all duration-150",
+                        "flex items-center justify-between rounded-xl border px-4 py-3.5 text-sm font-extrabold uppercase tracking-[0.14em] transition-all duration-150",
                         active
-                          ? "bg-accent/10 text-white"
-                          : "text-muted hover:bg-white/[0.05] hover:text-white/80"
+                          ? "border-accent/45 bg-accent/12 text-white"
+                          : "border-white/[0.08] bg-white/[0.02] text-white/75 hover:border-white/20 hover:bg-white/[0.05] hover:text-white"
                       )}
                     >
                       {link.label}
-                      {active && (
+                      {active ? (
                         <span
                           aria-hidden="true"
-                          className="h-1.5 w-1.5 rounded-full bg-accent"
-                          style={{ boxShadow: "0 0 6px rgba(255, 130, 0, 0.8)" }}
+                          className="h-2 w-2 rounded-full bg-accent"
+                          style={{ boxShadow: "0 0 8px rgba(255, 130, 0, 0.9)" }}
                         />
+                      ) : (
+                        <span aria-hidden="true" className="text-sm leading-none text-white/30">
+                          -&gt;
+                        </span>
                       )}
                     </Link>
                   </li>
