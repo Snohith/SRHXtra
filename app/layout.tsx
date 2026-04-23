@@ -37,6 +37,21 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
   return (
     <html className={`${outfit.variable} ${jakarta.variable}`} lang="en" suppressHydrationWarning>
+      <head>
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-RC7HGXJQ7M"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RC7HGXJQ7M');
+            `,
+          }}
+        />
+      </head>
       <body suppressHydrationWarning className="font-body">
         <div className="min-h-screen">
           <script
