@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-04-23T14:09:22.212Z",
+  "updatedAt": "2026-04-23T19:39:28.548Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -96,6 +96,28 @@
     },
     {
       "position": 5,
+      "teamCode": "CSK",
+      "team": "Chennai Super Kings",
+      "matches": 7,
+      "wins": 3,
+      "losses": 4,
+      "noResult": 0,
+      "tied": 0,
+      "points": 6,
+      "netRunRate": "0.118",
+      "for": "1338/140.0",
+      "against": "1235/130.5",
+      "recentForm": [
+        "L",
+        "W",
+        "W",
+        "L",
+        "W"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/CSK.png"
+    },
+    {
+      "position": 6,
       "teamCode": "DC",
       "team": "Delhi Capitals",
       "matches": 6,
@@ -117,7 +139,7 @@
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/DC.png"
     },
     {
-      "position": 6,
+      "position": 7,
       "teamCode": "GT",
       "team": "Gujarat Titans",
       "matches": 6,
@@ -139,48 +161,26 @@
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/Rwz7jmxIFN1774445093GT.png"
     },
     {
-      "position": 7,
+      "position": 8,
       "teamCode": "MI",
       "team": "Mumbai Indians",
-      "matches": 6,
+      "matches": 7,
       "wins": 2,
-      "losses": 4,
+      "losses": 5,
       "noResult": 0,
       "tied": 0,
       "points": 4,
-      "netRunRate": "0.067",
-      "for": "1125/110.1",
-      "against": "1072/105.4",
+      "netRunRate": "-0.736",
+      "for": "1229/130.1",
+      "against": "1279/125.4",
       "recentForm": [
         "L",
         "L",
         "L",
-        "L",
-        "W"
-      ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/MI.png"
-    },
-    {
-      "position": 8,
-      "teamCode": "CSK",
-      "team": "Chennai Super Kings",
-      "matches": 6,
-      "wins": 2,
-      "losses": 4,
-      "noResult": 0,
-      "tied": 0,
-      "points": 4,
-      "netRunRate": "-0.780",
-      "for": "1131/120.0",
-      "against": "1131/110.5",
-      "recentForm": [
-        "L",
-        "L",
-        "W",
         "W",
         "L"
       ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/CSK.png"
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/MI.png"
     },
     {
       "position": 9,
