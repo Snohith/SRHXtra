@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-04-24T14:04:39.688Z",
+  "updatedAt": "2026-04-24T19:12:12.273Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -30,6 +30,28 @@
     },
     {
       "position": 2,
+      "teamCode": "RCB",
+      "team": "Royal Challengers Bengaluru",
+      "matches": 7,
+      "wins": 5,
+      "losses": 2,
+      "noResult": 0,
+      "tied": 0,
+      "points": 10,
+      "netRunRate": "1.101",
+      "for": "1424/129.4",
+      "against": "1362/137.5",
+      "recentForm": [
+        "L",
+        "W",
+        "W",
+        "L",
+        "W"
+      ],
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/NVAlbtIyB81740555172aFPMviEPyJ1710927747rcb.png"
+    },
+    {
+      "position": 3,
       "teamCode": "RR",
       "team": "Rajasthan Royals",
       "matches": 7,
@@ -49,28 +71,6 @@
         "W"
       ],
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png"
-    },
-    {
-      "position": 3,
-      "teamCode": "RCB",
-      "team": "Royal Challengers Bengaluru",
-      "matches": 6,
-      "wins": 4,
-      "losses": 2,
-      "noResult": 0,
-      "tied": 0,
-      "points": 8,
-      "netRunRate": "1.171",
-      "for": "1218/110.5",
-      "against": "1157/117.5",
-      "recentForm": [
-        "W",
-        "L",
-        "W",
-        "W",
-        "L"
-      ],
-      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/NVAlbtIyB81740555172aFPMviEPyJ1710927747rcb.png"
     },
     {
       "position": 4,
@@ -142,20 +142,20 @@
       "position": 7,
       "teamCode": "GT",
       "team": "Gujarat Titans",
-      "matches": 6,
+      "matches": 7,
       "wins": 3,
-      "losses": 3,
+      "losses": 4,
       "noResult": 0,
       "tied": 0,
       "points": 6,
-      "netRunRate": "-0.821",
-      "for": "1022/118.2",
-      "against": "1127/119.1",
+      "netRunRate": "-0.790",
+      "for": "1227/138.2",
+      "against": "1333/138.0",
       "recentForm": [
+        "W",
+        "W",
+        "W",
         "L",
-        "W",
-        "W",
-        "W",
         "L"
       ],
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/Rwz7jmxIFN1774445093GT.png"
