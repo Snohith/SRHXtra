@@ -159,6 +159,26 @@ function validateAlbums(albums) {
   }
 }
 
+function serializeDateValue(value) {
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+
+  const parsed = new Date(value);
+  if (!Number.isNaN(parsed.getTime())) {
+    return parsed.toISOString();
+  }
+
+  return cleanString(value);
+}
+
+function getPublishedMatchTags(tags) {
+  return [...new Set((Array.isArray(tags) ? tags : [])
+    .map(cleanString)
+    .filter(Boolean)
+    .map((tag) => tag === "Match Report Draft" ? "Match Report" : tag))];
+}
+
 async function syncIPLPhotosGallery(existingAlbums) {
   const matchCoverageDirPath = resolveProjectPath("content", "match-coverage");
   if (!fs.existsSync(matchCoverageDirPath)) return [];
@@ -225,15 +245,17 @@ async function syncIPLPhotosGallery(existingAlbums) {
         const uniqueSrcs = [...new Set(imgMatches.map(m => m[1]))];
 
         if (uniqueSrcs.length === 0) continue;
+        const publishedAt = serializeDateValue(data.publishedAt);
+        const updatedAt = serializeDateValue(data.updatedAt || data.publishedAt);
 
         const photos = uniqueSrcs.map((src, index) => ({
           src: src,
           alt: `${data.title} photo ${index + 1}`,
           caption: `Official match photo from ${data.title}`,
           sourceUrl: src,
-          publishedAt: data.publishedAt,
-          createdAt: data.publishedAt,
-          updatedAt: data.updatedAt || data.publishedAt,
+          publishedAt,
+          createdAt: publishedAt,
+          updatedAt,
         }));
 
         const teamsMatch = srhAlbum.title.match(/:\s*(.*)/);
@@ -248,12 +270,12 @@ async function syncIPLPhotosGallery(existingAlbums) {
           slug: `official-ipl-gallery-match-${matchNumber}`,
           title: `${matchNumber}${['st', 'nd', 'rd'][(matchNumber % 10) - 1] || 'th'} Match | ${teamsStr}`,
           description: `Official photo gallery for ${data.title} from the IPL Match Centre.`,
-          publishedAt: data.publishedAt,
-          updatedAt: data.updatedAt || data.publishedAt,
+          publishedAt,
+          updatedAt,
           coverImage: chosenCover.src,
           coverAlt: `${teamsStr} – Official match photo`,
           coverImageSourceUrl: chosenCover.src,
-          tags: ["Match Photos", ...(data.tags || []).filter((t) => t !== "Match Report" && t !== "Fallback")],
+          tags: ["Match Photos", ...getPublishedMatchTags(data.tags).filter((t) => t !== "Match Report" && t !== "Fallback")],
           seoTitle: `${data.title} Official Photos`,
           seoDescription: `Official photo gallery for ${data.slug}.`,
           sourceName: "IPL T20",

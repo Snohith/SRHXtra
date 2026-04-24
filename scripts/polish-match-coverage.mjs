@@ -269,6 +269,25 @@ function buildConclusion(match, publishable) {
   return "This version is publish-ready on source support: the result, scores, venue, date, and core phase notes are all grounded in the verified local official-data layer. A final human read should still check tone and line edits, but the factual spine is in place.";
 }
 
+function serializeFrontmatterDate(value) {
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+
+  return cleanString(value);
+}
+
+function getPublishedTags(frontmatter, publishable) {
+  const tags = Array.isArray(frontmatter.tags) ? frontmatter.tags.map(cleanString).filter(Boolean) : [];
+
+  if (!publishable) {
+    return tags;
+  }
+
+  const nextTags = tags.map((tag) => tag === "Match Report Draft" ? "Match Report" : tag);
+  return [...new Set(nextTags)];
+}
+
 function getRequiredSupportGaps(match, usefulParagraphs) {
   const gaps = [];
 
@@ -291,17 +310,19 @@ function buildPolishedMarkdown(frontmatter, match, galleryAlbum, publishable, us
   const coverImage = cleanString(galleryAlbum?.coverImage) || cleanString(frontmatter.coverImage) || "/images/articles/match-clinical-chase.svg";
   const coverAlt = cleanString(galleryAlbum?.coverAlt) || cleanString(frontmatter.coverAlt) || `Match coverage visual for SRH vs ${match.opponent}`;
   const updatedAt = new Date().toISOString();
+  const publishedAt = serializeFrontmatterDate(frontmatter.publishedAt);
+  const tags = getPublishedTags(frontmatter, publishable);
 
   return `---
 slug: ${frontmatter.slug}
 title: ${title}
 excerpt: ${excerpt}
-publishedAt: ${frontmatter.publishedAt}
+publishedAt: ${publishedAt}
 updatedAt: ${updatedAt}
 author: ${frontmatter.author}
 category: ${frontmatter.category}
 tags:
-${(Array.isArray(frontmatter.tags) ? frontmatter.tags : []).map((tag) => `  - ${tag}`).join("\n")}
+${tags.map((tag) => `  - ${tag}`).join("\n")}
 coverImage: ${coverImage}
 coverAlt: ${coverAlt}
 featured: ${frontmatter.featured ? "true" : "false"}
