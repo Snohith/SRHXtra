@@ -34,13 +34,14 @@ export default function HomePage() {
   const secondaryFeature = latestNews.find((article) => article.url !== featuredNews?.url) ?? null;
   const newsFeedArticles = latestNews.filter((article) => article.url !== featuredNews?.url).slice(0, 2);
   const latestMatchCoverage = getLatestArticles("match-coverage", 1)[0] ?? null;
+  const heroStory = latestMatchCoverage ?? featuredNews;
   const nextFixture = getNextFixture();
   const latestResult = getLatestCompletedFixture();
   const pointsTable = getPointsTable();
   const squadSpotlight = getSquadSpotlightPlayer();
   const latestGallery = getAllGalleryAlbums().slice(0, 2);
 
-  const featuredImage = featuredNews ? resolveArticleImage(featuredNews) : null;
+  const featuredImage = heroStory ? resolveArticleImage(heroStory) : null;
 
   return (
     <div className="page-stack">
@@ -48,13 +49,13 @@ export default function HomePage() {
         description={site.homepage.heroDescription}
         image={featuredImage?.src}
         leadStory={
-          featuredNews
+          heroStory
             ? {
-                label: "Lead story",
-                title: featuredNews.title,
-                excerpt: featuredNews.excerpt,
-                href: featuredNews.url,
-                isExternal: featuredNews.isExternal,
+                label: latestMatchCoverage ? "Latest match report" : "Lead story",
+                title: heroStory.title,
+                excerpt: heroStory.excerpt,
+                href: heroStory.url,
+                isExternal: heroStory.isExternal,
               }
             : undefined
         }

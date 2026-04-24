@@ -87,6 +87,20 @@ export function getGalleryAlbumForReportSlug(reportSlug: string) {
 export function resolveArticleImage(article: Pick<Article, "collection" | "slug" | "coverImage" | "coverAlt" | "title">): ResolvedImage {
   const directCover = cleanImageValue(article.coverImage);
 
+  if (article.collection === "match-coverage") {
+    const galleryAlbum = getMatchGalleryLookup().get(article.slug) ?? null;
+    const galleryCover = galleryAlbum ? resolveGalleryCoverImage(galleryAlbum) : null;
+    const hasManualGalleryCover =
+      typeof galleryAlbum?.coverOverrideIndex === "number" && galleryAlbum.photos?.[galleryAlbum.coverOverrideIndex];
+
+    if (hasManualGalleryCover && galleryCover && !galleryCover.isFallback) {
+      return {
+        ...galleryCover,
+        fitClassName: "object-cover object-top",
+      };
+    }
+  }
+
   if (directCover && (article.collection !== "match-coverage" || !GENERIC_MATCH_COVERAGES.has(directCover))) {
     return {
       src: directCover,
@@ -100,13 +114,10 @@ export function resolveArticleImage(article: Pick<Article, "collection" | "slug"
     const galleryAlbum = getMatchGalleryLookup().get(article.slug) ?? null;
 
     if (galleryAlbum?.coverImage) {
+      const galleryCover = resolveGalleryCoverImage(galleryAlbum);
       return {
-        src: cleanImageValue(galleryAlbum.coverImage),
-        alt: cleanImageValue(galleryAlbum.coverAlt) || article.title,
-        sourceUrl: galleryAlbum.coverImageSourceUrl ?? galleryAlbum.sourceUrl,
-        needsHumanReview: galleryAlbum.licensing?.status !== undefined,
+        ...galleryCover,
         fitClassName: "object-cover object-top",
-        isFallback: false,
       };
     }
   }
