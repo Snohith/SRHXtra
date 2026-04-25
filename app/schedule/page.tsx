@@ -1,5 +1,6 @@
-import { FixtureCard } from "@/components/schedule/FixtureCard";
-import { ScheduleTable } from "@/components/schedule/ScheduleTable";
+import { CalendarSyncButton } from "@/components/schedule/CalendarSyncButton";
+import { NextMatchHero } from "@/components/schedule/NextMatchHero";
+import { ScheduleTabs } from "@/components/schedule/ScheduleTabs";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { getFixturesByStatus, getSchedule } from "@/lib/content/schedule";
 import { buildPageMetadata } from "@/lib/seo/metadata";
@@ -14,43 +15,34 @@ export default function SchedulePage() {
   const schedule = getSchedule();
   const upcomingFixtures = getFixturesByStatus("upcoming");
   const completedFixtures = getFixturesByStatus("completed");
+  const nextMatch = upcomingFixtures[0] || completedFixtures[completedFixtures.length - 1];
 
   return (
     <div className="page-stack">
       <SectionHeader
         eyebrow="Season Tracker"
-        title="Schedule"
+        title="Official Schedule"
         description={`The complete IPL ${schedule.season} campaign roadmap. Tracking venues, match timings, and results across every phase.`}
         variant="hero"
         headingLevel={1}
       />
 
-      <section className="section-stack">
-        <SectionHeader
-          eyebrow="Next Up"
-          title="Fixture List"
-          description="Matches on the horizon for the Sunrisers squad."
-        />
-        <div className="grid gap-8 lg:grid-cols-2">
-          {upcomingFixtures.length ? (
-            upcomingFixtures.map((fixture) => (
-              <FixtureCard key={fixture.id} fixture={fixture} />
-            ))
-          ) : (
-            <div className="glass-panel lg:col-span-2 p-12 text-center text-muted italic">
-              No upcoming fixtures are currently scheduled.
-            </div>
-          )}
-        </div>
-      </section>
+      <div className="section-stack">
+        {nextMatch && <NextMatchHero fixture={nextMatch} />}
+      </div>
 
       <section className="section-stack">
         <SectionHeader
-          eyebrow="Log"
-          title="Season Results"
-          description="Full results and linked reports from completed matches."
+          eyebrow="Match Feed"
+          title="Season Roadmap"
+          description="Filter through upcoming battles and archived results."
         />
-        <ScheduleTable fixtures={completedFixtures.length ? completedFixtures : schedule.fixtures} />
+        
+        <ScheduleTabs 
+          upcoming={upcomingFixtures} 
+          completed={completedFixtures} 
+          full={schedule.fixtures} 
+        />
       </section>
     </div>
   );

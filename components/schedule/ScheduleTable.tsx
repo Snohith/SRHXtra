@@ -3,6 +3,8 @@ import Link from "next/link";
 import type { Fixture } from "@/lib/content/schedule";
 import { Badge } from "@/components/ui/Badge";
 import { cx } from "@/lib/utils/classes";
+import { getTeamInfo } from "@/lib/utils/team-info";
+import Image from "next/image";
 
 interface ScheduleTableProps {
   fixtures: Fixture[];
@@ -18,21 +20,39 @@ export function ScheduleTable({ fixtures }: ScheduleTableProps) {
         <span>Outcome / Margin</span>
       </div>
       <div className="divide-y divide-white/5">
-        {fixtures.map((fixture) => (
-          <div
-            key={fixture.id}
-            className="grid gap-6 px-8 py-8 md:grid-cols-[1.2fr_1fr_0.8fr_1fr] md:items-center transition-colors hover:bg-white/[0.02]"
-          >
-            <div className="flex flex-col gap-1">
-              <p className="text-lg font-black tracking-tight text-white uppercase">
-                SRH <span className="text-muted/40">vs</span> {fixture.opponent}
-              </p>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-accent">{fixture.competition}</span>
-                <span className="h-1 w-1 rounded-full bg-white/20" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted">{fixture.homeAway}</span>
+        {fixtures.map((fixture) => {
+          const opponent = getTeamInfo(fixture.opponent);
+          const srh = getTeamInfo("SRH");
+          
+          const isHome = fixture.homeAway === "home";
+          const leftTeam = isHome ? srh : opponent;
+          const rightTeam = isHome ? opponent : srh;
+          
+          return (
+            <div
+              key={fixture.id}
+              className="grid gap-6 px-8 py-8 md:grid-cols-[1.2fr_1fr_0.8fr_1fr] md:items-center transition-colors hover:bg-white/[0.02]"
+            >
+              <div className="flex items-center gap-5">
+                <div className="relative flex -space-x-2 shrink-0">
+                  <div className="relative h-10 w-10 overflow-hidden rounded-full border border-white/5 bg-white/5 p-1.5">
+                    {leftTeam.logo && <Image src={leftTeam.logo} alt={leftTeam.name} fill className="object-contain" unoptimized />}
+                  </div>
+                  <div className="relative h-10 w-10 overflow-hidden rounded-full border border-white/5 bg-white/5 p-1.5">
+                    {rightTeam.logo && <Image src={rightTeam.logo} alt={rightTeam.name} fill className="object-contain" unoptimized />}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-0.5">
+                  <p className="text-base font-black tracking-tight text-white uppercase">
+                    {leftTeam.code} <span className="text-muted/40 text-xs">vs</span> {rightTeam.code}
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[9px] font-bold uppercase tracking-[0.1em] text-accent">{fixture.competition}</span>
+                    <span className="h-1 w-1 rounded-full bg-white/20" />
+                    <span className="text-[9px] font-bold uppercase tracking-[0.1em] text-muted">{fixture.homeAway}</span>
+                  </div>
+                </div>
               </div>
-            </div>
             
             <div className="flex flex-col gap-1">
               <p className="text-sm font-bold text-white">{fixture.date}</p>
@@ -82,8 +102,9 @@ export function ScheduleTable({ fixtures }: ScheduleTableProps) {
                 ) : null}
               </div>
             </div>
-          </div>
-        ))}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
