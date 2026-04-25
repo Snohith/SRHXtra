@@ -11,9 +11,9 @@ interface RelatedArticlesProps {
 
 export function RelatedArticles({
   articles,
-  description = "Stories connected by match context, themes, and editorial tags.",
-  eyebrow = "Continue reading",
-  title = "Related coverage",
+  description = "Reports and bulletins connected by tactical themes and match context.",
+  eyebrow = "Next phase",
+  title = "Related reading",
 }: RelatedArticlesProps) {
   if (!articles.length) {
     return null;

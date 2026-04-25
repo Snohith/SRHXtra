@@ -18,8 +18,8 @@ export default function NewsIndexPage() {
     <div className="page-stack">
       <SectionHeader
         eyebrow="News Desk"
-        title="Editorial Bulletins"
-        description="Official roster updates, injury reports, and executive announcements from the Sunrisers camp. Our analytical coverage ensures you stay ahead of every tactical move."
+        title="Editorial Updates"
+        description="Official squad moves, injury replacements, and frontline announcements from the Sunrisers camp. Editorial reporting on the moves that shape the campaign."
         variant="hero"
         headingLevel={1}
       />
@@ -27,8 +27,8 @@ export default function NewsIndexPage() {
       {featuredArticle ? (
         <section className="section-stack">
           <SectionHeader
-            eyebrow="Featured Edition"
-            title="Today's Lead Story"
+            eyebrow="The Lead"
+            title="Latest Story"
           />
           <ArticleCard article={featuredArticle} variant="featured" />
         </section>
@@ -37,8 +37,8 @@ export default function NewsIndexPage() {
       {remainingArticles.length ? (
         <section className="section-stack">
           <SectionHeader
-            eyebrow="Archive Feed"
-            title="Latest Bulletins"
+            eyebrow="Archive"
+            title="Previous Bulletins"
           />
           <div className="grid gap-8 lg:grid-cols-2">
             {remainingArticles.map((article) => (

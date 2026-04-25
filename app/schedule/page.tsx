@@ -20,16 +20,16 @@ export default function SchedulePage() {
       <SectionHeader
         eyebrow="Season Tracker"
         title="Schedule"
-        description={`The official campaign roadmap for ${schedule.season}. Every fixture, every venue, and every tactical battle tracked with clinical precision for the SRH faithful.`}
+        description={`The complete IPL ${schedule.season} campaign roadmap. Tracking venues, match timings, and results across every phase.`}
         variant="hero"
         headingLevel={1}
       />
 
       <section className="section-stack">
         <SectionHeader
-          eyebrow="The Road Ahead"
-          title="Upcoming Fixtures"
-          description="High-stakes encounters scheduled for the coming weeks."
+          eyebrow="Next Up"
+          title="Fixture List"
+          description="Matches on the horizon for the Sunrisers squad."
         />
         <div className="grid gap-8 lg:grid-cols-2">
           {upcomingFixtures.length ? (
@@ -46,9 +46,9 @@ export default function SchedulePage() {
 
       <section className="section-stack">
         <SectionHeader
-          eyebrow="Match Records"
+          eyebrow="Log"
           title="Season Results"
-          description="Analysis and summaries from completed campaign phases."
+          description="Full results and linked reports from completed matches."
         />
         <ScheduleTable fixtures={completedFixtures.length ? completedFixtures : schedule.fixtures} />
       </section>

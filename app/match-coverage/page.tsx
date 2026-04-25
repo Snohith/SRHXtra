@@ -19,7 +19,7 @@ export default function MatchCoverageIndexPage() {
       <SectionHeader
         eyebrow="Matchday Archive"
         title="Tactical Reports"
-        description="Phase-by-phase tactical analysis, verified match facts, and official score summaries. Our match coverage goes beyond the numbers to tell the real story of every SRH encounter."
+        description="Tactical breakdowns, verified match facts, and editorial recaps. Matchday coverage that looks beyond the scorecard to track the campaign's turning points."
         variant="hero"
         headingLevel={1}
       />
@@ -27,8 +27,8 @@ export default function MatchCoverageIndexPage() {
       {featuredArticle ? (
         <section className="section-stack">
           <SectionHeader
-            eyebrow="Latest Analysis"
-            title="Recent Encounter"
+            eyebrow="The Lead"
+            title="Latest Report"
           />
           <ArticleCard article={featuredArticle} variant="featured" />
         </section>
@@ -37,7 +37,7 @@ export default function MatchCoverageIndexPage() {
       {remainingArticles.length ? (
         <section className="section-stack">
           <SectionHeader
-            eyebrow="Archive desk"
+            eyebrow="Archive"
             title="Previous Coverage"
           />
           <div className="grid gap-8 lg:grid-cols-2">

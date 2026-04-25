@@ -27,8 +27,8 @@ export default function MatchPreviewsIndexPage() {
       {featuredPreview ? (
         <section className="section-stack">
           <SectionHeader
-            eyebrow="Scouting File"
-            title="Latest Pre-Match Read"
+            eyebrow="Scouting"
+            title="The Next Match"
           />
           <ArticleCard article={featuredPreview} variant="featured" />
         </section>
@@ -37,8 +37,8 @@ export default function MatchPreviewsIndexPage() {
       {remainingPreviews.length ? (
         <section className="section-stack">
           <SectionHeader
-            eyebrow="Fixture Radar"
-            title="Pre-Match Notebook"
+            eyebrow="Archive"
+            title="Previous Notebooks"
           />
           <div className="grid gap-8 lg:grid-cols-2">
             {remainingPreviews.map((article) => (
@@ -50,13 +50,12 @@ export default function MatchPreviewsIndexPage() {
 
       {!featuredPreview ? (
         <div className="glass-panel p-10 text-center">
-          <p className="text-xs uppercase tracking-[0.18em] text-muted">Preview Desk</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-muted italic">Updates pending</p>
           <h2 className="mt-3 text-2xl font-black uppercase tracking-tight text-white">
-            Match previews will return with the next manual publish
+            Pre-match reads will return shortly
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-sm text-muted">
-            There are no live pre-match reads right now. This desk stays in place for future manually
-            published previews once they are ready to go live.
+            The preview desk is currently preparing analysis for upcoming fixtures. Check back as matchday approaches.
           </p>
         </div>
       ) : null}

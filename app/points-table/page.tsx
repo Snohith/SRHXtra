@@ -18,7 +18,7 @@ export default function PointsTablePage() {
       <SectionHeader
         eyebrow="IPL Standings"
         title="Points Table"
-        description="The official state of play. Our standings feed tracks every win, loss, and run-rate shift with clinical precision, ensuring you stay informed on the SRH campaign path."
+        description="The live state of play. Tracking every win, loss, and run-rate shift across the campaign path."
         variant="hero"
         headingLevel={1}
       />
@@ -26,22 +26,22 @@ export default function PointsTablePage() {
       {table ? (
         <section className="section-stack">
           <SectionHeader
-            eyebrow="Season Feed"
+            eyebrow="Tracking"
             title={`Standings • ${table.season}`}
           />
           <PointsTableCard table={table} />
           <div className="flex flex-wrap gap-3">
             <Button href="/schedule/" size="sm" variant="secondary">
-              Open schedule
+              View schedule
             </Button>
             <Button href="/match-coverage/" size="sm" variant="outline">
-              Open match coverage
+              Match archive
             </Button>
           </div>
         </section>
       ) : (
         <div className="glass-panel p-20 text-center text-muted italic">
-          Standings data is currently being updated for the latest campaign.
+          Standings will be available here as the campaign progresses.
         </div>
       )}
     </div>

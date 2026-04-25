@@ -33,7 +33,7 @@ export default function SquadPage() {
       <SectionHeader
         eyebrow="Season Roster"
         title="Squad"
-        description={`The official Sunrisers squad for the ${squad.season} campaign. A collection of world-class talent, emerging stars, and tactical specialists organized for the elite competition.`}
+        description={`The Sunrisers Hyderabad squad for the ${squad.season} campaign. Tactical profiles and verified statistics for the orange roster.`}
         variant="hero"
         headingLevel={1}
       />
@@ -57,9 +57,9 @@ export default function SquadPage() {
         {groupedPlayers.map((group) => (
           <section key={group.role} className="section-stack">
             <SectionHeader
-              eyebrow="Role Profile"
+              eyebrow="Profiles"
               title={group.role}
-              description={`Key tactical assets in the ${group.role.toLowerCase()} department.`}
+              description={`The ${group.role.toLowerCase()} group for the current campaign.`}
             />
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {group.players.map((player) => (

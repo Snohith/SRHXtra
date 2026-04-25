@@ -13,13 +13,13 @@ export function PointsTableTeaser({ table }: PointsTableTeaserProps) {
       <SectionHeader
         eyebrow="Standings"
         title="Points Table"
-        description="The latest official IPL table, with SRH highlighted inside the current standings."
+        description="The latest IPL standings, with Sunrisers Hyderabad's position tracked in real-time."
         action={<Button href="/points-table/" variant="secondary" size="sm">Open table</Button>}
       />
       {table ? (
         <PointsTableCard compact table={table} />
       ) : (
-        <div className="panel p-5 text-sm text-muted">The official points table will appear here after the next sync.</div>
+        <div className="panel p-5 text-sm text-muted italic">Standings will appear here after the season launch.</div>
       )}
     </section>
   );

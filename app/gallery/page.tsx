@@ -17,9 +17,9 @@ export default function GalleryIndexPage() {
   return (
     <div className="page-stack">
       <SectionHeader
-        eyebrow="Visual Stories"
+        eyebrow="Match Frames"
         title="The Gallery"
-        description="Immersive visual storytelling from the heart of the SRH campaign. High-definition match-night captures, fan culture, and exclusive behind-the-scenes perspectives."
+        description="Every match night through the lens. High-resolution galleries from the ground, the stands, and the SRH dugout."
         variant="hero"
         headingLevel={1}
       />
@@ -27,8 +27,8 @@ export default function GalleryIndexPage() {
       {featuredAlbum ? (
         <section className="section-stack">
           <SectionHeader
-            eyebrow="Latest Capture"
-            title="Featured Visual"
+            eyebrow="Highlights"
+            title="Latest Album"
           />
           <AlbumGrid albums={[featuredAlbum]} />
         </section>
@@ -37,8 +37,8 @@ export default function GalleryIndexPage() {
       {remainingAlbums.length ? (
         <section className="section-stack">
           <SectionHeader
-            eyebrow="Visual Vault"
-            title="Archive Memories"
+            eyebrow="Collection"
+            title="Past Rounds"
           />
           <AlbumGrid albums={remainingAlbums} />
         </section>

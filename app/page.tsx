@@ -73,7 +73,7 @@ export default function HomePage() {
           <SectionHeader
             eyebrow="The Lead"
             title="Editorial Focus"
-            description="Deep dives into the latest tactical shifts, injury updates, and strategic moves from the SRH camp."
+            description="Focused reporting on squad moves, tactical shifts, and developments from the ground."
           />
           <FeaturedStory article={secondaryFeature} />
         </div>
@@ -97,9 +97,9 @@ export default function HomePage() {
 
       <section className="section-stack">
         <SectionHeader
-          eyebrow="News Ticker"
-          title="Latest Bulletins"
-          description="Real-time updates and quick reads on everything Sunrisers."
+          eyebrow="News Feed"
+          title="Latest Updates"
+          description="Fast, editorial updates on squad movements and announcements."
           action={
             <Button href="/news/" size="sm" variant="secondary">
               View all news
@@ -113,11 +113,11 @@ export default function HomePage() {
         <section className="section-stack">
           <SectionHeader
             eyebrow="Matchday"
-            title="Detailed Reports"
-            description="Clinical analysis and turning points from SRH's most recent encounters."
+            title="Match Archive"
+            description="Reports and tactical breakdowns from the season's encounters."
             action={
               <Button href="/match-coverage/" size="sm" variant="outline">
-                Archive
+                All Reports
               </Button>
             }
           />
@@ -135,9 +135,9 @@ export default function HomePage() {
 
       <section className="section-stack">
         <SectionHeader
-          eyebrow="Visuals"
+          eyebrow="Captured"
           title="The Gallery"
-          description="High-definition visual storytelling from match nights and the orange faithful."
+          description="Match-night frames from the ground and the stands."
           action={
             <Button href="/gallery/" size="sm" variant="outline">
               Full Archive

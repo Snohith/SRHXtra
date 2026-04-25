@@ -41,13 +41,13 @@ export function SquadSpotlight({ player }: SquadSpotlightProps) {
             {player.wicketkeeper ? <Badge tone="success">WK</Badge> : null}
           </div>
           <p className="text-sm leading-7 text-muted">
-            {player.bio ?? "Official profile text has not been published on the source page yet."}
+            {player.bio ?? "Full profile details and tactical analysis for this squad member are being processed."}
           </p>
           <div className="flex flex-wrap gap-3 text-sm text-slate-300">
             <span>{player.nationality}</span>
             <span>
               {player.stats.matches === null || player.stats.matches === undefined
-                ? "Matches not listed"
+                ? "Stats pending"
                 : `${player.stats.matches} ${player.stats.matches === 1 ? "IPL match" : "IPL matches"}`}
             </span>
           </div>

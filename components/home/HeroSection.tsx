@@ -47,9 +47,9 @@ export function HeroSection({ title, description, image, leadStory }: HeroSectio
               {description}
             </p>
             <div className="mt-8 flex flex-wrap gap-3 sm:mt-10 sm:gap-4">
-              <Button href="/news/" size="lg">Explore news</Button>
+              <Button href="/news/" size="lg">Latest updates</Button>
               <Button href="/match-coverage/" size="lg" variant="secondary">
-                Match coverage
+                Archive
               </Button>
             </div>
           </div>
@@ -77,7 +77,7 @@ export function HeroSection({ title, description, image, leadStory }: HeroSectio
                   variant="outline"
                   className="w-full"
                 >
-                  Read full story
+                  Full report
                 </Button>
               </div>
             </div>

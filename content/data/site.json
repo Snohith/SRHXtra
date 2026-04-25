@@ -3,7 +3,7 @@
   "siteUrl": "https://srhxtra.vercel.app",
   "defaultTitle": "SRHXtra",
   "titleTemplate": "%s | SRHXtra",
-  "defaultDescription": "Independent SRH coverage with match reports, tactical features, galleries, and fast editorial updates for the orange faithful.",
+  "defaultDescription": "Sharp match reporting, tactical analysis, and high-resolution galleries for the Sunrisers Hyderabad campaign.",
   "defaultOgImage": "/og/default-og.svg",
   "locale": "en_IN",
   "tagline": "OrangeArmy's No.1 destination for all the news",
@@ -31,7 +31,7 @@
   ],
   "organization": {
     "name": "SRHXtra",
-    "description": "SRHXtra is an independent SRH fan publication focused on sharper match reporting, tactical context, galleries, and editorial storytelling built for supporters.",
+    "description": "SRHXtra is an independent SRH fan publication focused on sharper match reporting, tactical context, and editorial storytelling built for supporters.",
     "logo": "/logo.png",
     "sameAs": [
       "https://x.com/srhxtra",
@@ -41,7 +41,7 @@
   },
   "homepage": {
     "heroTitle": "Sunrisers Hyderabad News and Match Coverage, Sharpened.",
-    "heroDescription": "Fast, focused, editorial-first coverage for SRH supporters.",
+    "heroDescription": "Sharp match reporting and tactical context for the SRH campaign.",
     "featuredNewsSlug": "official-news-sunrisers-hyderabad-pick-gerald-coetzee-as-injury-replacement-for-david-payne",
     "featuredGallerySlug": "opening-night-energy",
     "nextFixtureId": "fixture-002",
