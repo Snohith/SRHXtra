@@ -10,12 +10,12 @@ tags:
   - Match Report
   - Punjab Kings
   - IPL 2026
-coverImage: https://documents.iplt20.com/bcci/articles/1775923484_CRIPL_21342.jpg?v=1.33
+coverImage: /images/post-match/match4post.png
 coverAlt: Official IPL match image from Punjab Kings vs Sunrisers Hyderabad in New Chandigarh
 featured: false
 seoTitle: SRH's Fast Start Is Not Enough After Punjab's Counter-Chase
 seoDescription: Verified match coverage from SRH's IPL 2026 defeat to Punjab Kings in New Chandigarh.
-ogImage: https://documents.iplt20.com/bcci/articles/1775923484_CRIPL_21342.jpg?v=1.33
+ogImage: /images/post-match/match4post.png
 relatedSlugs: []
 draft: false
 editorialStatus: verified

@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 import { Badge } from "@/components/ui/Badge";
 import { LightboxViewer } from "@/components/gallery/LightboxViewer";
 import { AlbumGrid } from "@/components/gallery/AlbumGrid";
@@ -64,8 +66,9 @@ export default async function GalleryAlbumPage({
   return (
     <div className="page-stack">
       <script
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        id={`gallery-jsonld-${album.slug}`}
         type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="section-stack">
         <Breadcrumbs items={breadcrumbItems} />

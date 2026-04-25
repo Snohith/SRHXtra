@@ -13,11 +13,17 @@ interface ArticleCardProps {
   variant?: "default" | "compact" | "featured";
 }
 
+function getCollectionFromUrl(url: string) {
+  if (url.startsWith("/match-coverage/")) return "match-coverage";
+  if (url.startsWith("/match-previews/")) return "match-previews";
+  return "news";
+}
+
 export function ArticleCard({ article, variant = "default" }: ArticleCardProps) {
   const isFeatured = variant === "featured";
   const isCompact = variant === "compact";
   const articleImage = resolveArticleImage({
-    collection: article.url.startsWith("/match-coverage/") ? "match-coverage" : "news",
+    collection: getCollectionFromUrl(article.url),
     slug: article.slug,
     coverImage: article.coverImage,
     coverAlt: article.coverAlt,
@@ -26,8 +32,10 @@ export function ArticleCard({ article, variant = "default" }: ArticleCardProps) 
 
   return (
     <article
+      itemScope
+      itemType="https://schema.org/Article"
       className={cx(
-        "premium-card",
+        "premium-card group",
         isFeatured ? "grid gap-0 lg:grid-cols-[1.2fr_0.8fr]" : "flex flex-col",
         isCompact && "p-4",
       )}
@@ -39,21 +47,27 @@ export function ArticleCard({ article, variant = "default" }: ArticleCardProps) 
         <div className="flex flex-wrap items-center gap-4">
           <Badge tone="accent">{article.category}</Badge>
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted/80">
-            {formatDisplayDate(article.publishedAt)}
+            <time dateTime={article.publishedAt} itemProp="datePublished">
+              {formatDisplayDate(article.publishedAt)}
+            </time>
           </span>
           {article.sourceName ? (
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted/80">
-              {article.sourceName}
+            <span itemProp="publisher" itemScope itemType="https://schema.org/Organization" className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted/80">
+              <span itemProp="name">{article.sourceName}</span>
             </span>
           ) : null}
         </div>
         
-        <h3 className={cx(
-          "mt-5 font-black leading-[1.2] tracking-tight transition-colors group-hover:text-accent",
-          isFeatured ? "text-3xl sm:text-4xl lg:text-5xl" : "text-xl sm:text-2xl"
-        )}>
+        <h3 
+          itemProp="headline"
+          className={cx(
+            "mt-5 font-black leading-[1.2] tracking-tight transition-colors group-hover:text-accent",
+            isFeatured ? "text-3xl sm:text-4xl lg:text-5xl" : "text-xl sm:text-2xl"
+          )}
+        >
           <Link
             href={article.url}
+            itemProp="url"
             className="after:absolute after:inset-0"
             rel={article.isExternal ? "noreferrer" : undefined}
             target={article.isExternal ? "_blank" : undefined}
@@ -62,10 +76,13 @@ export function ArticleCard({ article, variant = "default" }: ArticleCardProps) 
           </Link>
         </h3>
         
-        <p className={cx(
-          "mt-4 text-muted line-clamp-3",
-          isCompact ? "text-sm" : "body-copy"
-        )}>
+        <p 
+          itemProp="description"
+          className={cx(
+            "mt-4 text-muted line-clamp-3",
+            isCompact ? "text-sm" : "body-copy"
+          )}
+        >
           {article.excerpt}
         </p>
         
@@ -87,6 +104,7 @@ export function ArticleCard({ article, variant = "default" }: ArticleCardProps) 
         >
           <Image
             alt={articleImage.alt}
+            itemProp="image"
             className={cx(
               "h-full w-full transition-transform duration-700 group-hover:scale-105",
               articleImage.fitClassName ?? "object-cover"

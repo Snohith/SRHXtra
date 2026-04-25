@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Script from "next/script";
 
 import { ArticleBody } from "@/components/articles/ArticleBody";
 import { ArticleHeader } from "@/components/articles/ArticleHeader";
@@ -66,8 +67,9 @@ export default async function NewsArticlePage({
   return (
     <div className="page-stack">
       <script
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        id={`news-jsonld-${article.slug}`}
         type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Breadcrumbs items={breadcrumbItems} />
       <ArticleHeader article={article} archiveHref="/news/" archiveLabel="Back to news" />

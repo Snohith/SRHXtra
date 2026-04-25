@@ -13,7 +13,7 @@ import {
   type EditorialStatus,
 } from "@/lib/content/validation";
 
-export type ArticleCollection = "news" | "match-coverage";
+export type ArticleCollection = "news" | "match-coverage" | "match-previews";
 
 export interface ArticleFrontmatter {
   slug: string;
@@ -59,6 +59,7 @@ export interface Article extends ArticleFrontmatter, StoryCardItem {
 const ARTICLE_DIRECTORIES: Record<ArticleCollection, string> = {
   news: resolveContentPath("news"),
   "match-coverage": resolveContentPath("match-coverage"),
+  "match-previews": resolveContentPath("match-previews"),
 };
 
 function readArticleFile(collection: ArticleCollection, filePath: string): Article {

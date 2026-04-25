@@ -16,6 +16,7 @@
   },
   "navLinks": [
     { "label": "News", "href": "/news/" },
+    { "label": "Match Previews", "href": "/match-previews/" },
     { "label": "Match Coverage", "href": "/match-coverage/" },
     { "label": "Points Table", "href": "/points-table/" },
     { "label": "Gallery", "href": "/gallery/" },
@@ -43,6 +44,7 @@
     "heroDescription": "Fast, focused, editorial-first coverage for SRH supporters.",
     "featuredNewsSlug": "official-news-sunrisers-hyderabad-pick-gerald-coetzee-as-injury-replacement-for-david-payne",
     "featuredGallerySlug": "opening-night-energy",
-    "nextFixtureId": "fixture-002"
+    "nextFixtureId": "fixture-002",
+    "heroImage": "/images/site/homepage-hero.png"
   }
 }

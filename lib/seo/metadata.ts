@@ -22,6 +22,7 @@ const DEFAULT_KEYWORDS = [
   "IPL",
   "IPL 2026",
   "SRH news",
+  "SRH match preview",
   "SRH match report",
   "SRH squad",
   "SRH points table",

@@ -10,12 +10,12 @@ tags:
   - Match Report
   - Rajasthan Royals
   - IPL 2026
-coverImage: https://documents.iplt20.com/bcci/articles/1776108485_ALI67089.jpg?v=1.33
+coverImage: /images/post-match/match5post.png
 coverAlt: Official IPL match image from Sunrisers Hyderabad vs Rajasthan Royals in Hyderabad
 featured: false
 seoTitle: Debut Pace Breaks RR After Kishan Drives SRH to 216
 seoDescription: Verified match coverage from SRH's IPL 2026 win over Rajasthan Royals in Hyderabad.
-ogImage: https://documents.iplt20.com/bcci/articles/1776108485_ALI67089.jpg?v=1.33
+ogImage: /images/post-match/match5post.png
 relatedSlugs: []
 draft: false
 editorialStatus: verified

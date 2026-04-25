@@ -10,12 +10,12 @@ tags:
   - Match Report
   - Chennai Super Kings
   - IPL 2026
-coverImage: https://documents.iplt20.com/bcci/articles/1776539464_ALI73500.jpg?v=1.33
+coverImage: /images/post-match/match6post.png
 coverAlt: Official IPL match image from Sunrisers Hyderabad vs Chennai Super Kings in Hyderabad
 featured: true
 seoTitle: SRH Defend 194 After Klaasen Rebuilds and the Seamers Close
 seoDescription: Verified match coverage from SRH's IPL 2026 win over Chennai Super Kings in Hyderabad.
-ogImage: https://documents.iplt20.com/bcci/articles/1776539464_ALI73500.jpg?v=1.33
+ogImage: /images/post-match/match6post.png
 relatedSlugs: []
 draft: false
 editorialStatus: verified

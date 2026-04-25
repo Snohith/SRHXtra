@@ -28,6 +28,7 @@ export interface HomepageConfig {
   featuredNewsSlug: string;
   featuredGallerySlug: string;
   nextFixtureId: string;
+  heroImage?: string;
 }
 
 export interface SiteConfig {

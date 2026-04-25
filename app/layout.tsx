@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import Script from "next/script";
 
 import "@/styles/globals.css";
 import { Footer } from "@/components/layout/Footer";
@@ -38,30 +39,32 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html className={`${outfit.variable} ${jakarta.variable}`} lang="en" suppressHydrationWarning>
       <head>
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-RC7HGXJQ7M"></script>
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-RC7HGXJQ7M"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-RC7HGXJQ7M');
+          `}
+        </Script>
         <script
-          dangerouslySetInnerHTML={{
-            __html: `
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-RC7HGXJQ7M');
-            `,
-          }}
+          id="organization-jsonld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          id="website-jsonld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
       <body suppressHydrationWarning className="font-body">
         <div className="min-h-screen">
-          <script
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-            type="application/ld+json"
-          />
-          <script
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-            type="application/ld+json"
-          />
           <Navbar site={site} />
           <main className="shell-wide py-8 sm:py-10 lg:py-12">{children}</main>
           <Footer site={site} />

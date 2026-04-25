@@ -10,12 +10,12 @@ tags:
   - Match Report
   - Lucknow Super Giants
   - IPL 2026
-coverImage: https://documents.iplt20.com/bcci/articles/1775399659__J7A3894.JPG?v=1.33
+coverImage: /images/post-match/match3post.png
 coverAlt: Official IPL match image from Sunrisers Hyderabad vs Lucknow Super Giants in Hyderabad
 featured: false
 seoTitle: SRH Rebuild from 35 for 4, but LSG Finish the Chase Late
 seoDescription: Verified match coverage from SRH's IPL 2026 loss to Lucknow Super Giants in Hyderabad.
-ogImage: https://documents.iplt20.com/bcci/articles/1775399659__J7A3894.JPG?v=1.33
+ogImage: /images/post-match/match3post.png
 relatedSlugs: []
 draft: false
 editorialStatus: verified

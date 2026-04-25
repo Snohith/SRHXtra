@@ -6,6 +6,7 @@ import type { Player } from "@/lib/content/squad";
 const ARTICLE_FALLBACKS = {
   news: "/images/articles/news-depth.svg",
   "match-coverage": "/images/articles/match-clinical-chase.svg",
+  "match-previews": "/images/articles/match-clinical-chase.svg",
 } as const;
 
 const PLAYER_FALLBACK_IMAGE = "/images/site/hero-placeholder.svg";
@@ -87,9 +88,27 @@ export function getGalleryAlbumForReportSlug(reportSlug: string) {
 export function resolveArticleImage(article: Pick<Article, "collection" | "slug" | "coverImage" | "coverAlt" | "title">): ResolvedImage {
   const directCover = cleanImageValue(article.coverImage);
 
+  // 1. If we have a direct cover that isn't a known generic/fallback SVG, use it.
+  // This allows manual overrides in markdown to always win.
+  if (directCover && !GENERIC_MATCH_COVERAGES.has(directCover)) {
+    const isManualCard = directCover.startsWith("/images/post-match/") || directCover.startsWith("/images/match-previews/");
+    
+    return {
+      src: directCover,
+      alt: cleanImageValue(article.coverAlt) || article.title,
+      fitClassName: isManualCard 
+        ? "object-contain bg-[#0a192f]" // Using a dark blue background as a safe default for these cards
+        : (article.collection === "match-coverage" ? "object-cover object-top" : "object-cover"),
+      isFallback: false,
+    };
+  }
+
+  // 2. For match coverage, try to find a gallery album for overrides or fallbacks.
   if (article.collection === "match-coverage") {
     const galleryAlbum = getMatchGalleryLookup().get(article.slug) ?? null;
     const galleryCover = galleryAlbum ? resolveGalleryCoverImage(galleryAlbum) : null;
+    
+    // Check for manual gallery cover override first
     const hasManualGalleryCover =
       typeof galleryAlbum?.coverOverrideIndex === "number" && galleryAlbum.photos?.[galleryAlbum.coverOverrideIndex];
 
@@ -99,22 +118,9 @@ export function resolveArticleImage(article: Pick<Article, "collection" | "slug"
         fitClassName: "object-cover object-top",
       };
     }
-  }
 
-  if (directCover && (article.collection !== "match-coverage" || !GENERIC_MATCH_COVERAGES.has(directCover))) {
-    return {
-      src: directCover,
-      alt: cleanImageValue(article.coverAlt) || article.title,
-      fitClassName: article.collection === "match-coverage" ? "object-cover object-top" : "object-cover",
-      isFallback: false,
-    };
-  }
-
-  if (article.collection === "match-coverage") {
-    const galleryAlbum = getMatchGalleryLookup().get(article.slug) ?? null;
-
-    if (galleryAlbum?.coverImage) {
-      const galleryCover = resolveGalleryCoverImage(galleryAlbum);
+    // Fallback to gallery cover if present
+    if (galleryAlbum?.coverImage && galleryCover) {
       return {
         ...galleryCover,
         fitClassName: "object-cover object-top",
@@ -122,6 +128,7 @@ export function resolveArticleImage(article: Pick<Article, "collection" | "slug"
     }
   }
 
+  // 3. Absolute fallbacks
   return {
     src: article.collection === "match-coverage" ? "/HGMJi97WUAAHHq1.jpeg" : ARTICLE_FALLBACKS[article.collection],
     alt: cleanImageValue(article.coverAlt) || article.title,

@@ -65,10 +65,11 @@ export function getBreadcrumbJsonLd(items: JsonLdBreadcrumbItem[]) {
 
 export function getArticleJsonLd(article: Article) {
   const articleImage = resolveArticleImage(article);
+  const articleType = article.collection === "match-previews" ? "Article" : "NewsArticle";
 
   return {
     "@context": "https://schema.org",
-    "@type": "NewsArticle",
+    "@type": articleType,
     headline: article.title,
     description: article.seoDescription ?? article.excerpt,
     image: [buildAbsoluteUrl(article.ogImage ?? articleImage.src)],

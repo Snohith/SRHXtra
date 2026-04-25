@@ -10,12 +10,12 @@ tags:
   - Match Report
   - Delhi Capitals
   - IPL 2026
-coverImage: https://assets.bcci.tv/watermarkoutput/bcci/photos/2471/2c3e0451-6f87-46ae-aa4d-511d32bf6d41.jpg
+coverImage: /images/post-match/match7post.png
 coverAlt: Official IPL match image from Sunrisers Hyderabad vs Delhi Capitals in Hyderabad
 featured: false
 seoTitle: Abhishek's 135* Powers SRH Past DC by 47 Runs
 seoDescription: Verified match coverage from SRH's IPL 2026 win over Delhi Capitals in Hyderabad.
-ogImage: https://assets.bcci.tv/watermarkoutput/bcci/photos/2471/2c3e0451-6f87-46ae-aa4d-511d32bf6d41.jpg
+ogImage: /images/post-match/match7post.png
 relatedSlugs:
   - match-27-srh-vs-csk
 draft: false

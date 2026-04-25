@@ -10,12 +10,12 @@ tags:
   - Match Report
   - Kolkata Knight Riders
   - IPL 2026
-coverImage: https://documents.iplt20.com/bcci/articles/1775152887_SMP_8030.jpg?v=1.33
+coverImage: /images/post-match/match2post.png
 coverAlt: Official IPL match image from Kolkata Knight Riders vs Sunrisers Hyderabad at Eden Gardens
 featured: false
 seoTitle: SRH's 226 Holds Because the Bowling Keeps Control
 seoDescription: Verified match coverage from SRH's IPL 2026 win over KKR at Eden Gardens.
-ogImage: https://documents.iplt20.com/bcci/articles/1775152887_SMP_8030.jpg?v=1.33
+ogImage: /images/post-match/match2post.png
 relatedSlugs: []
 draft: false
 editorialStatus: verified

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Script from "next/script";
 
 import { ArticleBody } from "@/components/articles/ArticleBody";
 import { ArticleHeader } from "@/components/articles/ArticleHeader";
@@ -67,8 +68,9 @@ export default async function MatchCoverageArticlePage({
   return (
     <div className="page-stack">
       <script
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        id={`match-coverage-jsonld-${article.slug}`}
         type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Breadcrumbs items={breadcrumbItems} />
       <ArticleHeader article={article} archiveHref="/match-coverage/" archiveLabel="Back to coverage" />

@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 import { PlayerProfile } from "@/components/squad/PlayerProfile";
 import { PlayerCard } from "@/components/squad/PlayerCard";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
@@ -60,8 +62,9 @@ export default async function SquadPlayerPage({
   return (
     <div className="page-stack">
       <script
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        id={`squad-jsonld-${player.slug}`}
         type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Breadcrumbs items={breadcrumbItems} />
       <PlayerProfile player={player} />

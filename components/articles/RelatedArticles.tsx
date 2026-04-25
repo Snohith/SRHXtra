@@ -4,9 +4,17 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 
 interface RelatedArticlesProps {
   articles: Article[];
+  description?: string;
+  eyebrow?: string;
+  title?: string;
 }
 
-export function RelatedArticles({ articles }: RelatedArticlesProps) {
+export function RelatedArticles({
+  articles,
+  description = "Stories connected by match context, themes, and editorial tags.",
+  eyebrow = "Continue reading",
+  title = "Related coverage",
+}: RelatedArticlesProps) {
   if (!articles.length) {
     return null;
   }
@@ -14,9 +22,9 @@ export function RelatedArticles({ articles }: RelatedArticlesProps) {
   return (
     <section className="section-stack">
       <SectionHeader
-        eyebrow="Continue reading"
-        title="Related coverage"
-        description="Stories connected by match context, themes, and editorial tags."
+        eyebrow={eyebrow}
+        title={title}
+        description={description}
       />
       <div className="grid gap-4 lg:grid-cols-3">
         {articles.map((article) => (
@@ -26,4 +34,3 @@ export function RelatedArticles({ articles }: RelatedArticlesProps) {
     </section>
   );
 }
-

@@ -10,12 +10,12 @@ tags:
   - Match Report
   - Royal Challengers Bengaluru
   - IPL 2026
-coverImage: https://documents.iplt20.com/bcci/articles/1774732332_CREWC_31928.jpg?v=1.33
+coverImage: /images/post-match/match1post.png
 coverAlt: Official IPL match image from Royal Challengers Bengaluru vs Sunrisers Hyderabad in Bengaluru
 featured: false
 seoTitle: SRH Recover to 201, but RCB's Chase Never Slows
 seoDescription: Verified match coverage from SRH's IPL 2026 opener against RCB in Bengaluru.
-ogImage: https://documents.iplt20.com/bcci/articles/1774732332_CREWC_31928.jpg?v=1.33
+ogImage: /images/post-match/match1post.png
 relatedSlugs: []
 draft: false
 editorialStatus: verified
