@@ -1,4 +1,3 @@
-import { CalendarSyncButton } from "@/components/schedule/CalendarSyncButton";
 import { NextMatchHero } from "@/components/schedule/NextMatchHero";
 import { ScheduleTabs } from "@/components/schedule/ScheduleTabs";
 import { SectionHeader } from "@/components/ui/SectionHeader";
