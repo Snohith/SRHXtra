@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-04-24T12:58:09.498Z",
+  "updatedAt": "2026-04-25T13:38:30.272Z",
   "fixtures": [
     {
       "id": "ipl-2026-2417",
@@ -102,7 +102,8 @@
       "time": "19:30 IST",
       "venue": "Sawai Mansingh Stadium, Jaipur",
       "homeAway": "away",
-      "status": "upcoming"
+      "status": "upcoming",
+      "notes": "Official IPL status: Live"
     },
     {
       "id": "ipl-2026-2481",
