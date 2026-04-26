@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-04-25T13:38:30.272Z",
+  "updatedAt": "2026-04-26T03:54:07.929Z",
   "fixtures": [
     {
       "id": "ipl-2026-2417",
@@ -102,8 +102,8 @@
       "time": "19:30 IST",
       "venue": "Sawai Mansingh Stadium, Jaipur",
       "homeAway": "away",
-      "status": "upcoming",
-      "notes": "Official IPL status: Live"
+      "status": "completed",
+      "result": "Sunrisers Hyderabad Won by 5 Wickets"
     },
     {
       "id": "ipl-2026-2481",

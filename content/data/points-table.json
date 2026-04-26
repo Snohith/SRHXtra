@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-04-25T14:47:16.459Z",
+  "updatedAt": "2026-04-26T03:54:18.321Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -52,47 +52,47 @@
     },
     {
       "position": 3,
-      "teamCode": "RR",
-      "team": "Rajasthan Royals",
-      "matches": 7,
-      "wins": 5,
-      "losses": 2,
-      "noResult": 0,
-      "tied": 0,
-      "points": 10,
-      "netRunRate": "0.790",
-      "for": "1163/121.1",
-      "against": "1151/130.4",
-      "recentForm": [
-        "W",
-        "W",
-        "L",
-        "L",
-        "W"
-      ],
-      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png"
-    },
-    {
-      "position": 4,
       "teamCode": "SRH",
       "team": "Sunrisers Hyderabad",
-      "matches": 7,
-      "wins": 4,
+      "matches": 8,
+      "wins": 5,
       "losses": 3,
       "noResult": 0,
       "tied": 0,
-      "points": 8,
-      "netRunRate": "0.820",
-      "for": "1454/140.0",
-      "against": "1285/134.2",
+      "points": 10,
+      "netRunRate": "0.815",
+      "for": "1683/158.3",
+      "against": "1513/154.2",
       "recentForm": [
         "L",
-        "L",
+        "W",
         "W",
         "W",
         "W"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/SRH.png"
+    },
+    {
+      "position": 4,
+      "teamCode": "RR",
+      "team": "Rajasthan Royals",
+      "matches": 8,
+      "wins": 5,
+      "losses": 3,
+      "noResult": 0,
+      "tied": 0,
+      "points": 10,
+      "netRunRate": "0.602",
+      "for": "1391/141.1",
+      "against": "1380/149.1",
+      "recentForm": [
+        "W",
+        "L",
+        "L",
+        "W",
+        "L"
+      ],
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png"
     },
     {
       "position": 5,
