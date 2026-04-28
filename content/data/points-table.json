@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-04-28T08:39:26.413Z",
+  "updatedAt": "2026-04-28T19:55:18.574Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -10,21 +10,21 @@
       "position": 1,
       "teamCode": "PBKS",
       "team": "Punjab Kings",
-      "matches": 7,
+      "matches": 8,
       "wins": 6,
-      "losses": 0,
+      "losses": 1,
       "noResult": 1,
       "tied": 0,
       "points": 13,
-      "netRunRate": "1.333",
-      "for": "1315/112.0",
-      "against": "1249/120.0",
+      "netRunRate": "1.043",
+      "for": "1537/132.0",
+      "against": "1477/139.2",
       "recentForm": [
-        "N",
         "W",
         "W",
         "W",
-        "W"
+        "W",
+        "L"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/PBKS.png"
     },
@@ -52,6 +52,28 @@
     },
     {
       "position": 3,
+      "teamCode": "RR",
+      "team": "Rajasthan Royals",
+      "matches": 9,
+      "wins": 6,
+      "losses": 3,
+      "noResult": 0,
+      "tied": 0,
+      "points": 12,
+      "netRunRate": "0.617",
+      "for": "1619/160.3",
+      "against": "1602/169.1",
+      "recentForm": [
+        "L",
+        "L",
+        "W",
+        "L",
+        "W"
+      ],
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png"
+    },
+    {
+      "position": 4,
       "teamCode": "SRH",
       "team": "Sunrisers Hyderabad",
       "matches": 8,
@@ -71,28 +93,6 @@
         "W"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/SRH.png"
-    },
-    {
-      "position": 4,
-      "teamCode": "RR",
-      "team": "Rajasthan Royals",
-      "matches": 8,
-      "wins": 5,
-      "losses": 3,
-      "noResult": 0,
-      "tied": 0,
-      "points": 10,
-      "netRunRate": "0.602",
-      "for": "1391/141.1",
-      "against": "1380/149.1",
-      "recentForm": [
-        "W",
-        "L",
-        "L",
-        "W",
-        "L"
-      ],
-      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png"
     },
     {
       "position": 5,
