@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-04-26T03:54:07.929Z",
+  "updatedAt": "2026-04-29T14:29:43.049Z",
   "fixtures": [
     {
       "id": "ipl-2026-2417",
@@ -114,7 +114,8 @@
       "time": "19:30 IST",
       "venue": "Wankhede Stadium, Mumbai",
       "homeAway": "away",
-      "status": "upcoming"
+      "status": "upcoming",
+      "notes": "Official IPL status: Live"
     },
     {
       "id": "ipl-2026-2485",
