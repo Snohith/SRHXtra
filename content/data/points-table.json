@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-04-30T14:23:12.381Z",
+  "updatedAt": "2026-04-30T19:47:31.064Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -32,21 +32,21 @@
       "position": 2,
       "teamCode": "RCB",
       "team": "Royal Challengers Bengaluru",
-      "matches": 8,
+      "matches": 9,
       "wins": 6,
-      "losses": 2,
+      "losses": 3,
       "noResult": 0,
       "tied": 0,
       "points": 12,
-      "netRunRate": "1.919",
-      "for": "1501/136.1",
-      "against": "1437/157.5",
+      "netRunRate": "1.420",
+      "for": "1656/156.1",
+      "against": "1595/173.4",
       "recentForm": [
-        "W",
         "W",
         "L",
         "W",
-        "W"
+        "W",
+        "L"
       ],
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/NVAlbtIyB81740555172aFPMviEPyJ1710927747rcb.png"
     },
@@ -98,20 +98,20 @@
       "position": 5,
       "teamCode": "GT",
       "team": "Gujarat Titans",
-      "matches": 8,
-      "wins": 4,
+      "matches": 9,
+      "wins": 5,
       "losses": 4,
       "noResult": 0,
       "tied": 0,
-      "points": 8,
-      "netRunRate": "-0.475",
-      "for": "1389/155.0",
-      "against": "1491/158.0",
+      "points": 10,
+      "netRunRate": "-0.192",
+      "for": "1547/170.5",
+      "against": "1646/178.0",
       "recentForm": [
         "W",
+        "L",
+        "L",
         "W",
-        "L",
-        "L",
         "W"
       ],
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/Rwz7jmxIFN1774445093GT.png"
