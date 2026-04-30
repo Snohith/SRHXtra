@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-04-29T14:29:43.049Z",
+  "updatedAt": "2026-04-30T04:01:26.034Z",
   "fixtures": [
     {
       "id": "ipl-2026-2417",
@@ -114,8 +114,8 @@
       "time": "19:30 IST",
       "venue": "Wankhede Stadium, Mumbai",
       "homeAway": "away",
-      "status": "upcoming",
-      "notes": "Official IPL status: Live"
+      "status": "completed",
+      "result": "Sunrisers Hyderabad Won by 6 Wickets"
     },
     {
       "id": "ipl-2026-2485",

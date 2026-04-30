@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-04-29T14:29:51.847Z",
+  "updatedAt": "2026-04-30T04:01:33.643Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -52,6 +52,28 @@
     },
     {
       "position": 3,
+      "teamCode": "SRH",
+      "team": "Sunrisers Hyderabad",
+      "matches": 9,
+      "wins": 6,
+      "losses": 3,
+      "noResult": 0,
+      "tied": 0,
+      "points": 12,
+      "netRunRate": "0.832",
+      "for": "1932/177.1",
+      "against": "1756/174.2",
+      "recentForm": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "W"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/SRH.png"
+    },
+    {
+      "position": 4,
       "teamCode": "RR",
       "team": "Rajasthan Royals",
       "matches": 9,
@@ -71,28 +93,6 @@
         "W"
       ],
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png"
-    },
-    {
-      "position": 4,
-      "teamCode": "SRH",
-      "team": "Sunrisers Hyderabad",
-      "matches": 8,
-      "wins": 5,
-      "losses": 3,
-      "noResult": 0,
-      "tied": 0,
-      "points": 10,
-      "netRunRate": "0.815",
-      "for": "1683/158.3",
-      "against": "1513/154.2",
-      "recentForm": [
-        "L",
-        "W",
-        "W",
-        "W",
-        "W"
-      ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/SRH.png"
     },
     {
       "position": 5,
@@ -186,20 +186,20 @@
       "position": 9,
       "teamCode": "MI",
       "team": "Mumbai Indians",
-      "matches": 7,
+      "matches": 8,
       "wins": 2,
-      "losses": 5,
+      "losses": 6,
       "noResult": 0,
       "tied": 0,
       "points": 4,
-      "netRunRate": "-0.736",
-      "for": "1229/130.1",
-      "against": "1279/125.4",
+      "netRunRate": "-0.784",
+      "for": "1472/150.1",
+      "against": "1528/144.2",
       "recentForm": [
         "L",
         "L",
-        "L",
         "W",
+        "L",
         "L"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/MI.png"
