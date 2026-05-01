@@ -1,10 +1,25 @@
 {
-  "updatedAt": "2026-05-01T08:24:55.844Z",
+  "updatedAt": "2026-05-01T13:52:31.454Z",
   "sourcePriority": [
     "https://www.iplt20.com/teams/sunrisers-hyderabad/news"
   ],
   "filterRule": "Keep SRH off-field/team updates only; exclude match reports, previews, and score recaps.",
   "items": [
+    {
+      "slug": "official-news-sunrisers-hyderabad-sign-rs-ambrish-as-injury-replacement-for-shivam-mavi",
+      "title": "Sunrisers Hyderabad sign RS Ambrish as injury replacement for Shivam Mavi",
+      "publishedAt": "2026-05-01T12:00:00.000Z",
+      "sourceName": "IPL T20",
+      "sourceUrl": "https://www.iplt20.com/news/4324/sunrisers-hyderabad-sign-rs-ambrish-as-injury-replacement-for-shivam-mavi",
+      "excerpt": null,
+      "coverImageUrl": "https://documents.iplt20.com/bcci/articles/1777631167_JRP_3038_gOeQvTQZ_20260206062038.jpeg",
+      "coverImageAlt": "Sunrisers Hyderabad sign RS Ambrish as injury replacement for Shivam Mavi",
+      "tags": [
+        "Official Update",
+        "SRH",
+        "Squad Update"
+      ]
+    },
     {
       "slug": "official-news-sunrisers-hyderabad-pick-gerald-coetzee-as-injury-replacement-for-david-payne",
       "title": "Sunrisers Hyderabad pick Gerald Coetzee as injury replacement for David Payne",
