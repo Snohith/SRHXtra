@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-02T13:46:11.238Z",
+  "updatedAt": "2026-05-02T19:16:33.719Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -118,6 +118,28 @@
     },
     {
       "position": 6,
+      "teamCode": "CSK",
+      "team": "Chennai Super Kings",
+      "matches": 9,
+      "wins": 4,
+      "losses": 5,
+      "noResult": 0,
+      "tied": 0,
+      "points": 8,
+      "netRunRate": "0.005",
+      "for": "1656/178.1",
+      "against": "1556/167.3",
+      "recentForm": [
+        "W",
+        "L",
+        "W",
+        "L",
+        "W"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/CSK.png"
+    },
+    {
+      "position": 7,
       "teamCode": "DC",
       "team": "Delhi Capitals",
       "matches": 9,
@@ -137,28 +159,6 @@
         "W"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/DC.png"
-    },
-    {
-      "position": 7,
-      "teamCode": "CSK",
-      "team": "Chennai Super Kings",
-      "matches": 8,
-      "wins": 3,
-      "losses": 5,
-      "noResult": 0,
-      "tied": 0,
-      "points": 6,
-      "netRunRate": "-0.121",
-      "for": "1496/160.0",
-      "against": "1397/147.3",
-      "recentForm": [
-        "W",
-        "W",
-        "L",
-        "W",
-        "L"
-      ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/CSK.png"
     },
     {
       "position": 8,
@@ -186,19 +186,19 @@
       "position": 9,
       "teamCode": "MI",
       "team": "Mumbai Indians",
-      "matches": 8,
+      "matches": 9,
       "wins": 2,
-      "losses": 6,
+      "losses": 7,
       "noResult": 0,
       "tied": 0,
       "points": 4,
-      "netRunRate": "-0.784",
-      "for": "1472/150.1",
-      "against": "1528/144.2",
+      "netRunRate": "-0.803",
+      "for": "1631/170.1",
+      "against": "1688/162.3",
       "recentForm": [
         "L",
-        "L",
         "W",
+        "L",
         "L",
         "L"
       ],

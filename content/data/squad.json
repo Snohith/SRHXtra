@@ -1,6 +1,6 @@
 {
   "season": "IPL 2026",
-  "updatedAt": "2026-05-02T13:46:03.796Z",
+  "updatedAt": "2026-05-02T19:16:27.179Z",
   "editorialStatus": "verified",
   "players": [
     {
@@ -244,6 +244,26 @@
       "editorialStatus": "verified"
     },
     {
+      "slug": "r-s-ambrish",
+      "name": "R.S Ambrish",
+      "fullName": "R.S Ambrish",
+      "role": "All-rounder",
+      "nationality": "Indian",
+      "battingStyle": null,
+      "bowlingStyle": null,
+      "jerseyNumber": null,
+      "captain": false,
+      "wicketkeeper": false,
+      "image": "https://documents.iplt20.com/ipl/assets/images/Default-Men.png",
+      "imageAlt": "R.S Ambrish official SRH headshot",
+      "bio": "R.S Ambrish is a bowling all-rounder from Tamil Nadu, a right-arm medium-pacer who adds depth with the bat in the lower order. Still at the start of his professional journey, he has featured in two first-class matches, gradually finding his feet at the senior level. He first gained wider attention as part of India’s U19 World Cup-winning campaign, where he played a key role with the ball. Often entrusted with the new ball, Ambrish showcased his control and ability to strike early, including an impressive spell of 4 for 29 against New Zealand. Overall, he snapped 11 wickets in the tournament at an average of only 20.93. Batting at No. 7, he also offered balance to the side with his lower-order contributions. His performances at the junior level have opened the door to bigger opportunities, and he now steps into the TATA IPL setup for the first time. Sunrisers Hyderabad have brought him in as a replacement player, giving him exposure to the highest level of T20 cricket. A developing all-rounder with the ability to contribute in multiple phases, Ambrish will be keen to build on this opportunity and push for a stronger foothold in the professional circuit.",
+      "stats": {
+        "matches": 0
+      },
+      "socials": {},
+      "editorialStatus": "verified"
+    },
+    {
       "slug": "abhishek-sharma",
       "name": "Abhishek Sharma",
       "fullName": "Abhishek Sharma",
@@ -479,26 +499,6 @@
       "bio": "Gerald Coetzee has quickly emerged as one of South Africa’s most exciting fast-bowling prospects, combining raw pace with an aggressive mindset. Known for his high-intensity spells and ability to hit hard lengths, Coetzee thrives on unsettling batters rather than containing them. He rose to global prominence during the 2023 ODI World Cup, where he finished as South Africa’s leading wicket-taker with 20 wickets, consistently providing breakthroughs in the middle overs. That campaign showcased his ability to deliver on big stages and fast-tracked his reputation in franchise cricket. Coetzee has already experienced two TATA IPL seasons. He began with Mumbai Indians in 2024 and made an immediate impact, picking up 13 wickets in 10 matches with his attacking approach. A move to Gujarat Titans followed after the 2025 mega-auction, but opportunities were limited, as he featured in just four games without much success. He now returns to the IPL with a fresh opportunity, joining Sunrisers Hyderabad as a replacement player for David Payne. With his ability to strike at pace and generate bounce, Coetzee adds an aggressive edge to their fast-bowling unit.",
       "stats": {
         "matches": 14
-      },
-      "socials": {},
-      "editorialStatus": "verified"
-    },
-    {
-      "slug": "rs-ambrish",
-      "name": "RS Ambrish",
-      "fullName": "RS Ambrish",
-      "role": "Bowler",
-      "nationality": "India",
-      "battingStyle": null,
-      "bowlingStyle": null,
-      "jerseyNumber": null,
-      "captain": false,
-      "wicketkeeper": false,
-      "image": "https://documents.iplt20.com/ipl/assets/images/Default-Men.png",
-      "imageAlt": "RS Ambrish official SRH headshot",
-      "bio": null,
-      "stats": {
-        "matches": 0
       },
       "socials": {},
       "editorialStatus": "verified"
