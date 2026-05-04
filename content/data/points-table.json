@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-04T14:29:11.852Z",
+  "updatedAt": "2026-05-04T19:54:17.527Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -186,21 +186,21 @@
       "position": 9,
       "teamCode": "MI",
       "team": "Mumbai Indians",
-      "matches": 9,
-      "wins": 2,
+      "matches": 10,
+      "wins": 3,
       "losses": 7,
       "noResult": 0,
       "tied": 0,
-      "points": 4,
-      "netRunRate": "-0.803",
-      "for": "1631/170.1",
-      "against": "1688/162.3",
+      "points": 6,
+      "netRunRate": "-0.649",
+      "for": "1860/188.5",
+      "against": "1916/182.3",
       "recentForm": [
-        "L",
         "W",
         "L",
         "L",
-        "L"
+        "L",
+        "W"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/MI.png"
     },
@@ -208,15 +208,15 @@
       "position": 10,
       "teamCode": "LSG",
       "team": "Lucknow Super Giants",
-      "matches": 8,
+      "matches": 9,
       "wins": 2,
-      "losses": 6,
+      "losses": 7,
       "noResult": 0,
       "tied": 0,
       "points": 4,
-      "netRunRate": "-1.106",
-      "for": "1267/159.5",
-      "against": "1364/151.0",
+      "netRunRate": "-1.076",
+      "for": "1495/179.5",
+      "against": "1593/169.4",
       "recentForm": [
         "L",
         "L",
