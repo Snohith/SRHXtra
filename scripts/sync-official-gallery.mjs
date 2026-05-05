@@ -179,6 +179,16 @@ function getPublishedMatchTags(tags) {
     .map((tag) => tag === "Match Report Draft" ? "Match Report" : tag))];
 }
 
+function getExistingAlbumBySlug(slug) {
+  const filePath = path.join(galleryDirPath, `${slug}.json`);
+
+  if (!fs.existsSync(filePath)) {
+    return null;
+  }
+
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
+
 async function syncIPLPhotosGallery(existingAlbums) {
   const matchCoverageDirPath = resolveProjectPath("content", "match-coverage");
   if (!fs.existsSync(matchCoverageDirPath)) return [];
@@ -266,8 +276,16 @@ async function syncIPLPhotosGallery(existingAlbums) {
         const coverIndex = Math.floor(photos.length * 0.2);
         const chosenCover = photos[coverIndex] || photos[0];
 
+        const slug = `official-ipl-gallery-match-${matchNumber}`;
+        const existingAlbum = getExistingAlbumBySlug(slug);
+        const coverOverrideIndex = typeof existingAlbum?.coverOverrideIndex === "number"
+          && existingAlbum.coverOverrideIndex >= 0
+          && existingAlbum.coverOverrideIndex < photos.length
+          ? existingAlbum.coverOverrideIndex
+          : undefined;
+
         newAlbums.push({
-          slug: `official-ipl-gallery-match-${matchNumber}`,
+          slug,
           title: `${matchNumber}${['st', 'nd', 'rd'][(matchNumber % 10) - 1] || 'th'} Match | ${teamsStr}`,
           description: `Official photo gallery for ${data.title} from the IPL Match Centre.`,
           publishedAt,
@@ -282,6 +300,7 @@ async function syncIPLPhotosGallery(existingAlbums) {
           sourceUrl: srhAlbum.href,
           editorialStatus: "verified",
           sourceKind: "ipl-photos",
+          ...(coverOverrideIndex === undefined ? {} : { coverOverrideIndex }),
           licensing: {
             status: "source-reference-only",
             notes: "Extracted from official IPL match photos.",
@@ -441,12 +460,6 @@ export async function syncOfficialGallery(options = {}) {
   if (iplAlbums.length > 0) {
     console.log(`[official-sync] Found ${iplAlbums.length} official real-photo albums from IPL photos index.`);
     albums.push(...iplAlbums);
-  }
-
-  const fallbackAlbums = await generateFallbackAlbums(albums);
-  if (fallbackAlbums.length > 0) {
-    console.log(`[official-sync] Generated ${fallbackAlbums.length} fallback albums from match reports.`);
-    albums.push(...fallbackAlbums);
   }
 
   validateAlbums(albums);

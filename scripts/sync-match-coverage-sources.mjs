@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { fetchJsonp, fetchText, logList, logSection, parseArgs, resolveProjectPath, slugify, stripTags, writeJsonFileIfChanged } from "./lib/sync-utils.mjs";
+import { fetchJsonp, fetchText, logList, logSection, parseArgs, readJsonIfExists, resolveProjectPath, slugify, stripTags, writeJsonFileIfChanged } from "./lib/sync-utils.mjs";
 
 const SRH_TEAM_CODE = "SRH";
 const COMPETITION_FEED_URL = "https://scores.iplt20.com/ipl/mc/competition.js";
@@ -35,7 +35,18 @@ function parseReportMap(data) {
   );
 }
 
-function normalizeMatch(entry, reportUrl) {
+function getExistingReportUrlMap() {
+  const existingSources = readJsonIfExists(outputFilePath);
+  const matches = Array.isArray(existingSources?.matches) ? existingSources.matches : [];
+
+  return new Map(
+    matches
+      .filter((match) => match?.matchId && match?.officialReportUrl)
+      .map((match) => [String(match.matchId), String(match.officialReportUrl).trim()]),
+  );
+}
+
+function normalizeMatch(entry, reportUrl, existingReportUrl) {
   const firstSummary = String(entry.FirstBattingSummary ?? "").trim();
   const secondSummary = String(entry.SecondBattingSummary ?? "").trim();
   const result = String(entry.Commentss ?? entry.Comments ?? "").replace(/\s+/g, " ").trim();
@@ -57,7 +68,7 @@ function normalizeMatch(entry, reportUrl) {
       secondInnings: secondSummary || null,
     },
     playerOfTheMatch: String(entry.MOM ?? "").trim() || null,
-    officialReportUrl: reportUrl || null,
+    officialReportUrl: reportUrl || existingReportUrl || null,
   };
 }
 
@@ -70,7 +81,7 @@ function parseReportParagraphs(html) {
     .slice(0, 12);
 }
 
-function validateMatches(matches) {
+function validateMatchCoreFields(matches) {
   const missingFields = [];
 
   for (const match of matches) {
@@ -83,9 +94,6 @@ function validateMatches(matches) {
     if (!match.result) {
       missingFields.push(`${match.slug} -> result`);
     }
-    if (!match.officialReportUrl) {
-      missingFields.push(`${match.slug} -> officialReportUrl`);
-    }
   }
 
   if (missingFields.length > 0) {
@@ -93,6 +101,22 @@ function validateMatches(matches) {
     logList(" - ", missingFields);
     throw new Error("Match coverage sources are incomplete. Aborting write.");
   }
+}
+
+function getMatchesWithPublishedReports(matches) {
+  const readyMatches = matches.filter((match) => match.officialReportUrl);
+  const pendingMatches = matches.filter((match) => !match.officialReportUrl);
+
+  if (pendingMatches.length > 0) {
+    logSection("Skipping completed matches without published official reports");
+    logList(" - ", pendingMatches.map((match) => `${match.slug} -> officialReportUrl`));
+  }
+
+  if (readyMatches.length === 0 && matches.length > 0) {
+    throw new Error("No official report URLs were available for completed SRH matches. Aborting write.");
+  }
+
+  return readyMatches;
 }
 
 export async function syncMatchCoverageSources(options = {}) {
@@ -115,15 +139,21 @@ export async function syncMatchCoverageSources(options = {}) {
   ]);
 
   const reportMap = parseReportMap(matchLinksData);
+  const existingReportUrlMap = getExistingReportUrlMap();
   const completedMatches = (Array.isArray(scheduleData.Matchsummary) ? scheduleData.Matchsummary : [])
     .filter((entry) => entry.MatchStatus === "Post")
     .filter((entry) => entry.FirstBattingTeamCode === SRH_TEAM_CODE || entry.SecondBattingTeamCode === SRH_TEAM_CODE)
-    .map((entry) => normalizeMatch(entry, reportMap.get(String(entry.MatchID))));
+    .map((entry) => normalizeMatch(
+      entry,
+      reportMap.get(String(entry.MatchID)),
+      existingReportUrlMap.get(String(entry.MatchID)),
+    ));
 
-  validateMatches(completedMatches);
+  validateMatchCoreFields(completedMatches);
+  const matchesWithPublishedReports = getMatchesWithPublishedReports(completedMatches);
 
   const enrichedMatches = await Promise.all(
-    completedMatches.map(async (match) => {
+    matchesWithPublishedReports.map(async (match) => {
       const reportHtml = await fetchText(match.officialReportUrl);
       return {
         ...match,

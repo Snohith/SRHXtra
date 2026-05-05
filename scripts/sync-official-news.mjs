@@ -13,7 +13,6 @@ import {
   logSection,
   parseArgs,
   parseDateToIso,
-  removeFileIfExists,
   resolveProjectPath,
   slugify,
   stripTags,
@@ -294,10 +293,8 @@ export async function syncOfficialNews(options = {}) {
 
   const staleFiles = getManagedNewsFiles().filter((filePath) => !expectedFiles.has(filePath));
   if (staleFiles.length > 0) {
-    logSection("Removing stale managed news files");
-    for (const filePath of staleFiles) {
-      changedFiles = removeFileIfExists(filePath, { dryRun }) || changedFiles;
-    }
+    logSection("Preserving managed news files absent from the current listing page");
+    logList(" - ", staleFiles.map((filePath) => path.relative(resolveProjectPath(), filePath)));
   }
 
   return changedFiles;
