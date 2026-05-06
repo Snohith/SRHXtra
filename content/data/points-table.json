@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-06T14:44:47.963Z",
+  "updatedAt": "2026-05-06T20:00:52.526Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -8,28 +8,50 @@
   "standings": [
     {
       "position": 1,
-      "teamCode": "PBKS",
-      "team": "Punjab Kings",
-      "matches": 9,
-      "wins": 6,
-      "losses": 2,
-      "noResult": 1,
+      "teamCode": "SRH",
+      "team": "Sunrisers Hyderabad",
+      "matches": 11,
+      "wins": 7,
+      "losses": 4,
+      "noResult": 0,
       "tied": 0,
-      "points": 13,
-      "netRunRate": "0.855",
-      "for": "1700/152.0",
-      "against": "1644/159.1",
+      "points": 14,
+      "netRunRate": "0.737",
+      "for": "2332/217.1",
+      "against": "2127/212.4",
       "recentForm": [
         "W",
         "W",
         "W",
+        "L",
+        "W"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/SRH.png"
+    },
+    {
+      "position": 2,
+      "teamCode": "PBKS",
+      "team": "Punjab Kings",
+      "matches": 10,
+      "wins": 6,
+      "losses": 3,
+      "noResult": 1,
+      "tied": 0,
+      "points": 13,
+      "netRunRate": "0.571",
+      "for": "1902/172.0",
+      "against": "1879/179.1",
+      "recentForm": [
+        "W",
+        "W",
+        "L",
         "L",
         "L"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/PBKS.png"
     },
     {
-      "position": 2,
+      "position": 3,
       "teamCode": "RCB",
       "team": "Royal Challengers Bengaluru",
       "matches": 9,
@@ -49,28 +71,6 @@
         "L"
       ],
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/NVAlbtIyB81740555172aFPMviEPyJ1710927747rcb.png"
-    },
-    {
-      "position": 3,
-      "teamCode": "SRH",
-      "team": "Sunrisers Hyderabad",
-      "matches": 10,
-      "wins": 6,
-      "losses": 4,
-      "noResult": 0,
-      "tied": 0,
-      "points": 12,
-      "netRunRate": "0.644",
-      "for": "2097/197.1",
-      "against": "1925/192.4",
-      "recentForm": [
-        "W",
-        "W",
-        "W",
-        "W",
-        "L"
-      ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/SRH.png"
     },
     {
       "position": 4,

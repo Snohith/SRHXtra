@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-06T14:44:39.052Z",
+  "updatedAt": "2026-05-06T20:00:44.426Z",
   "fixtures": [
     {
       "id": "ipl-2026-2417",
@@ -141,8 +141,8 @@
       "time": "19:30 IST",
       "venue": "Rajiv Gandhi International Stadium, Hyderabad",
       "homeAway": "home",
-      "status": "upcoming",
-      "notes": "Official IPL status: Live"
+      "status": "completed",
+      "result": "Sunrisers Hyderabad Won by 33 Runs"
     },
     {
       "id": "ipl-2026-2496",
