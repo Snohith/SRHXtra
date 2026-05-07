@@ -3,10 +3,21 @@ import Link from "next/link";
 import type { Fixture } from "@/lib/content/schedule";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { getTeamInfo } from "@/lib/utils/team-info";
 
 interface MatchWidgetProps {
   nextFixture: Fixture | null;
   latestResult: Fixture | null;
+}
+
+function getFixtureTitle(fixture: Fixture) {
+  const srh = getTeamInfo("SRH");
+  const opponent = getTeamInfo(fixture.opponent);
+  const isHome = fixture.homeAway === "home";
+  const leftTeam = isHome ? srh : opponent;
+  const rightTeam = isHome ? opponent : srh;
+
+  return `${leftTeam.code} vs ${rightTeam.code}`;
 }
 
 export function MatchWidget({ nextFixture, latestResult }: MatchWidgetProps) {
@@ -28,7 +39,7 @@ export function MatchWidget({ nextFixture, latestResult }: MatchWidgetProps) {
               </div>
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">{nextFixture.competition}</p>
-                <h2 className="mt-1 text-2xl font-black uppercase tracking-tight text-white">SRH vs {nextFixture.opponent}</h2>
+                <h2 className="mt-1 text-2xl font-black uppercase tracking-tight text-white">{getFixtureTitle(nextFixture)}</h2>
               </div>
               <div className="space-y-1">
                 <p className="text-sm font-medium text-slate-300">
@@ -47,7 +58,7 @@ export function MatchWidget({ nextFixture, latestResult }: MatchWidgetProps) {
               </div>
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">{latestResult.competition}</p>
-                <h3 className="mt-1 text-xl font-black uppercase tracking-tight text-white">SRH vs {latestResult.opponent}</h3>
+                <h3 className="mt-1 text-xl font-black uppercase tracking-tight text-white">{getFixtureTitle(latestResult)}</h3>
               </div>
               <div className="space-y-1">
                 <p className="text-sm font-medium text-slate-300">

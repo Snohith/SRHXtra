@@ -172,6 +172,30 @@ function serializeDateValue(value) {
   return cleanString(value);
 }
 
+function getOrdinalSuffix(value) {
+  const number = Number(value);
+  const mod100 = number % 100;
+
+  if (mod100 >= 11 && mod100 <= 13) {
+    return "th";
+  }
+
+  switch (number % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+}
+
+function formatMatchOrdinal(value) {
+  return `${value}${getOrdinalSuffix(value)}`;
+}
+
 function getPublishedMatchTags(tags) {
   return [...new Set((Array.isArray(tags) ? tags : [])
     .map(cleanString)
@@ -286,7 +310,7 @@ async function syncIPLPhotosGallery(existingAlbums) {
 
         newAlbums.push({
           slug,
-          title: `${matchNumber}${['st', 'nd', 'rd'][(matchNumber % 10) - 1] || 'th'} Match | ${teamsStr}`,
+          title: `${formatMatchOrdinal(matchNumber)} Match | ${teamsStr}`,
           description: `Official photo gallery for ${data.title} from the IPL Match Centre.`,
           publishedAt,
           updatedAt,
@@ -354,7 +378,7 @@ async function generateFallbackAlbums(existingAlbums) {
 
     if (hasTrueGallery) continue;
 
-    const title = matchNumber ? `${matchNumber}${['st', 'nd', 'rd'][(matchNumber % 10) - 1] || 'th'} Match | Fallback Gallery` : `${data.title} | Fallback`;
+    const title = matchNumber ? `${formatMatchOrdinal(matchNumber)} Match | Fallback Gallery` : `${data.title} | Fallback`;
 
     const photos = [
       {
@@ -460,6 +484,12 @@ export async function syncOfficialGallery(options = {}) {
   if (iplAlbums.length > 0) {
     console.log(`[official-sync] Found ${iplAlbums.length} official real-photo albums from IPL photos index.`);
     albums.push(...iplAlbums);
+  }
+
+  const fallbackAlbums = await generateFallbackAlbums(albums);
+  if (fallbackAlbums.length > 0) {
+    console.log(`[official-sync] Generated ${fallbackAlbums.length} fallback albums from match report assets.`);
+    albums.push(...fallbackAlbums);
   }
 
   validateAlbums(albums);

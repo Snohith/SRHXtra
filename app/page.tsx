@@ -35,7 +35,7 @@ export default function HomePage() {
     ?? getArticleBySlug("news", site.homepage.featuredNewsSlug)
     ?? null;
   const secondaryFeature = latestNews.find((article) => article.url !== featuredNews?.url) ?? null;
-  const newsFeedArticles = latestNews.filter((article) => article.url !== featuredNews?.url).slice(0, 2);
+  const newsFeedArticles = latestNews.slice(0, 2);
   const latestMatchCoverage = getLatestArticles("match-coverage", 1)[0] ?? null;
   const latestMatchPreview = getLatestMatchPreviews(1)[0] ?? null;
   const heroStory = latestMatchCoverage ?? featuredNews;

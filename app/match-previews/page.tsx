@@ -1,6 +1,6 @@
 import { ArticleCard } from "@/components/articles/ArticleCard";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { getAllMatchPreviews } from "@/lib/content/match-previews";
+import { getArchivedMatchPreviews, getNextMatchPreview } from "@/lib/content/match-previews";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
@@ -10,9 +10,8 @@ export const metadata = buildPageMetadata({
 });
 
 export default function MatchPreviewsIndexPage() {
-  const previews = getAllMatchPreviews();
-  const featuredPreview = previews[0] ?? null;
-  const remainingPreviews = previews.slice(1);
+  const featuredPreview = getNextMatchPreview();
+  const remainingPreviews = getArchivedMatchPreviews();
 
   return (
     <div className="page-stack">

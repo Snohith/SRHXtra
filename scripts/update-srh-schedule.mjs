@@ -196,6 +196,26 @@ function getLocalMatchCoverageSlugs() {
   );
 }
 
+function getInferredReportSlug(match, homeTeamName, awayTeamName, localMatchCoverageSlugs) {
+  const matchOrder = cleanString(match.MatchOrder);
+  const matchNumber = matchOrder.match(/\d+/)?.[0];
+
+  if (!matchNumber) {
+    return null;
+  }
+
+  const homeTeamCode = teamCodeByName[homeTeamName] ?? slugify(homeTeamName);
+  const awayTeamCode = teamCodeByName[awayTeamName] ?? slugify(awayTeamName);
+  const candidates = [
+    `match-${matchNumber}-${homeTeamCode}-vs-${awayTeamCode}-report`,
+    `match-${matchNumber}-${homeTeamCode}-vs-${awayTeamCode}`,
+    `match-${matchNumber}-${SRH.code}-vs-${homeTeamName === SRH.name ? awayTeamCode : homeTeamCode}-report`,
+    `match-${matchNumber}-${SRH.code}-vs-${homeTeamName === SRH.name ? awayTeamCode : homeTeamCode}`,
+  ].map((value) => value.toLowerCase());
+
+  return candidates.find((slug) => localMatchCoverageSlugs.has(slug)) ?? null;
+}
+
 function readExistingSchedule() {
   if (!existsSync(scheduleFilePath)) {
     return null;
@@ -345,8 +365,18 @@ function normalizeFixture(match, context) {
     }
   }
 
-  if (existingFixture?.reportSlug) {
-    fixture.reportSlug = existingFixture.reportSlug;
+  const inferredReportSlug = getInferredReportSlug(
+    match,
+    homeTeamName,
+    awayTeamName,
+    localMatchCoverageSlugs,
+  );
+
+  if (existingFixture?.reportSlug || inferredReportSlug) {
+    fixture.reportSlug = existingFixture?.reportSlug ?? inferredReportSlug;
+    if (!existingFixture?.reportSlug && inferredReportSlug) {
+      preservationNotes.push(`linked local reportSlug "${inferredReportSlug}"`);
+    }
   }
 
   if (officialStatus && !["Post", "UpComing"].includes(officialStatus)) {
