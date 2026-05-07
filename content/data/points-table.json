@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-07T14:47:56.819Z",
+  "updatedAt": "2026-05-07T19:52:37.215Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -54,20 +54,20 @@
       "position": 3,
       "teamCode": "RCB",
       "team": "Royal Challengers Bengaluru",
-      "matches": 9,
+      "matches": 10,
       "wins": 6,
-      "losses": 3,
+      "losses": 4,
       "noResult": 0,
       "tied": 0,
       "points": 12,
-      "netRunRate": "1.420",
-      "for": "1656/156.1",
-      "against": "1595/173.4",
+      "netRunRate": "1.234",
+      "for": "1859/175.1",
+      "against": "1807/192.4",
       "recentForm": [
-        "W",
         "L",
         "W",
         "W",
+        "L",
         "L"
       ],
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/NVAlbtIyB81740555172aFPMviEPyJ1710927747rcb.png"
@@ -208,21 +208,21 @@
       "position": 10,
       "teamCode": "LSG",
       "team": "Lucknow Super Giants",
-      "matches": 9,
-      "wins": 2,
+      "matches": 10,
+      "wins": 3,
       "losses": 7,
       "noResult": 0,
       "tied": 0,
-      "points": 4,
-      "netRunRate": "-1.076",
-      "for": "1495/179.5",
-      "against": "1593/169.4",
+      "points": 6,
+      "netRunRate": "-0.934",
+      "for": "1707/198.5",
+      "against": "1796/188.4",
       "recentForm": [
         "L",
         "L",
         "L",
         "L",
-        "L"
+        "W"
       ],
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/b7GnGJW4bi1772703245LSG.png"
     }
