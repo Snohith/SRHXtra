@@ -1,0 +1,75 @@
+{
+  "slug": "official-match-report-gallery-match-21-srh-vs-rr",
+  "title": "21st Match | Fallback Gallery",
+  "description": "Fallback gallery generated from the official match report for match-21-srh-vs-rr.",
+  "publishedAt": "2026-04-13T18:00:00.000Z",
+  "updatedAt": "2026-04-13T18:00:00.000Z",
+  "coverImage": "/images/post-match/match5post.png",
+  "coverAlt": "Official IPL match image from Sunrisers Hyderabad vs Rajasthan Royals in Hyderabad",
+  "coverImageSourceUrl": "/images/post-match/match5post.png",
+  "tags": [
+    "Fallback",
+    "Match Report",
+    "Rajasthan Royals",
+    "IPL 2026"
+  ],
+  "seoTitle": "21st Match | Fallback Gallery",
+  "seoDescription": "Match report cover image for match-21-srh-vs-rr.",
+  "sourceName": "IPL T20",
+  "sourceUrl": "https://www.iplt20.com/news/4290/tata-ipl-2026-match-21-srh-vs-rr-match-report",
+  "editorialStatus": "verified",
+  "licensing": {
+    "status": "source-reference-only",
+    "notes": "Fallback gallery containing match report cover and commentary infographics."
+  },
+  "isFallback": true,
+  "fallbackType": "infographics",
+  "sourceKind": "match-commentary-graphics",
+  "photos": [
+    {
+      "src": "/images/post-match/match5post.png",
+      "alt": "Official IPL match image from Sunrisers Hyderabad vs Rajasthan Royals in Hyderabad",
+      "caption": "Official match report cover image for Debut Pace Breaks RR After Kishan Drives SRH to 216",
+      "sourceUrl": "/images/post-match/match5post.png",
+      "publishedAt": "2026-04-13T18:00:00.000Z",
+      "createdAt": "2026-04-13T18:00:00.000Z",
+      "updatedAt": "2026-04-13T18:00:00.000Z"
+    },
+    {
+      "src": "https://scores.bcci.tv/matchcentre/commentaryFiles/IPL 2026 (1)_1776016681.png",
+      "alt": "Match infographic 1",
+      "caption": "Official match infographic from IPL match center",
+      "sourceUrl": "https://scores.bcci.tv/matchcentre/commentaryFiles/IPL 2026 (1)_1776016681.png",
+      "publishedAt": "2026-04-13T18:00:00.000Z",
+      "createdAt": "2026-04-13T18:00:00.000Z",
+      "updatedAt": "2026-04-13T18:00:00.000Z"
+    },
+    {
+      "src": "https://scores.bcci.tv/matchcentre/commentaryFiles/IPL 2026 Battles to watch out for (9)_1776016615.png",
+      "alt": "Match infographic 2",
+      "caption": "Official match infographic from IPL match center",
+      "sourceUrl": "https://scores.bcci.tv/matchcentre/commentaryFiles/IPL 2026 Battles to watch out for (9)_1776016615.png",
+      "publishedAt": "2026-04-13T18:00:00.000Z",
+      "createdAt": "2026-04-13T18:00:00.000Z",
+      "updatedAt": "2026-04-13T18:00:00.000Z"
+    },
+    {
+      "src": "https://scores.bcci.tv/matchcentre/commentaryFiles/IPL H2H 640 width (15)_1776016537.png",
+      "alt": "Match infographic 3",
+      "caption": "Official match infographic from IPL match center",
+      "sourceUrl": "https://scores.bcci.tv/matchcentre/commentaryFiles/IPL H2H 640 width (15)_1776016537.png",
+      "publishedAt": "2026-04-13T18:00:00.000Z",
+      "createdAt": "2026-04-13T18:00:00.000Z",
+      "updatedAt": "2026-04-13T18:00:00.000Z"
+    },
+    {
+      "src": "https://scores.bcci.tv/matchcentre/commentaryFiles/IPL Stats Temp 2026 (64)_1776102649.png",
+      "alt": "Match infographic 4",
+      "caption": "Official match infographic from IPL match center",
+      "sourceUrl": "https://scores.bcci.tv/matchcentre/commentaryFiles/IPL Stats Temp 2026 (64)_1776102649.png",
+      "publishedAt": "2026-04-13T18:00:00.000Z",
+      "createdAt": "2026-04-13T18:00:00.000Z",
+      "updatedAt": "2026-04-13T18:00:00.000Z"
+    }
+  ]
+}
