@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-08T14:15:24.882Z",
+  "updatedAt": "2026-05-08T19:44:00.175Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -140,47 +140,47 @@
     },
     {
       "position": 7,
-      "teamCode": "DC",
-      "team": "Delhi Capitals",
-      "matches": 10,
-      "wins": 4,
-      "losses": 6,
-      "noResult": 0,
-      "tied": 0,
-      "points": 8,
-      "netRunRate": "-0.949",
-      "for": "1801/194.2",
-      "against": "1868/182.5",
-      "recentForm": [
-        "L",
-        "L",
-        "L",
-        "W",
-        "L"
-      ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/DC.png"
-    },
-    {
-      "position": 8,
       "teamCode": "KKR",
       "team": "Kolkata Knight Riders",
-      "matches": 9,
-      "wins": 3,
+      "matches": 10,
+      "wins": 4,
       "losses": 5,
       "noResult": 1,
       "tied": 0,
-      "points": 7,
-      "netRunRate": "-0.539",
-      "for": "1387/158.0",
-      "against": "1480/158.5",
+      "points": 9,
+      "netRunRate": "-0.169",
+      "for": "1534/172.2",
+      "against": "1622/178.5",
       "recentForm": [
         "L",
-        "L",
+        "W",
         "W",
         "W",
         "W"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/KKR.png"
+    },
+    {
+      "position": 8,
+      "teamCode": "DC",
+      "team": "Delhi Capitals",
+      "matches": 11,
+      "wins": 4,
+      "losses": 7,
+      "noResult": 0,
+      "tied": 0,
+      "points": 8,
+      "netRunRate": "-1.154",
+      "for": "1943/214.2",
+      "against": "2015/197.1",
+      "recentForm": [
+        "L",
+        "L",
+        "W",
+        "L",
+        "L"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/DC.png"
     },
     {
       "position": 9,
