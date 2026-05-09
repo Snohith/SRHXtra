@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-09T13:50:17.451Z",
+  "updatedAt": "2026-05-09T19:20:34.565Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -30,6 +30,28 @@
     },
     {
       "position": 2,
+      "teamCode": "GT",
+      "team": "Gujarat Titans",
+      "matches": 11,
+      "wins": 7,
+      "losses": 4,
+      "noResult": 0,
+      "tied": 0,
+      "points": 14,
+      "netRunRate": "0.228",
+      "for": "1943/210.4",
+      "against": "1961/218.0",
+      "recentForm": [
+        "L",
+        "W",
+        "W",
+        "W",
+        "W"
+      ],
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/Rwz7jmxIFN1774445093GT.png"
+    },
+    {
+      "position": 3,
       "teamCode": "PBKS",
       "team": "Punjab Kings",
       "matches": 10,
@@ -51,7 +73,7 @@
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/PBKS.png"
     },
     {
-      "position": 3,
+      "position": 4,
       "teamCode": "RCB",
       "team": "Royal Challengers Bengaluru",
       "matches": 10,
@@ -73,48 +95,26 @@
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/NVAlbtIyB81740555172aFPMviEPyJ1710927747rcb.png"
     },
     {
-      "position": 4,
+      "position": 5,
       "teamCode": "RR",
       "team": "Rajasthan Royals",
-      "matches": 10,
+      "matches": 11,
       "wins": 6,
-      "losses": 4,
+      "losses": 5,
       "noResult": 0,
       "tied": 0,
       "points": 12,
-      "netRunRate": "0.510",
-      "for": "1844/180.3",
-      "against": "1828/188.2",
+      "netRunRate": "0.082",
+      "for": "1996/200.3",
+      "against": "2057/208.2",
       "recentForm": [
-        "L",
         "W",
         "L",
         "W",
+        "L",
         "L"
       ],
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png"
-    },
-    {
-      "position": 5,
-      "teamCode": "GT",
-      "team": "Gujarat Titans",
-      "matches": 10,
-      "wins": 6,
-      "losses": 4,
-      "noResult": 0,
-      "tied": 0,
-      "points": 12,
-      "netRunRate": "-0.147",
-      "for": "1714/190.4",
-      "against": "1809/198.0",
-      "recentForm": [
-        "L",
-        "L",
-        "W",
-        "W",
-        "W"
-      ],
-      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/Rwz7jmxIFN1774445093GT.png"
     },
     {
       "position": 6,
