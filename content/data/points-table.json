@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-11T15:35:00.524Z",
+  "updatedAt": "2026-05-11T20:03:07.178Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -76,18 +76,18 @@
       "position": 4,
       "teamCode": "PBKS",
       "team": "Punjab Kings",
-      "matches": 10,
+      "matches": 11,
       "wins": 6,
-      "losses": 3,
+      "losses": 4,
       "noResult": 1,
       "tied": 0,
       "points": 13,
-      "netRunRate": "0.571",
-      "for": "1902/172.0",
-      "against": "1879/179.1",
+      "netRunRate": "0.428",
+      "for": "2112/192.0",
+      "against": "2095/198.1",
       "recentForm": [
         "W",
-        "W",
+        "L",
         "L",
         "L",
         "L"
@@ -140,6 +140,28 @@
     },
     {
       "position": 7,
+      "teamCode": "DC",
+      "team": "Delhi Capitals",
+      "matches": 12,
+      "wins": 5,
+      "losses": 7,
+      "noResult": 0,
+      "tied": 0,
+      "points": 10,
+      "netRunRate": "-0.993",
+      "for": "2159/233.2",
+      "against": "2225/217.1",
+      "recentForm": [
+        "L",
+        "W",
+        "L",
+        "L",
+        "W"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/DC.png"
+    },
+    {
+      "position": 8,
       "teamCode": "KKR",
       "team": "Kolkata Knight Riders",
       "matches": 10,
@@ -159,28 +181,6 @@
         "W"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/KKR.png"
-    },
-    {
-      "position": 8,
-      "teamCode": "DC",
-      "team": "Delhi Capitals",
-      "matches": 11,
-      "wins": 4,
-      "losses": 7,
-      "noResult": 0,
-      "tied": 0,
-      "points": 8,
-      "netRunRate": "-1.154",
-      "for": "1943/214.2",
-      "against": "2015/197.1",
-      "recentForm": [
-        "L",
-        "L",
-        "W",
-        "L",
-        "L"
-      ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/DC.png"
     },
     {
       "position": 9,
