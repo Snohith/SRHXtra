@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-06T20:00:44.426Z",
+  "updatedAt": "2026-05-12T14:52:44.092Z",
   "fixtures": [
     {
       "id": "ipl-2026-2417",
@@ -154,7 +154,8 @@
       "time": "19:30 IST",
       "venue": "Narendra Modi Stadium, Ahmedabad",
       "homeAway": "away",
-      "status": "upcoming"
+      "status": "upcoming",
+      "notes": "Official IPL status: Live"
     },
     {
       "id": "ipl-2026-2503",
