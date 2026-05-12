@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-12T14:52:52.173Z",
+  "updatedAt": "2026-05-12T20:06:10.070Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -8,6 +8,28 @@
   "standings": [
     {
       "position": 1,
+      "teamCode": "GT",
+      "team": "Gujarat Titans",
+      "matches": 12,
+      "wins": 8,
+      "losses": 4,
+      "noResult": 0,
+      "tied": 0,
+      "points": 16,
+      "netRunRate": "0.551",
+      "for": "2111/230.4",
+      "against": "2047/238.0",
+      "recentForm": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "W"
+      ],
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/Rwz7jmxIFN1774445093GT.png"
+    },
+    {
+      "position": 2,
       "teamCode": "RCB",
       "team": "Royal Challengers Bengaluru",
       "matches": 11,
@@ -29,48 +51,26 @@
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/NVAlbtIyB81740555172aFPMviEPyJ1710927747rcb.png"
     },
     {
-      "position": 2,
+      "position": 3,
       "teamCode": "SRH",
       "team": "Sunrisers Hyderabad",
-      "matches": 11,
+      "matches": 12,
       "wins": 7,
-      "losses": 4,
+      "losses": 5,
       "noResult": 0,
       "tied": 0,
       "points": 14,
-      "netRunRate": "0.737",
-      "for": "2332/217.1",
-      "against": "2127/212.4",
+      "netRunRate": "0.331",
+      "for": "2418/237.1",
+      "against": "2295/232.4",
       "recentForm": [
         "W",
         "W",
-        "W",
         "L",
-        "W"
+        "W",
+        "L"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/SRH.png"
-    },
-    {
-      "position": 3,
-      "teamCode": "GT",
-      "team": "Gujarat Titans",
-      "matches": 11,
-      "wins": 7,
-      "losses": 4,
-      "noResult": 0,
-      "tied": 0,
-      "points": 14,
-      "netRunRate": "0.228",
-      "for": "1943/210.4",
-      "against": "1961/218.0",
-      "recentForm": [
-        "L",
-        "W",
-        "W",
-        "W",
-        "W"
-      ],
-      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/Rwz7jmxIFN1774445093GT.png"
     },
     {
       "position": 4,
