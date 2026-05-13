@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-13T15:13:41.170Z",
+  "updatedAt": "2026-05-13T20:07:37.997Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -8,6 +8,28 @@
   "standings": [
     {
       "position": 1,
+      "teamCode": "RCB",
+      "team": "Royal Challengers Bengaluru",
+      "matches": 12,
+      "wins": 8,
+      "losses": 4,
+      "noResult": 0,
+      "tied": 0,
+      "points": 16,
+      "netRunRate": "1.053",
+      "for": "2220/214.2",
+      "against": "2165/232.4",
+      "recentForm": [
+        "W",
+        "L",
+        "L",
+        "W",
+        "W"
+      ],
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/NVAlbtIyB81740555172aFPMviEPyJ1710927747rcb.png"
+    },
+    {
+      "position": 2,
       "teamCode": "GT",
       "team": "Gujarat Titans",
       "matches": 12,
@@ -27,28 +49,6 @@
         "W"
       ],
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/Rwz7jmxIFN1774445093GT.png"
-    },
-    {
-      "position": 2,
-      "teamCode": "RCB",
-      "team": "Royal Challengers Bengaluru",
-      "matches": 11,
-      "wins": 7,
-      "losses": 4,
-      "noResult": 0,
-      "tied": 0,
-      "points": 14,
-      "netRunRate": "1.103",
-      "for": "2026/195.1",
-      "against": "1973/212.4",
-      "recentForm": [
-        "W",
-        "W",
-        "L",
-        "L",
-        "W"
-      ],
-      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/NVAlbtIyB81740555172aFPMviEPyJ1710927747rcb.png"
     },
     {
       "position": 3,
@@ -164,21 +164,21 @@
       "position": 8,
       "teamCode": "KKR",
       "team": "Kolkata Knight Riders",
-      "matches": 10,
+      "matches": 11,
       "wins": 4,
-      "losses": 5,
+      "losses": 6,
       "noResult": 1,
       "tied": 0,
       "points": 9,
-      "netRunRate": "-0.169",
-      "for": "1534/172.2",
-      "against": "1622/178.5",
+      "netRunRate": "-0.198",
+      "for": "1726/192.2",
+      "against": "1816/198.0",
       "recentForm": [
-        "L",
         "W",
         "W",
         "W",
-        "W"
+        "W",
+        "L"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/KKR.png"
     },
