@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-16T13:57:18.303Z",
+  "updatedAt": "2026-05-16T19:21:49.157Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -32,21 +32,21 @@
       "position": 2,
       "teamCode": "GT",
       "team": "Gujarat Titans",
-      "matches": 12,
+      "matches": 13,
       "wins": 8,
-      "losses": 4,
+      "losses": 5,
       "noResult": 0,
       "tied": 0,
       "points": 16,
-      "netRunRate": "0.551",
-      "for": "2111/230.4",
-      "against": "2047/238.0",
+      "netRunRate": "0.400",
+      "for": "2329/250.4",
+      "against": "2294/258.0",
       "recentForm": [
         "W",
         "W",
         "W",
         "W",
-        "W"
+        "L"
       ],
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/Rwz7jmxIFN1774445093GT.png"
     },
@@ -140,6 +140,28 @@
     },
     {
       "position": 7,
+      "teamCode": "KKR",
+      "team": "Kolkata Knight Riders",
+      "matches": 12,
+      "wins": 5,
+      "losses": 6,
+      "noResult": 1,
+      "tied": 0,
+      "points": 11,
+      "netRunRate": "-0.038",
+      "for": "1973/212.2",
+      "against": "2034/218.0",
+      "recentForm": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "W"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/KKR.png"
+    },
+    {
+      "position": 8,
       "teamCode": "DC",
       "team": "Delhi Capitals",
       "matches": 12,
@@ -159,28 +181,6 @@
         "W"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/DC.png"
-    },
-    {
-      "position": 8,
-      "teamCode": "KKR",
-      "team": "Kolkata Knight Riders",
-      "matches": 11,
-      "wins": 4,
-      "losses": 6,
-      "noResult": 1,
-      "tied": 0,
-      "points": 9,
-      "netRunRate": "-0.198",
-      "for": "1726/192.2",
-      "against": "1816/198.0",
-      "recentForm": [
-        "W",
-        "W",
-        "W",
-        "W",
-        "L"
-      ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/KKR.png"
     },
     {
       "position": 9,
