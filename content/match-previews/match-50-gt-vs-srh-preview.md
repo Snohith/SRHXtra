@@ -10,6 +10,10 @@ tags:
   - Match Preview
   - Gujarat Titans
   - IPL 2026
+matchDate: "2026-05-12"
+venue: "Narendra Modi Stadium, Ahmedabad"
+homeTeam: "GT"
+awayTeam: "SRH"
 coverImage: "/images/articles/match-clinical-chase.svg"
 coverAlt: Branded match preview card for GT vs SRH at Narendra Modi Stadium
 featured: false

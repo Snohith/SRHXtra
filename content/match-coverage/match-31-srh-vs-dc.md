@@ -10,6 +10,11 @@ tags:
   - Match Report
   - Delhi Capitals
   - IPL 2026
+matchDate: "2026-04-21"
+venue: "Rajiv Gandhi International Stadium, Hyderabad"
+homeTeam: "SRH"
+awayTeam: "DC"
+result: "Sunrisers Hyderabad Won by 47 Runs"
 coverImage: /images/post-match/match7post.png
 coverAlt: Official IPL match image from Sunrisers Hyderabad vs Delhi Capitals in Hyderabad
 featured: false

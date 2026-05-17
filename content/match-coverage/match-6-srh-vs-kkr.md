@@ -10,6 +10,11 @@ tags:
   - Match Report
   - Kolkata Knight Riders
   - IPL 2026
+matchDate: "2026-04-02"
+venue: "Eden Gardens, Kolkata"
+homeTeam: "KKR"
+awayTeam: "SRH"
+result: "Sunrisers Hyderabad Won by 65 Runs"
 coverImage: /images/post-match/match2post.png
 coverAlt: Official IPL match image from Kolkata Knight Riders vs Sunrisers Hyderabad at Eden Gardens
 featured: false

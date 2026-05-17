@@ -11,6 +11,10 @@ tags:
   - Punjab Kings
   - IPL 2026
   - Tactical Preview
+matchDate: "2026-04-11"
+venue: "New International Cricket Stadium, New Chandigarh"
+homeTeam: "PBKS"
+awayTeam: "SRH"
 coverImage: "/images/match-previews/covers/match4preview.png"
 coverAlt: Branded match preview card for PBKS vs SRH in New Chandigarh
 featured: false

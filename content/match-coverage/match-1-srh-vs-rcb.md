@@ -10,6 +10,11 @@ tags:
   - Match Report
   - Royal Challengers Bengaluru
   - IPL 2026
+matchDate: "2026-03-28"
+venue: "M Chinnaswamy Stadium, Bengaluru"
+homeTeam: "RCB"
+awayTeam: "SRH"
+result: "Royal Challengers Bengaluru Won by 6 Wickets"
 coverImage: /images/post-match/match1post.png
 coverAlt: Official IPL match image from Royal Challengers Bengaluru vs Sunrisers Hyderabad in Bengaluru
 featured: false

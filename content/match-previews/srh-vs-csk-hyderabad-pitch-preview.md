@@ -11,6 +11,10 @@ tags:
   - Pitch Report
   - Chennai Super Kings
   - IPL 2026
+matchDate: "2026-04-18"
+venue: "Rajiv Gandhi International Stadium, Hyderabad"
+homeTeam: "SRH"
+awayTeam: "CSK"
 coverImage: "/images/match-previews/covers/match6preview.png"
 coverAlt: Branded match preview card for SRH vs CSK at Rajiv Gandhi International Stadium
 featured: false

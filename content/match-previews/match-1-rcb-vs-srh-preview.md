@@ -11,6 +11,10 @@ tags:
   - Royal Challengers Bengaluru
   - IPL 2026
   - Tactical Preview
+matchDate: "2026-03-28"
+venue: "M Chinnaswamy Stadium, Bengaluru"
+homeTeam: "RCB"
+awayTeam: "SRH"
 coverImage: "/images/match-previews/covers/match1preview.png"
 coverAlt: Branded match preview card for RCB vs SRH at M. Chinnaswamy Stadium
 featured: false

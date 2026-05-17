@@ -11,6 +11,10 @@ tags:
   - Pitch Report
   - Rajasthan Royals
   - IPL 2026
+matchDate: "2026-04-13"
+venue: "Rajiv Gandhi International Stadium, Hyderabad"
+homeTeam: "SRH"
+awayTeam: "RR"
 coverImage: "/images/match-previews/covers/match5preview.png"
 coverAlt: Branded match preview card for SRH vs RR at Rajiv Gandhi International Stadium
 featured: false

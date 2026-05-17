@@ -1,7 +1,7 @@
 import { NextMatchHero } from "@/components/schedule/NextMatchHero";
 import { ScheduleTabs } from "@/components/schedule/ScheduleTabs";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { getFixturesByStatus, getSchedule } from "@/lib/content/schedule";
+import { getFixturesByStatus, getNextFixture, getSchedule } from "@/lib/content/schedule";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
@@ -14,7 +14,7 @@ export default function SchedulePage() {
   const schedule = getSchedule();
   const upcomingFixtures = getFixturesByStatus("upcoming");
   const completedFixtures = getFixturesByStatus("completed");
-  const nextMatch = upcomingFixtures[0] || completedFixtures[completedFixtures.length - 1];
+  const nextMatch = getNextFixture() || completedFixtures[completedFixtures.length - 1];
 
   return (
     <div className="page-stack">

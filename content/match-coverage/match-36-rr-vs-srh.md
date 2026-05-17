@@ -10,6 +10,11 @@ tags:
   - Match Report
   - Rajasthan Royals
   - IPL 2026
+matchDate: "2026-04-25"
+venue: "Sawai Mansingh Stadium, Jaipur"
+homeTeam: "RR"
+awayTeam: "SRH"
+result: "Sunrisers Hyderabad Won by 5 Wickets"
 coverImage: https://assets.bcci.tv/watermarkoutput/bcci/photos/2476/3c29ecb4-38d8-48c1-9734-64fddb4b60f3.jpg
 coverAlt: Official IPL match photo from Rajasthan Royals vs Sunrisers Hyderabad in Jaipur
 featured: false

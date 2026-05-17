@@ -11,6 +11,10 @@ tags:
   - Pitch Report
   - Kolkata Knight Riders
   - IPL 2026
+matchDate: "2026-04-02"
+venue: "Eden Gardens, Kolkata"
+homeTeam: "KKR"
+awayTeam: "SRH"
 coverImage: "/images/match-previews/covers/match2preview.png"
 coverAlt: Branded match preview card for KKR vs SRH at Eden Gardens
 featured: false

@@ -10,6 +10,11 @@ tags:
   - Match Report
   - Mumbai Indians
   - IPL 2026
+matchDate: "2026-04-29"
+venue: "Wankhede Stadium, Mumbai"
+homeTeam: "MI"
+awayTeam: "SRH"
+result: "Sunrisers Hyderabad Won by 6 Wickets"
 coverImage: https://assets.bcci.tv/watermarkoutput/bcci/photos/2481/27a540ce-6e1c-40e2-a3c6-9470ac2bf4f0.jpg
 coverAlt: Official IPL match photo from Mumbai Indians vs Sunrisers Hyderabad at Wankhede
 featured: false

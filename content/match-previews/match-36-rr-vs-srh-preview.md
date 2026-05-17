@@ -11,6 +11,10 @@ tags:
   - Rajasthan Royals
   - IPL 2026
   - Tactical Preview
+matchDate: "2026-04-25"
+venue: "Sawai Mansingh Stadium, Jaipur"
+homeTeam: "RR"
+awayTeam: "SRH"
 coverImage: "/images/match-previews/covers/match8preview.png"
 coverAlt: SRHXtra tactical match preview card for RR vs SRH in Jaipur
 featured: false

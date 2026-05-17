@@ -7,6 +7,7 @@ import {
   getRelatedArticles,
   type Article,
 } from "@/lib/content/articles";
+import { compareDatesDesc } from "@/lib/utils/date";
 import { getNextFixture, type Fixture } from "@/lib/content/schedule";
 import { resolveContentPath } from "@/lib/utils/paths";
 import { getTeamInfo } from "@/lib/utils/team-info";
@@ -24,15 +25,19 @@ function isPublishedMatchPreview(article: Article) {
   );
 }
 
-export function getAllMatchPreviews() {
-  return getArticlesByCollection("match-previews").filter(isPublishedMatchPreview);
-}
-
 function normalizePreviewText(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 }
 
-function matchesFixture(article: Article, fixture: Fixture) {
+function getPreviewSortDate(article: Article) {
+  return article.matchDate ?? article.publishedAt;
+}
+
+function getArticleDateKey(article: Article) {
+  return getPreviewSortDate(article).slice(0, 10);
+}
+
+function matchesFixtureOpponent(article: Article, fixture: Fixture) {
   const opponent = getTeamInfo(fixture.opponent);
   const haystack = normalizePreviewText(`${article.slug} ${article.title} ${article.tags.join(" ")}`);
   const aliases = [
@@ -48,15 +53,49 @@ function matchesFixture(article: Article, fixture: Fixture) {
   return aliases.some((alias) => alias.length > 0 && haystack.includes(alias));
 }
 
-export function getNextMatchPreview() {
+function matchesFixtureDate(article: Article, fixture: Fixture) {
+  return getArticleDateKey(article) === fixture.date;
+}
+
+export function getAllMatchPreviews() {
+  return getArticlesByCollection("match-previews")
+    .filter(isPublishedMatchPreview)
+    .sort((left, right) => compareDatesDesc(getPreviewSortDate(left), getPreviewSortDate(right)));
+}
+
+export function getMatchPreviewForFixture(fixture: Fixture) {
   const previews = getAllMatchPreviews();
+
+  if (fixture.previewSlug) {
+    const previewBySlug = previews.find((article) => article.slug === fixture.previewSlug);
+
+    if (previewBySlug) {
+      return previewBySlug;
+    }
+  }
+
+  return (
+    previews.find(
+      (article) => matchesFixtureOpponent(article, fixture) && matchesFixtureDate(article, fixture),
+    )
+    ?? null
+  );
+}
+
+export function getNextMatchPreviewFeature() {
   const nextFixture = getNextFixture();
 
   if (!nextFixture) {
-    return previews[0] ?? null;
+    return null;
   }
 
-  return previews.find((article) => matchesFixture(article, nextFixture)) ?? previews[0] ?? null;
+  const article = getMatchPreviewForFixture(nextFixture);
+
+  return article ? { article, fixture: nextFixture } : null;
+}
+
+export function getNextMatchPreview() {
+  return getNextMatchPreviewFeature()?.article ?? null;
 }
 
 export function getArchivedMatchPreviews() {

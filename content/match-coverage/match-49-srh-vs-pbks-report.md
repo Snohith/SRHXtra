@@ -10,6 +10,11 @@ tags:
   - Match Report
   - Punjab Kings
   - IPL 2026
+matchDate: "2026-05-06"
+venue: "Rajiv Gandhi International Stadium, Hyderabad"
+homeTeam: "SRH"
+awayTeam: "PBKS"
+result: "Sunrisers Hyderabad Won by 33 Runs"
 coverImage: https://documents.iplt20.com/bcci/articles/1778094555_ALI80219.jpg?v=1.33
 coverAlt: Official IPL match image from Sunrisers Hyderabad vs Punjab Kings in Hyderabad
 featured: false

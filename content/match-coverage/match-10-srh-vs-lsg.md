@@ -10,6 +10,11 @@ tags:
   - Match Report
   - Lucknow Super Giants
   - IPL 2026
+matchDate: "2026-04-05"
+venue: "Rajiv Gandhi International Stadium, Hyderabad"
+homeTeam: "SRH"
+awayTeam: "LSG"
+result: "Lucknow Super Giants Won by 5 Wickets"
 coverImage: /images/post-match/match3post.png
 coverAlt: Official IPL match image from Sunrisers Hyderabad vs Lucknow Super Giants in Hyderabad
 featured: false

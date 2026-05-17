@@ -20,6 +20,7 @@ export interface ArticleFrontmatter {
   title: string;
   excerpt: string;
   publishedAt: string;
+  matchDate?: string;
   updatedAt?: string;
   author: string;
   category: string;
@@ -85,6 +86,9 @@ function readArticleFile(collection: ArticleCollection, filePath: string): Artic
     title,
     excerpt,
     publishedAt,
+    matchDate: frontmatter.matchDate
+      ? assertRequiredDateString(frontmatter.matchDate, "matchDate", filePath)
+      : undefined,
     updatedAt: frontmatter.updatedAt
       ? assertRequiredDateString(frontmatter.updatedAt, "updatedAt", filePath)
       : undefined,

@@ -12,12 +12,15 @@ export interface Fixture {
   slug: string;
   competition: string;
   opponent: string;
+  homeTeam: string;
+  awayTeam: string;
   date: string;
   time: string;
   venue: string;
   homeAway: "home" | "away";
   status: "upcoming" | "completed";
   result?: string;
+  previewSlug?: string;
   reportSlug?: string;
   notes?: string;
   outcome?: "won" | "lost";
@@ -77,11 +80,13 @@ function getOutcome(result?: string): Fixture["outcome"] {
     return undefined;
   }
 
-  if (result.startsWith("Sunrisers Hyderabad Won")) {
+  const normalizedResult = result.toLowerCase();
+
+  if (normalizedResult.startsWith("sunrisers hyderabad won")) {
     return "won";
   }
 
-  if (result.includes("Won")) {
+  if (normalizedResult.includes("won")) {
     return "lost";
   }
 
@@ -124,12 +129,15 @@ export function getSchedule(): Schedule {
           filePath,
         ),
         opponent: assertRequiredString(fixture.opponent, `fixtures[${index}].opponent`, filePath),
+        homeTeam: assertRequiredString(fixture.homeTeam, `fixtures[${index}].homeTeam`, filePath),
+        awayTeam: assertRequiredString(fixture.awayTeam, `fixtures[${index}].awayTeam`, filePath),
         date: assertRequiredString(fixture.date, `fixtures[${index}].date`, filePath),
         time: assertRequiredString(fixture.time, `fixtures[${index}].time`, filePath),
         venue: assertRequiredString(fixture.venue, `fixtures[${index}].venue`, filePath),
         homeAway: assertHomeAway(fixture.homeAway, `fixtures[${index}].homeAway`, filePath),
         status: assertFixtureStatus(fixture.status, `fixtures[${index}].status`, filePath),
         result,
+        previewSlug: fixture.previewSlug ? String(fixture.previewSlug) : undefined,
         reportSlug: fixture.reportSlug ? String(fixture.reportSlug) : undefined,
         notes: fixture.notes ? String(fixture.notes) : undefined,
         outcome: getOutcome(result),
@@ -141,8 +149,24 @@ export function getSchedule(): Schedule {
   };
 }
 
-export function getNextFixture() {
-  return getSchedule().fixtures.find((fixture) => fixture.status === "upcoming") ?? null;
+export function getFixtureStartTime(fixture: Fixture) {
+  const [time] = fixture.time.split(" ");
+  const startTime = new Date(`${fixture.date}T${time}:00+05:30`).getTime();
+
+  return Number.isFinite(startTime) ? startTime : new Date(fixture.date).getTime();
+}
+
+export function getNextFixture(referenceDate = new Date()) {
+  const referenceTime = referenceDate.getTime();
+  const upcomingFixtures = [...getSchedule().fixtures]
+    .filter((fixture) => fixture.status === "upcoming")
+    .sort((left, right) => getFixtureStartTime(left) - getFixtureStartTime(right));
+
+  return (
+    upcomingFixtures.find((fixture) => getFixtureStartTime(fixture) >= referenceTime)
+    ?? upcomingFixtures[0]
+    ?? null
+  );
 }
 
 export function getFixtureById(id: string) {
@@ -157,7 +181,11 @@ export function getLatestCompletedFixture() {
   return (
     [...getSchedule().fixtures]
       .filter((fixture) => fixture.status === "completed")
-      .sort((left, right) => new Date(right.date).getTime() - new Date(left.date).getTime())[0]
+      .sort((left, right) => getFixtureStartTime(right) - getFixtureStartTime(left))[0]
     ?? null
   );
+}
+
+export function getLatestResult() {
+  return getLatestCompletedFixture();
 }

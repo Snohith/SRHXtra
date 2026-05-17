@@ -1,6 +1,6 @@
 import { ArticleCard } from "@/components/articles/ArticleCard";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { getArticlesByCollection } from "@/lib/content/articles";
+import { getAllMatchReports } from "@/lib/content/match-coverage";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
@@ -10,7 +10,7 @@ export const metadata = buildPageMetadata({
 });
 
 export default function MatchCoverageIndexPage() {
-  const articles = getArticlesByCollection("match-coverage");
+  const articles = getAllMatchReports();
   const featuredArticle = articles[0] ?? null;
   const remainingArticles = articles.slice(1);
 

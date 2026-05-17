@@ -11,6 +11,10 @@ tags:
   - Lucknow Super Giants
   - IPL 2026
   - Tactical Preview
+matchDate: "2026-04-05"
+venue: "Rajiv Gandhi International Stadium, Hyderabad"
+homeTeam: "SRH"
+awayTeam: "LSG"
 coverImage: "/images/match-previews/covers/match3preview.png"
 coverAlt: Branded match preview card for SRH vs LSG at Rajiv Gandhi International Stadium
 featured: false

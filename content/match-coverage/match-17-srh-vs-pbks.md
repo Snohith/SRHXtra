@@ -10,6 +10,11 @@ tags:
   - Match Report
   - Punjab Kings
   - IPL 2026
+matchDate: "2026-04-11"
+venue: "New International Cricket Stadium, New Chandigarh"
+homeTeam: "PBKS"
+awayTeam: "SRH"
+result: "Punjab Kings Won by 6 Wickets"
 coverImage: /images/post-match/match4post.png
 coverAlt: Official IPL match image from Punjab Kings vs Sunrisers Hyderabad in New Chandigarh
 featured: false

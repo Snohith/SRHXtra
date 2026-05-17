@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run validate:content && next build",
     "typecheck": "tsc --noEmit",
+    "validate:content": "node scripts/validate-content.mjs",
     "update:schedule": "node scripts/update-srh-schedule.mjs",
     "sync:squad": "node scripts/sync-srh-squad.mjs",
     "sync:news": "node scripts/sync-official-news.mjs",

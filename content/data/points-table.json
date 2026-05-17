@@ -26,7 +26,10 @@
         "W",
         "W"
       ],
-      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/NVAlbtIyB81740555172aFPMviEPyJ1710927747rcb.png"
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/NVAlbtIyB81740555172aFPMviEPyJ1710927747rcb.png",
+      "played": 12,
+      "won": 8,
+      "lost": 4
     },
     {
       "position": 2,
@@ -48,7 +51,10 @@
         "W",
         "L"
       ],
-      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/Rwz7jmxIFN1774445093GT.png"
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/Rwz7jmxIFN1774445093GT.png",
+      "played": 13,
+      "won": 8,
+      "lost": 5
     },
     {
       "position": 3,
@@ -70,7 +76,10 @@
         "W",
         "L"
       ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/SRH.png"
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/SRH.png",
+      "played": 12,
+      "won": 7,
+      "lost": 5
     },
     {
       "position": 4,
@@ -92,7 +101,10 @@
         "L",
         "L"
       ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/PBKS.png"
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/PBKS.png",
+      "played": 12,
+      "won": 6,
+      "lost": 5
     },
     {
       "position": 5,
@@ -114,7 +126,10 @@
         "L",
         "L"
       ],
-      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png"
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png",
+      "played": 11,
+      "won": 6,
+      "lost": 5
     },
     {
       "position": 6,
@@ -136,7 +151,10 @@
         "W",
         "L"
       ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/CSK.png"
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/CSK.png",
+      "played": 12,
+      "won": 6,
+      "lost": 6
     },
     {
       "position": 7,
@@ -158,7 +176,10 @@
         "L",
         "W"
       ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/KKR.png"
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/KKR.png",
+      "played": 12,
+      "won": 5,
+      "lost": 6
     },
     {
       "position": 8,
@@ -180,7 +201,10 @@
         "L",
         "W"
       ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/DC.png"
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/DC.png",
+      "played": 12,
+      "won": 5,
+      "lost": 7
     },
     {
       "position": 9,
@@ -202,7 +226,10 @@
         "L",
         "W"
       ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/MI.png"
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/MI.png",
+      "played": 12,
+      "won": 4,
+      "lost": 8
     },
     {
       "position": 10,
@@ -224,7 +251,10 @@
         "L",
         "W"
       ],
-      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/b7GnGJW4bi1772703245LSG.png"
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/b7GnGJW4bi1772703245LSG.png",
+      "played": 12,
+      "won": 4,
+      "lost": 8
     }
   ]
 }

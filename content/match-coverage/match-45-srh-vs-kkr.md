@@ -10,6 +10,11 @@ tags:
   - Match Report
   - Kolkata Knight Riders
   - IPL 2026
+matchDate: "2026-05-03"
+venue: "Rajiv Gandhi International Stadium, Hyderabad"
+homeTeam: "SRH"
+awayTeam: "KKR"
+result: "Kolkata Knight Riders Won by 7 Wickets"
 coverImage: https://assets.bcci.tv/watermarkoutput/bcci/photos/2485/df0c6f0e-daa6-4bb5-82ee-9880e3776b57.jpg
 coverAlt: Official IPL match photo from Sunrisers Hyderabad vs Kolkata Knight Riders in Hyderabad
 featured: false

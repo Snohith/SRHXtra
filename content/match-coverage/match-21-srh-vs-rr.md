@@ -10,6 +10,11 @@ tags:
   - Match Report
   - Rajasthan Royals
   - IPL 2026
+matchDate: "2026-04-13"
+venue: "Rajiv Gandhi International Stadium, Hyderabad"
+homeTeam: "SRH"
+awayTeam: "RR"
+result: "Sunrisers Hyderabad Won by 57 Runs"
 coverImage: /images/post-match/match5post.png
 coverAlt: Official IPL match image from Sunrisers Hyderabad vs Rajasthan Royals in Hyderabad
 featured: false

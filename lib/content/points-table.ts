@@ -7,8 +7,11 @@ export interface PointsTableRow {
   teamCode: string;
   team: string;
   matches: number;
+  played: number;
   wins: number;
+  won: number;
   losses: number;
+  lost: number;
   noResult: number;
   tied: number;
   points: number;

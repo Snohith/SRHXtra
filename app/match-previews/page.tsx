@@ -1,6 +1,7 @@
 import { ArticleCard } from "@/components/articles/ArticleCard";
+import { NextMatchPreviewCard } from "@/components/articles/NextMatchPreviewCard";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { getArchivedMatchPreviews, getNextMatchPreview } from "@/lib/content/match-previews";
+import { getArchivedMatchPreviews, getNextMatchPreviewFeature } from "@/lib/content/match-previews";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
@@ -10,7 +11,7 @@ export const metadata = buildPageMetadata({
 });
 
 export default function MatchPreviewsIndexPage() {
-  const featuredPreview = getNextMatchPreview();
+  const featuredPreview = getNextMatchPreviewFeature();
   const remainingPreviews = getArchivedMatchPreviews();
 
   return (
@@ -29,7 +30,10 @@ export default function MatchPreviewsIndexPage() {
             eyebrow="Scouting"
             title="The Next Match"
           />
-          <ArticleCard article={featuredPreview} variant="featured" />
+          <NextMatchPreviewCard
+            article={featuredPreview.article}
+            fixture={featuredPreview.fixture}
+          />
         </section>
       ) : null}
 

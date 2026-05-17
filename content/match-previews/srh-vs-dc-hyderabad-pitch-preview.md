@@ -11,6 +11,10 @@ tags:
   - Pitch Report
   - Delhi Capitals
   - IPL 2026
+matchDate: "2026-04-21"
+venue: "Rajiv Gandhi International Stadium, Hyderabad"
+homeTeam: "SRH"
+awayTeam: "DC"
 coverImage: "/images/match-previews/covers/match7preview.png"
 coverAlt: Branded match preview card for SRH vs DC at Rajiv Gandhi International Stadium
 featured: false

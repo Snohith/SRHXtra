@@ -10,6 +10,11 @@ tags:
   - Match Report
   - Chennai Super Kings
   - IPL 2026
+matchDate: "2026-04-18"
+venue: "Rajiv Gandhi International Stadium, Hyderabad"
+homeTeam: "SRH"
+awayTeam: "CSK"
+result: "Sunrisers Hyderabad Won by 10 Runs"
 coverImage: /images/post-match/match6post.png
 coverAlt: Official IPL match image from Sunrisers Hyderabad vs Chennai Super Kings in Hyderabad
 featured: true
