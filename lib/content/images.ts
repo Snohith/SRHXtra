@@ -91,12 +91,14 @@ export function resolveArticleImage(article: Pick<Article, "collection" | "slug"
   // 1. If we have a direct cover that isn't a known generic/fallback SVG, use it.
   // This allows manual overrides in markdown to always win.
   if (directCover && !GENERIC_MATCH_COVERAGES.has(directCover)) {
-    const isManualCard = directCover.startsWith("/images/post-match/") || directCover.startsWith("/images/match-previews/");
+    const isDesignedCard =
+      directCover.startsWith("/images/match-previews/")
+      || (directCover.startsWith("/images/post-match/") && !/\.(?:jpe?g|webp)$/i.test(directCover));
     
     return {
       src: directCover,
       alt: cleanImageValue(article.coverAlt) || article.title,
-      fitClassName: isManualCard 
+      fitClassName: isDesignedCard
         ? "object-contain bg-[#0a192f]" // Using a dark blue background as a safe default for these cards
         : (article.collection === "match-coverage" ? "object-cover object-top" : "object-cover"),
       isFallback: false,

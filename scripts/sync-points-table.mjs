@@ -42,13 +42,20 @@ function normalizeRecentForm(value) {
 }
 
 function normalizeRow(entry) {
+  const matches = Number(entry.Matches ?? 0);
+  const wins = Number(entry.Wins ?? 0);
+  const losses = Number(entry.Loss ?? 0);
+
   return {
     position: Number(entry.OrderNo),
     teamCode: String(entry.TeamCode ?? "").trim(),
     team: String(entry.TeamName ?? "").trim(),
-    matches: Number(entry.Matches ?? 0),
-    wins: Number(entry.Wins ?? 0),
-    losses: Number(entry.Loss ?? 0),
+    matches,
+    played: matches,
+    wins,
+    won: wins,
+    losses,
+    lost: losses,
     noResult: Number(entry.NoResult ?? 0),
     tied: Number(entry.Tied ?? 0),
     points: Number(entry.Points ?? 0),
@@ -73,8 +80,8 @@ function validateRows(rows) {
     if (!row.team) {
       missingFields.push(`${row.teamCode || "unknown"} -> team`);
     }
-    if (Number.isNaN(row.matches)) {
-      missingFields.push(`${row.teamCode} -> matches`);
+    if (Number.isNaN(row.matches) || Number.isNaN(row.played)) {
+      missingFields.push(`${row.teamCode} -> matches/played`);
     }
     if (Number.isNaN(row.points)) {
       missingFields.push(`${row.teamCode} -> points`);

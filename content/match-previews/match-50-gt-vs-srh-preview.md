@@ -14,12 +14,12 @@ matchDate: "2026-05-12"
 venue: "Narendra Modi Stadium, Ahmedabad"
 homeTeam: "GT"
 awayTeam: "SRH"
-coverImage: "/images/articles/match-clinical-chase.svg"
+coverImage: "/images/match-previews/covers/gt-vs-srh-preview-ipl-2026.png"
 coverAlt: Branded match preview card for GT vs SRH at Narendra Modi Stadium
 featured: false
 seoTitle: "GT vs SRH Preview: Ahmedabad Tests SRH's Top-Table Momentum"
 seoDescription: "Original SRHXtra tactical preview for Gujarat Titans vs Sunrisers Hyderabad on 12 May 2026, with SRH's batting tempo and Cummins-led bowling control in focus."
-ogImage: "/images/articles/match-clinical-chase.svg"
+ogImage: "/images/match-previews/covers/gt-vs-srh-preview-ipl-2026.png"
 relatedSlugs:
   - match-36-rr-vs-srh-preview
   - match-31-srh-vs-dc-preview

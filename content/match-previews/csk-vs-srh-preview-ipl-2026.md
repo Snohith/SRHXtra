@@ -21,9 +21,9 @@ opponent: Chennai Super Kings
 featured: true
 seoTitle: "CSK vs SRH IPL 2026 Preview, Venue, Matchups and Tactical Read"
 seoDescription: "SRHXtra previews CSK vs SRH in IPL 2026 with tactical matchups, selection questions and venue context."
-coverImage: "/images/match-previews/covers/match6preview.png"
+coverImage: "/images/match-previews/covers/csk-vs-srh-preview-ipl-2026.png"
 coverAlt: Branded match preview card for CSK vs SRH at MA Chidambaram Stadium
-ogImage: "/images/match-previews/covers/match6preview.png"
+ogImage: "/images/match-previews/covers/csk-vs-srh-preview-ipl-2026.png"
 relatedSlugs:
   - srh-vs-csk-hyderabad-pitch-preview
   - match-50-gt-vs-srh-preview

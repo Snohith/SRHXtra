@@ -10,6 +10,7 @@ const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, "..");
 const scheduleFilePath = path.join(projectRoot, "content", "data", "schedule.json");
 const matchCoverageDir = path.join(projectRoot, "content", "match-coverage");
+const matchPreviewsDir = path.join(projectRoot, "content", "match-previews");
 
 const SRH = {
   code: "SRH",
@@ -196,6 +197,32 @@ function getLocalMatchCoverageSlugs() {
   );
 }
 
+function readFrontmatterValue(frontmatter, field) {
+  const match = frontmatter.match(new RegExp(`^${field}:\\s*["']?([^"'\n]+)["']?\\s*$`, "m"));
+  return cleanString(match?.[1]);
+}
+
+function getLocalMatchPreviews() {
+  if (!existsSync(matchPreviewsDir)) {
+    return [];
+  }
+
+  return readdirSync(matchPreviewsDir)
+    .filter((fileName) => fileName.endsWith(".md"))
+    .map((fileName) => {
+      const fileContent = readFileSync(path.join(matchPreviewsDir, fileName), "utf8");
+      const frontmatter = fileContent.match(/^---\n([\s\S]*?)\n---/)?.[1] ?? "";
+
+      return {
+        slug: readFrontmatterValue(frontmatter, "slug") || fileName.replace(/\.md$/, ""),
+        matchDate: readFrontmatterValue(frontmatter, "matchDate").replace(/^["']|["']$/g, ""),
+        homeTeam: readFrontmatterValue(frontmatter, "homeTeam").replace(/^["']|["']$/g, ""),
+        awayTeam: readFrontmatterValue(frontmatter, "awayTeam").replace(/^["']|["']$/g, ""),
+      };
+    })
+    .filter((preview) => preview.slug && preview.matchDate && preview.homeTeam && preview.awayTeam);
+}
+
 function getInferredReportSlug(match, homeTeamName, awayTeamName, localMatchCoverageSlugs) {
   const matchOrder = cleanString(match.MatchOrder);
   const matchNumber = matchOrder.match(/\d+/)?.[0];
@@ -214,6 +241,17 @@ function getInferredReportSlug(match, homeTeamName, awayTeamName, localMatchCove
   ].map((value) => value.toLowerCase());
 
   return candidates.find((slug) => localMatchCoverageSlugs.has(slug)) ?? null;
+}
+
+function getInferredPreviewSlug(matchDate, homeTeamCode, awayTeamCode, localMatchPreviews) {
+  return (
+    localMatchPreviews.find(
+      (preview) =>
+        preview.matchDate === matchDate
+        && preview.homeTeam === homeTeamCode
+        && preview.awayTeam === awayTeamCode,
+    )?.slug ?? null
+  );
 }
 
 function readExistingSchedule() {
@@ -319,6 +357,7 @@ function normalizeFixture(match, context) {
     competitionName,
     existingFixtureMap,
     localMatchCoverageSlugs,
+    localMatchPreviews,
     matchLinksById,
   } = context;
 
@@ -333,15 +372,20 @@ function normalizeFixture(match, context) {
   const homeAway = homeTeamName === SRH.name ? "home" : "away";
   const opponent = homeAway === "home" ? awayTeamName : homeTeamName;
   const opponentCode = teamCodeByName[opponent] ?? slugify(opponent);
+  const homeTeam = teamCodeByName[homeTeamName] ?? slugify(homeTeamName).toUpperCase();
+  const awayTeam = teamCodeByName[awayTeamName] ?? slugify(awayTeamName).toUpperCase();
   const officialStatus = cleanString(match.MatchStatus);
   const status = officialStatus === "Post" ? "completed" : "upcoming";
+  const matchDate = cleanString(match.MatchDate);
 
   const fixture = {
     id: `ipl-${seasonName}-${match.MatchID}`,
     slug: slugify(`ipl-${seasonName}-match-${match.MatchID}-${SRH.code}-vs-${opponentCode}`),
     competition: competitionName,
     opponent,
-    date: cleanString(match.MatchDate),
+    homeTeam,
+    awayTeam,
+    date: matchDate,
     time: formatTime(match.MatchTime, cleanString(match.timezone1)),
     venue: buildVenue(match.GroundName, match.city),
     homeAway,
@@ -371,6 +415,7 @@ function normalizeFixture(match, context) {
     awayTeamName,
     localMatchCoverageSlugs,
   );
+  const inferredPreviewSlug = getInferredPreviewSlug(matchDate, homeTeam, awayTeam, localMatchPreviews);
 
   if (existingFixture?.reportSlug || inferredReportSlug) {
     fixture.reportSlug = existingFixture?.reportSlug ?? inferredReportSlug;
@@ -379,11 +424,18 @@ function normalizeFixture(match, context) {
     }
   }
 
+  if (existingFixture?.previewSlug || inferredPreviewSlug) {
+    fixture.previewSlug = existingFixture?.previewSlug ?? inferredPreviewSlug;
+    if (!existingFixture?.previewSlug && inferredPreviewSlug) {
+      preservationNotes.push(`linked local previewSlug "${inferredPreviewSlug}"`);
+    }
+  }
+
   if (officialStatus && !["Post", "UpComing"].includes(officialStatus)) {
     fixture.notes = `Official IPL status: ${officialStatus}`;
   }
 
-  const coreFields = ["competition", "opponent", "date", "time", "venue"];
+  const coreFields = ["competition", "opponent", "homeTeam", "awayTeam", "date", "time", "venue"];
   for (const field of coreFields) {
     if (!fixture[field]) {
       const preservedValue = cleanString(existingFixture?.[field]);
@@ -398,7 +450,7 @@ function normalizeFixture(match, context) {
     missingFields.push("result");
   }
 
-  for (const field of ["id", "slug", "competition", "opponent", "date", "time", "venue", "homeAway", "status"]) {
+  for (const field of ["id", "slug", "competition", "opponent", "homeTeam", "awayTeam", "date", "time", "venue", "homeAway", "status"]) {
     if (!fixture[field]) {
       missingFields.push(field);
     }
@@ -442,12 +494,15 @@ function buildComparableSchedule(schedule) {
           slug: fixture.slug,
           competition: fixture.competition,
           opponent: fixture.opponent,
+          homeTeam: fixture.homeTeam,
+          awayTeam: fixture.awayTeam,
           date: fixture.date,
           time: fixture.time,
           venue: fixture.venue,
           homeAway: fixture.homeAway,
           status: fixture.status,
           result: fixture.result ?? null,
+          previewSlug: fixture.previewSlug ?? null,
           reportSlug: fixture.reportSlug ?? null,
           notes: fixture.notes ?? null,
           editorialStatus: fixture.editorialStatus ?? null,
@@ -525,7 +580,7 @@ function validateSchedule(schedule) {
   schedule.fixtures.forEach((fixture, index) => {
     const prefix = `fixtures[${index}]`;
 
-    for (const field of ["id", "slug", "competition", "opponent", "date", "time", "venue"]) {
+    for (const field of ["id", "slug", "competition", "opponent", "homeTeam", "awayTeam", "date", "time", "venue"]) {
       if (!cleanString(fixture[field])) {
         errors.push(`${prefix}.${field} is missing.`);
       }
@@ -574,6 +629,7 @@ async function main() {
   const existingSchedule = readExistingSchedule();
   const existingFixtureMap = getExistingFixtureMap(existingSchedule);
   const localMatchCoverageSlugs = getLocalMatchCoverageSlugs();
+  const localMatchPreviews = getLocalMatchPreviews();
 
   const competitionFeedResponse = await fetchFirstSuccessfulText(
     officialCompetitionFeedUrls,
@@ -628,6 +684,7 @@ async function main() {
       competitionName,
       existingFixtureMap,
       localMatchCoverageSlugs,
+      localMatchPreviews,
       matchLinksById,
     }),
   );
@@ -674,6 +731,7 @@ async function main() {
   console.log(`  completed fixtures: ${normalizationResults.filter((entry) => entry.fixture.status === "completed").length}`);
   console.log(`  upcoming fixtures: ${normalizationResults.filter((entry) => entry.fixture.status === "upcoming").length}`);
   console.log(`  local reportSlug values preserved: ${normalizationResults.filter((entry) => entry.fixture.reportSlug).length}`);
+  console.log(`  local previewSlug values preserved: ${normalizationResults.filter((entry) => entry.fixture.previewSlug).length}`);
   console.log(`  official IPL report URLs available: ${officialReportLogs.length}`);
 
   if (officialReportLogs.length > 0) {

@@ -20,9 +20,9 @@ result: Gujarat Titans won by 82 runs
 featured: true
 seoTitle: "GT vs SRH IPL 2026 Match Report"
 seoDescription: "SRHXtra reviews Gujarat Titans' 82-run win over Sunrisers Hyderabad in Ahmedabad with tactical context and SRH's response points."
-coverImage: "/images/articles/match-clinical-chase.svg"
-coverAlt: Branded SRHXtra match report card for GT vs SRH in Ahmedabad
-ogImage: "/images/articles/match-clinical-chase.svg"
+coverImage: "/images/post-match/gt-vs-srh-match-report-ipl-2026.jpg"
+coverAlt: Gujarat Titans and Sunrisers Hyderabad players shake hands after the IPL 2026 match in Ahmedabad
+ogImage: "/images/post-match/gt-vs-srh-match-report-ipl-2026.jpg"
 relatedSlugs:
   - match-49-srh-vs-pbks-report
   - match-41-mi-vs-srh
