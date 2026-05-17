@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-17T13:55:20.068Z",
+  "updatedAt": "2026-05-17T19:34:42.617Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -110,22 +110,22 @@
       "position": 5,
       "teamCode": "RR",
       "team": "Rajasthan Royals",
-      "matches": 11,
-      "played": 11,
+      "matches": 12,
+      "played": 12,
       "wins": 6,
       "won": 6,
-      "losses": 5,
-      "lost": 5,
+      "losses": 6,
+      "lost": 6,
       "noResult": 0,
       "tied": 0,
       "points": 12,
-      "netRunRate": "0.082",
-      "for": "1996/200.3",
-      "against": "2057/208.2",
+      "netRunRate": "0.027",
+      "for": "2189/220.3",
+      "against": "2254/227.4",
       "recentForm": [
-        "W",
         "L",
         "W",
+        "L",
         "L",
         "L"
       ],
@@ -158,6 +158,31 @@
     },
     {
       "position": 7,
+      "teamCode": "DC",
+      "team": "Delhi Capitals",
+      "matches": 13,
+      "played": 13,
+      "wins": 6,
+      "won": 6,
+      "losses": 7,
+      "lost": 7,
+      "noResult": 0,
+      "tied": 0,
+      "points": 12,
+      "netRunRate": "-0.871",
+      "for": "2356/252.4",
+      "against": "2418/237.1",
+      "recentForm": [
+        "W",
+        "L",
+        "L",
+        "W",
+        "W"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/DC.png"
+    },
+    {
+      "position": 8,
       "teamCode": "KKR",
       "team": "Kolkata Knight Riders",
       "matches": 12,
@@ -180,31 +205,6 @@
         "W"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/KKR.png"
-    },
-    {
-      "position": 8,
-      "teamCode": "DC",
-      "team": "Delhi Capitals",
-      "matches": 12,
-      "played": 12,
-      "wins": 5,
-      "won": 5,
-      "losses": 7,
-      "lost": 7,
-      "noResult": 0,
-      "tied": 0,
-      "points": 10,
-      "netRunRate": "-0.993",
-      "for": "2159/233.2",
-      "against": "2225/217.1",
-      "recentForm": [
-        "L",
-        "W",
-        "L",
-        "L",
-        "W"
-      ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/DC.png"
     },
     {
       "position": 9,
