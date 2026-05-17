@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-12T20:06:01.846Z",
+  "updatedAt": "2026-05-17T04:18:57.527Z",
   "fixtures": [
     {
       "id": "ipl-2026-2417",
@@ -13,9 +13,7 @@
       "homeAway": "away",
       "status": "completed",
       "result": "Royal Challengers Bengaluru Won by 6 Wickets",
-      "reportSlug": "match-1-srh-vs-rcb",
-      "homeTeam": "Royal Challengers Bengaluru",
-      "awayTeam": "Sunrisers Hyderabad"
+      "reportSlug": "match-1-srh-vs-rcb"
     },
     {
       "id": "ipl-2026-2422",
@@ -28,9 +26,7 @@
       "homeAway": "away",
       "status": "completed",
       "result": "Sunrisers Hyderabad Won by 65 Runs",
-      "reportSlug": "match-6-srh-vs-kkr",
-      "homeTeam": "Kolkata Knight Riders",
-      "awayTeam": "Sunrisers Hyderabad"
+      "reportSlug": "match-6-srh-vs-kkr"
     },
     {
       "id": "ipl-2026-2426",
@@ -43,9 +39,7 @@
       "homeAway": "home",
       "status": "completed",
       "result": "Lucknow Super Giants Won by 5 Wickets",
-      "reportSlug": "match-10-srh-vs-lsg",
-      "homeTeam": "Sunrisers Hyderabad",
-      "awayTeam": "Lucknow Super Giants"
+      "reportSlug": "match-10-srh-vs-lsg"
     },
     {
       "id": "ipl-2026-2433",
@@ -58,9 +52,7 @@
       "homeAway": "away",
       "status": "completed",
       "result": "Punjab Kings Won by 6 Wickets",
-      "reportSlug": "match-17-srh-vs-pbks",
-      "homeTeam": "Punjab Kings",
-      "awayTeam": "Sunrisers Hyderabad"
+      "reportSlug": "match-17-srh-vs-pbks"
     },
     {
       "id": "ipl-2026-2461",
@@ -73,9 +65,7 @@
       "homeAway": "home",
       "status": "completed",
       "result": "Sunrisers Hyderabad Won by 57 Runs",
-      "reportSlug": "match-21-srh-vs-rr",
-      "homeTeam": "Sunrisers Hyderabad",
-      "awayTeam": "Rajasthan Royals"
+      "reportSlug": "match-21-srh-vs-rr"
     },
     {
       "id": "ipl-2026-2467",
@@ -88,9 +78,7 @@
       "homeAway": "home",
       "status": "completed",
       "result": "Sunrisers Hyderabad Won by 10 Runs",
-      "reportSlug": "match-27-srh-vs-csk",
-      "homeTeam": "Sunrisers Hyderabad",
-      "awayTeam": "Chennai Super Kings"
+      "reportSlug": "match-27-srh-vs-csk"
     },
     {
       "id": "ipl-2026-2471",
@@ -103,9 +91,7 @@
       "homeAway": "home",
       "status": "completed",
       "result": "Sunrisers Hyderabad Won by 47 Runs",
-      "reportSlug": "match-31-srh-vs-dc",
-      "homeTeam": "Sunrisers Hyderabad",
-      "awayTeam": "Delhi Capitals"
+      "reportSlug": "match-31-srh-vs-dc"
     },
     {
       "id": "ipl-2026-2476",
@@ -118,9 +104,7 @@
       "homeAway": "away",
       "status": "completed",
       "result": "Sunrisers Hyderabad Won by 5 Wickets",
-      "reportSlug": "match-36-rr-vs-srh",
-      "homeTeam": "Rajasthan Royals",
-      "awayTeam": "Sunrisers Hyderabad"
+      "reportSlug": "match-36-rr-vs-srh"
     },
     {
       "id": "ipl-2026-2481",
@@ -133,9 +117,7 @@
       "homeAway": "away",
       "status": "completed",
       "result": "Sunrisers Hyderabad Won by 6 Wickets",
-      "reportSlug": "match-41-mi-vs-srh",
-      "homeTeam": "Mumbai Indians",
-      "awayTeam": "Sunrisers Hyderabad"
+      "reportSlug": "match-41-mi-vs-srh"
     },
     {
       "id": "ipl-2026-2485",
@@ -148,9 +130,7 @@
       "homeAway": "home",
       "status": "completed",
       "result": "Kolkata Knight Riders Won by 7 Wickets",
-      "reportSlug": "match-45-srh-vs-kkr",
-      "homeTeam": "Sunrisers Hyderabad",
-      "awayTeam": "Kolkata Knight Riders"
+      "reportSlug": "match-45-srh-vs-kkr"
     },
     {
       "id": "ipl-2026-2489",
@@ -163,9 +143,7 @@
       "homeAway": "home",
       "status": "completed",
       "result": "Sunrisers Hyderabad Won by 33 Runs",
-      "reportSlug": "match-49-srh-vs-pbks-report",
-      "homeTeam": "Sunrisers Hyderabad",
-      "awayTeam": "Punjab Kings"
+      "reportSlug": "match-49-srh-vs-pbks-report"
     },
     {
       "id": "ipl-2026-2496",
@@ -177,11 +155,8 @@
       "venue": "Narendra Modi Stadium, Ahmedabad",
       "homeAway": "away",
       "status": "completed",
-      "result": "Gujarat Titans won by 82 runs",
-      "previewSlug": "match-50-gt-vs-srh-preview",
-      "reportSlug": "gt-vs-srh-match-report-ipl-2026",
-      "homeTeam": "Gujarat Titans",
-      "awayTeam": "Sunrisers Hyderabad"
+      "result": "Gujarat Titans Won by 82 Runs",
+      "reportSlug": "gt-vs-srh-match-report-ipl-2026"
     },
     {
       "id": "ipl-2026-2503",
@@ -192,10 +167,7 @@
       "time": "19:30 IST",
       "venue": "MA Chidambaram Stadium, Chennai",
       "homeAway": "away",
-      "status": "upcoming",
-      "previewSlug": "csk-vs-srh-preview-ipl-2026",
-      "homeTeam": "Chennai Super Kings",
-      "awayTeam": "Sunrisers Hyderabad"
+      "status": "upcoming"
     },
     {
       "id": "ipl-2026-2507",
@@ -206,9 +178,7 @@
       "time": "19:30 IST",
       "venue": "Rajiv Gandhi International Stadium, Hyderabad",
       "homeAway": "home",
-      "status": "upcoming",
-      "homeTeam": "Sunrisers Hyderabad",
-      "awayTeam": "Royal Challengers Bengaluru"
+      "status": "upcoming"
     }
   ]
 }
