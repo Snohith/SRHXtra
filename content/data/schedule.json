@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-17T04:42:02.758Z",
+  "updatedAt": "2026-05-18T15:55:24.243Z",
   "fixtures": [
     {
       "id": "ipl-2026-2417",
@@ -203,7 +203,8 @@
       "venue": "MA Chidambaram Stadium, Chennai",
       "homeAway": "away",
       "status": "upcoming",
-      "previewSlug": "csk-vs-srh-preview-ipl-2026"
+      "previewSlug": "csk-vs-srh-preview-ipl-2026",
+      "notes": "Official IPL status: Live"
     },
     {
       "id": "ipl-2026-2507",
