@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-18T15:55:33.868Z",
+  "updatedAt": "2026-05-18T19:59:35.604Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -60,24 +60,24 @@
       "position": 3,
       "teamCode": "SRH",
       "team": "Sunrisers Hyderabad",
-      "matches": 12,
-      "played": 12,
-      "wins": 7,
-      "won": 7,
+      "matches": 13,
+      "played": 13,
+      "wins": 8,
+      "won": 8,
       "losses": 5,
       "lost": 5,
       "noResult": 0,
       "tied": 0,
-      "points": 14,
-      "netRunRate": "0.331",
-      "for": "2418/237.1",
-      "against": "2295/232.4",
+      "points": 16,
+      "netRunRate": "0.350",
+      "for": "2599/256.1",
+      "against": "2475/252.4",
       "recentForm": [
-        "W",
         "W",
         "L",
         "W",
-        "L"
+        "L",
+        "W"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/SRH.png"
     },
@@ -108,31 +108,6 @@
     },
     {
       "position": 5,
-      "teamCode": "CSK",
-      "team": "Chennai Super Kings",
-      "matches": 12,
-      "played": 12,
-      "wins": 6,
-      "won": 6,
-      "losses": 6,
-      "lost": 6,
-      "noResult": 0,
-      "tied": 0,
-      "points": 12,
-      "netRunRate": "0.027",
-      "for": "2210/235.0",
-      "against": "2102/224.1",
-      "recentForm": [
-        "L",
-        "W",
-        "W",
-        "W",
-        "L"
-      ],
-      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/CSK.png"
-    },
-    {
-      "position": 6,
       "teamCode": "RR",
       "team": "Rajasthan Royals",
       "matches": 12,
@@ -155,6 +130,31 @@
         "L"
       ],
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png"
+    },
+    {
+      "position": 6,
+      "teamCode": "CSK",
+      "team": "Chennai Super Kings",
+      "matches": 13,
+      "played": 13,
+      "wins": 6,
+      "won": 6,
+      "losses": 7,
+      "lost": 7,
+      "noResult": 0,
+      "tied": 0,
+      "points": 12,
+      "netRunRate": "-0.016",
+      "for": "2390/255.0",
+      "against": "2283/243.1",
+      "recentForm": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/CSK.png"
     },
     {
       "position": 7,

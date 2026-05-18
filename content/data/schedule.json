@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-18T15:55:24.243Z",
+  "updatedAt": "2026-05-18T19:59:24.312Z",
   "fixtures": [
     {
       "id": "ipl-2026-2417",
@@ -202,9 +202,9 @@
       "time": "19:30 IST",
       "venue": "MA Chidambaram Stadium, Chennai",
       "homeAway": "away",
-      "status": "upcoming",
-      "previewSlug": "csk-vs-srh-preview-ipl-2026",
-      "notes": "Official IPL status: Live"
+      "status": "completed",
+      "result": "Sunrisers Hyderabad Won by 5 Wickets",
+      "previewSlug": "csk-vs-srh-preview-ipl-2026"
     },
     {
       "id": "ipl-2026-2507",
