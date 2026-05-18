@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-17T19:34:42.617Z",
+  "updatedAt": "2026-05-18T04:39:56.533Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -108,31 +108,6 @@
     },
     {
       "position": 5,
-      "teamCode": "RR",
-      "team": "Rajasthan Royals",
-      "matches": 12,
-      "played": 12,
-      "wins": 6,
-      "won": 6,
-      "losses": 6,
-      "lost": 6,
-      "noResult": 0,
-      "tied": 0,
-      "points": 12,
-      "netRunRate": "0.027",
-      "for": "2189/220.3",
-      "against": "2254/227.4",
-      "recentForm": [
-        "L",
-        "W",
-        "L",
-        "L",
-        "L"
-      ],
-      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png"
-    },
-    {
-      "position": 6,
       "teamCode": "CSK",
       "team": "Chennai Super Kings",
       "matches": 12,
@@ -155,6 +130,31 @@
         "L"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/CSK.png"
+    },
+    {
+      "position": 6,
+      "teamCode": "RR",
+      "team": "Rajasthan Royals",
+      "matches": 12,
+      "played": 12,
+      "wins": 6,
+      "won": 6,
+      "losses": 6,
+      "lost": 6,
+      "noResult": 0,
+      "tied": 0,
+      "points": 12,
+      "netRunRate": "0.027",
+      "for": "2189/220.3",
+      "against": "2254/227.4",
+      "recentForm": [
+        "L",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png"
     },
     {
       "position": 7,
