@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-19T15:50:55.114Z",
+  "updatedAt": "2026-05-19T20:03:08.124Z",
   "sourcePriority": [
     "https://www.iplt20.com/points-table/men",
     "https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js"
@@ -83,6 +83,31 @@
     },
     {
       "position": 4,
+      "teamCode": "RR",
+      "team": "Rajasthan Royals",
+      "matches": 13,
+      "played": 13,
+      "wins": 7,
+      "won": 7,
+      "losses": 6,
+      "lost": 6,
+      "noResult": 0,
+      "tied": 0,
+      "points": 14,
+      "netRunRate": "0.083",
+      "for": "2414/239.4",
+      "against": "2474/247.4",
+      "recentForm": [
+        "W",
+        "L",
+        "L",
+        "L",
+        "W"
+      ],
+      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png"
+    },
+    {
+      "position": 5,
       "teamCode": "PBKS",
       "team": "Punjab Kings",
       "matches": 13,
@@ -105,31 +130,6 @@
         "L"
       ],
       "sourceTeamLogo": "https://scores.iplt20.com/ipl/teamlogos/PBKS.png"
-    },
-    {
-      "position": 5,
-      "teamCode": "RR",
-      "team": "Rajasthan Royals",
-      "matches": 12,
-      "played": 12,
-      "wins": 6,
-      "won": 6,
-      "losses": 6,
-      "lost": 6,
-      "noResult": 0,
-      "tied": 0,
-      "points": 12,
-      "netRunRate": "0.027",
-      "for": "2189/220.3",
-      "against": "2254/227.4",
-      "recentForm": [
-        "L",
-        "W",
-        "L",
-        "L",
-        "L"
-      ],
-      "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/sSNjJEkBAx1742900310RR---New-Logo.png"
     },
     {
       "position": 6,
@@ -235,24 +235,24 @@
       "position": 10,
       "teamCode": "LSG",
       "team": "Lucknow Super Giants",
-      "matches": 12,
-      "played": 12,
+      "matches": 13,
+      "played": 13,
       "wins": 4,
       "won": 4,
-      "losses": 8,
-      "lost": 8,
+      "losses": 9,
+      "lost": 9,
       "noResult": 0,
       "tied": 0,
       "points": 8,
-      "netRunRate": "-0.701",
-      "for": "2098/235.3",
-      "against": "2191/228.0",
+      "netRunRate": "-0.702",
+      "for": "2318/255.3",
+      "against": "2416/247.1",
       "recentForm": [
-        "L",
         "L",
         "W",
         "L",
-        "W"
+        "W",
+        "L"
       ],
       "sourceTeamLogo": "https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/b7GnGJW4bi1772703245LSG.png"
     }
