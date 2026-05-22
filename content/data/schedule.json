@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-22T15:19:48.053Z",
+  "updatedAt": "2026-05-22T20:06:06.355Z",
   "fixtures": [
     {
       "id": "ipl-2026-2417",
@@ -217,8 +217,21 @@
       "time": "19:30 IST",
       "venue": "Rajiv Gandhi International Stadium, Hyderabad",
       "homeAway": "home",
-      "status": "upcoming",
-      "notes": "Official IPL status: Live"
+      "status": "completed",
+      "result": "Sunrisers Hyderabad Won by 55 Runs"
+    },
+    {
+      "id": "ipl-2026-2536",
+      "slug": "ipl-2026-match-2536-srh-vs-tbd",
+      "competition": "IPL 2026",
+      "opponent": "TBD",
+      "homeTeam": "SRH",
+      "awayTeam": "TBD",
+      "date": "2026-05-27",
+      "time": "19:30 IST",
+      "venue": "New International Cricket Stadium, New Chandigarh",
+      "homeAway": "home",
+      "status": "upcoming"
     }
   ]
 }
