@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-22T20:06:06.355Z",
+  "updatedAt": "2026-05-24T19:38:29.013Z",
   "fixtures": [
     {
       "id": "ipl-2026-2417",
@@ -222,11 +222,11 @@
     },
     {
       "id": "ipl-2026-2536",
-      "slug": "ipl-2026-match-2536-srh-vs-tbd",
+      "slug": "ipl-2026-match-2536-srh-vs-rr",
       "competition": "IPL 2026",
-      "opponent": "TBD",
+      "opponent": "Rajasthan Royals",
       "homeTeam": "SRH",
-      "awayTeam": "TBD",
+      "awayTeam": "RR",
       "date": "2026-05-27",
       "time": "19:30 IST",
       "venue": "New International Cricket Stadium, New Chandigarh",
