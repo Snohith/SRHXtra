@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-24T19:38:29.013Z",
+  "updatedAt": "2026-05-27T16:11:03.706Z",
   "fixtures": [
     {
       "id": "ipl-2026-2417",
@@ -231,7 +231,8 @@
       "time": "19:30 IST",
       "venue": "New International Cricket Stadium, New Chandigarh",
       "homeAway": "home",
-      "status": "upcoming"
+      "status": "upcoming",
+      "notes": "Official IPL status: Live"
     }
   ]
 }
