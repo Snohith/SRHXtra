@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-27T16:11:03.706Z",
+  "updatedAt": "2026-05-27T20:29:05.887Z",
   "fixtures": [
     {
       "id": "ipl-2026-2417",
@@ -231,8 +231,8 @@
       "time": "19:30 IST",
       "venue": "New International Cricket Stadium, New Chandigarh",
       "homeAway": "home",
-      "status": "upcoming",
-      "notes": "Official IPL status: Live"
+      "status": "completed",
+      "result": "Rajasthan Royals Won by 47 Runs (Qualified)"
     }
   ]
 }
