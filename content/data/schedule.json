@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "updatedAt": "2026-05-27T20:29:05.887Z",
+  "updatedAt": "2026-05-28T08:33:55.146Z",
   "fixtures": [
     {
       "id": "ipl-2026-2417",
@@ -204,7 +204,8 @@
       "homeAway": "away",
       "status": "completed",
       "result": "Sunrisers Hyderabad Won by 5 Wickets",
-      "previewSlug": "csk-vs-srh-preview-ipl-2026"
+      "previewSlug": "csk-vs-srh-preview-ipl-2026",
+      "reportSlug": "match-63-csk-vs-srh"
     },
     {
       "id": "ipl-2026-2507",
@@ -218,7 +219,8 @@
       "venue": "Rajiv Gandhi International Stadium, Hyderabad",
       "homeAway": "home",
       "status": "completed",
-      "result": "Sunrisers Hyderabad Won by 55 Runs"
+      "result": "Sunrisers Hyderabad Won by 55 Runs",
+      "reportSlug": "match-67-srh-vs-rcb"
     },
     {
       "id": "ipl-2026-2536",
@@ -232,7 +234,8 @@
       "venue": "New International Cricket Stadium, New Chandigarh",
       "homeAway": "home",
       "status": "completed",
-      "result": "Rajasthan Royals Won by 47 Runs (Qualified)"
+      "result": "Rajasthan Royals Won by 47 Runs (Qualified)",
+      "reportSlug": "eliminator-rr-vs-srh"
     }
   ]
 }

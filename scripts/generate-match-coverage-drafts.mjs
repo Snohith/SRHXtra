@@ -10,6 +10,18 @@ import { cleanString, parseArgs, resolveProjectPath, writeTextFileIfChanged } fr
 const scheduleFilePath = resolveProjectPath("content", "data", "schedule.json");
 const sourcesFilePath = resolveProjectPath("content", "data", "match-coverage-sources.json");
 const coverageDirPath = resolveProjectPath("content", "match-coverage");
+const teamCodes = new Map([
+  ["Chennai Super Kings", "CSK"],
+  ["Delhi Capitals", "DC"],
+  ["Gujarat Titans", "GT"],
+  ["Kolkata Knight Riders", "KKR"],
+  ["Lucknow Super Giants", "LSG"],
+  ["Mumbai Indians", "MI"],
+  ["Punjab Kings", "PBKS"],
+  ["Rajasthan Royals", "RR"],
+  ["Royal Challengers Bengaluru", "RCB"],
+  ["Sunrisers Hyderabad", "SRH"],
+]);
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
@@ -47,9 +59,21 @@ function splitResult(result, homeAway, opponent) {
   return {
     outcome: "loss",
     summary: homeAway === "home"
-      ? `${opponent} beat SRH ${normalized.replace(new RegExp(`^${opponent}\\s+Won\\s+`, "i"), "by ")}`
-      : `${opponent} beat SRH ${normalized.replace(new RegExp(`^${opponent}\\s+Won\\s+`, "i"), "by ")}`,
+      ? `${opponent} beat SRH ${normalized.replace(new RegExp(`^${opponent}\\s+Won\\s+`, "i"), "")}`
+      : `${opponent} beat SRH ${normalized.replace(new RegExp(`^${opponent}\\s+Won\\s+`, "i"), "")}`,
   };
+}
+
+function getTeamCode(teamName) {
+  return teamCodes.get(cleanString(teamName)) ?? cleanString(teamName);
+}
+
+function getFixtureTeams(match) {
+  const opponentCode = getTeamCode(match.opponent);
+
+  return match.homeAway === "home"
+    ? { homeTeam: "SRH", awayTeam: opponentCode }
+    : { homeTeam: opponentCode, awayTeam: "SRH" };
 }
 
 function getHeadline(match) {
@@ -120,6 +144,8 @@ function getStandoutPerformers(match) {
 }
 
 function buildDraftMarkdown(match) {
+  const fixtureTeams = getFixtureTeams(match);
+
   return `---
 slug: ${match.slug}
 title: ${getHeadline(match)}
@@ -132,6 +158,11 @@ tags:
   - Match Report Draft
   - ${match.opponent}
   - IPL ${match.date.slice(0, 4)}
+matchDate: "${match.date}"
+venue: "${match.venue}"
+homeTeam: "${fixtureTeams.homeTeam}"
+awayTeam: "${fixtureTeams.awayTeam}"
+result: "${match.result}"
 coverImage: /images/articles/match-clinical-chase.svg
 coverAlt: Editorial match graphic draft for SRH vs ${match.opponent}
 featured: false

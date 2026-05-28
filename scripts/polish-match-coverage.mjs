@@ -18,6 +18,18 @@ const scheduleFilePath = resolveProjectPath("content", "data", "schedule.json");
 const sourcesFilePath = resolveProjectPath("content", "data", "match-coverage-sources.json");
 const galleryDirPath = resolveProjectPath("content", "gallery", "albums");
 const coverageDirPath = resolveProjectPath("content", "match-coverage");
+const teamCodes = new Map([
+  ["Chennai Super Kings", "CSK"],
+  ["Delhi Capitals", "DC"],
+  ["Gujarat Titans", "GT"],
+  ["Kolkata Knight Riders", "KKR"],
+  ["Lucknow Super Giants", "LSG"],
+  ["Mumbai Indians", "MI"],
+  ["Punjab Kings", "PBKS"],
+  ["Rajasthan Royals", "RR"],
+  ["Royal Challengers Bengaluru", "RCB"],
+  ["Sunrisers Hyderabad", "SRH"],
+]);
 
 const OPPONENT_ALIASES = {
   "Royal Challengers Bengaluru": ["royal challengers bengaluru", "rcb"],
@@ -93,13 +105,15 @@ function findMatchSource(draftFrontmatter, sources) {
 function findGalleryCover(match, fixture, albums) {
   const matchNumber = extractMatchNumber(match.matchOrder ?? fixture?.reportSlug ?? match.slug);
   const aliases = OPPONENT_ALIASES[match.opponent] ?? [match.opponent];
+  const normalizedMatchOrder = normalizeText(match.matchOrder);
 
   return (
     albums.find((album) => {
       const haystack = normalizeText(`${album.title} ${album.description}`);
       const aliasMatch = aliases.some((alias) => haystack.includes(normalizeText(alias)));
       const albumMatchNumber = extractMatchNumber(album.title);
-      return aliasMatch && (matchNumber === null || albumMatchNumber === matchNumber);
+      const stageMatch = matchNumber === null && normalizedMatchOrder && haystack.includes(normalizedMatchOrder);
+      return aliasMatch && (matchNumber === null ? stageMatch : albumMatchNumber === matchNumber);
     })
     ?? null
   );
@@ -111,6 +125,18 @@ function summarizeResult(result, opponent) {
   }
 
   return `${opponent} beat SRH ${result.replace(new RegExp(`^${opponent}\\s+Won\\s*`, "i"), "").trim()}`.trim();
+}
+
+function getTeamCode(teamName) {
+  return teamCodes.get(cleanString(teamName)) ?? cleanString(teamName);
+}
+
+function getFixtureTeams(match) {
+  const opponentCode = getTeamCode(match.opponent);
+
+  return match.homeAway === "home"
+    ? { homeTeam: "SRH", awayTeam: opponentCode }
+    : { homeTeam: opponentCode, awayTeam: "SRH" };
 }
 
 function detectPhaseSignals(paragraphs, phase) {
@@ -304,9 +330,12 @@ function getRequiredSupportGaps(match, usefulParagraphs) {
 }
 
 function buildPolishedMarkdown(frontmatter, match, galleryAlbum, publishable, usefulParagraphs) {
+  const fixtureTeams = getFixtureTeams(match);
   const title = cleanString(frontmatter.title) || `${match.opponent} Match Coverage Review`;
-  const excerpt = cleanString(frontmatter.excerpt)
-    || `${summarizeResult(match.result, match.opponent)}. Local official data confirms the scoreboard and the core match phases at ${match.venue}.`;
+  const excerpt = publishable
+    ? `${summarizeResult(match.result, match.opponent)}. Local official data confirms the scoreboard and the core match phases at ${match.venue}.`
+    : cleanString(frontmatter.excerpt)
+      || `${summarizeResult(match.result, match.opponent)}. Local official data confirms the scoreboard and the core match phases at ${match.venue}.`;
   const coverImage = cleanString(galleryAlbum?.coverImage) || cleanString(frontmatter.coverImage) || "/images/articles/match-clinical-chase.svg";
   const coverAlt = cleanString(galleryAlbum?.coverAlt) || cleanString(frontmatter.coverAlt) || `Match coverage visual for SRH vs ${match.opponent}`;
   const updatedAt = new Date().toISOString();
@@ -323,6 +352,11 @@ author: ${frontmatter.author}
 category: ${frontmatter.category}
 tags:
 ${tags.map((tag) => `  - ${tag}`).join("\n")}
+matchDate: "${match.date}"
+venue: "${match.venue}"
+homeTeam: "${fixtureTeams.homeTeam}"
+awayTeam: "${fixtureTeams.awayTeam}"
+result: "${match.result}"
 coverImage: ${coverImage}
 coverAlt: ${coverAlt}
 featured: ${frontmatter.featured ? "true" : "false"}
