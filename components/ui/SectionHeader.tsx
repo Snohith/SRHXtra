@@ -30,15 +30,15 @@ export function SectionHeader({
   return (
     <div
       className={cx(
-        "flex flex-col gap-8 sm:items-end sm:justify-between sm:flex-row",
+        "flex min-w-0 flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-5",
         isCenter && "sm:flex-col sm:items-center sm:text-center",
-        isHero && "border-b border-white/5 pb-10 sm:pb-16",
+        isHero && description && "border-b border-border pb-8 sm:pb-14",
         className,
       )}
     >
       <div className={cx(
-        "max-w-4xl", 
-        align === "start" && !isHero && "border-l-2 border-accent/30 pl-6 sm:pl-8"
+        "min-w-0 max-w-4xl",
+        align === "start" && !isHero && description && "border-l-2 border-accent/30 pl-4 sm:pl-8"
       )}>
         {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
         <HeadingTag className={cx(
@@ -47,9 +47,9 @@ export function SectionHeader({
         )}>
           {title}
         </HeadingTag>
-        {description ? <p className={cx("mt-6 body-copy max-w-3xl", isHero && "text-xl sm:text-2xl")}>{description}</p> : null}
+        {description ? <p className={cx("mt-4 body-copy max-w-3xl sm:mt-6", isHero && "text-lg sm:text-2xl")}>{description}</p> : null}
       </div>
-      {action ? <div className="shrink-0 pb-1">{action}</div> : null}
+      {action ? <div className="w-full shrink-0 pb-1 sm:w-auto">{action}</div> : null}
     </div>
   );
 }

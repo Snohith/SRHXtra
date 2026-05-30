@@ -41,10 +41,10 @@ export function ArticleCard({ article, variant = "default" }: ArticleCardProps) 
       )}
     >
       <div className={cx(
-        "flex flex-col p-6 sm:p-8",
+        "flex flex-col p-5 sm:p-7 lg:p-8",
         isFeatured ? "order-2 lg:order-1 justify-center" : "order-2"
       )}>
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-4">
           <Badge tone="accent">{article.category}</Badge>
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted/80">
             <time dateTime={article.publishedAt} itemProp="datePublished">
@@ -61,8 +61,8 @@ export function ArticleCard({ article, variant = "default" }: ArticleCardProps) 
         <h3 
           itemProp="headline"
           className={cx(
-            "mt-5 font-black leading-[1.2] tracking-tight transition-colors group-hover:text-accent",
-            isFeatured ? "text-3xl sm:text-4xl lg:text-5xl" : "text-xl sm:text-2xl"
+            "mt-4 font-black leading-[1.15] tracking-tight transition-colors group-hover:text-accent sm:mt-5",
+            isFeatured ? "text-2xl sm:text-4xl lg:text-5xl" : "text-lg sm:text-2xl"
           )}
         >
           <Link
@@ -87,7 +87,7 @@ export function ArticleCard({ article, variant = "default" }: ArticleCardProps) 
         </p>
         
         {!isCompact && (
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div className="mt-5 flex flex-wrap gap-2 sm:mt-6">
             {article.tags.slice(0, 3).map((tag) => (
               <Tag key={tag} label={tag} />
             ))}
@@ -98,7 +98,7 @@ export function ArticleCard({ article, variant = "default" }: ArticleCardProps) 
       {!isCompact && (
         <div
           className={cx(
-            "relative overflow-hidden bg-black/20",
+            "relative overflow-hidden bg-surface-strong",
             isFeatured ? "order-1 aspect-[16/10] lg:order-2 lg:aspect-auto lg:h-full" : "order-1 aspect-[16/9]",
           )}
         >
@@ -113,7 +113,7 @@ export function ArticleCard({ article, variant = "default" }: ArticleCardProps) 
             src={articleImage.src}
             width={1200}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
         </div>
       )}
     </article>

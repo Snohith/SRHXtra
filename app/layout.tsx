@@ -37,8 +37,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const websiteJsonLd = getWebsiteJsonLd();
 
   return (
-    <html className={`${outfit.variable} ${jakarta.variable}`} lang="en" suppressHydrationWarning>
+    <html
+      className={`${outfit.variable} ${jakarta.variable}`}
+      data-scroll-behavior="smooth"
+      lang="en"
+      suppressHydrationWarning
+    >
       <head>
+        <meta name="darkreader-lock" />
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-RC7HGXJQ7M"
@@ -66,7 +72,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body suppressHydrationWarning className="font-body">
         <div className="min-h-screen">
           <Navbar site={site} />
-          <main className="shell-wide py-8 sm:py-10 lg:py-12">{children}</main>
+          <main className="shell-wide py-5 sm:py-10 lg:py-12">{children}</main>
           <Footer site={site} />
         </div>
       </body>

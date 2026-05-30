@@ -63,24 +63,24 @@ export function MobileMenu({ links, siteName }: MobileMenuProps) {
           "relative z-[75] flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-lg border transition-all duration-200",
           isOpen
             ? "border-accent/40 bg-accent/10"
-            : "border-white/10 bg-white/[0.04] hover:border-white/20 hover:bg-white/[0.07]"
+            : "border-border bg-black/[0.02] hover:border-border-strong hover:bg-black/[0.04]"
         )}
       >
         <span
           className={cx(
-            "h-[1.5px] w-4 rounded-full bg-white transition-all duration-300",
+            "h-[1.5px] w-4 rounded-full bg-foreground transition-all duration-300",
             isOpen && "translate-y-[6.5px] rotate-45"
           )}
         />
         <span
           className={cx(
-            "h-[1.5px] w-4 rounded-full bg-white transition-all duration-300",
+            "h-[1.5px] w-4 rounded-full bg-foreground transition-all duration-300",
             isOpen && "opacity-0"
           )}
         />
         <span
           className={cx(
-            "h-[1.5px] w-4 rounded-full bg-white transition-all duration-300",
+            "h-[1.5px] w-4 rounded-full bg-foreground transition-all duration-300",
             isOpen && "-translate-y-[6.5px] -rotate-45"
           )}
         />
@@ -91,28 +91,29 @@ export function MobileMenu({ links, siteName }: MobileMenuProps) {
         id="mobile-nav-panel"
         role="dialog"
         aria-modal="true"
+        aria-hidden={!isOpen}
         aria-label="Navigation menu"
         className={cx(
           "fixed inset-0 z-[70] transition-all duration-300 ease-out md:hidden",
           isOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
+            ? "visible opacity-100 pointer-events-auto"
+            : "invisible opacity-0 pointer-events-none"
         )}
       >
         <button
           type="button"
           aria-label="Close navigation menu"
-          className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/30 backdrop-blur-xs"
           onClick={() => setIsOpen(false)}
         />
 
         <div className="relative flex h-full flex-col bg-background pt-[70px]">
-          <div className="border-b border-white/[0.1] bg-surface px-5 py-4">
+          <div className="border-b border-border bg-surface px-5 py-4">
             <div className="mx-auto flex w-full max-w-xl items-center gap-3">
               <span className="flex h-7 w-7 items-center justify-center rounded-md bg-accent text-xs font-black text-black">
                 S
               </span>
-              <span className="text-xs font-black uppercase tracking-[0.22em] text-white">
+              <span className="text-xs font-black uppercase tracking-[0.22em] text-foreground">
                 {siteName}
               </span>
             </div>
@@ -131,8 +132,8 @@ export function MobileMenu({ links, siteName }: MobileMenuProps) {
                       className={cx(
                         "flex items-center justify-between rounded-xl border px-4 py-3.5 text-sm font-extrabold uppercase tracking-[0.14em] transition-all duration-150",
                         active
-                          ? "border-accent/45 bg-accent/12 text-white"
-                          : "border-white/[0.08] bg-white/[0.02] text-white/75 hover:border-white/20 hover:bg-white/[0.05] hover:text-white"
+                          ? "border-accent/45 bg-accent/10 text-foreground"
+                          : "border-border bg-black/[0.01] text-muted hover:border-border-strong hover:bg-black/[0.03] hover:text-foreground"
                       )}
                     >
                       {link.label}
@@ -140,10 +141,10 @@ export function MobileMenu({ links, siteName }: MobileMenuProps) {
                         <span
                           aria-hidden="true"
                           className="h-2 w-2 rounded-full bg-accent"
-                          style={{ boxShadow: "0 0 8px rgba(255, 130, 0, 0.9)" }}
+                          style={{ boxShadow: "0 0 8px rgba(255, 109, 0, 0.9)" }}
                         />
                       ) : (
-                        <span aria-hidden="true" className="text-sm leading-none text-white/30">
+                        <span aria-hidden="true" className="text-sm leading-none text-muted/30">
                           -&gt;
                         </span>
                       )}
