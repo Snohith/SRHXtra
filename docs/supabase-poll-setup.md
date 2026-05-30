@@ -18,6 +18,13 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
 
+If your Supabase dashboard labels the browser-safe key as a publishable key,
+you can use this Vercel variable name instead of `NEXT_PUBLIC_SUPABASE_ANON_KEY`:
+
+```bash
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
+```
+
 Only use the anon key in the frontend. Do not expose the service role key.
 
 ## 3. Verification
