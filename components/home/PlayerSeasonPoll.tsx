@@ -125,7 +125,7 @@ export function PlayerSeasonPoll({ pollSlug }: PlayerSeasonPollProps) {
     async function loadPoll() {
       if (!supabase) {
         setStatus("missing-config");
-        setMessage("Voting is unavailable right now.");
+        setMessage("Voting setup is missing deployment environment variables.");
         return;
       }
 
@@ -136,8 +136,9 @@ export function PlayerSeasonPoll({ pollSlug }: PlayerSeasonPollProps) {
         const { data: signInData, error: signInError } = await supabase.auth.signInAnonymously();
         if (signInError || !signInData.user) {
           if (!isMounted) return;
+          console.error("Supabase anonymous sign-in failed", signInError);
           setStatus("error");
-          setMessage("Voting is unavailable right now.");
+          setMessage("Anonymous voting is not enabled in Supabase yet.");
           return;
         }
 
@@ -153,8 +154,9 @@ export function PlayerSeasonPoll({ pollSlug }: PlayerSeasonPollProps) {
 
       if (pollError || !pollData) {
         if (!isMounted) return;
+        console.error("Supabase poll load failed", pollError);
         setStatus("error");
-        setMessage("Poll details could not be loaded.");
+        setMessage("Poll details could not be loaded. Check the Supabase SQL setup.");
         return;
       }
 
@@ -220,7 +222,8 @@ export function PlayerSeasonPoll({ pollSlug }: PlayerSeasonPollProps) {
       }
 
       setStatus("error");
-      setMessage("Vote could not be saved. Please try again.");
+      console.error("Supabase vote insert failed", error);
+      setMessage("Vote could not be saved. Check Supabase vote permissions.");
       return;
     }
 
