@@ -15,12 +15,12 @@ venue: "New International Cricket Stadium, New Chandigarh"
 homeTeam: "SRH"
 awayTeam: "RR"
 result: "Rajasthan Royals Won by 47 Runs (Qualified)"
-coverImage: /images/articles/match-clinical-chase.svg
-coverAlt: Branded SRHXtra match report card for SRH vs RR in the Eliminator
+coverImage: /images/post-match/eliminator-rr-vs-srh.avif
+coverAlt: Official match image from SRH vs RR in the Eliminator
 featured: true
 seoTitle: "SRH vs RR IPL 2026 Eliminator Match Report"
 seoDescription: "SRHXtra reviews SRH's 47-run Eliminator defeat to Rajasthan Royals, led by Vaibhav Sooryavanshi's 97 off 29 and RR's 243/8."
-ogImage: /images/articles/match-clinical-chase.svg
+ogImage: /images/post-match/eliminator-rr-vs-srh.avif
 relatedSlugs:
   - match-21-srh-vs-rr
   - match-36-rr-vs-srh

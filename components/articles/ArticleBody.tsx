@@ -15,14 +15,14 @@ function renderInline(node: PhrasingContent, key: string): ReactNode {
     case "emphasis":
       return <em key={key}>{node.children.map((child, index) => renderInline(child, `${key}-${index}`))}</em>;
     case "strong":
-      return <strong key={key} className="font-semibold text-white">{node.children.map((child, index) => renderInline(child, `${key}-${index}`))}</strong>;
+      return <strong key={key} className="font-semibold text-foreground">{node.children.map((child, index) => renderInline(child, `${key}-${index}`))}</strong>;
     case "delete":
       return <del key={key}>{node.children.map((child, index) => renderInline(child, `${key}-${index}`))}</del>;
     case "inlineCode":
       return (
         <code
           key={key}
-          className="rounded-md border border-border bg-white/5 px-1.5 py-0.5 font-mono text-[0.92em] text-orange-200"
+          className="rounded-md border border-border bg-black/[0.03] px-1.5 py-0.5 font-mono text-[0.92em] text-accent"
         >
           {(node as InlineCode).value}
         </code>
@@ -35,7 +35,7 @@ function renderInline(node: PhrasingContent, key: string): ReactNode {
       return (
         <a
           key={key}
-          className="font-medium text-orange-200 underline decoration-orange-500/40 underline-offset-4 transition hover:text-orange-100"
+          className="font-medium text-accent underline decoration-accent/40 underline-offset-4 transition hover:text-accent/80"
           href={href}
           rel={isExternal ? "noreferrer" : undefined}
           target={isExternal ? "_blank" : undefined}
@@ -63,7 +63,7 @@ function renderTableCell(
   return (
     <Tag
       key={key}
-      className={`border border-border px-4 py-3 align-top text-sm leading-7 ${alignment} ${isHeader ? "bg-white/5 font-semibold text-white" : "text-slate-300"}`}
+      className={`border border-border px-4 py-3 align-top text-sm leading-7 ${alignment} ${isHeader ? "bg-black/[0.02] font-semibold text-foreground" : "text-muted"}`}
     >
       {cell.children.map((child, index) => renderInline(child as Paragraph["children"][number], `${key}-${index}`))}
     </Tag>
@@ -86,10 +86,10 @@ function renderBlock(node: Content, key: string): ReactNode {
       const HeadingTag = node.depth <= 1 ? "h2" : node.depth === 2 ? "h3" : "h4";
       const className =
         node.depth <= 1
-          ? "pt-8 text-3xl font-black uppercase tracking-tight text-white sm:text-4xl"
+          ? "pt-8 text-3xl font-black uppercase tracking-tight text-foreground sm:text-4xl"
           : node.depth === 2
-            ? "pt-6 text-2xl font-black uppercase tracking-tight text-white sm:text-3xl"
-            : "pt-4 text-xl font-bold text-white";
+            ? "pt-6 text-2xl font-black uppercase tracking-tight text-foreground sm:text-3xl"
+            : "pt-4 text-xl font-bold text-foreground";
 
       return (
         <HeadingTag key={key} className={className}>
@@ -116,45 +116,45 @@ function renderBlock(node: Content, key: string): ReactNode {
     }
     case "blockquote":
       return (
-        <blockquote key={key} className="relative rounded-3xl border-l-4 border-accent bg-white/[0.03] px-8 py-8 shadow-premium transition-transform hover:scale-[1.01]">
+        <blockquote key={key} className="relative rounded-3xl border-l-4 border-accent bg-black/[0.01] px-8 py-8 shadow-premium transition-transform hover:scale-[1.01]">
           <div className="absolute top-4 left-4 text-4xl text-accent/20 font-serif">“</div>
-          <div className="grid gap-6 text-xl italic font-medium leading-relaxed text-slate-200">
+          <div className="grid gap-6 text-xl italic font-medium leading-relaxed text-foreground/80">
             {node.children.map((child, index) => renderBlock(child, `${key}-${index}`))}
           </div>
         </blockquote>
       );
     case "code":
       return (
-        <div key={key} className="overflow-hidden rounded-3xl border border-white/5 bg-black/40 shadow-premium">
+        <div key={key} className="overflow-hidden rounded-3xl border border-border bg-black/[0.02] shadow-premium">
           {node.lang ? (
-            <div className="border-b border-white/5 bg-white/5 px-6 py-3 text-[10px] font-bold uppercase tracking-[0.3em] text-muted">
+            <div className="border-b border-border bg-black/[0.02] px-6 py-3 text-[10px] font-bold uppercase tracking-[0.3em] text-muted">
               {node.lang}
             </div>
           ) : null}
-          <pre className="overflow-x-auto p-6 text-sm font-mono leading-relaxed text-orange-100">
+          <pre className="overflow-x-auto p-6 text-sm font-mono leading-relaxed text-foreground/90">
             <code>{node.value}</code>
           </pre>
         </div>
       );
     case "thematicBreak":
-      return <hr key={key} className="my-8 border-white/5" />;
+      return <hr key={key} className="my-8 border-border" />;
     case "table": {
       const tableNode = node as Table;
       const [headerRow, ...bodyRows] = tableNode.children;
 
       return (
-        <div key={key} className="my-8 overflow-x-auto rounded-3xl border border-white/5 bg-white/[0.02] shadow-premium">
+        <div key={key} className="my-8 overflow-x-auto rounded-3xl border border-border bg-black/[0.01] shadow-premium">
           <table className="min-w-full border-collapse">
             <thead>
-              <tr className="border-b border-white/5 bg-white/5">
+              <tr className="border-b border-border bg-black/[0.02]">
                 {headerRow.children.map((cell, index) =>
                   renderTableCell(cell, `${key}-head-${index}`, tableNode.align?.[index], true),
                 )}
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-border">
               {bodyRows.map((row, rowIndex) => (
-                <tr key={`${key}-row-${rowIndex}`} className="transition-colors hover:bg-white/[0.02]">
+                <tr key={`${key}-row-${rowIndex}`} className="transition-colors hover:bg-black/[0.02]">
                   {row.children.map((cell, cellIndex) =>
                     renderTableCell(
                       cell,
@@ -172,7 +172,7 @@ function renderBlock(node: Content, key: string): ReactNode {
     case "image":
       return (
         <figure key={key} className="my-10 space-y-4">
-          <div className="overflow-hidden rounded-3xl border border-white/5 bg-surface/40 shadow-premium">
+          <div className="overflow-hidden rounded-3xl border border-border bg-surface shadow-premium">
             <img 
               alt={node.alt ?? ""} 
               className="w-full transition-transform duration-700 hover:scale-[1.02]" 

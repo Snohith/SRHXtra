@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { getTeamInfo } from "@/lib/utils/team-info";
 import type { Fixture } from "@/lib/content/schedule";
 import { cx } from "@/lib/utils/classes";
@@ -16,11 +17,19 @@ interface CountdownState {
 export function NextMatchHero({ fixture }: { fixture: Fixture }) {
   const opponent = getTeamInfo(fixture.opponent);
   const srh = getTeamInfo("SRH");
+  const isCompleted = fixture.status === "completed" || Boolean(fixture.result);
+  const reportHref = fixture.reportSlug ? `/match-coverage/${fixture.reportSlug}/` : null;
   
   const [countdown, setCountdown] = useState<CountdownState | null>(null);
   const [isLive, setIsLive] = useState(false);
 
   useEffect(() => {
+    if (isCompleted) {
+      setCountdown(null);
+      setIsLive(false);
+      return;
+    }
+
     // Parse the date (YYYY-MM-DD) and time (HH:mm IST)
     const [timeStr] = fixture.time.split(" ");
     const targetDate = new Date(`${fixture.date}T${timeStr}:00+05:30`);
@@ -45,7 +54,7 @@ export function NextMatchHero({ fixture }: { fixture: Fixture }) {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [fixture]);
+  }, [fixture, isCompleted]);
 
   const [message, setMessage] = useState<string | null>(null);
 
@@ -57,6 +66,11 @@ export function NextMatchHero({ fixture }: { fixture: Fixture }) {
   }, [message]);
 
   const handleActionClick = () => {
+    if (isCompleted) {
+      setMessage("Match report is being updated");
+      return;
+    }
+
     if (isLive) {
       setMessage("Match Center will be available soon");
     } else {
@@ -70,34 +84,43 @@ export function NextMatchHero({ fixture }: { fixture: Fixture }) {
 
   return (
     <section className={cx(
-      "relative overflow-hidden rounded-3xl bg-surface-strong px-8 py-16 sm:px-12 lg:py-20 transition-all duration-1000",
-      isLive ? "ring-2 ring-rose-500/20 shadow-[0_0_50px_rgba(244,63,94,0.1)]" : ""
+      "relative overflow-hidden rounded-[1.5rem] bg-surface-strong px-5 py-10 transition-all duration-1000 sm:rounded-3xl sm:px-12 sm:py-16 lg:py-20",
+      isLive ? "ring-2 ring-rose-500/20 shadow-[0_0_50px_rgba(244,63,94,0.1)]" : "",
+      isCompleted ? "ring-1 ring-emerald-500/15" : "",
     )}>
       {/* Background Glow */}
       <div className={cx(
         "absolute -top-24 -right-24 h-96 w-96 rounded-full blur-[120px] transition-colors duration-1000",
-        isLive ? "bg-rose-500/20" : "bg-accent/20"
+        isLive ? "bg-rose-500/20" : isCompleted ? "bg-emerald-500/10" : "bg-accent/20"
       )} />
       <div className="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-accent/10 blur-[120px]" />
 
       <div className="relative z-10 mx-auto max-w-4xl text-center">
         <div className="flex flex-col items-center gap-3">
-          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-accent">Next Encounter</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-accent">
+            {isCompleted ? "Latest Result" : "Next Encounter"}
+          </p>
           {isLive && (
             <div className="flex items-center gap-2 rounded-full bg-rose-500/10 border border-rose-500/20 px-3 py-1">
               <div className="h-1.5 w-1.5 rounded-full bg-rose-500 animate-pulse" />
               <span className="text-[10px] font-black uppercase tracking-widest text-rose-500">Match Live</span>
             </div>
           )}
+          {isCompleted && (
+            <div className="flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1">
+              <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Match Completed</span>
+            </div>
+          )}
         </div>
         
-        <div className="mt-12 flex flex-col items-center justify-center gap-8 sm:flex-row sm:gap-16">
+        <div className="mt-10 flex flex-col items-center justify-center gap-7 sm:mt-12 sm:flex-row sm:gap-16">
           {/* Home/Away Side 1 */}
           <div className="flex flex-col items-center gap-4">
             <div className={cx(
               "relative h-20 w-20 sm:h-24 sm:w-24 transition-all duration-1000",
-              isLive && leftTeam.code === "SRH" ? "scale-110 drop-shadow-[0_0_15px_rgba(255,130,0,0.3)]" : "",
-              isLive && leftTeam.code !== "SRH" ? "scale-110 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" : ""
+              isLive && leftTeam.code === "SRH" ? "scale-110 drop-shadow-[0_0_15px_rgba(255,109,0,0.25)]" : "",
+              isLive && leftTeam.code !== "SRH" ? "scale-110 drop-shadow-[0_0_15px_rgba(0,0,0,0.06)]" : ""
             )}>
               {leftTeam.logo && (
                 <Image
@@ -109,7 +132,7 @@ export function NextMatchHero({ fixture }: { fixture: Fixture }) {
                 />
               )}
             </div>
-            <span className="text-xl font-black text-white">{leftTeam.code}</span>
+            <span className="text-xl font-black text-foreground">{leftTeam.code}</span>
           </div>
 
           <div className="flex flex-col items-center">
@@ -120,8 +143,8 @@ export function NextMatchHero({ fixture }: { fixture: Fixture }) {
           <div className="flex flex-col items-center gap-4">
             <div className={cx(
               "relative h-20 w-20 sm:h-24 sm:w-24 transition-all duration-1000",
-              isLive && rightTeam.code === "SRH" ? "scale-110 drop-shadow-[0_0_15px_rgba(255,130,0,0.3)]" : "",
-              isLive && rightTeam.code !== "SRH" ? "scale-110 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" : ""
+              isLive && rightTeam.code === "SRH" ? "scale-110 drop-shadow-[0_0_15px_rgba(255,109,0,0.25)]" : "",
+              isLive && rightTeam.code !== "SRH" ? "scale-110 drop-shadow-[0_0_15px_rgba(0,0,0,0.06)]" : ""
             )}>
               {rightTeam.logo && (
                 <Image
@@ -133,7 +156,7 @@ export function NextMatchHero({ fixture }: { fixture: Fixture }) {
                 />
               )}
             </div>
-            <span className="text-xl font-black text-white">{rightTeam.code}</span>
+            <span className="text-xl font-black text-foreground">{rightTeam.code}</span>
           </div>
         </div>
 
@@ -141,8 +164,16 @@ export function NextMatchHero({ fixture }: { fixture: Fixture }) {
           <div className="flex gap-2 sm:gap-4">
             {isLive ? (
               <div className="flex flex-col items-center gap-4 py-4">
-                <span className="text-4xl font-black tracking-tighter text-white animate-pulse">GAME IN PROGRESS</span>
+                <span className="text-center text-3xl font-black tracking-tighter text-foreground animate-pulse sm:text-4xl">GAME IN PROGRESS</span>
                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Tracking Official Scoreboard</p>
+              </div>
+            ) : isCompleted ? (
+              <div className="flex max-w-2xl flex-col items-center gap-4 py-4">
+                <span className="text-center text-3xl font-black tracking-tighter text-foreground sm:text-4xl">MATCH COMPLETED</span>
+                {fixture.result && (
+                  <p className="text-base font-black text-accent sm:text-lg">{fixture.result}</p>
+                )}
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Final Result</p>
               </div>
             ) : countdown ? (
               <>
@@ -152,28 +183,39 @@ export function NextMatchHero({ fixture }: { fixture: Fixture }) {
                 <TimeUnit value={countdown.seconds} label="Secs" />
               </>
             ) : (
-              <div className="h-16 w-48 animate-pulse rounded-xl bg-white/5" />
+              <div className="h-16 w-48 animate-pulse rounded-xl bg-black/[0.04]" />
             )}
           </div>
 
           <div className="mt-4 space-y-1">
-            <p className="text-lg font-bold text-white">{fixture.date} • {fixture.time}</p>
+            <p className="text-base font-bold text-foreground sm:text-lg">{fixture.date} • {fixture.time}</p>
             <p className="text-xs font-medium text-muted uppercase tracking-wider">{fixture.venue}</p>
           </div>
 
           <div className="mt-8 flex flex-col items-center gap-4">
             <div className="flex flex-wrap justify-center gap-4">
-              <button 
-                onClick={handleActionClick}
-                className={cx(
-                  "rounded-full border px-10 py-3 text-sm font-bold transition-all duration-500",
-                  isLive 
-                    ? "bg-rose-500 text-white border-rose-500 hover:bg-rose-600 shadow-[0_0_20px_rgba(244,63,94,0.3)]"
-                    : "border-white/10 bg-white/5 text-white hover:bg-white/10 hover:border-accent/40 hover:text-accent"
-                )}
-              >
-                {isLive ? "Match Center" : "Match Preview"}
-              </button>
+              {isCompleted && reportHref ? (
+                <Link
+                  href={reportHref}
+                  className="w-full rounded-full border border-accent bg-accent px-8 py-3 text-center text-sm font-bold text-white transition-all duration-500 hover:bg-accent/90 sm:w-auto sm:px-10"
+                >
+                  Match Report
+                </Link>
+              ) : (
+                <button 
+                  onClick={handleActionClick}
+                  className={cx(
+                    "w-full rounded-full border px-8 py-3 text-sm font-bold transition-all duration-500 sm:w-auto sm:px-10",
+                    isLive 
+                      ? "bg-rose-500 text-white border-rose-500 hover:bg-rose-600 shadow-[0_0_20px_rgba(244,63,94,0.15)]"
+                      : isCompleted
+                        ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 hover:bg-emerald-500/15"
+                        : "border-border bg-black/[0.04] text-foreground hover:bg-black/[0.08] hover:border-accent/40 hover:text-accent"
+                  )}
+                >
+                  {isLive ? "Match Center" : isCompleted ? "Match Completed" : "Match Preview"}
+                </button>
+              )}
             </div>
             
             {message && (
@@ -191,7 +233,7 @@ export function NextMatchHero({ fixture }: { fixture: Fixture }) {
 function TimeUnit({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex flex-col items-center">
-      <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white/5 text-xl font-black text-white sm:h-16 sm:w-16 sm:text-2xl">
+      <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-black/[0.04] text-xl font-black text-foreground sm:h-16 sm:w-16 sm:text-2xl">
         {value.toString().padStart(2, "0")}
       </div>
       <span className="mt-2 text-[8px] font-bold uppercase tracking-widest text-muted">{label}</span>

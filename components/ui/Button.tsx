@@ -26,10 +26,10 @@ type ButtonProps =
       });
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-accent text-black hover:bg-white hover:shadow-[0_0_20px_rgba(255,130,0,0.3)]",
-  secondary: "bg-white/5 text-white hover:bg-white/10 hover:text-accent border border-white/10 hover:border-accent/30",
-  outline: "border border-border-strong text-white hover:bg-white hover:text-black",
-  ghost: "text-muted hover:bg-white/5 hover:text-white",
+  primary: "bg-accent text-white hover:bg-accent/90 hover:shadow-[0_0_20px_rgba(255,109,0,0.3)]",
+  secondary: "bg-black/[0.04] text-foreground hover:bg-black/[0.08] hover:text-accent border border-border hover:border-accent/30",
+  outline: "border border-border-strong text-foreground hover:bg-accent hover:text-white hover:border-accent",
+  ghost: "text-muted hover:bg-black/[0.04] hover:text-foreground",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {

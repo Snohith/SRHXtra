@@ -6,7 +6,7 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
   title: "IPL 2026 Points Table — SRH Standings Tracker",
-  description: "Live IPL 2026 points table tracking Sunrisers Hyderabad's standings, wins, losses, and net run rate across the full league season.",
+  description: "IPL 2026 points table tracking Sunrisers Hyderabad's standings.",
   path: "/points-table/",
 });
 
@@ -16,9 +16,7 @@ export default function PointsTablePage() {
   return (
     <div className="page-stack">
       <SectionHeader
-        eyebrow="IPL Standings"
         title="Points Table"
-        description="The live state of play. Tracking every win, loss, and run-rate shift across the campaign path."
         variant="hero"
         headingLevel={1}
       />
@@ -26,7 +24,6 @@ export default function PointsTablePage() {
       {table ? (
         <section className="section-stack">
           <SectionHeader
-            eyebrow="Tracking"
             title={`Standings • ${table.season}`}
           />
           <PointsTableCard table={table} />

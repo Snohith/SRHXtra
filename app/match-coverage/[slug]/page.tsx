@@ -79,7 +79,7 @@ export default async function MatchCoverageArticlePage({
         <aside className="section-stack">
           <div className="story-rail-card">
             <p className="text-xs uppercase tracking-[0.18em] text-muted">Matchday archive</p>
-            <p className="mt-3 text-base font-semibold text-white">Coverage context</p>
+            <p className="mt-3 text-base font-semibold text-foreground">Coverage context</p>
             <p className="mt-2 story-caption">
               Use the match archive to move between reports, momentum swings, and linked fixtures.
             </p>

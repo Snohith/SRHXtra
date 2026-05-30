@@ -9,7 +9,7 @@ export function Tag({ label, className }: TagProps) {
   return (
     <span
       className={cx(
-        "inline-flex items-center rounded-full border border-border bg-white/5 px-3 py-1 text-xs text-muted",
+        "inline-flex items-center rounded-full border border-border bg-black/[0.02] px-3 py-1 text-xs text-muted",
         className,
       )}
     >

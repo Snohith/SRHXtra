@@ -21,12 +21,12 @@ export function SquadSpotlight({ player }: SquadSpotlightProps) {
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-[0.18em] text-muted">Squad spotlight</p>
-          <h2 className="mt-2 text-2xl font-bold tracking-tight text-white">{player.name}</h2>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-foreground">{player.name}</h2>
         </div>
         <Badge tone="neutral">{player.role}</Badge>
       </div>
       <div className="mt-5 grid gap-4 sm:grid-cols-[132px_1fr] sm:items-start">
-        <div className="image-frame aspect-[1/1.08] rounded-[1.25rem] border border-white/10">
+        <div className="image-frame aspect-[1/1.08] rounded-[1.25rem] border border-border">
           <Image
             alt={playerImage.alt}
             className="h-full w-full object-cover"
@@ -43,7 +43,7 @@ export function SquadSpotlight({ player }: SquadSpotlightProps) {
           <p className="text-sm leading-7 text-muted">
             {player.bio ?? "Full profile details and tactical analysis for this squad member are being processed."}
           </p>
-          <div className="flex flex-wrap gap-3 text-sm text-slate-300">
+          <div className="flex flex-wrap gap-3 text-sm text-muted">
             <span>{player.nationality}</span>
             <span>
               {player.stats.matches === null || player.stats.matches === undefined

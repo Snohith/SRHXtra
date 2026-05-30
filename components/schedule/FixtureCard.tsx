@@ -19,19 +19,19 @@ export function FixtureCard({ fixture }: FixtureCardProps) {
   const rightTeam = isHome ? opponent : srh;
 
   return (
-    <article className="glass-panel group p-8 transition-all hover:bg-white/5">
+    <article className="glass-panel group p-8 transition-all hover:bg-black/[0.02]">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Badge tone={isCompleted ? "neutral" : "accent"}>{fixture.status}</Badge>
           <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">{fixture.competition}</span>
         </div>
-        <Badge tone="neutral" className="border-white/10 bg-white/5">{fixture.homeAway}</Badge>
+        <Badge tone="neutral">{fixture.homeAway}</Badge>
       </div>
       
       <div className="mt-8 flex items-center justify-between gap-6">
         <div className="flex flex-col gap-2">
           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Matchday Encounter</p>
-          <h3 className="text-3xl font-black uppercase tracking-tight text-white group-hover:text-accent transition-colors">
+          <h3 className="text-3xl font-black uppercase tracking-tight text-foreground group-hover:text-accent transition-colors">
             {leftTeam.code} <span className="text-muted/40">vs</span> {rightTeam.code}
           </h3>
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted/60">
@@ -49,14 +49,14 @@ export function FixtureCard({ fixture }: FixtureCardProps) {
         </div>
       </div>
 
-      <div className="mt-8 flex flex-wrap items-center gap-6 border-t border-white/5 pt-8">
+      <div className="mt-8 flex flex-wrap items-center gap-6 border-t border-border pt-8">
         <div className="flex flex-col gap-1">
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Schedule</span>
-          <span className="text-sm font-bold text-white">{fixture.date} • {fixture.time}</span>
+          <span className="text-sm font-bold text-foreground">{fixture.date} • {fixture.time}</span>
         </div>
         <div className="flex flex-col gap-1">
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Venue</span>
-          <span className="text-sm font-bold text-white">{fixture.venue}</span>
+          <span className="text-sm font-bold text-foreground">{fixture.venue}</span>
         </div>
       </div>
 
@@ -70,7 +70,7 @@ export function FixtureCard({ fixture }: FixtureCardProps) {
         <div className="mt-8">
           <Link 
             href={`/match-coverage/${fixture.reportSlug}/`} 
-            className="text-[10px] font-bold uppercase tracking-[0.3em] text-white underline decoration-accent underline-offset-8 transition-all hover:text-accent"
+            className="text-[10px] font-bold uppercase tracking-[0.3em] text-foreground underline decoration-accent underline-offset-8 transition-all hover:text-accent"
           >
             Open Tactical Report
           </Link>

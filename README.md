@@ -249,6 +249,10 @@ The site is configured for static export and can be deployed directly to Vercel.
 ### 2. Environment Variables
 Ensure the following is set in **Project Settings > Environment Variables**:
 - `NEXT_PUBLIC_SITE_URL`: `https://srhxtra.vercel.app` (or your custom domain)
+- `NEXT_PUBLIC_SUPABASE_URL`: Supabase project URL for the fan poll
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Supabase anon key for the fan poll
+
+The player poll also requires the Supabase SQL setup in `docs/supabase-poll-setup.md`.
 
 ### 3. Suggested Flow
 1. Connect the repository to Vercel.

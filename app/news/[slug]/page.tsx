@@ -78,7 +78,7 @@ export default async function NewsArticlePage({
         <aside className="section-stack">
           <div className="story-rail-card">
             <p className="text-xs uppercase tracking-[0.18em] text-muted">Story context</p>
-            <p className="mt-3 text-base font-semibold text-white">News desk</p>
+            <p className="mt-3 text-base font-semibold text-foreground">News desk</p>
             <p className="mt-2 story-caption">
               The news desk tracks off-field SRH developments only. Match reports and recaps live in the match-coverage archive.
             </p>

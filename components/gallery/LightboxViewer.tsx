@@ -54,7 +54,7 @@ export function LightboxViewer({ photos }: LightboxViewerProps) {
             onClick={() => setActiveIndex(index)}
             type="button"
           >
-            <div className="image-frame rounded-none border-0 border-b bg-black/20 p-2">
+            <div className="image-frame rounded-none border-0 border-b bg-surface-strong p-2">
               <img
                 alt={resolvePhotoAlt(photo)}
                 className="mx-auto block max-h-[320px] w-full object-contain"
@@ -63,7 +63,7 @@ export function LightboxViewer({ photos }: LightboxViewerProps) {
               />
             </div>
             <div className="p-4">
-              <p className="font-medium text-white">{resolvePhotoAlt(photo)}</p>
+              <p className="font-medium text-foreground">{resolvePhotoAlt(photo)}</p>
               {photo.caption ? <p className="mt-2 text-sm text-muted">{photo.caption}</p> : null}
             </div>
           </button>

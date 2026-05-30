@@ -8,8 +8,8 @@ interface BadgeProps {
 
 const toneClasses = {
   accent: "border border-accent/30 bg-accent/10 text-accent font-bold",
-  neutral: "border border-white/10 bg-white/5 text-slate-300",
-  success: "border border-emerald-400/20 bg-emerald-400/10 text-emerald-400 font-bold",
+  neutral: "border border-border bg-black/[0.04] text-muted",
+  success: "border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 font-bold",
 };
 
 export function Badge({ children, tone = "accent", className }: BadgeProps) {

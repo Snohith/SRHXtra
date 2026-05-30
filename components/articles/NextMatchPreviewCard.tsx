@@ -83,7 +83,7 @@ export function NextMatchPreviewCard({ article, fixture }: NextMatchPreviewCardP
         </div>
       </div>
 
-      <div className="relative order-1 aspect-[16/10] overflow-hidden bg-black/20 lg:order-2 lg:aspect-auto lg:h-full">
+      <div className="relative order-1 aspect-[16/10] overflow-hidden bg-surface-strong lg:order-2 lg:aspect-auto lg:h-full">
         <Image
           alt={articleImage.alt}
           itemProp="image"
@@ -95,7 +95,7 @@ export function NextMatchPreviewCard({ article, fixture }: NextMatchPreviewCardP
           src={articleImage.src}
           width={1200}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
       </div>
     </article>
   );

@@ -15,7 +15,7 @@ export function PlayerProfile({ player }: PlayerProfileProps) {
   return (
     <article className="relative flex flex-col gap-12">
       <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] border border-white/5 bg-surface/40 shadow-premium group">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] border border-border bg-surface shadow-premium group">
           <Image 
             alt={playerImage.alt} 
             className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105" 
@@ -23,13 +23,13 @@ export function PlayerProfile({ player }: PlayerProfileProps) {
             src={playerImage.src} 
             width={800} 
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/72 via-black/20 to-transparent" />
           <div className="absolute bottom-8 left-8 right-8">
             <div className="flex flex-wrap items-center gap-3">
               <Badge tone="accent">{player.role}</Badge>
               {player.captain ? <Badge tone="neutral">Captain</Badge> : null}
             </div>
-            <h1 className="mt-4 editorial-title leading-none !text-5xl sm:!text-6xl">{player.name}</h1>
+            <h1 className="mt-4 editorial-title leading-none !text-5xl text-white sm:!text-6xl">{player.name}</h1>
           </div>
         </div>
 
@@ -37,7 +37,7 @@ export function PlayerProfile({ player }: PlayerProfileProps) {
           <div className="flex flex-col gap-8">
             <div>
               <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent">Full Name</p>
-              <p className="mt-2 text-2xl font-black text-white">{player.fullName}</p>
+              <p className="mt-2 text-2xl font-black text-foreground">{player.fullName}</p>
             </div>
             
             <div>
@@ -50,12 +50,12 @@ export function PlayerProfile({ player }: PlayerProfileProps) {
             <div className="flex flex-wrap gap-4">
               <div className="glass-panel px-6 py-3 flex items-center gap-3">
                 <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Nationality</span>
-                <span className="text-sm font-bold text-white">{player.nationality}</span>
+                <span className="text-sm font-bold text-foreground">{player.nationality}</span>
               </div>
               {player.jerseyNumber ? (
                 <div className="glass-panel px-6 py-3 flex items-center gap-3 border-accent/20">
                   <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Squad No.</span>
-                  <span className="text-sm font-bold text-white">{player.jerseyNumber}</span>
+                  <span className="text-sm font-bold text-foreground">{player.jerseyNumber}</span>
                 </div>
               ) : null}
             </div>
@@ -80,9 +80,9 @@ export function PlayerProfile({ player }: PlayerProfileProps) {
 function StatItem({ label, value }: { label: string; value?: string | number | null }) {
   if (value === undefined || value === null) return null;
   return (
-    <div className="glass-panel flex flex-col gap-2 p-6 transition-all hover:bg-white/5">
+    <div className="glass-panel flex flex-col gap-2 p-6 transition-all hover:bg-black/[0.02]">
       <dt className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">{label}</dt>
-      <dd className="text-2xl font-black text-white">{value}</dd>
+      <dd className="text-2xl font-black text-foreground">{value}</dd>
     </div>
   );
 }

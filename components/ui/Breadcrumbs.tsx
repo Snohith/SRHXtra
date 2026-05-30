@@ -28,7 +28,7 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
               ) : (
                 <span className={isLast ? "text-accent" : ""}>{item.label}</span>
               )}
-              {!isLast ? <span aria-hidden="true" className="h-1 w-1 rounded-full bg-white/20" /> : null}
+              {!isLast ? <span aria-hidden="true" className="h-1 w-1 rounded-full bg-border-strong" /> : null}
             </li>
           );
         })}

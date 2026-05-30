@@ -5,7 +5,7 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
   title: "SRH Photo Gallery — Match Night Photography & Visual Stories",
-  description: "Official Sunrisers Hyderabad photo galleries from IPL 2026 match nights. High-definition match photography, fan culture, and exclusive visual coverage.",
+  description: "Official Sunrisers Hyderabad photo galleries from IPL 2026 match nights.",
   path: "/gallery/",
 });
 
@@ -17,9 +17,7 @@ export default function GalleryIndexPage() {
   return (
     <div className="page-stack">
       <SectionHeader
-        eyebrow="Match Frames"
         title="The Gallery"
-        description="Every match night through the lens. High-resolution galleries from the ground, the stands, and the SRH dugout."
         variant="hero"
         headingLevel={1}
       />

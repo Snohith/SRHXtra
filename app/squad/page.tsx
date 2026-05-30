@@ -6,7 +6,7 @@ import { formatDisplayDate } from "@/lib/utils/date";
 
 export const metadata = buildPageMetadata({
   title: "SRH IPL 2026 Squad — Full Sunrisers Hyderabad Roster",
-  description: "Complete Sunrisers Hyderabad squad for IPL 2026. Player profiles, roles, batting and bowling styles, career statistics, and official roster updates.",
+  description: "Complete Sunrisers Hyderabad squad for IPL 2026.",
   path: "/squad/",
 });
 
@@ -31,9 +31,7 @@ export default function SquadPage() {
   return (
     <div className="page-stack">
       <SectionHeader
-        eyebrow="Season Roster"
         title="Squad"
-        description={`The Sunrisers Hyderabad squad for the ${squad.season} campaign. Tactical profiles and verified statistics for the orange roster.`}
         variant="hero"
         headingLevel={1}
       />
@@ -41,15 +39,15 @@ export default function SquadPage() {
       <div className="grid gap-6 md:grid-cols-3">
         <div className="glass-panel p-8">
           <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent">Current Season</p>
-          <p className="mt-4 text-3xl font-black text-white">{squad.season}</p>
+          <p className="mt-4 text-3xl font-black text-foreground">{squad.season}</p>
         </div>
         <div className="glass-panel p-8">
           <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Active Roster</p>
-          <p className="mt-4 text-3xl font-black text-white">{squad.players.length}</p>
+          <p className="mt-4 text-3xl font-black text-foreground">{squad.players.length}</p>
         </div>
         <div className="glass-panel p-8">
           <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Latest Update</p>
-          <p className="mt-4 text-3xl font-black text-white">{formatDisplayDate(squad.updatedAt)}</p>
+          <p className="mt-4 text-3xl font-black text-foreground">{formatDisplayDate(squad.updatedAt)}</p>
         </div>
       </div>
 
@@ -57,9 +55,7 @@ export default function SquadPage() {
         {groupedPlayers.map((group) => (
           <section key={group.role} className="section-stack">
             <SectionHeader
-              eyebrow="Profiles"
               title={group.role}
-              description={`The ${group.role.toLowerCase()} group for the current campaign.`}
             />
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {group.players.map((player) => (

@@ -86,7 +86,7 @@ export default async function MatchPreviewArticlePage({
         <aside className="section-stack">
           <div className="story-rail-card">
             <p className="text-xs uppercase tracking-[0.18em] text-muted">Preview Desk</p>
-            <p className="mt-3 text-base font-semibold text-white">Before the toss</p>
+            <p className="mt-3 text-base font-semibold text-foreground">Before the toss</p>
             <p className="mt-2 story-caption">
               Match Previews are written as pre-match reads: fixture context, matchup questions, and selection notes without post-result framing.
             </p>
@@ -101,8 +101,6 @@ export default async function MatchPreviewArticlePage({
       </div>
       <RelatedArticles
         articles={relatedArticles}
-        description="Pre-match reads connected by opponent, venue, and tactical theme."
-        eyebrow="Keep scouting"
         title="Related previews"
       />
     </div>

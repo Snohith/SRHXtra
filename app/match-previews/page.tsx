@@ -6,7 +6,7 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
   title: "SRH Match Previews — Pre-Match Tactical Reads",
-  description: "Before-the-toss Sunrisers Hyderabad previews with fixture context, tactical matchups, selection questions, and restrained pre-match verdicts.",
+  description: "Before-the-toss Sunrisers Hyderabad previews.",
   path: "/match-previews/",
 });
 
@@ -17,9 +17,7 @@ export default function MatchPreviewsIndexPage() {
   return (
     <div className="page-stack">
       <SectionHeader
-        eyebrow="Preview Desk"
         title="Match Previews"
-        description="Before-the-ball analysis for SRH fixtures: matchup maps, selection questions, venue context, and careful pre-toss reads."
         variant="hero"
         headingLevel={1}
       />
@@ -27,7 +25,6 @@ export default function MatchPreviewsIndexPage() {
       {featuredPreview ? (
         <section className="section-stack">
           <SectionHeader
-            eyebrow="Scouting"
             title="The Next Match"
           />
           <NextMatchPreviewCard
@@ -54,12 +51,9 @@ export default function MatchPreviewsIndexPage() {
       {!featuredPreview ? (
         <div className="glass-panel p-10 text-center">
           <p className="text-xs uppercase tracking-[0.18em] text-muted italic">Updates pending</p>
-          <h2 className="mt-3 text-2xl font-black uppercase tracking-tight text-white">
+          <h2 className="mt-3 text-2xl font-black uppercase tracking-tight text-foreground">
             Pre-match reads will return shortly
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm text-muted">
-            The preview desk is currently preparing analysis for upcoming fixtures. Check back as matchday approaches.
-          </p>
         </div>
       ) : null}
     </div>

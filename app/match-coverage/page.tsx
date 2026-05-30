@@ -5,7 +5,7 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
   title: "SRH Match Coverage — Tactical Reports & Match Analysis",
-  description: "Phase-by-phase tactical analysis, official match facts, and in-depth reports for every Sunrisers Hyderabad encounter in IPL 2026. Beyond the scorecard.",
+  description: "In-depth reports for every Sunrisers Hyderabad encounter in IPL 2026.",
   path: "/match-coverage/",
 });
 
@@ -17,9 +17,7 @@ export default function MatchCoverageIndexPage() {
   return (
     <div className="page-stack">
       <SectionHeader
-        eyebrow="Matchday Archive"
         title="Tactical Reports"
-        description="Tactical breakdowns, verified match facts, and editorial recaps. Matchday coverage that looks beyond the scorecard to track the campaign's turning points."
         variant="hero"
         headingLevel={1}
       />
@@ -27,7 +25,6 @@ export default function MatchCoverageIndexPage() {
       {featuredArticle ? (
         <section className="section-stack">
           <SectionHeader
-            eyebrow="The Lead"
             title="Latest Report"
           />
           <ArticleCard article={featuredArticle} variant="featured" />

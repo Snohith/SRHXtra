@@ -89,28 +89,55 @@ export function resolveArticleImage(article: Pick<Article, "collection" | "slug"
   const directCover = cleanImageValue(article.coverImage);
 
   // 1. If we have a direct cover that isn't a known generic/fallback SVG, use it.
-  // This allows manual overrides in markdown to always win.
   if (directCover && !GENERIC_MATCH_COVERAGES.has(directCover)) {
     const isDesignedCard =
       directCover.startsWith("/images/match-previews/")
-      || (directCover.startsWith("/images/post-match/") && !/\.(?:jpe?g|webp)$/i.test(directCover));
+      || (directCover.startsWith("/images/post-match/") && !/\.(?:jpe?g|webp|avif)$/i.test(directCover));
     
     return {
       src: directCover,
       alt: cleanImageValue(article.coverAlt) || article.title,
       fitClassName: isDesignedCard
-        ? "object-contain bg-[#0a192f]" // Using a dark blue background as a safe default for these cards
+        ? "object-contain bg-[#0a192f]"
         : (article.collection === "match-coverage" ? "object-cover object-top" : "object-cover"),
       isFallback: false,
     };
   }
 
-  // 2. For match coverage, try to find a gallery album for overrides or fallbacks.
+  // 2. For match coverage, map slug to correct post-match image
   if (article.collection === "match-coverage") {
+    // Map slugs to our actual post-match images
+    const slugToImage: Record<string, string> = {
+      "match-1-srh-vs-rcb": "/images/post-match/match1post.png",
+      "match-6-srh-vs-kkr": "/images/post-match/match2post.png",
+      "match-10-srh-vs-lsg": "/images/post-match/match3post.png",
+      "match-17-srh-vs-pbks": "/images/post-match/match4post.png",
+      "match-21-srh-vs-rr": "/images/post-match/match5post.png",
+      "match-27-srh-vs-csk": "/images/post-match/match6post.png",
+      "match-31-srh-vs-dc": "/images/post-match/match7post.png",
+      "match-36-rr-vs-srh": "/images/post-match/match7post.png",
+      "match-41-mi-vs-srh": "/images/post-match/match7post.png",
+      "match-45-srh-vs-kkr": "/images/post-match/match7post.png",
+      "match-49-srh-vs-pbks-report": "/images/post-match/match7post.png",
+      "gt-vs-srh-match-report-ipl-2026": "/images/post-match/gt-vs-srh-match-report-ipl-2026.jpg",
+      "match-63-csk-vs-srh": "/images/post-match/match-63-csk-vs-srh.avif",
+      "match-67-srh-vs-rcb": "/images/post-match/match-67-srh-vs-rcb.avif",
+      "eliminator-rr-vs-srh": "/images/post-match/eliminator-rr-vs-srh.avif",
+    };
+
+    const mappedImage = slugToImage[article.slug];
+    if (mappedImage) {
+      return {
+        src: mappedImage,
+        alt: cleanImageValue(article.coverAlt) || article.title,
+        fitClassName: "object-cover object-top",
+        isFallback: false,
+      };
+    }
+
+    // 3. Fallback to generic match coverage image
     const galleryAlbum = getMatchGalleryLookup().get(article.slug) ?? null;
     const galleryCover = galleryAlbum ? resolveGalleryCoverImage(galleryAlbum) : null;
-    
-    // Check for manual gallery cover override first
     const hasManualGalleryCover =
       typeof galleryAlbum?.coverOverrideIndex === "number" && galleryAlbum.photos?.[galleryAlbum.coverOverrideIndex];
 
@@ -121,7 +148,6 @@ export function resolveArticleImage(article: Pick<Article, "collection" | "slug"
       };
     }
 
-    // Fallback to gallery cover if present
     if (galleryAlbum?.coverImage && galleryCover) {
       return {
         ...galleryCover,
@@ -130,9 +156,9 @@ export function resolveArticleImage(article: Pick<Article, "collection" | "slug"
     }
   }
 
-  // 3. Absolute fallbacks
+  // 4. Final fallbacks
   return {
-    src: article.collection === "match-coverage" ? "/HGMJi97WUAAHHq1.jpeg" : ARTICLE_FALLBACKS[article.collection],
+    src: ARTICLE_FALLBACKS[article.collection],
     alt: cleanImageValue(article.coverAlt) || article.title,
     fitClassName: article.collection === "match-coverage" ? "object-cover object-top" : "object-cover",
     isFallback: true,

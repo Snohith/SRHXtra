@@ -18,6 +18,7 @@
     "sync:official": "node scripts/sync-official-data.mjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.106.2",
     "cheerio": "^1.2.0",
     "gray-matter": "^4.0.3",
     "next": "^16.2.4",

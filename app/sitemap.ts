@@ -23,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { route: "/match-previews/", lastModified: matchPreviews[0]?.updatedAt ?? matchPreviews[0]?.publishedAt ?? schedule.updatedAt, changeFrequency: "hourly" as const, priority: 0.94 },
     { route: "/match-coverage/", lastModified: articles.find((article) => article.collection === "match-coverage")?.updatedAt ?? articles.find((article) => article.collection === "match-coverage")?.publishedAt ?? schedule.updatedAt, changeFrequency: "hourly" as const, priority: 0.95 },
     { route: "/points-table/", lastModified: pointsTable?.updatedAt ?? schedule.updatedAt, changeFrequency: "daily" as const, priority: 0.9 },
+    { route: "/player-poll/", lastModified: schedule.updatedAt, changeFrequency: "daily" as const, priority: 0.82 },
     { route: "/gallery/", lastModified: albums[0]?.updatedAt ?? albums[0]?.publishedAt ?? schedule.updatedAt, changeFrequency: "daily" as const, priority: 0.85 },
     { route: "/schedule/", lastModified: schedule.updatedAt, changeFrequency: "daily" as const, priority: 0.9 },
     { route: "/squad/", lastModified: squad.updatedAt, changeFrequency: "weekly" as const, priority: 0.8 },

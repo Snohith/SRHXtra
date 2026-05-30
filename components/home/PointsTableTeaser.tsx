@@ -11,9 +11,7 @@ export function PointsTableTeaser({ table }: PointsTableTeaserProps) {
   return (
     <section className="section-stack">
       <SectionHeader
-        eyebrow="Standings"
         title="Points Table"
-        description="The latest IPL standings, with Sunrisers Hyderabad's position tracked in real-time."
         action={<Button href="/points-table/" variant="secondary" size="sm">Open table</Button>}
       />
       {table ? (

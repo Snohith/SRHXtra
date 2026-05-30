@@ -25,8 +25,8 @@ const config: Config = {
         heading: ["var(--font-heading-family)", "system-ui", "sans-serif"],
       },
       boxShadow: {
-        panel: "0 24px 80px rgba(0, 0, 0, 0.22)",
-        premium: "0 20px 50px rgba(0, 0, 0, 0.5)",
+        panel: "0 24px 80px rgba(15, 23, 42, 0.06)",
+        premium: "0 20px 50px rgba(15, 23, 42, 0.08)",
       },
     },
   },

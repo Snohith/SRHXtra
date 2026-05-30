@@ -5,7 +5,7 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
   title: "SRH News — Squad Updates & Official Announcements",
-  description: "Official Sunrisers Hyderabad news covering squad changes, injury replacements, captaincy announcements, and player availability updates for the IPL 2026 campaign.",
+  description: "Official Sunrisers Hyderabad news for IPL 2026.",
   path: "/news/",
 });
 
@@ -17,9 +17,7 @@ export default function NewsIndexPage() {
   return (
     <div className="page-stack">
       <SectionHeader
-        eyebrow="News Desk"
         title="Editorial Updates"
-        description="Official squad moves, injury replacements, and frontline announcements from the Sunrisers camp. Editorial reporting on the moves that shape the campaign."
         variant="hero"
         headingLevel={1}
       />
@@ -27,7 +25,6 @@ export default function NewsIndexPage() {
       {featuredArticle ? (
         <section className="section-stack">
           <SectionHeader
-            eyebrow="The Lead"
             title="Latest Story"
           />
           <ArticleCard article={featuredArticle} variant="featured" />

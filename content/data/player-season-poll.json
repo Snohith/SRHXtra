@@ -1,0 +1,28 @@
+{
+  "id": "srh-player-of-the-season-2026",
+  "title": "SRH Player of the Season",
+  "description": "Pick the player who defined SRH's IPL 2026 campaign.",
+  "updatedAt": "2026-05-29T09:28:29.000Z",
+  "nominees": [
+    {
+      "playerSlug": "ishan-kishan",
+      "reason": "Top-order control, wicketkeeping impact, and Player of the Match turns in the run-in."
+    },
+    {
+      "playerSlug": "abhishek-sharma",
+      "reason": "Powerplay intent that kept SRH's batting identity aggressive all season."
+    },
+    {
+      "playerSlug": "heinrich-klaasen",
+      "reason": "Middle-over force, spin pressure breaker, and one of SRH's most reliable finishers."
+    },
+    {
+      "playerSlug": "eshan-malinga",
+      "reason": "SRH's leading wicket-taker, with control across high-scoring games and repeated middle/death-over impact."
+    },
+    {
+      "playerSlug": "sakib-hussain",
+      "reason": "High-impact wicket-taking season with the best economy among SRH's regular pace options."
+    }
+  ]
+}

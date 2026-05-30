@@ -21,8 +21,4 @@ SRHXtra exists to cover Sunrisers Hyderabad with more intent than the average fa
 - Keep copy clean, fast, and readable on mobile.
 - Favor clarity over hot takes and structure over filler.
 
-## Publishing model
 
-SRHXtra is built to stay lean: local content files, static deployment, and a workflow that lets one person publish consistently without adding a fragile backend stack.
-
-That matters because the goal is not to run a complicated platform. The goal is to keep showing up with sharper SRH coverage all season.

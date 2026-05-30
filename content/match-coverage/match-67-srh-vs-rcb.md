@@ -15,12 +15,12 @@ venue: "Rajiv Gandhi International Stadium, Hyderabad"
 homeTeam: "SRH"
 awayTeam: "RCB"
 result: "Sunrisers Hyderabad Won by 55 Runs"
-coverImage: /images/articles/match-clinical-chase.svg
-coverAlt: Branded SRHXtra match report card for SRH vs RCB in Hyderabad
+coverImage: /images/post-match/match-67-srh-vs-rcb.avif
+coverAlt: Official match image from SRH vs RCB in Hyderabad
 featured: false
 seoTitle: "SRH vs RCB IPL 2026 Match Report"
 seoDescription: "SRHXtra reviews SRH's 55-run win over RCB in Hyderabad, where a 255/4 batting surge overwhelmed Bengaluru despite Rajat Patidar's resistance."
-ogImage: /images/articles/match-clinical-chase.svg
+ogImage: /images/post-match/match-67-srh-vs-rcb.avif
 relatedSlugs:
   - match-1-srh-vs-rcb
 draft: false

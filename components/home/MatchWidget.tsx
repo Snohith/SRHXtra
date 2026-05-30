@@ -32,17 +32,17 @@ export function MatchWidget({ nextFixture, latestResult }: MatchWidgetProps) {
       {nextFixture || latestResult ? (
         <div className="mt-8 space-y-6">
           {nextFixture ? (
-            <div className="space-y-4 rounded-2xl border border-white/5 bg-black/40 p-6">
+            <div className="space-y-4 rounded-2xl border border-border bg-black/[0.02] p-6">
               <div className="flex items-center justify-between gap-3">
                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Next fixture</span>
-                <Badge tone="success" className="bg-emerald-500/10 border-emerald-500/20">{nextFixture.homeAway}</Badge>
+                <Badge tone="success">{nextFixture.homeAway}</Badge>
               </div>
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">{nextFixture.competition}</p>
-                <h2 className="mt-1 text-2xl font-black uppercase tracking-tight text-white">{getFixtureTitle(nextFixture)}</h2>
+                <h2 className="mt-1 text-2xl font-black uppercase tracking-tight text-foreground">{getFixtureTitle(nextFixture)}</h2>
               </div>
               <div className="space-y-1">
-                <p className="text-sm font-medium text-slate-300">
+                <p className="text-sm font-medium text-muted">
                   {nextFixture.date} • {nextFixture.time}
                 </p>
                 <p className="text-xs text-muted">{nextFixture.venue}</p>
@@ -51,17 +51,17 @@ export function MatchWidget({ nextFixture, latestResult }: MatchWidgetProps) {
           ) : null}
 
           {latestResult ? (
-            <div className="space-y-4 rounded-2xl border border-white/5 bg-black/20 p-6">
+            <div className="space-y-4 rounded-2xl border border-border bg-black/[0.01] p-6">
               <div className="flex items-center justify-between gap-3">
                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Latest result</span>
                 <Badge tone="neutral">{latestResult.homeAway}</Badge>
               </div>
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">{latestResult.competition}</p>
-                <h3 className="mt-1 text-xl font-black uppercase tracking-tight text-white">{getFixtureTitle(latestResult)}</h3>
+                <h3 className="mt-1 text-xl font-black uppercase tracking-tight text-foreground">{getFixtureTitle(latestResult)}</h3>
               </div>
               <div className="space-y-1">
-                <p className="text-sm font-medium text-slate-300">
+                <p className="text-sm font-medium text-muted">
                   {latestResult.date}
                 </p>
                 {latestResult.result ? <p className="text-sm font-black text-accent">{latestResult.result}</p> : null}

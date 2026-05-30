@@ -14,7 +14,7 @@ export function Navbar({ site }: NavbarProps) {
       {/* Precision orange top rule — editorial masthead signal */}
       <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-accent/60 to-transparent" aria-hidden="true" />
 
-      <div className="border-b border-white/[0.1] bg-background shadow-[0_10px_28px_rgba(0,0,0,0.55)] md:bg-background/95 md:backdrop-blur-2xl">
+      <div className="border-b border-border bg-background/95 shadow-[0_10px_28px_rgba(0,0,0,0.03)] md:bg-background/95 md:backdrop-blur-2xl">
         <div className="shell-wide flex h-[68px] items-center justify-between gap-3 sm:gap-8">
 
           {/* Left — Brand block */}
@@ -25,7 +25,7 @@ export function Navbar({ site }: NavbarProps) {
               aria-label={`${site.siteName} — Home`}
             >
               {/* Logo mark — updated with new brand asset */}
-              <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-accent/10 p-0.5 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(255,130,0,0.4)] sm:h-10 sm:w-10 sm:rounded-xl">
+              <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-accent/10 p-0.5 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(255,109,0,0.3)] sm:h-10 sm:w-10 sm:rounded-xl">
                 <img
                   src="/logo.png"
                   alt=""
@@ -33,18 +33,12 @@ export function Navbar({ site }: NavbarProps) {
                 />
               </div>
               {/* Site name */}
-              <span className="truncate text-[11px] font-black uppercase tracking-[0.18em] text-white sm:text-[16px] sm:tracking-[0.2em]">
+              <span className="truncate text-[11px] font-black uppercase tracking-[0.18em] text-foreground sm:text-[16px] sm:tracking-[0.2em]">
                 {site.siteName}
               </span>
             </Link>
 
-            {/* Divider + tagline — visible from 1024px */}
-            <div className="hidden lg:flex items-center gap-3.5">
-              <span className="h-4 w-px bg-white/20" aria-hidden="true" />
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/45 whitespace-nowrap">
-                {site.tagline}
-              </p>
-            </div>
+
           </div>
 
           {/* Right — Desktop nav */}

@@ -80,7 +80,7 @@ export default async function GalleryAlbumPage({
                 <Badge tone="accent">Visual Story</Badge>
                 <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
                   <span>{formatDisplayDate(album.publishedAt)}</span>
-                  <span className="h-1 w-1 rounded-full bg-white/20" />
+                  <span className="h-1 w-1 rounded-full bg-black/20" />
                   <span>{album.photos.length} Frames</span>
                 </div>
               </div>
@@ -102,13 +102,13 @@ export default async function GalleryAlbumPage({
               </div>
             </div>
 
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] border border-white/5 bg-surface/40 shadow-premium group">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] border border-border bg-surface shadow-premium group">
               <img 
                 alt={coverImage.alt} 
                 className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105" 
                 src={withBasePath(coverImage.src)} 
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
             </div>
           </div>
         </header>
@@ -116,9 +116,7 @@ export default async function GalleryAlbumPage({
 
       <div className="section-stack">
         <SectionHeader
-          eyebrow="Visual Feed"
           title="Full Gallery"
-          description="The complete sequence of captures from this matchday. High-definition visuals preserved in their original editorial quality."
         />
         {album.photos.length > 1 ? (
           <div className="glass-panel p-4 sm:p-8">
@@ -134,9 +132,7 @@ export default async function GalleryAlbumPage({
       {relatedAlbums.length ? (
         <section className="section-stack">
           <SectionHeader
-            eyebrow="More albums"
             title="Keep browsing"
-            description="Move across the rest of the gallery archive without leaving the visual desk."
           />
           <AlbumGrid albums={relatedAlbums} />
         </section>

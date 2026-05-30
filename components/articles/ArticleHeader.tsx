@@ -21,13 +21,13 @@ export function ArticleHeader({ article, archiveHref, archiveLabel }: ArticleHea
   const articleImage = resolveArticleImage(article);
 
   return (
-    <header className="relative flex flex-col gap-10">
-      <div className="flex flex-wrap items-center justify-between gap-6 border-b border-white/5 pb-8">
+    <header className="relative flex min-w-0 flex-col gap-8 sm:gap-10">
+      <div className="flex flex-wrap items-center justify-between gap-5 border-b border-border pb-6 sm:gap-6 sm:pb-8">
         <div className="flex flex-wrap items-center gap-4">
           <Badge tone="accent">{article.category}</Badge>
           <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
             <span>{formatDisplayDate(article.publishedAt)}</span>
-            <span className="h-1 w-1 rounded-full bg-white/20" />
+            <span className="h-1 w-1 rounded-full bg-border-strong" />
             <span>{readingTime} min read</span>
           </div>
         </div>
@@ -37,23 +37,23 @@ export function ArticleHeader({ article, archiveHref, archiveLabel }: ArticleHea
       </div>
 
       <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-        <div className="max-w-4xl">
+        <div className="min-w-0 max-w-4xl">
           <h1 className="editorial-title leading-[1.05] tracking-tighter sm:!text-6xl lg:!text-7xl xl:!text-8xl">
             {article.title}
           </h1>
-          <p className="mt-8 text-xl font-medium leading-relaxed text-muted sm:text-2xl">
+          <p className="mt-6 text-base font-medium leading-relaxed text-muted sm:mt-8 sm:text-2xl">
             {article.excerpt}
           </p>
           
-          <div className="mt-10 flex flex-wrap items-center gap-6 border-t border-white/5 pt-8">
+          <div className="mt-8 flex flex-wrap items-center gap-5 border-t border-border pt-6 sm:mt-10 sm:gap-6 sm:pt-8">
             <div className="flex flex-col gap-1">
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Reported by</span>
-              <span className="text-sm font-bold text-white">{article.author}</span>
+              <span className="text-sm font-bold text-foreground">{article.author}</span>
             </div>
             
             <div className="flex flex-col gap-1">
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Edition</span>
-              <span className="text-sm font-bold text-white">
+              <span className="text-sm font-bold text-foreground">
                 {article.updatedAt ? `Updated ${formatDisplayDate(article.updatedAt)}` : "Original Publication"}
               </span>
             </div>
@@ -62,7 +62,7 @@ export function ArticleHeader({ article, archiveHref, archiveLabel }: ArticleHea
               <div className="flex flex-col gap-1">
                 <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Source</span>
                 <a
-                  className="text-sm font-bold text-orange-200 underline decoration-accent/30 underline-offset-4 transition hover:text-accent"
+                  className="text-sm font-bold text-accent underline decoration-accent/30 underline-offset-4 transition hover:text-accent/80"
                   href={article.sourceUrl}
                   rel="noreferrer"
                   target="_blank"
@@ -80,7 +80,7 @@ export function ArticleHeader({ article, archiveHref, archiveLabel }: ArticleHea
           </div>
         </div>
 
-        <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border border-white/5 bg-surface/40 shadow-premium group">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border border-border bg-surface shadow-premium group">
           <Image
             alt={articleImage.alt}
             className={cx("h-full w-full transition-transform duration-700 group-hover:scale-105", articleImage.fitClassName ?? "object-cover")}
@@ -89,7 +89,7 @@ export function ArticleHeader({ article, archiveHref, archiveLabel }: ArticleHea
             src={articleImage.src}
             width={1200}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
         </div>
       </div>
     </header>

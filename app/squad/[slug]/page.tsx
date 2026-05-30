@@ -71,9 +71,7 @@ export default async function SquadPlayerPage({
       {relatedPlayers.length ? (
         <section className="section-stack">
           <SectionHeader
-            eyebrow="More from the squad"
             title="Continue exploring"
-            description="Jump to more player profiles without leaving the squad archive."
           />
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {relatedPlayers.map((entry) => (

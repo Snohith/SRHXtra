@@ -6,7 +6,7 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
   title: "SRH IPL 2026 Schedule — Fixtures, Results & Match Dates",
-  description: "Full Sunrisers Hyderabad fixture list for IPL 2026. Upcoming match dates, venues, kick-off times, and completed match results in one place.",
+  description: "Full Sunrisers Hyderabad fixture list for IPL 2026.",
   path: "/schedule/",
 });
 
@@ -19,9 +19,7 @@ export default function SchedulePage() {
   return (
     <div className="page-stack">
       <SectionHeader
-        eyebrow="Season Tracker"
         title="Official Schedule"
-        description={`The complete IPL ${schedule.season} campaign roadmap. Tracking venues, match timings, and results across every phase.`}
         variant="hero"
         headingLevel={1}
       />
@@ -32,9 +30,7 @@ export default function SchedulePage() {
 
       <section className="section-stack">
         <SectionHeader
-          eyebrow="Match Feed"
           title="Season Roadmap"
-          description="Filter through upcoming battles and archived results."
         />
         
         <ScheduleTabs 

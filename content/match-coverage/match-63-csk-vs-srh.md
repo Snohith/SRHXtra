@@ -15,12 +15,12 @@ venue: "MA Chidambaram Stadium, Chennai"
 homeTeam: "CSK"
 awayTeam: "SRH"
 result: "Sunrisers Hyderabad Won by 5 Wickets"
-coverImage: https://d1zakxcsliwds.cloudfront.net/image-pool/b7cc554328f0494fbf190c52a0ad2015.jpg
-coverAlt: Official SRH gallery image from CSK vs SRH in Chennai
+coverImage: /images/post-match/match-63-csk-vs-srh.avif
+coverAlt: Official match image from SRH vs CSK in Chennai
 featured: false
 seoTitle: "CSK vs SRH IPL 2026 Match Report"
 seoDescription: "SRHXtra reviews SRH's five-wicket win over CSK in Chennai, with Ishan Kishan, Heinrich Klaasen and Pat Cummins central to the playoff-clinching chase."
-ogImage: https://d1zakxcsliwds.cloudfront.net/image-pool/b7cc554328f0494fbf190c52a0ad2015.jpg
+ogImage: /images/post-match/match-63-csk-vs-srh.avif
 relatedSlugs:
   - csk-vs-srh-preview-ipl-2026
   - match-27-srh-vs-csk
