@@ -35,9 +35,12 @@ export function Footer({ site }: FooterProps) {
             <Link href="/" className="flex items-center gap-4 group">
               <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-accent/10 p-1 transition-transform group-hover:rotate-6">
                 <img
-                  src="/logo.png"
+                  src="/images/site/logo-mark.svg"
                   alt=""
                   className="h-full w-full object-contain"
+                  height={56}
+                  loading="lazy"
+                  width={56}
                 />
               </div>
               <span className="text-3xl font-black uppercase tracking-[0.2em] text-foreground">

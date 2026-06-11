@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 
@@ -16,19 +15,45 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ title, description, image, leadStory }: HeroSectionProps) {
+  const useOptimizedHomepageHero = image === "/images/site/homepage-hero.png";
+
   return (
     <section className="relative min-h-[calc(100svh-86px)] w-full overflow-hidden rounded-[1rem] border border-border bg-surface sm:min-h-[70vh] sm:rounded-[2rem] lg:rounded-[2.5rem]">
       {/* Background Image & Overlays */}
       <div className="absolute inset-0">
-        {image ? (
-          <Image
+        {useOptimizedHomepageHero ? (
+          <picture className="block h-full w-full">
+            <source
+              sizes="(max-width: 1024px) 100vw, 1440px"
+              srcSet="/images/site/homepage-hero-640.avif 640w, /images/site/homepage-hero-960.avif 960w, /images/site/homepage-hero-1280.avif 1280w, /images/site/homepage-hero-1920.avif 1920w"
+              type="image/avif"
+            />
+            <source
+              sizes="(max-width: 1024px) 100vw, 1440px"
+              srcSet="/images/site/homepage-hero-640.webp 640w, /images/site/homepage-hero-960.webp 960w, /images/site/homepage-hero-1280.webp 1280w, /images/site/homepage-hero-1920.webp 1920w"
+              type="image/webp"
+            />
+            <img
+              alt="Hero background"
+              className="h-full w-full object-cover opacity-50 transition-opacity duration-1000"
+              decoding="async"
+              fetchPriority="high"
+              height={821}
+              loading="eager"
+              src={image}
+              width={1916}
+            />
+          </picture>
+        ) : image ? (
+          <img
             alt="Hero background"
             className="h-full w-full object-cover opacity-50 transition-opacity duration-1000"
-            height={1080}
-            priority
+            decoding="async"
+            fetchPriority="high"
+            height={821}
+            loading="eager"
             src={image}
-            suppressHydrationWarning
-            width={1920}
+            width={1916}
           />
         ) : (
           <div className="h-full w-full bg-gradient-to-br from-surface to-background divider-grid opacity-30" />

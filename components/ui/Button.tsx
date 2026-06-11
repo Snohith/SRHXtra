@@ -26,7 +26,7 @@ type ButtonProps =
       });
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-accent text-white hover:bg-accent/90 hover:shadow-[0_0_20px_rgba(255,109,0,0.3)]",
+  primary: "bg-accent text-[#11141a] hover:bg-accent/90 hover:shadow-[0_0_20px_rgba(255,109,0,0.3)]",
   secondary: "bg-black/[0.04] text-foreground hover:bg-black/[0.08] hover:text-accent border border-border hover:border-accent/30",
   outline: "border border-border-strong text-foreground hover:bg-accent hover:text-white hover:border-accent",
   ghost: "text-muted hover:bg-black/[0.04] hover:text-foreground",

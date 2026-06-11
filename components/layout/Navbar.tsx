@@ -27,9 +27,11 @@ export function Navbar({ site }: NavbarProps) {
               {/* Logo mark — updated with new brand asset */}
               <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-accent/10 p-0.5 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(255,109,0,0.3)] sm:h-10 sm:w-10 sm:rounded-xl">
                 <img
-                  src="/logo.png"
+                  src="/images/site/logo-mark.svg"
                   alt=""
                   className="h-full w-full object-contain"
+                  height={40}
+                  width={40}
                 />
               </div>
               {/* Site name */}
