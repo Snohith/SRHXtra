@@ -63,24 +63,24 @@ export function MobileMenu({ links, siteName }: MobileMenuProps) {
           "relative z-[75] flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-lg border transition-all duration-200",
           isOpen
             ? "border-accent/40 bg-accent/10"
-            : "border-border bg-black/[0.02] hover:border-border-strong hover:bg-black/[0.04]"
+            : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10"
         )}
       >
         <span
           className={cx(
-            "h-[1.5px] w-4 rounded-full bg-foreground transition-all duration-300",
+            "h-[1.5px] w-4 rounded-full bg-white transition-all duration-300",
             isOpen && "translate-y-[6.5px] rotate-45"
           )}
         />
         <span
           className={cx(
-            "h-[1.5px] w-4 rounded-full bg-foreground transition-all duration-300",
+            "h-[1.5px] w-4 rounded-full bg-white transition-all duration-300",
             isOpen && "opacity-0"
           )}
         />
         <span
           className={cx(
-            "h-[1.5px] w-4 rounded-full bg-foreground transition-all duration-300",
+            "h-[1.5px] w-4 rounded-full bg-white transition-all duration-300",
             isOpen && "-translate-y-[6.5px] -rotate-45"
           )}
         />

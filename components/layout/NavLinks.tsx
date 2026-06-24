@@ -30,8 +30,8 @@ export function NavLinks({ links }: NavLinksProps) {
             className={cx(
               "relative rounded-lg px-2.5 py-2 text-[10px] font-bold uppercase tracking-[0.13em] transition-all duration-200",
               active
-                ? "text-foreground"
-                : "text-muted hover:text-foreground"
+                ? "text-white"
+                : "text-neutral-400 hover:text-white"
             )}
           >
             {link.label}

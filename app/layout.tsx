@@ -4,10 +4,7 @@ import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 
 import "@/styles/globals.css";
-import { Footer } from "@/components/layout/Footer";
-import { Navbar } from "@/components/layout/Navbar";
-import { getSiteConfig } from "@/lib/content/site";
-import { getOrganizationJsonLd, getWebsiteJsonLd } from "@/lib/seo/jsonld";
+import TempDown from "@/components/TempDown";
 import { buildBaseMetadata, buildBaseViewport } from "@/lib/seo/metadata";
 
 const outfit = Outfit({
@@ -24,18 +21,12 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata = {
   ...buildBaseMetadata(),
-  verification: {
-    google: "Aml-PVKvuQ9NV_ptwl8NC1zkrlr6Jcof1JBhpBwI2_0",
-  },
+  title: "Temporarily Down",
 };
 
 export const viewport = buildBaseViewport();
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  const site = getSiteConfig();
-  const organizationJsonLd = getOrganizationJsonLd();
-  const websiteJsonLd = getWebsiteJsonLd();
-
   return (
     <html
       className={`${outfit.variable} ${jakarta.variable}`}
@@ -58,23 +49,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             gtag('config', 'G-RC7HGXJQ7M');
           `}
         </Script>
-        <script
-          id="organization-jsonld"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
-        <script
-          id="website-jsonld"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-        />
       </head>
       <body suppressHydrationWarning className="font-body">
-        <div className="min-h-screen">
-          <Navbar site={site} />
-          <main className="shell-wide py-5 sm:py-10 lg:py-12">{children}</main>
-          <Footer site={site} />
-        </div>
+        <TempDown />
       </body>
     </html>
   );

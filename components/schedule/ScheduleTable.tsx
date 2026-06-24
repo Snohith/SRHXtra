@@ -12,14 +12,14 @@ interface ScheduleTableProps {
 
 export function ScheduleTable({ fixtures }: ScheduleTableProps) {
   return (
-    <div className="glass-panel overflow-hidden">
-      <div className="hidden grid-cols-[1.2fr_1fr_0.8fr_1fr] gap-6 border-b border-border bg-black/[0.02] px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-muted md:grid">
-        <span>Fixture Encounter</span>
-        <span>Schedule / Period</span>
-        <span>Tactical Venue</span>
-        <span>Outcome / Margin</span>
+    <div className="glass-panel overflow-hidden border border-border shadow-xs bg-white">
+      <div className="hidden grid-cols-[0.8fr_1.4fr_1fr_0.8fr] gap-6 border-b border-neutral-100 bg-neutral-50 px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400 md:grid">
+        <span>Date & Time</span>
+        <span>Encounter</span>
+        <span>Venue</span>
+        <span className="text-right">Outcome</span>
       </div>
-      <div className="divide-y divide-border">
+      <div className="divide-y divide-neutral-100">
         {fixtures.map((fixture) => {
           const opponent = getTeamInfo(fixture.opponent);
           const srh = getTeamInfo("SRH");
@@ -31,77 +31,75 @@ export function ScheduleTable({ fixtures }: ScheduleTableProps) {
           return (
             <div
               key={fixture.id}
-              className="grid gap-4 px-4 py-5 transition-colors hover:bg-black/[0.02] sm:px-6 md:grid-cols-[1.2fr_1fr_0.8fr_1fr] md:items-center md:gap-6 md:px-8 md:py-8"
+              className="grid gap-4 px-4 py-5 transition-colors hover:bg-neutral-50 sm:px-6 md:grid-cols-[0.8fr_1.4fr_1fr_0.8fr] md:items-center md:gap-6 md:px-8 md:py-6"
             >
-              <div className="flex min-w-0 items-center gap-3 sm:gap-5">
-                <div className="relative flex -space-x-2 shrink-0">
-                  <div className="relative h-9 w-9 overflow-hidden rounded-full border border-border bg-surface-strong p-1.5 sm:h-10 sm:w-10">
+              {/* Column 1: Date & Time */}
+              <div className="flex flex-col gap-0.5">
+                <p className="text-sm font-black text-foreground">{fixture.date}</p>
+                <p className="text-[9px] font-bold uppercase tracking-wider text-neutral-400">{fixture.time}</p>
+              </div>
+
+              {/* Column 2: Encounter (Teams & Logos) */}
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="relative flex -space-x-1.5 shrink-0">
+                  <div className="relative h-8 w-8 overflow-hidden rounded-full border border-neutral-200 bg-white p-1">
                     {leftTeam.logo && <Image src={leftTeam.logo} alt={leftTeam.name} fill className="object-contain" unoptimized />}
                   </div>
-                  <div className="relative h-9 w-9 overflow-hidden rounded-full border border-border bg-surface-strong p-1.5 sm:h-10 sm:w-10">
+                  <div className="relative h-8 w-8 overflow-hidden rounded-full border border-neutral-200 bg-white p-1">
                     {rightTeam.logo && <Image src={rightTeam.logo} alt={rightTeam.name} fill className="object-contain" unoptimized />}
                   </div>
                 </div>
-                <div className="min-w-0 flex flex-col gap-0.5">
-                  <p className="text-sm font-black uppercase tracking-tight text-foreground sm:text-base">
-                    {leftTeam.code} <span className="text-muted/40 text-xs">vs</span> {rightTeam.code}
+                <div className="min-w-0 flex flex-col">
+                  <p className="text-sm font-black uppercase tracking-tight text-foreground">
+                    {leftTeam.code} <span className="text-neutral-400 font-bold lowercase text-[10px]">vs</span> {rightTeam.code}
                   </p>
-                  <div className="flex min-w-0 flex-wrap items-center gap-2">
-                    <span className="text-[9px] font-bold uppercase tracking-[0.1em] text-accent">{fixture.competition}</span>
-                    <span className="h-1 w-1 rounded-full bg-border-strong" />
-                    <span className="text-[9px] font-bold uppercase tracking-[0.1em] text-muted">{fixture.homeAway}</span>
+                  <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-wider text-neutral-400 mt-0.5">
+                    <span className="text-[#ff6d00]">{fixture.competition}</span>
+                    <span className="h-1 w-1 rounded-full bg-neutral-300" />
+                    <span>{fixture.homeAway}</span>
                   </div>
                 </div>
               </div>
             
-            <div className="flex flex-col gap-1 rounded-xl bg-black/[0.02] p-3 md:bg-transparent md:p-0">
-              <p className="text-sm font-bold text-foreground">{fixture.date}</p>
-              <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted">{fixture.time}</p>
-            </div>
+              {/* Column 3: Venue */}
+              <p className="text-xs font-semibold text-neutral-500 md:line-clamp-2">{fixture.venue}</p>
 
-            <p className="text-sm font-medium text-muted md:line-clamp-3">{fixture.venue}</p>
-
-            <div className="space-y-3 sm:space-y-4">
-              <div className="flex flex-wrap items-center gap-3">
-                <Badge tone={fixture.outcome === "won" ? "accent" : "neutral"}>
-                  {fixture.status}
-                </Badge>
-                {fixture.outcome ? (
-                  <span
-                    className={cx(
-                       "text-[10px] font-black uppercase tracking-[0.2em]",
-                      fixture.outcome === "won" ? "text-emerald-600" : "text-rose-600",
+              {/* Column 4: Outcome */}
+              <div className="flex flex-col items-start gap-1 md:items-end">
+                {fixture.status === "completed" ? (
+                  <div className="flex flex-col items-start md:items-end gap-1">
+                    <div className="flex items-center gap-1.5">
+                      <span className={cx(
+                        "h-2 w-2 rounded-full",
+                        fixture.outcome === "won" ? "bg-emerald-500" : "bg-rose-500"
+                      )} />
+                      <span className={cx(
+                        "text-xs font-black uppercase tracking-widest",
+                        fixture.outcome === "won" ? "text-emerald-600" : "text-rose-600"
+                      )}>
+                        {fixture.outcome === "won" ? "Won" : "Lost"}
+                      </span>
+                    </div>
+                    {fixture.margin && (
+                      <p className="text-[10px] font-bold text-neutral-500 uppercase tracking-tight">
+                        {fixture.margin}
+                      </p>
                     )}
-                  >
-                    {fixture.outcome}
+                    {fixture.reportSlug && (
+                      <Link
+                        href={`/match-coverage/${fixture.reportSlug}/`}
+                        className="text-[9px] font-bold uppercase tracking-wider text-[#ff6d00] hover:underline"
+                      >
+                        Read report
+                      </Link>
+                    )}
+                  </div>
+                ) : (
+                  <span className="inline-flex items-center rounded-full bg-neutral-100 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-widest text-neutral-500 border border-neutral-200">
+                    Upcoming
                   </span>
-                ) : null}
+                )}
               </div>
-              
-              <div className="flex flex-col gap-1">
-                 {fixture.margin ? (
-                  <p className="text-sm font-black text-foreground uppercase tracking-tight">
-                    {fixture.margin}
-                  </p>
-                ) : fixture.result ? (
-                  <p className="text-sm font-black text-foreground uppercase tracking-tight">{fixture.result}</p>
-                ) : null}
-                
-                {fixture.playerOfTheMatch ? (
-                  <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted">
-                    POTM: <span className="text-accent">{fixture.playerOfTheMatch}</span>
-                  </p>
-                ) : null}
-                {fixture.reportSlug ? (
-                  <Link
-                    href={`/match-coverage/${fixture.reportSlug}/`}
-                    className="inline-flex text-[10px] font-bold uppercase tracking-[0.16em] text-accent underline decoration-accent/30 underline-offset-4 transition hover:text-accent/80 sm:tracking-[0.18em]"
-                  >
-                    Open report
-                  </Link>
-                ) : null}
-              </div>
-            </div>
             </div>
           );
         })}

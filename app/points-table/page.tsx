@@ -16,18 +16,15 @@ export default function PointsTablePage() {
   return (
     <div className="page-stack">
       <SectionHeader
-        title="Points Table"
+        title={`IPL ${table?.season || "2026"} Points Table`}
         variant="hero"
         headingLevel={1}
       />
 
       {table ? (
         <section className="section-stack">
-          <SectionHeader
-            title={`Standings • ${table.season}`}
-          />
           <PointsTableCard table={table} />
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3 mt-4">
             <Button href="/schedule/" size="sm" variant="secondary">
               View schedule
             </Button>

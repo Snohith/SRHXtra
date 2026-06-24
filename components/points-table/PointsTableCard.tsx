@@ -13,14 +13,7 @@ export function PointsTableCard({ table, compact = false }: PointsTableCardProps
   const rows = compact ? table.standings.slice(0, 5) : table.standings;
 
   return (
-    <div className="glass-panel overflow-hidden">
-      <div className="border-b border-border bg-black/[0.02] px-4 py-5 sm:px-8 sm:py-6">
-        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent">Standings Feed</p>
-        <p className="mt-2 text-lg font-black text-foreground sm:text-xl">IPL {table.season} Edition</p>
-        <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.18em] text-muted sm:hidden">
-          Swipe table sideways
-        </p>
-      </div>
+    <div className="glass-panel overflow-hidden border border-border shadow-xs bg-white">
       <div className="overflow-x-auto [scrollbar-width:thin]">
         <table className="min-w-[660px] border-separate border-spacing-0 sm:min-w-full">
           <thead className="sticky top-0 z-40 bg-surface/95 text-[10px] font-bold uppercase tracking-[0.2em] text-muted backdrop-blur-md">

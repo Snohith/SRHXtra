@@ -14,7 +14,7 @@ export function Navbar({ site }: NavbarProps) {
       {/* Precision orange top rule — editorial masthead signal */}
       <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-accent/60 to-transparent" aria-hidden="true" />
 
-      <div className="border-b border-border bg-background/95 shadow-[0_10px_28px_rgba(0,0,0,0.03)] md:bg-background/95 md:backdrop-blur-2xl">
+      <div className="border-b border-white/10 bg-black shadow-[0_10px_28px_rgba(0,0,0,0.2)]">
         <div className="shell-wide flex h-[68px] items-center justify-between gap-3 sm:gap-8">
 
           {/* Left — Brand block */}
@@ -35,7 +35,7 @@ export function Navbar({ site }: NavbarProps) {
                 />
               </div>
               {/* Site name */}
-              <span className="truncate text-[11px] font-black uppercase tracking-[0.18em] text-foreground sm:text-[16px] sm:tracking-[0.2em]">
+              <span className="truncate text-[11px] font-black uppercase tracking-[0.18em] text-white sm:text-[16px] sm:tracking-[0.2em]">
                 {site.siteName}
               </span>
             </Link>

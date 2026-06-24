@@ -28,7 +28,7 @@ export function Footer({ site }: FooterProps) {
   });
 
   return (
-    <footer className="mt-32 border-t border-border bg-surface/30">
+    <footer className="mt-32 border-t border-white/10 bg-black text-white">
       <div className="shell-wide py-20">
         <div className="grid gap-16 lg:grid-cols-[1.5fr_1fr]">
           <div className="max-w-3xl">
@@ -43,14 +43,14 @@ export function Footer({ site }: FooterProps) {
                   width={56}
                 />
               </div>
-              <span className="text-3xl font-black uppercase tracking-[0.2em] text-foreground">
+              <span className="text-3xl font-black uppercase tracking-[0.2em] text-white">
                 {site.siteName}
               </span>
             </Link>
-            <h2 className="mt-8 text-2xl font-bold leading-tight text-foreground sm:text-3xl lg:text-4xl">
+            <h2 className="mt-8 text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">
               {site.footerHeadline}
             </h2>
-            <p className="mt-6 body-copy max-w-2xl">{site.organization.description}</p>
+            <p className="mt-6 text-sm text-neutral-400 max-w-2xl leading-relaxed">{site.organization.description}</p>
           </div>
           
           <div className="grid gap-10 sm:grid-cols-2 lg:justify-end">
@@ -59,7 +59,7 @@ export function Footer({ site }: FooterProps) {
               <ul className="mt-6 grid gap-4 text-sm font-medium">
                 {site.footerLinks.map((link) => (
                   <li key={link.href}>
-                    <Link className="text-muted transition-colors hover:text-foreground" href={link.href}>
+                    <Link className="text-neutral-400 transition-colors hover:text-white" href={link.href}>
                       {link.label}
                     </Link>
                   </li>
@@ -72,7 +72,7 @@ export function Footer({ site }: FooterProps) {
                 {socialLinks.map((entry) =>
                   entry ? (
                     <li key={entry.label}>
-                      <a className="text-muted transition-colors hover:text-foreground" href={entry.href}>
+                      <a className="text-neutral-400 transition-colors hover:text-white" href={entry.href}>
                         {entry.label}
                       </a>
                     </li>
@@ -83,13 +83,13 @@ export function Footer({ site }: FooterProps) {
           </div>
         </div>
         
-        <div className="mt-20 flex flex-col gap-6 border-t border-border pt-10 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
+        <div className="mt-20 flex flex-col gap-6 border-t border-white/10 pt-10 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500">
             &copy; {new Date().getFullYear()} {site.siteName}. Independent SRH Coverage.
           </p>
-          <div className="flex gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
-            <Link href="/about-us" className="hover:text-foreground">About Us</Link>
-            <Link href="/sitemap.xml" className="hover:text-foreground">Sitemap</Link>
+          <div className="flex gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500">
+            <Link href="/about-us" className="hover:text-white">About Us</Link>
+            <Link href="/sitemap.xml" className="hover:text-white">Sitemap</Link>
           </div>
         </div>
       </div>

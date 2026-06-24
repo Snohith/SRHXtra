@@ -14,106 +14,78 @@ interface HeroSectionProps {
   };
 }
 
-export function HeroSection({ title, description, image, leadStory }: HeroSectionProps) {
-  const useOptimizedHomepageHero = image === "/images/site/homepage-hero.png";
-
+export function HeroSection({ title, description, leadStory }: HeroSectionProps) {
   return (
-    <section className="relative min-h-[calc(100svh-86px)] w-full overflow-hidden rounded-[1rem] border border-border bg-surface sm:min-h-[70vh] sm:rounded-[2rem] lg:rounded-[2.5rem]">
-      {/* Background Image & Overlays */}
-      <div className="absolute inset-0">
-        {useOptimizedHomepageHero ? (
-          <picture className="block h-full w-full">
-            <source
-              sizes="(max-width: 1024px) 100vw, 1440px"
-              srcSet="/images/site/homepage-hero-640.avif 640w, /images/site/homepage-hero-960.avif 960w, /images/site/homepage-hero-1280.avif 1280w, /images/site/homepage-hero-1920.avif 1920w"
-              type="image/avif"
-            />
-            <source
-              sizes="(max-width: 1024px) 100vw, 1440px"
-              srcSet="/images/site/homepage-hero-640.webp 640w, /images/site/homepage-hero-960.webp 960w, /images/site/homepage-hero-1280.webp 1280w, /images/site/homepage-hero-1920.webp 1920w"
-              type="image/webp"
-            />
-            <img
-              alt="Hero background"
-              className="h-full w-full object-cover opacity-50 transition-opacity duration-1000"
-              decoding="async"
-              fetchPriority="high"
-              height={821}
-              loading="eager"
-              src={image}
-              width={1916}
-            />
-          </picture>
-        ) : image ? (
-          <img
-            alt="Hero background"
-            className="h-full w-full object-cover opacity-50 transition-opacity duration-1000"
-            decoding="async"
-            fetchPriority="high"
-            height={821}
-            loading="eager"
-            src={image}
-            width={1916}
-          />
-        ) : (
-          <div className="h-full w-full bg-gradient-to-br from-surface to-background divider-grid opacity-30" />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/86 via-black/58 to-black/18" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/78 via-black/8 to-black/24" />
-      </div>
-
-      <div className="relative z-10 flex min-h-[inherit] items-center px-4 py-7 sm:px-8 sm:py-12 md:px-12 lg:px-20">
-        <div className="grid w-full gap-6 sm:gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div className="max-w-4xl">
-            <Badge tone="accent">SRHXtra • Editorial</Badge>
-            <h1 className="mt-5 max-w-[12ch] editorial-title leading-[1.02] text-white sm:mt-7">
+    <section className="w-full overflow-hidden rounded-[1.5rem] border border-border bg-[#0d0d0d] shadow-sm">
+      <div className="grid w-full gap-0 lg:grid-cols-[1.1fr_0.9fr]">
+        
+        {/* Left Side — Gradient Box */}
+        <div className="relative flex flex-col justify-center px-6 py-12 sm:px-12 lg:px-16 bg-gradient-to-br from-[#ff6d00] via-[#d35400] to-[#1a0a00] text-white">
+          <div className="relative z-10 max-w-xl">
+            <Badge tone="accent" className="bg-white/20 text-white border-none font-black">
+              SRHXtra • Editorial
+            </Badge>
+            <h1 className="mt-6 text-3xl font-black uppercase leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl text-white">
               {title}
             </h1>
-            <p className="mt-5 max-w-2xl text-sm font-medium leading-relaxed text-white/84 sm:mt-7 sm:text-lg lg:text-xl">
+            <p className="mt-5 text-sm font-medium leading-relaxed text-white/80 sm:text-lg">
               {description}
             </p>
-            <div className="mt-7 grid gap-3 sm:mt-9 sm:flex sm:flex-wrap sm:gap-4">
-              <Button className="justify-center" href="/news/" size="lg">Latest updates</Button>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Button 
+                className="bg-white text-black hover:bg-neutral-100 border-none shadow-none hover:shadow-none" 
+                href="/news/" 
+                size="md"
+              >
+                Latest updates
+              </Button>
               <Button
-                className="justify-center border-white/30 bg-white/12 text-white hover:bg-white hover:text-foreground"
+                className="border border-white/30 bg-white/12 text-white hover:bg-white hover:text-black transition-colors duration-200"
                 href="/match-coverage/"
-                size="lg"
+                size="md"
                 variant="secondary"
               >
                 Archive
               </Button>
             </div>
           </div>
+        </div>
 
+        {/* Right Side — Lead Story Card */}
+        <div className="flex flex-col justify-center bg-[#18181b] p-6 sm:p-12 lg:p-16 text-white border-t lg:border-t-0 lg:border-l border-white/10">
           {leadStory ? (
-            <div className="glass-panel group relative p-4 transition-transform hover:-translate-y-1 sm:p-7 lg:p-10">
+            <div className="relative">
               <div className="flex items-center gap-3">
                 <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent">
                   {leadStory.label}
                 </p>
               </div>
-              <h2 className="mt-4 text-lg font-black uppercase leading-tight tracking-tight text-foreground sm:mt-6 sm:text-3xl lg:text-4xl">
+              <h2 className="mt-4 text-xl font-black uppercase leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl">
                 {leadStory.title}
               </h2>
-              <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted sm:mt-4 sm:text-base">
+              <p className="mt-4 text-sm leading-relaxed text-neutral-400 line-clamp-3">
                 {leadStory.excerpt}
               </p>
-              <div className="mt-6 sm:mt-8">
+              <div className="mt-8">
                 <Button
                   href={leadStory.href}
                   rel={leadStory.isExternal ? "noreferrer" : undefined}
                   size="md"
                   target={leadStory.isExternal ? "_blank" : undefined}
-                  variant="outline"
-                  className="w-full"
+                  className="w-full bg-[#ff6d00] hover:bg-[#e05f00] text-white border-none shadow-none hover:shadow-none"
                 >
                   Full report
                 </Button>
               </div>
             </div>
-          ) : null}
+          ) : (
+            <div className="text-center text-neutral-500 py-10">
+              No featured match report at the moment.
+            </div>
+          )}
         </div>
+
       </div>
     </section>
   );
