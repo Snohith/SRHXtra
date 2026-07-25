@@ -1,338 +1,45 @@
-# SRHXtra
+# 🦅 SRHXtra
 
-SRHXtra is a fully static cricket media site built with Next.js 15 App Router, TypeScript, Tailwind CSS, and local Markdown/JSON content only.
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-15-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Private Repository](https://img.shields.io/badge/Visibility-Private%20%F0%9F%94%92-red?style=for-the-badge)](https://github.com/Snohith/SRHXtra)
 
-## Stack
+> **SRHXtra** is an operational media platform and analytics dashboard built for tracking player statistics, match reconnaissance, media assets, and news feeds for Sunrisers global cricket franchises.
 
-- Next.js 15
-- App Router
-- TypeScript
-- Tailwind CSS
-- Static export only
-- Local Markdown and JSON content
-- Local images in `public/`
+---
 
-## Content
+## 🌟 Features & Capabilities
 
-- News: `content/news/*.md`
-- Match coverage: `content/match-coverage/*.md`
-- Points table: `content/data/points-table.json`
-- Gallery albums: `content/gallery/albums/*.json`
-- Schedule: `content/data/schedule.json`
-- Squad: `content/data/squad.json`
-- Site config: `content/data/site.json`
+- 📊 **Player Stats Analytics**: Deep match stat tracking for all Sunrisers franchise players across IPL, SA20, and domestic leagues.
+- 📰 **Media Recon Engine**: Automated aggregation of news, podcasts, viral clips, and injury updates.
+- 🎨 **Visual Assets Management**: Template engine for generating match stats cards and broadcast graphics.
+- 🔐 **Secure Operations Engine**: Private operational dashboard with real-time updates.
 
-Editorial handoff docs:
+---
 
-- `docs/content-replacement-map.md`
-- `docs/editorial-workflow.md`
-- `docs/launch-content-checklist.md`
-- `content/_templates/`
+## 🛠️ Tech Stack
 
-## Official data sync
+- **Frontend / Fullstack**: TypeScript, Next.js (App Router), Tailwind CSS
+- **Data & APIs**: REST/GraphQL APIs, Data Scrapers
+- **UI System**: Lucide Icons, Framer Motion
 
-SRHXtra now includes an official-first sync system for the site’s major live-data surfaces:
+---
 
-- Schedule and results: `content/data/schedule.json`
-- Squad: `content/data/squad.json`
-- Filtered official SRH news feed: `content/data/official-news-feed.json`
-- Local non-match news entries: `content/news/official-news-*.md`
-- Match coverage source data: `content/data/match-coverage-sources.json`
-- Points table: `content/data/points-table.json`
-- Gallery albums: `content/gallery/albums/official-gallery-*.json`
-
-The sync stays inside the existing static-export architecture. It writes local JSON files only and does not add a database, CMS, or runtime-only service.
-
-### Source priority
-
-Schedule and results:
-
-1. Official IPL pages:
-   - `https://www.iplt20.com/teams/sunrisers-hyderabad/schedule`
-   - `https://www.iplt20.com/teams/sunrisers-hyderabad/results`
-   - `https://www.iplt20.com/matches/fixtures`
-2. Official IPL structured feeds used by those pages:
-   - `https://scores.iplt20.com/ipl/mc/competition.js`
-   - `https://scores.iplt20.com/ipl/feeds/{competitionId}-matchschedule.js`
-   - `https://scores.iplt20.com/ipl/feeds/stats/{season}-matchlinks.js`
-
-Squad:
-
-1. Official IPL SRH team page:
-   - `https://www.iplt20.com/teams/sunrisers-hyderabad`
-2. Official IPL player profile pages:
-   - `https://www.iplt20.com/players/{player-slug}/{player-id}`
-
-News:
-
-1. Official IPL SRH team news:
-   - `https://www.iplt20.com/teams/sunrisers-hyderabad/news`
-2. The news sync keeps only non-match SRH items:
-   - injury replacements
-   - captaincy/leadership updates
-   - squad and availability updates
-   - official team announcements
-
-Gallery:
-
-1. Official SunRisers Hyderabad gallery:
-   - `https://www.sunrisershyderabad.in/gallery`
-2. Album detail pages on the same domain for per-photo metadata
-
-Match coverage sources:
-
-1. Official IPL SRH results page:
-   - `https://www.iplt20.com/teams/sunrisers-hyderabad/results`
-2. Official IPL fixtures/results page:
-   - `https://www.iplt20.com/matches/fixtures`
-3. Official IPL structured feeds:
-   - `https://scores.iplt20.com/ipl/feeds/{competitionId}-matchschedule.js`
-   - `https://scores.iplt20.com/ipl/feeds/stats/{season}-matchlinks.js`
-4. Official IPL match reports for completed SRH matches
-
-Points table:
-
-1. Official IPL points-table page:
-   - `https://www.iplt20.com/points-table/men`
-2. Official IPL standings feed:
-   - `https://scores.iplt20.com/ipl/feeds/stats/{competitionId}-groupstandings.js`
-
-Official images are referenced from source URLs only. The sync does not download or rehost them locally.
-
-### Manual run
+## 🚀 Development Setup
 
 ```bash
-npm run sync:official
-```
-
-Dry run without writing:
-
-```bash
-npm run sync:official -- --dry-run
-```
-
-Run a specific IPL season:
-
-```bash
-npm run sync:official -- --season 2026
-```
-
-Individual pipelines:
-
-- `npm run update:schedule`
-- `npm run sync:squad`
-- `npm run sync:news`
-- `npm run sync:match-coverage-sources`
-- `npm run sync:points-table`
-- `npm run sync:gallery`
-
-### What the sync does
-
-- fetches official SRH data from the source pages above
-- normalizes each surface into local Markdown/JSON files the site already reads
-- validates required fields before writing
-- logs which source was used, what changed, and which optional fields were missing
-- skips rewriting unchanged files
-- aborts instead of overwriting when required official data is malformed or incomplete
-
-### Validation and safety
-
-- Required fields still have to validate before any write completes.
-- Optional fields that official sources do not expose consistently are left null or empty and logged.
-- Completed fixtures must include a verified `result`.
-- The sync does not invent fixtures, venues, times, results, report links, player bios, or article bodies.
-- News sync writes only short verified summaries for off-field SRH items and excludes match reports/previews.
-- Match coverage automation syncs verified source facts; full reports remain local Markdown so editorial quality stays controlled.
-- Official gallery images remain source references; review rights before any local download or rehosting.
-
-### Trusted fallback policy
-
-The automation stays official-first by default. Trusted fallbacks are for manual verification and troubleshooting only:
-
-- ESPNcricinfo
-- Cricbuzz
-
-The sync is intentionally conservative for a static site: when required official data is incomplete, it fails safely instead of guessing.
-
-### GitHub Actions automation
-
-The repository includes `.github/workflows/update-srh-schedule.yml`.
-
-It can:
-
-- run on a timer every 6 hours
-- run on demand with `workflow_dispatch`
-- run the full official sync pipeline
-- commit only changed synced data files back to the repository
-
-That commit can then trigger the normal static build and deployment flow already used by the site.
-
-### Troubleshooting source failures
-
-1. Run `npm run sync:official -- --dry-run` locally.
-2. Check the logged source URLs and the missing-field output.
-3. If squad parsing fails, inspect:
-   - `https://www.iplt20.com/teams/sunrisers-hyderabad`
-   - `https://www.iplt20.com/players/{player-slug}/{player-id}`
-4. If news parsing fails, inspect:
-   - `https://www.iplt20.com/teams/sunrisers-hyderabad/news`
-5. If match-coverage source syncing fails, inspect:
-   - `https://www.iplt20.com/teams/sunrisers-hyderabad/results`
-   - `https://www.iplt20.com/matches/fixtures`
-   - `https://scores.iplt20.com/ipl/feeds/stats/2026-matchlinks.js`
-6. If points-table parsing fails, inspect:
-   - `https://www.iplt20.com/points-table/men`
-   - `https://scores.iplt20.com/ipl/feeds/stats/284-groupstandings.js`
-7. If gallery parsing fails, inspect:
-   - `https://www.sunrisershyderabad.in/gallery`
-   - `https://www.sunrisershyderabad.in/gallery/{album-id}`
-8. If schedule parsing fails, inspect:
-   - `https://scores.iplt20.com/ipl/mc/competition.js`
-   - `https://scores.iplt20.com/ipl/feeds/284-matchschedule.js`
-9. Verify any missing official details manually against ESPNcricinfo or Cricbuzz before changing the normalizers.
-10. Re-run the sync and confirm that only the intended local data files change.
-
-## Local development
-
-```bash
+# Install dependencies
 npm install
+
+# Run dev server
 npm run dev
 ```
 
-## Build
+---
 
-```bash
-npm run typecheck
-npm run build
-```
+## 🔒 Confidentiality & License
 
-The static output is written to `out/`.
+This is a **Private Repository**. All source code, data schemas, and assets are confidential and proprietary to **Chiluveru Snohith** (`@Snohith`).
 
-## Production URL configuration
-
-`content/data/site.json` contains the fallback site configuration used locally. For real deployments, set the public URL at build time:
-
-- `NEXT_PUBLIC_SITE_URL`
-- `NEXT_PUBLIC_BASE_PATH` only when deploying under a repo subpath
-
-Build-time environment variables always take precedence over the fallback `siteUrl` in `content/data/site.json`. Treat the JSON value as a local/sample default, not the final production source of truth.
-
-### Custom domain example
-
-```bash
-NEXT_PUBLIC_SITE_URL=https://srhxtra.com npm run build
-```
-
-### GitHub Pages project site example
-
-```bash
-NEXT_PUBLIC_SITE_URL=https://your-user.github.io/SRHXtra \
-NEXT_PUBLIC_BASE_PATH=/SRHXtra \
-npm run build
-```
-
-Rules:
-
-- `NEXT_PUBLIC_SITE_URL` should always be the full final public URL.
-- For GitHub Pages project sites, `NEXT_PUBLIC_SITE_URL` must include the repo subpath.
-- Leave `NEXT_PUBLIC_BASE_PATH` empty for custom domains or root-domain hosting.
-
-## Vercel Deployment
-
-The site is configured for static export and can be deployed directly to Vercel.
-
-### 1. Build Settings
-- **Framework Preset**: `Next.js`
-- **Build Command**: `npm run build`
-- **Output Directory**: `out`
-
-### 2. Environment Variables
-Ensure the following is set in **Project Settings > Environment Variables**:
-- `NEXT_PUBLIC_SITE_URL`: `https://srhxtra.vercel.app` (or your custom domain)
-- `NEXT_PUBLIC_SUPABASE_URL`: Supabase project URL for the fan poll
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Supabase anon key for the fan poll
-  - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` is also supported if your Supabase project shows a publishable browser key instead.
-
-The player poll also requires the Supabase SQL setup in `docs/supabase-poll-setup.md`.
-
-### 3. Suggested Flow
-1. Connect the repository to Vercel.
-2. Configure the build settings and environment variable.
-3. Deploy the project.
-4. Verify `/robots.txt`, `/sitemap.xml`, and canonical tags in the live environment.
-
-## Google Search Console & SEO Readiness
-
-To ensure the site is properly indexed by Google:
-
-### 1. Verification
-- Add a new property in [Google Search Console](https://search.google.com/search-console/) for `https://srhxtra.vercel.app/`.
-- Verify ownership using the **HTML file** method (upload the file to `public/` and push to GitHub) or the **DNS record** method.
-
-### 2. Sitemap Submission
-- Once verified, go to **Index > Sitemaps**.
-- Enter `sitemap.xml` and click **Submit**.
-- The sitemap URL is: `https://srhxtra.vercel.app/sitemap.xml`
-
-### 3. Robots.txt
-- Verify that `https://srhxtra.vercel.app/robots.txt` is accessible and points to the correct sitemap URL.
-
-### 4. Indexing Request
-- For critical pages like the Homepage, News, and Match Coverage, use the **URL Inspection** tool in Search Console and click **Request Indexing** to speed up the process.
-
-## Cloudflare Pages
-
-Build settings:
-
-- Framework preset: `Next.js`
-- Build command: `npm run build`
-- Build output directory: `out`
-
-Environment variables:
-
-- `NEXT_PUBLIC_SITE_URL=https://your-domain.com`
-
-Notes:
-
-- No adapter is required.
-- No server runtime is required.
-- Custom domain deployments usually do not need `NEXT_PUBLIC_BASE_PATH`.
-- Canonical URLs, Open Graph URLs, `robots.txt`, and `sitemap.xml` will all use `NEXT_PUBLIC_SITE_URL`.
-
-Suggested deployment flow:
-
-1. Connect the repository to Cloudflare Pages.
-2. Set `NEXT_PUBLIC_SITE_URL` to the real production domain in the Pages project settings.
-3. Run the standard build with output directory `out`.
-4. After the first deploy, verify `/robots.txt`, `/sitemap.xml`, and one article page in the live environment.
-
-## GitHub Pages
-
-This project supports GitHub Pages static hosting, including repo-subpath deployment.
-
-Environment variables for a repo site:
-
-- `NEXT_PUBLIC_SITE_URL=https://your-user.github.io/SRHXtra`
-- `NEXT_PUBLIC_BASE_PATH=/SRHXtra`
-
-Notes:
-
-- `.nojekyll` is included in `public/` and must remain in place.
-- `trailingSlash: true` is enabled for static host compatibility.
-- `basePath` and `assetPrefix` are configured from `NEXT_PUBLIC_BASE_PATH` in `next.config.ts`.
-
-Suggested deployment flow:
-
-1. Build with the GitHub Pages environment variables set.
-2. Publish the generated `out/` directory.
-3. Confirm the published site is available under the repo subpath and that `/_next/` assets load correctly.
-4. If you later move to a custom domain, remove `NEXT_PUBLIC_BASE_PATH` and update `NEXT_PUBLIC_SITE_URL`.
-
-## Pre-deploy checklist
-
-1. Set `NEXT_PUBLIC_SITE_URL` to the real production URL.
-2. Set `NEXT_PUBLIC_BASE_PATH` only if the site will live under a repo subpath.
-3. Run `npm run typecheck`.
-4. Run `npm run build`.
-5. Confirm `robots.txt`, `sitemap.xml`, canonicals, and OG URLs match the intended deployment URL.
-6. Confirm all content and local images are present in `out/`.
+---
+*Created and maintained by [Chiluveru Snohith](https://github.com/Snohith)*
