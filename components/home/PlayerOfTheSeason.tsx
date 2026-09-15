@@ -247,10 +247,10 @@ export function PlayerOfTheSeason() {
                     <div className="relative h-[380px] w-[340px] overflow-hidden rounded-[2rem] border-4 border-[#ff6d00]/40 bg-gradient-to-br from-[#ff6d00]/20 to-[#1a1a2e] shadow-[0_24px_60px_rgba(255,109,0,0.25)] sm:h-[460px] sm:w-[400px]">
                       <div className="absolute inset-0">
                         <Image
-                          src="https://documents.iplt20.com/ipl/IPLHeadshot2026/200.png"
-                          alt="Heinrich Klaasen official SRH headshot"
+                          src="/images/players/heinrich-klaasen-player-of-the-season.png"
+                          alt="Heinrich Klaasen in the Sunrisers Hyderabad kit"
                           fill
-                          className="object-cover object-top"
+                          className="object-contain object-bottom p-3"
                           priority
                         />
                       </div>
