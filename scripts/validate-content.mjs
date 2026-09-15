@@ -291,6 +291,71 @@ if (schedule) {
 
 const pointsTable = readJson("content/data/points-table.json");
 
+const seasonStats = readJson("content/data/player-season-stats.json");
+
+if (seasonStats) {
+  if (!Array.isArray(seasonStats.players) || seasonStats.players.length === 0) {
+    addError("content/data/player-season-stats.json: players must be a non-empty array");
+  } else {
+    const slugs = new Set();
+    const leaderSlug =
+      typeof seasonStats.playerOfTheSeason === "string" ? seasonStats.playerOfTheSeason.trim() : "";
+    let topRunScorer = null;
+
+    seasonStats.players.forEach((player, index) => {
+      const label = `content/data/player-season-stats.json: players[${index}]`;
+
+      if (!isPresent(player.slug)) {
+        addError(`${label} missing required field "slug"`);
+      } else if (slugs.has(String(player.slug))) {
+        addError(`${label} has duplicate slug "${player.slug}"`);
+      } else {
+        slugs.add(String(player.slug));
+      }
+
+      if (!isPresent(player.name)) {
+        addError(`${label} missing required field "name"`);
+      }
+
+      if (player.primaryStat !== "batting" && player.primaryStat !== "bowling") {
+        addError(`${label} has invalid primaryStat "${player.primaryStat}" (expected "batting" or "bowling")`);
+      }
+
+      if (!Number.isFinite(Number(player.matches))) {
+        addError(`${label} missing numeric field "matches"`);
+      }
+
+      if (player.runs !== undefined && player.balls !== undefined) {
+        const runs = Number(player.runs);
+        const balls = Number(player.balls);
+        const listed = Number(player.strikeRate);
+
+        if (Number.isFinite(runs) && Number.isFinite(balls) && balls > 0 && Number.isFinite(listed)) {
+          const expected = Math.round((runs / balls) * 1000) / 10;
+
+          if (Math.abs(expected - listed) > 0.05) {
+            addError(
+              `${label} strikeRate ${listed} is inconsistent with runs/balls (${runs}/${balls} => ${expected})`,
+            );
+          }
+        } else {
+          addError(`${label} has non-numeric runs/balls/strikeRate`);
+        }
+      }
+
+      if ((player.runs ?? 0) > (topRunScorer?.runs ?? -1)) {
+        topRunScorer = player;
+      }
+    });
+
+    if (leaderSlug && topRunScorer && leaderSlug !== String(topRunScorer.slug)) {
+      addError(
+        `content/data/player-season-stats.json: playerOfTheSeason "${leaderSlug}" does not match leading run scorer "${topRunScorer.slug}"`,
+      );
+    }
+  }
+}
+
 if (pointsTable) {
   if (!Array.isArray(pointsTable.standings)) {
     addError("content/data/points-table.json: standings must be an array");

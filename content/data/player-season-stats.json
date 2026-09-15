@@ -1,0 +1,92 @@
+{
+  "season": "IPL 2026",
+  "team": "Sunrisers Hyderabad",
+  "teamCode": "SRH",
+  "updatedAt": "2026-05-28T08:33:55.146Z",
+  "source": "IPL 2026 Orange Cap and Purple Cap standings, cross-checked against SRHXtra match coverage",
+  "note": "Single source of truth for SRH 2026 season aggregates. Values must satisfy runs / strikeRate == integer balls faced.",
+  "playerOfTheSeason": "heinrich-klaasen",
+  "players": [
+    {
+      "slug": "heinrich-klaasen",
+      "name": "Heinrich Klaasen",
+      "primaryStat": "batting",
+      "matches": 15,
+      "innings": 13,
+      "notOuts": 2,
+      "runs": 624,
+      "balls": 390,
+      "strikeRate": 160.0,
+      "average": 56.72,
+      "highestScore": "69*",
+      "fifties": 6,
+      "hundreds": 0,
+      "sixes": 35
+    },
+    {
+      "slug": "ishan-kishan",
+      "name": "Ishan Kishan",
+      "primaryStat": "batting",
+      "matches": 15,
+      "runs": 602,
+      "balls": 330,
+      "strikeRate": 182.4,
+      "highestScore": "91*",
+      "fifties": 6,
+      "hundreds": 0,
+      "sixes": 30
+    },
+    {
+      "slug": "abhishek-sharma",
+      "name": "Abhishek Sharma",
+      "primaryStat": "batting",
+      "matches": 15,
+      "runs": 563,
+      "balls": 275,
+      "strikeRate": 204.7,
+      "highestScore": "135*",
+      "fifties": 4,
+      "hundreds": 1,
+      "sixes": 38
+    },
+    {
+      "slug": "travis-head",
+      "name": "Travis Head",
+      "primaryStat": "batting",
+      "matches": 14,
+      "runs": 410,
+      "strikeRate": 195,
+      "sixes": 35
+    },
+    {
+      "slug": "pat-cummins",
+      "name": "Pat Cummins",
+      "primaryStat": "bowling",
+      "matches": 8,
+      "runs": 30,
+      "wickets": 8,
+      "economy": "9.28",
+      "bestSpell": "3/27"
+    },
+    {
+      "slug": "sakib-hussain",
+      "name": "Sakib Hussain",
+      "primaryStat": "bowling",
+      "matches": 11,
+      "wickets": 16,
+      "bowlingAverage": "22.9",
+      "economy": "8.74",
+      "bestSpell": "4/21"
+    },
+    {
+      "slug": "eshan-malinga",
+      "name": "Eshan Malinga",
+      "primaryStat": "bowling",
+      "matches": 15,
+      "wickets": 21,
+      "bowlingAverage": "23.0",
+      "economy": "8.87",
+      "bestSpell": "4/30"
+    }
+  ]
+}

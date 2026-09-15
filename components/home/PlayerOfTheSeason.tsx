@@ -5,16 +5,20 @@ import { cx } from "@/lib/utils/classes";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Button } from "@/components/ui/Button";
 import Image from "next/image";
+import {
+  buildRunComparison,
+  buildSeasonHighlightCards,
+  getPlayerOfTheSeason,
+} from "@/lib/content/player-season-stats";
 
-// IPL 2026 Season Stats (verified from ESPNcricinfo, Newsbytes - cross-referenced)
-const SEASON_STATS = [
-  { label: "Total Runs", value: "606", suffix: "" },
-  { label: "Strike Rate", value: "159.68", suffix: "" },
-  { label: "Batting Avg", value: "54.72", suffix: "" },
-  { label: "Fifties", value: "6", suffix: "" },
-  { label: "High Score", value: "69*", suffix: "" },
-  { label: "Orange Cap", value: "#1", suffix: "Holder" },
-];
+// Season aggregates come from the single source of truth in
+// content/data/player-season-stats.json via lib/content/player-season-stats.ts.
+const PLAYER_OF_THE_SEASON = getPlayerOfTheSeason();
+const SEASON_STATS = buildSeasonHighlightCards(PLAYER_OF_THE_SEASON.slug);
+const COMPARISON_PLAYERS = buildRunComparison();
+const NAME_PARTS = PLAYER_OF_THE_SEASON.name.split(" ");
+const FIRST_NAME = NAME_PARTS[0] ?? "";
+const LAST_NAME = NAME_PARTS.slice(1).join(" ");
 
 // Match-by-match timeline (verified from match coverage)
 const MATCH_TIMELINE = [
@@ -79,7 +83,7 @@ const MATCH_TIMELINE = [
     opposition: "RR",
     venue: "Sawai Mansingh Stadium, Jaipur",
     date: "25 April 2026",
-    score: "Steady finish",
+    score: "Not reported",
     result: "Won",
   },
   {
@@ -107,6 +111,14 @@ const MATCH_TIMELINE = [
     result: "Won",
   },
   {
+    match: 56,
+    opposition: "GT",
+    venue: "Narendra Modi Stadium, Ahmedabad",
+    date: "12 May 2026",
+    score: "Not reported",
+    result: "Lost",
+  },
+  {
     match: 63,
     opposition: "CSK",
     venue: "MA Chidambaram Stadium, Chennai",
@@ -132,13 +144,11 @@ const MATCH_TIMELINE = [
   },
 ];
 
-// Comparison stats for contribution bars (verified from IPL 2026 Orange Cap standings)
-const COMPARISON_PLAYERS = [
-  { name: "Heinrich Klaasen", runs: 606, sixes: 35, sr: 159.68, isWinner: true },
-  { name: "Ishan Kishan", runs: 520, sixes: 30, sr: 175, isWinner: false },
-  { name: "Abhishek Sharma", runs: 550, sixes: 38, sr: 180, isWinner: false },
-  { name: "Travis Head", runs: 410, sixes: 35, sr: 195, isWinner: false },
-];
+// Comparison bars are derived from the shared season stats. Bar maxima are computed
+// from the data so a future stat update can never overflow the track.
+const MAX_RUNS = Math.max(...COMPARISON_PLAYERS.map((player) => player.runs), 1);
+const MAX_SIXES = Math.max(...COMPARISON_PLAYERS.map((player) => player.sixes), 1);
+const MAX_STRIKE_RATE = Math.max(...COMPARISON_PLAYERS.map((player) => player.sr), 1);
 
 export function PlayerOfTheSeason() {
   const [hasAnimated, setHasAnimated] = useState(false);
@@ -202,7 +212,7 @@ export function PlayerOfTheSeason() {
                   )}
                 >
                   <h2 className="text-4xl font-black uppercase text-white sm:text-5xl lg:text-6xl">
-                    HEINRICH <span className="text-[#ff6d00]">KLAASEN</span>
+                    {FIRST_NAME} <span className="text-[#ff6d00]">{LAST_NAME}</span>
                   </h2>
                   <p className="mt-4 max-w-2xl text-lg text-white/70 sm:text-xl">
                     The destructive middle-order batter who powered SRH to a historic IPL 2026 campaign with breathtaking innings after innings.
@@ -273,14 +283,14 @@ export function PlayerOfTheSeason() {
                       </p>
                       <div className="mt-2 flex items-baseline gap-1">
                         <span className="text-4xl font-black text-white">
-                          606
+                          {PLAYER_OF_THE_SEASON.runs}
                         </span>
                         <span className="text-sm font-medium text-white/70">
                           runs
                         </span>
                       </div>
                       <p className="mt-1 text-sm font-medium text-white/70">
-                        @ 159.68 strike rate
+                        @ {PLAYER_OF_THE_SEASON.strikeRate} strike rate
                       </p>
                     </div>
                   </div>
@@ -414,7 +424,7 @@ export function PlayerOfTheSeason() {
                         player.isWinner ? "bg-[#ff6d00]" : "bg-[#ff6d00]/50"
                       )}
                       style={{
-                        width: `${(player.runs / 606) * 100}%`,
+                        width: `${(player.runs / MAX_RUNS) * 100}%`,
                         transitionDelay: `${idx * 150}ms`,
                       }}
                     />
@@ -453,7 +463,7 @@ export function PlayerOfTheSeason() {
                         player.isWinner ? "bg-[#ff6d00]" : "bg-[#ff6d00]/50"
                       )}
                       style={{
-                        width: `${(player.sixes / 38) * 100}%`,
+                        width: `${(player.sixes / MAX_SIXES) * 100}%`,
                         transitionDelay: `${idx * 150}ms`,
                       }}
                     />
@@ -492,7 +502,7 @@ export function PlayerOfTheSeason() {
                         player.isWinner ? "bg-[#ff6d00]" : "bg-[#ff6d00]/50"
                       )}
                       style={{
-                        width: `${(player.sr / 195) * 100}%`,
+                        width: `${(player.sr / MAX_STRIKE_RATE) * 100}%`,
                         transitionDelay: `${idx * 150}ms`,
                       }}
                     />

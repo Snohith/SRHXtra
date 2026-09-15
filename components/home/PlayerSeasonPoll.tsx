@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import playerSeasonPoll from "@/content/data/player-season-poll.json";
 import squadData from "@/content/data/squad.json";
+import { buildNomineeStatRows } from "@/lib/content/player-season-stats";
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
 
 interface PollOption {
@@ -39,50 +40,19 @@ const legacyOptionSlugFallbacks: Record<string, string> = {
   "sakib-hussain": "pat-cummins",
 };
 
-const nomineeStats: Record<string, Array<{ label: string; value: string }>> = {
-  "Ishan Kishan": [
-    { label: "Matches", value: "15" },
-    { label: "Runs", value: "602" },
-    { label: "Strike rate", value: "182.4" },
-    { label: "Highest score", value: "91*" },
-    { label: "Fifties", value: "6" },
-  ],
-  "Abhishek Sharma": [
-    { label: "Matches", value: "15" },
-    { label: "Runs", value: "563" },
-    { label: "Strike rate", value: "204.7" },
-    { label: "Highest score", value: "135*" },
-    { label: "100s / 50s", value: "1 / 4" },
-  ],
-  "Heinrich Klaasen": [
-    { label: "Matches", value: "15" },
-    { label: "Runs", value: "624" },
-    { label: "Strike rate", value: "160.0" },
-    { label: "Highest score", value: "69*" },
-    { label: "Fifties", value: "6" },
-  ],
-  "Pat Cummins": [
-    { label: "Matches", value: "8" },
-    { label: "Wickets", value: "8" },
-    { label: "Economy", value: "9.28" },
-    { label: "Best spell", value: "3/27" },
-    { label: "Runs", value: "30" },
-  ],
-  "Sakib Hussain": [
-    { label: "Matches", value: "11" },
-    { label: "Wickets", value: "16" },
-    { label: "Average", value: "22.9" },
-    { label: "Economy", value: "8.74" },
-    { label: "Best spell", value: "4/21" },
-  ],
-  "Eshan Malinga": [
-    { label: "Matches", value: "15" },
-    { label: "Wickets", value: "21" },
-    { label: "Average", value: "23.0" },
-    { label: "Economy", value: "8.87" },
-    { label: "Best spell", value: "4/30" },
-  ],
-};
+// Nominee stat rows come from the shared season source of truth
+// (content/data/player-season-stats.json) so the poll can never drift from the
+// Player of the Season reveal. Looked up by player slug, falling back to the
+// display label for any Supabase-only option rows.
+function resolveNomineeStats(playerSlug: string | null, label: string) {
+  const bySlug = buildNomineeStatRows(playerSlug ?? "");
+
+  if (bySlug.length > 0) {
+    return bySlug;
+  }
+
+  return buildNomineeStatRows(label);
+}
 
 function buildNomineeOptions(options: PollOption[]) {
   const optionsBySlug = new Map(
@@ -351,7 +321,7 @@ export function PlayerSeasonPoll({ pollSlug }: PlayerSeasonPollProps) {
                 {poll.poll_options.map((option, index) => {
                   const isSelected = selectedOptionId === option.id;
                   const isSaved = savedOptionId === option.id;
-                  const stats = nomineeStats[option.label] ?? [];
+                  const stats = resolveNomineeStats(option.player_slug, option.label);
 
                   return (
                     <button
