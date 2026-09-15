@@ -3,6 +3,7 @@ import { getArticleBySlug, getLatestArticles } from "@/lib/content/articles";
 import { getLatestMatchReport } from "@/lib/content/match-coverage";
 import { getSiteConfig } from "@/lib/content/site";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { compareDatesDesc } from "@/lib/utils/date";
 import { LatestNewsFeed } from "@/components/home/LatestNewsFeed";
 import { ArticleCard } from "@/components/articles/ArticleCard";
 
@@ -20,7 +21,9 @@ export default function HomePage() {
     ?? getArticleBySlug("news", site.homepage.featuredNewsSlug)
     ?? null;
   const latestMatchCoverage = getLatestMatchReport();
-  const heroStory = latestMatchCoverage ?? featuredNews;
+  const heroStory = [latestMatchCoverage, featuredNews]
+    .filter((article) => article !== null)
+    .sort((left, right) => compareDatesDesc(left.publishedAt, right.publishedAt))[0] ?? null;
 
   const latestPreviews = getLatestArticles("match-previews", 4);
   const latestCoverage = getLatestArticles("match-coverage", 4);
@@ -35,7 +38,7 @@ export default function HomePage() {
         leadStory={
           heroStory
             ? {
-                label: latestMatchCoverage ? "Latest match report" : "Lead story",
+                label: heroStory.collection === "match-coverage" ? "Latest match report" : "Lead story",
                 title: heroStory.title,
                 excerpt: heroStory.excerpt,
                 href: heroStory.url,

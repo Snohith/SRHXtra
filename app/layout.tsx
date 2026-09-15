@@ -4,7 +4,6 @@ import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 
 import "@/styles/globals.css";
-import TempDown from "@/components/TempDown";
 import { buildBaseMetadata, buildBaseViewport } from "@/lib/seo/metadata";
 
 const outfit = Outfit({
@@ -21,7 +20,6 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata = {
   ...buildBaseMetadata(),
-  title: "Temporarily Down",
 };
 
 export const viewport = buildBaseViewport();
@@ -51,7 +49,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </Script>
       </head>
       <body suppressHydrationWarning className="font-body">
-        <TempDown />
+        {children}
       </body>
     </html>
   );
