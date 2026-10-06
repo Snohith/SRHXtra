@@ -4,24 +4,23 @@
 [![Next.js](https://img.shields.io/badge/Next.js-15-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![Private Repository](https://img.shields.io/badge/Visibility-Private%20%F0%9F%94%92-red?style=for-the-badge)](https://github.com/Snohith/SRHXtra)
 
-> **SRHXtra** is an operational media platform and analytics dashboard built for tracking player statistics, match reconnaissance, media assets, and news feeds for Sunrisers global cricket franchises.
+> **SRHXtra** is a fan-run site covering Sunrisers Hyderabad's IPL 2026 season: match reports, previews, news, squad profiles, standings and photo galleries.
 
 ---
 
-## 🌟 Features & Capabilities
+## 🌟 What's on the site
 
-- 📊 **Player Stats Analytics**: Deep match stat tracking for all Sunrisers franchise players across IPL, SA20, and domestic leagues.
-- 📰 **Media Recon Engine**: Automated aggregation of news, podcasts, viral clips, and injury updates.
-- 🎨 **Visual Assets Management**: Template engine for generating match stats cards and broadcast graphics.
-- 🔐 **Secure Operations Engine**: Private operational dashboard with real-time updates.
+- 📊 **Season stats**: match-by-match numbers for SRH players, kept in one checked file so runs, balls and strike rates have to reconcile.
+- 📰 **Newsroom**: squad moves, injuries and announcements, confirmed before they go up.
+- 🎨 **Photo galleries**: matchday albums grouped by game.
+- 🗳️ **Player poll**: supporter vote for player of the season.
 
 ---
 
 ## 🛠️ Tech Stack
 
 - **Frontend / Fullstack**: TypeScript, Next.js (App Router), Tailwind CSS
-- **Data & APIs**: REST/GraphQL APIs, Data Scrapers
-- **UI System**: Lucide Icons, Framer Motion
+- **Content & data**: local JSON/Markdown content, Node sync scripts (cheerio), Supabase for poll votes
 
 ---
 

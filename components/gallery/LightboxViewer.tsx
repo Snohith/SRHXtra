@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import type { GalleryPhoto } from "@/lib/content/gallery";
 import { Button } from "@/components/ui/Button";
+import { SafeImage } from "@/components/ui/SafeImage";
 
 interface LightboxViewerProps {
   photos: GalleryPhoto[];
@@ -46,7 +47,7 @@ export function LightboxViewer({ photos }: LightboxViewerProps) {
 
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2">
         {photos.map((photo, index) => (
           <button
             key={photo.src}
@@ -55,10 +56,9 @@ export function LightboxViewer({ photos }: LightboxViewerProps) {
             type="button"
           >
             <div className="image-frame rounded-none border-0 border-b bg-surface-strong p-2">
-              <img
+              <SafeImage
                 alt={resolvePhotoAlt(photo)}
                 className="mx-auto block max-h-[320px] w-full object-contain"
-                loading="lazy"
                 src={resolvePhotoSource(photo)}
               />
             </div>
@@ -72,9 +72,9 @@ export function LightboxViewer({ photos }: LightboxViewerProps) {
 
       {activePhoto ? (
         <div aria-modal="true" className="fixed inset-0 z-50 bg-black/85 px-4 py-6 backdrop-blur" role="dialog">
-          <div className="mx-auto flex h-full max-w-5xl flex-col justify-center gap-4">
-            <div className="flex justify-between gap-3">
-              <div className="flex gap-2">
+          <div className="mx-auto flex h-full w-full max-w-5xl flex-col justify-center gap-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex flex-wrap gap-2">
                 <Button
                   variant="secondary"
                   size="sm"
@@ -102,12 +102,11 @@ export function LightboxViewer({ photos }: LightboxViewerProps) {
                 Close
               </Button>
             </div>
-            <div className="image-frame mx-auto max-h-[75vh] overflow-hidden">
+            <div className="image-frame mx-auto max-h-[75vh] w-fit max-w-full overflow-hidden">
               {activePhoto ? (
-                <img
+                <SafeImage
                   alt={resolvePhotoAlt(activePhoto)}
-                  className="h-auto max-h-[75vh] w-auto object-contain"
-                  loading="lazy"
+                  className="mx-auto h-auto max-h-[75vh] w-auto max-w-[calc(100vw-2rem)] object-contain"
                   src={resolvePhotoSource(activePhoto)}
                 />
               ) : null}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { SiteConfig } from "@/lib/content/site";
 import { NavLinks } from "@/components/layout/NavLinks";
 import { MobileMenu } from "@/components/layout/MobileMenu";
+import { FranchiseStrip } from "@/components/layout/FranchiseStrip";
 
 interface NavbarProps {
   site: SiteConfig;
@@ -24,11 +25,11 @@ export function Navbar({ site }: NavbarProps) {
               className="group flex min-w-0 items-center gap-2.5 sm:gap-3.5"
               aria-label={`${site.siteName} — Home`}
             >
-              {/* Logo mark — updated with new brand asset */}
-              <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-accent/10 p-0.5 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(255,109,0,0.3)] sm:h-10 sm:w-10 sm:rounded-xl">
+              {/* Logo mark — official Sunrisers Xtra brand logo */}
+              <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-white p-1 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(255,109,0,0.3)] sm:h-10 sm:w-10 sm:rounded-xl">
                 <img
-                  src="/images/site/logo-mark.svg"
-                  alt=""
+                  src="/logo.png"
+                  alt="Sunrisers Xtra brand logo"
                   className="h-full w-full object-contain"
                   height={40}
                   width={40}
@@ -52,6 +53,9 @@ export function Navbar({ site }: NavbarProps) {
           </div>
         </div>
       </div>
+
+      {/* Franchise switcher — sticks with the header */}
+      <FranchiseStrip />
     </header>
   );
 }

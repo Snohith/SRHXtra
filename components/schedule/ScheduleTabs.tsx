@@ -16,9 +16,9 @@ export function ScheduleTabs({ upcoming, completed, full }: ScheduleTabsProps) {
   const [activeTab, setActiveTab] = useState<"results" | "upcoming" | "full">("results");
 
   const tabs = [
-    { id: "results", label: "Match Results", count: completed.length },
-    { id: "upcoming", label: "Upcoming Matches", count: upcoming.length },
-    { id: "full", label: "Full Roadmap", count: full.length },
+    { id: "results", label: "Results", count: completed.length },
+    { id: "upcoming", label: "Upcoming", count: upcoming.length },
+    { id: "full", label: "All Games", count: full.length },
   ] as const;
 
   return (
@@ -48,13 +48,13 @@ export function ScheduleTabs({ upcoming, completed, full }: ScheduleTabsProps) {
 
       <div className="transition-all duration-500">
         {activeTab === "upcoming" && (
-          <div className="grid gap-8 lg:grid-cols-2">
+          <div className="grid gap-8 md:grid-cols-2">
             {upcoming.length ? (
               upcoming.map((fixture) => (
                 <FixtureCard key={fixture.id} fixture={fixture} />
               ))
             ) : (
-              <NoMatches message="No upcoming matches found." />
+              <NoMatches message="No fixtures on the calendar right now." />
             )}
           </div>
         )}
@@ -90,15 +90,15 @@ function SeasonRoadmap({ fixtures }: { fixtures: Fixture[] }) {
   const progress = (completedCount / fixtures.length) * 100;
 
   return (
-    <div className="glass-panel p-8 mb-12">
+    <div className="glass-panel p-5 mb-12 sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent">Season Progress</p>
-          <p className="mt-1 text-lg font-black text-foreground">Campaign Roadmap</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent">Season So Far</p>
+          <p className="mt-1 text-lg font-black text-foreground">Games Played</p>
         </div>
         <div className="text-right">
           <span className="text-3xl font-black text-foreground">{Math.round(progress)}%</span>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{completedCount} / {fixtures.length} Games Played</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{completedCount} of {fixtures.length} games done</p>
         </div>
       </div>
       <div className="relative h-3 w-full overflow-hidden rounded-full bg-black/[0.04]">

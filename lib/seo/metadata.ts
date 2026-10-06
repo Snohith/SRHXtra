@@ -15,20 +15,6 @@ interface PageMetadataInput {
   tags?: string[];
 }
 
-const DEFAULT_KEYWORDS = [
-  "SRH",
-  "Sunrisers Hyderabad",
-  "SRHXtra",
-  "IPL",
-  "IPL 2026",
-  "SRH news",
-  "SRH match preview",
-  "SRH match report",
-  "SRH squad",
-  "SRH points table",
-  "SRH schedule",
-];
-
 function ensureTrailingSlash(value: string) {
   return value.endsWith("/") ? value : `${value}/`;
 }
@@ -71,11 +57,14 @@ export function buildBaseMetadata(): Metadata {
       template: site.titleTemplate,
     },
     description: site.defaultDescription,
-    keywords: DEFAULT_KEYWORDS,
     alternates: {
       canonical: buildAbsoluteUrl("/"),
       languages: {
         "en-IN": buildAbsoluteUrl("/"),
+        "x-default": buildAbsoluteUrl("/"),
+      },
+      types: {
+        "application/rss+xml": buildAbsoluteUrl("/rss.xml"),
       },
     },
     category: "sports",
@@ -151,7 +140,7 @@ export function buildBaseViewport(): Viewport {
       { media: "(prefers-color-scheme: dark)", color: "#050608" },
       { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     ],
-    colorScheme: "dark",
+    colorScheme: "light",
   };
 }
 
@@ -176,10 +165,12 @@ export function buildPageMetadata({
   return {
     title: finalTitle,
     description: finalDescription,
-    keywords: tags && tags.length > 0 ? tags : DEFAULT_KEYWORDS,
     authors: authors?.map((name) => ({ name })),
     alternates: {
       canonical: buildAbsoluteUrl(path),
+      types: {
+        "application/rss+xml": buildAbsoluteUrl("/rss.xml"),
+      },
     },
     robots: {
       index: true,

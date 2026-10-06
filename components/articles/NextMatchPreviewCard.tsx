@@ -26,7 +26,7 @@ function getPreviewTitle(fixture: Fixture) {
   const awayTeam = getTeamInfo(fixture.awayTeam);
   const venueName = fixture.venue.split(",")[0] ?? fixture.venue;
 
-  return `${homeTeam.code} vs ${awayTeam.code} Preview: ${venueName} Sets the Next Test`;
+  return `${homeTeam.code} vs ${awayTeam.code} Preview — ${venueName}`;
 }
 
 export function NextMatchPreviewCard({ article, fixture }: NextMatchPreviewCardProps) {
@@ -72,8 +72,8 @@ export function NextMatchPreviewCard({ article, fixture }: NextMatchPreviewCardP
 
         <p itemProp="description" className="mt-4 text-muted line-clamp-3 body-copy">
           {homeTeam.name} vs {awayTeam.name} is scheduled for {formatDisplayDate(fixture.date)} at{" "}
-          {fixture.time} at {fixture.venue}. The preview desk has the scouting note ready for the
-          next SRH fixture.
+          {fixture.time} at {fixture.venue}. Our preview covers form, the key matchups and
+          the selection calls for the next SRH game.
         </p>
 
         <div className="mt-6 flex flex-wrap gap-2">

@@ -14,8 +14,8 @@ interface ArticleCardProps {
 }
 
 function getCollectionFromUrl(url: string) {
-  if (url.startsWith("/match-coverage/")) return "match-coverage";
-  if (url.startsWith("/match-previews/")) return "match-previews";
+  if (url.startsWith("/sunrisers-hyderabad/match-coverage/")) return "match-coverage";
+  if (url.startsWith("/sunrisers-hyderabad/match-previews/")) return "match-previews";
   return "news";
 }
 
@@ -110,6 +110,7 @@ export function ArticleCard({ article, variant = "default" }: ArticleCardProps) 
               articleImage.fitClassName ?? "object-cover"
             )}
             height={800}
+            sizes={isFeatured ? "(max-width: 1024px) 100vw, 60vw" : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
             src={articleImage.src}
             width={1200}
           />

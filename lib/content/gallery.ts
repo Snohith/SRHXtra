@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { compareDatesDesc } from "@/lib/utils/date";
+import { franchiseBasePath } from "@/lib/content/franchise-route";
 import { resolveContentPath } from "@/lib/utils/paths";
 import {
   assertEditorialStatus,
@@ -94,7 +95,7 @@ function readAlbum(filePath: string): GalleryAlbum {
     fallbackType: data.fallbackType,
     sourceKind: data.sourceKind,
     coverOverrideIndex: typeof data.coverOverrideIndex === "number" ? data.coverOverrideIndex : undefined,
-    url: `/gallery/${data.slug}/`,
+    url: `${franchiseBasePath()}/gallery/${data.slug}/`,
   };
 }
 

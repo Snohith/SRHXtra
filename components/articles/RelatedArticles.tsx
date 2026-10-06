@@ -11,7 +11,7 @@ interface RelatedArticlesProps {
 
 export function RelatedArticles({
   articles,
-  description = "Reports and bulletins connected by tactical themes and match context.",
+  description = "More on this game, opponent or theme.",
   eyebrow = "Next phase",
   title = "Related reading",
 }: RelatedArticlesProps) {
@@ -26,7 +26,7 @@ export function RelatedArticles({
         title={title}
         description={description}
       />
-      <div className="grid gap-4 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {articles.map((article) => (
           <ArticleCard key={article.slug} article={article} variant="compact" />
         ))}

@@ -36,7 +36,7 @@ export function ArticleHeader({ article, archiveHref, archiveLabel }: ArticleHea
         </Link>
       </div>
 
-      <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+      <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-12">
         <div className="min-w-0 max-w-4xl">
           <h1 className="editorial-title leading-[1.05] tracking-tighter sm:!text-6xl lg:!text-7xl xl:!text-8xl">
             {article.title}

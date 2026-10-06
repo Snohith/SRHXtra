@@ -29,21 +29,21 @@ export function Footer({ site }: FooterProps) {
 
   return (
     <footer className="mt-32 border-t border-white/10 bg-black text-white">
-      <div className="shell-wide py-20">
-        <div className="grid gap-16 lg:grid-cols-[1.5fr_1fr]">
-          <div className="max-w-3xl">
-            <Link href="/" className="flex items-center gap-4 group">
-              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-accent/10 p-1 transition-transform group-hover:rotate-6">
+      <div className="shell-wide py-12 sm:py-20">
+        <div className="grid gap-10 sm:gap-16 lg:grid-cols-[1.5fr_1fr]">
+          <div className="max-w-3xl min-w-0">
+            <Link href="/" className="flex min-w-0 items-center gap-4 group">
+              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-white p-1.5 transition-transform group-hover:rotate-6">
                 <img
-                  src="/images/site/logo-mark.svg"
-                  alt=""
+                  src="/logo.png"
+                  alt="Sunrisers Xtra brand logo"
                   className="h-full w-full object-contain"
                   height={56}
                   loading="lazy"
                   width={56}
                 />
               </div>
-              <span className="text-3xl font-black uppercase tracking-[0.2em] text-white">
+              <span className="min-w-0 break-words text-xl font-black uppercase tracking-[0.2em] text-white sm:text-3xl">
                 {site.siteName}
               </span>
             </Link>
@@ -83,12 +83,12 @@ export function Footer({ site }: FooterProps) {
           </div>
         </div>
         
-        <div className="mt-20 flex flex-col gap-6 border-t border-white/10 pt-10 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-6 border-t border-white/10 pt-10 sm:mt-20 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500">
             &copy; {new Date().getFullYear()} {site.siteName}. Independent SRH Coverage.
           </p>
-          <div className="flex gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500">
-            <Link href="/about-us" className="hover:text-white">About Us</Link>
+          <div className="flex flex-wrap gap-x-8 gap-y-3 text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500">
+            <Link href="/sunrisers-hyderabad/about-us" className="hover:text-white">About Us</Link>
             <Link href="/sitemap.xml" className="hover:text-white">Sitemap</Link>
           </div>
         </div>

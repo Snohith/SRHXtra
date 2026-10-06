@@ -12,6 +12,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
     },
     host: getPublicSiteUrl(),
-    sitemap: buildAbsoluteUrl("/sitemap.xml"),
+    sitemap: [buildAbsoluteUrl("/sitemap.xml"), buildAbsoluteUrl("/rss.xml")],
   };
 }

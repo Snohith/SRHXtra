@@ -15,9 +15,9 @@ export function ScheduleTable({ fixtures }: ScheduleTableProps) {
     <div className="glass-panel overflow-hidden border border-border shadow-xs bg-white">
       <div className="hidden grid-cols-[0.8fr_1.4fr_1fr_0.8fr] gap-6 border-b border-neutral-100 bg-neutral-50 px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400 md:grid">
         <span>Date & Time</span>
-        <span>Encounter</span>
+        <span>Game</span>
         <span>Venue</span>
-        <span className="text-right">Outcome</span>
+        <span className="text-right">Result</span>
       </div>
       <div className="divide-y divide-neutral-100">
         {fixtures.map((fixture) => {
@@ -87,7 +87,7 @@ export function ScheduleTable({ fixtures }: ScheduleTableProps) {
                     )}
                     {fixture.reportSlug && (
                       <Link
-                        href={`/match-coverage/${fixture.reportSlug}/`}
+                        href={`/sunrisers-hyderabad/match-coverage/${fixture.reportSlug}/`}
                         className="text-[9px] font-bold uppercase tracking-wider text-[#ff6d00] hover:underline"
                       >
                         Read report

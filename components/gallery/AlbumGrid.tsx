@@ -3,8 +3,8 @@ import Link from "next/link";
 import type { GalleryAlbum } from "@/lib/content/gallery";
 import { resolveGalleryCoverImage } from "@/lib/content/images";
 import { formatDisplayDate } from "@/lib/utils/date";
-import { withBasePath } from "@/lib/utils/paths";
 import { Tag } from "@/components/ui/Tag";
+import { SafeImage } from "@/components/ui/SafeImage";
 
 interface AlbumGridProps {
   albums: GalleryAlbum[];
@@ -12,7 +12,7 @@ interface AlbumGridProps {
 
 export function AlbumGrid({ albums }: AlbumGridProps) {
   return (
-    <div className="grid gap-5 sm:gap-8 md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-5 sm:grid-cols-2 sm:gap-8 xl:grid-cols-3">
       {albums.map((album) => {
         const coverImage = resolveGalleryCoverImage(album);
 
@@ -20,14 +20,13 @@ export function AlbumGrid({ albums }: AlbumGridProps) {
           <article key={album.slug} className="glass-panel group overflow-hidden transition-all duration-500 hover:border-accent/30">
             <Link href={album.url} className="block">
               <div className="relative aspect-[4/3] overflow-hidden bg-surface-strong">
-                <img
+                <SafeImage
                   alt={coverImage.alt}
                   className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                  loading="lazy"
-                  src={withBasePath(coverImage.src)}
+                  src={coverImage.src}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                <div className="absolute bottom-6 left-6 right-6 translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-within:opacity-100" />
+                <div className="absolute bottom-6 left-6 right-6 translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100 max-sm:translate-y-0 max-sm:opacity-100">
                   <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent">View Full Gallery</span>
                 </div>
               </div>

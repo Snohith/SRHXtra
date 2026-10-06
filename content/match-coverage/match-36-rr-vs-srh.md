@@ -15,12 +15,12 @@ venue: "Sawai Mansingh Stadium, Jaipur"
 homeTeam: "RR"
 awayTeam: "SRH"
 result: "Sunrisers Hyderabad Won by 5 Wickets"
-coverImage: https://assets.bcci.tv/watermarkoutput/bcci/photos/2476/3c29ecb4-38d8-48c1-9734-64fddb4b60f3.jpg
+coverImage: /images/post-match/match7post.png
 coverAlt: Official IPL match photo from Rajasthan Royals vs Sunrisers Hyderabad in Jaipur
 featured: false
 seoTitle: Ishan and Abhishek Lead SRH's 229 Chase in Jaipur
 seoDescription: Verified match coverage from SRH's IPL 2026 five-wicket win over Rajasthan Royals in Jaipur.
-ogImage: https://assets.bcci.tv/watermarkoutput/bcci/photos/2476/3c29ecb4-38d8-48c1-9734-64fddb4b60f3.jpg
+ogImage: /images/post-match/match7post.png
 relatedSlugs:
   - match-31-srh-vs-dc
 draft: false

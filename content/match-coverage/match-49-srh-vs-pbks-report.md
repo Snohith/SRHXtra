@@ -15,12 +15,12 @@ venue: "Rajiv Gandhi International Stadium, Hyderabad"
 homeTeam: "SRH"
 awayTeam: "PBKS"
 result: "Sunrisers Hyderabad Won by 33 Runs"
-coverImage: https://documents.iplt20.com/bcci/articles/1778094555_ALI80219.jpg?v=1.33
+coverImage: /images/post-match/match7post.png
 coverAlt: Official IPL match image from Sunrisers Hyderabad vs Punjab Kings in Hyderabad
 featured: false
 seoTitle: Klaasen, Ishan and Cummins Lift SRH Top After PBKS Win
 seoDescription: Verified SRHXtra match coverage from SRH's 33-run win over Punjab Kings in Hyderabad, led by Heinrich Klaasen, Ishan Kishan and Pat Cummins.
-ogImage: https://documents.iplt20.com/bcci/articles/1778094555_ALI80219.jpg?v=1.33
+ogImage: /images/post-match/match7post.png
 relatedSlugs:
   - match-45-srh-vs-kkr
   - match-17-srh-vs-pbks

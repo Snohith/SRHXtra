@@ -2,7 +2,7 @@
 
 export default function TempDown() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4" style={{ background: '#e8e8e8' }}>
+    <div className="min-h-screen w-full flex flex-col items-center justify-center gap-2 p-4" style={{ background: '#e8e8e8' }}>
       <style jsx>{`
         /* Design Inspired by one of Stefan Devai's Design on Dribble */
         .main_wrapper {
@@ -533,10 +533,10 @@ export default function TempDown() {
               <div className="screen_out">
                 <div className="screen_out1">
                   <div className="screen">
-                    <span className="notfound_text">TEMP DOWN</span>
+                    <span className="notfound_text">NOT FOUND</span>
                   </div>
                   <div className="screenM">
-                    <span className="notfound_text">TEMP DOWN</span>
+                    <span className="notfound_text">NOT FOUND</span>
                   </div>
                 </div>
               </div>
@@ -571,6 +571,19 @@ export default function TempDown() {
           <div className="text_4042">0</div>
           <div className="text_4043">4</div>
         </div>
+      </div>
+      <div className="text-center" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+        <h1 className="text-xl font-bold" style={{ color: '#252525' }}>That page doesn&apos;t exist.</h1>
+        <p className="mt-2 text-sm" style={{ color: '#555' }}>
+          The link may be old, or the page may have moved.{" "}
+          <a href="/" className="underline" style={{ color: '#d36604' }}>Back to home</a>
+        </p>
+        <nav aria-label="Popular sections" className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
+          <a href="/sunrisers-hyderabad/news/" className="underline" style={{ color: '#d36604' }}>News</a>
+          <a href="/sunrisers-hyderabad/match-coverage/" className="underline" style={{ color: '#d36604' }}>Match coverage</a>
+          <a href="/sunrisers-hyderabad/schedule/" className="underline" style={{ color: '#d36604' }}>Schedule</a>
+          <a href="/sunrisers-hyderabad/squad/" className="underline" style={{ color: '#d36604' }}>Squad</a>
+        </nav>
       </div>
     </div>
   );

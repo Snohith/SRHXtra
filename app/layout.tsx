@@ -45,6 +45,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     >
       <head>
         <meta name="darkreader-lock" />
+        <link rel="preconnect" href="https://documents.iplt20.com" />
+        <link rel="preconnect" href="https://d1zakxcsliwds.cloudfront.net" />
+        <link rel="dns-prefetch" href="https://documents.iplt20.com" />
+        <link rel="dns-prefetch" href="https://d1zakxcsliwds.cloudfront.net" />
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-RC7HGXJQ7M"

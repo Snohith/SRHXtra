@@ -12,12 +12,12 @@ export function PointsTableTeaser({ table }: PointsTableTeaserProps) {
     <section className="section-stack">
       <SectionHeader
         title="Points Table"
-        action={<Button href="/points-table/" variant="secondary" size="sm">Open table</Button>}
+        action={<Button href="/sunrisers-hyderabad/points-table/" variant="secondary" size="sm">Open table</Button>}
       />
       {table ? (
         <PointsTableCard compact table={table} />
       ) : (
-        <div className="panel p-5 text-sm text-muted italic">Standings will appear here after the season launch.</div>
+        <div className="panel p-5 text-sm text-muted italic">The table goes up here once the season starts.</div>
       )}
     </section>
   );

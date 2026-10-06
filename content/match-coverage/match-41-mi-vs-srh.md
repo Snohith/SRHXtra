@@ -15,12 +15,12 @@ venue: "Wankhede Stadium, Mumbai"
 homeTeam: "MI"
 awayTeam: "SRH"
 result: "Sunrisers Hyderabad Won by 6 Wickets"
-coverImage: https://assets.bcci.tv/watermarkoutput/bcci/photos/2481/27a540ce-6e1c-40e2-a3c6-9470ac2bf4f0.jpg
+coverImage: /images/post-match/match7post.png
 coverAlt: Official IPL match photo from Mumbai Indians vs Sunrisers Hyderabad at Wankhede
 featured: false
 seoTitle: Klaasen Helps SRH Chase 244 at Wankhede
 seoDescription: Verified match coverage from SRH's IPL 2026 six-wicket win over Mumbai Indians in Mumbai.
-ogImage: https://assets.bcci.tv/watermarkoutput/bcci/photos/2481/27a540ce-6e1c-40e2-a3c6-9470ac2bf4f0.jpg
+ogImage: /images/post-match/match7post.png
 relatedSlugs:
   - match-36-rr-vs-srh
 draft: false

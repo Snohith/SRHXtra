@@ -3,6 +3,7 @@ import path from "node:path";
 import matter from "gray-matter";
 
 import { compareDatesDesc } from "@/lib/utils/date";
+import { franchiseBasePath } from "@/lib/content/franchise-route";
 import { resolveContentPath } from "@/lib/utils/paths";
 import { createExcerpt } from "@/lib/utils/text";
 import {
@@ -112,7 +113,7 @@ function readArticleFile(collection: ArticleCollection, filePath: string): Artic
     sourceUrl: frontmatter.sourceUrl ? String(frontmatter.sourceUrl) : undefined,
     collection,
     content,
-    url: `/${collection}/${slug}/`,
+    url: `${franchiseBasePath()}/${collection}/${slug}/`,
   };
 }
 

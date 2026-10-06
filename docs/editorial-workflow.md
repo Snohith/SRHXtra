@@ -42,7 +42,7 @@ Weak:
    - use `replace-before-launch` while drafting
    - use `verified` once a human confirms the facts
 5. Add the cover image and OG image to `public/images/articles/`.
-6. Check the new route at `/news/[slug]/`.
+6. Check the new route at `/hyderabad/news/[slug]/`.
 
 Required fields:
 

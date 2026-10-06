@@ -3,11 +3,11 @@
   "siteUrl": "https://srhxtra.vercel.app",
   "defaultTitle": "SRHXtra",
   "titleTemplate": "%s | SRHXtra",
-  "defaultDescription": "Sharp match reporting, tactical analysis, and high-resolution galleries for Sunrisers Hyderabad.",
-  "defaultOgImage": "/og/default-og.svg",
+  "defaultDescription": "Match reports, previews, squad news and photo galleries for Sunrisers Hyderabad, written by supporters.",
+  "defaultOgImage": "/og/default-og.png",
   "locale": "en_IN",
-  "tagline": "OrangeArmy's No.1 destination for all the news",
-  "footerHeadline": "Matchday urgency, editorial depth, and a cleaner SRH view every week.",
+  "tagline": "SRH news, reports and photos in one place",
+  "footerHeadline": "Every SRH game written up, with the table, squad and photos alongside it.",
   "socials": {
     "x": "https://x.com/srhxtra",
     "instagram": "https://instagram.com/srhxtra",
@@ -15,24 +15,60 @@
     "email": "editor@srhxtra.com"
   },
   "navLinks": [
-    { "label": "News", "href": "/news/" },
-    { "label": "Match Previews", "href": "/match-previews/" },
-    { "label": "Match Coverage", "href": "/match-coverage/" },
-    { "label": "Points Table", "href": "/points-table/" },
-    { "label": "Player Poll", "href": "/player-poll/" },
-    { "label": "Gallery", "href": "/gallery/" },
-    { "label": "Schedule", "href": "/schedule/" },
-    { "label": "Squad", "href": "/squad/" },
-    { "label": "About Us", "href": "/about-us/" }
+    {
+      "label": "News",
+      "href": "/sunrisers-hyderabad/news/"
+    },
+    {
+      "label": "Match Previews",
+      "href": "/sunrisers-hyderabad/match-previews/"
+    },
+    {
+      "label": "Match Coverage",
+      "href": "/sunrisers-hyderabad/match-coverage/"
+    },
+    {
+      "label": "Points Table",
+      "href": "/sunrisers-hyderabad/points-table/"
+    },
+    {
+      "label": "Player Poll",
+      "href": "/sunrisers-hyderabad/player-poll/"
+    },
+    {
+      "label": "Gallery",
+      "href": "/sunrisers-hyderabad/gallery/"
+    },
+    {
+      "label": "Schedule",
+      "href": "/sunrisers-hyderabad/schedule/"
+    },
+    {
+      "label": "Squad",
+      "href": "/sunrisers-hyderabad/squad/"
+    },
+    {
+      "label": "About Us",
+      "href": "/sunrisers-hyderabad/about-us/"
+    }
   ],
   "footerLinks": [
-    { "label": "Home", "href": "/" },
-    { "label": "About Us", "href": "/about-us/" },
-    { "label": "News", "href": "/news/" }
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "About Us",
+      "href": "/sunrisers-hyderabad/about-us/"
+    },
+    {
+      "label": "News",
+      "href": "/sunrisers-hyderabad/news/"
+    }
   ],
   "organization": {
     "name": "SRHXtra",
-    "description": "SRHXtra is an independent SRH fan publication focused on sharper match reporting, tactical context, and editorial storytelling built for supporters.",
+    "description": "SRHXtra is a fan-run SRH publication. Match reports, previews, squad profiles and photo galleries for supporters, checked against official IPL sources.",
     "logo": "/logo.png",
     "sameAs": [
       "https://x.com/srhxtra",
@@ -41,11 +77,10 @@
     ]
   },
   "homepage": {
-    "heroTitle": "Sunrisers Hyderabad News and Match Coverage, Sharpened.",
-    "heroDescription": "Sharp match reporting and tactical context for SRH.",
+    "heroTitle": "Sunrisers Hyderabad news and match reports, without the noise.",
+    "heroDescription": "Every 2026 game written up, plus previews, squad news and photos for the Orange Army.",
     "featuredNewsSlug": "official-news-sunrisers-hyderabad-pick-gerald-coetzee-as-injury-replacement-for-david-payne",
     "featuredGallerySlug": "opening-night-energy",
-    "nextFixtureId": "fixture-002",
-    "heroImage": "/images/site/homepage-hero.png"
+    "nextFixtureId": "fixture-002"
   }
 }

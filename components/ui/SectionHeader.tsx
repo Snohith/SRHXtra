@@ -31,7 +31,7 @@ export function SectionHeader({
     <div
       className={cx(
         "flex min-w-0 flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-5",
-        isCenter && "sm:flex-col sm:items-center sm:text-center",
+        isCenter && "items-center text-center sm:flex-col sm:items-center sm:text-center",
         isHero && description && "border-b border-border pb-8 sm:pb-14",
         className,
       )}

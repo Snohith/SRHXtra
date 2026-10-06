@@ -15,12 +15,12 @@ venue: "Rajiv Gandhi International Stadium, Hyderabad"
 homeTeam: "SRH"
 awayTeam: "KKR"
 result: "Kolkata Knight Riders Won by 7 Wickets"
-coverImage: https://assets.bcci.tv/watermarkoutput/bcci/photos/2485/df0c6f0e-daa6-4bb5-82ee-9880e3776b57.jpg
+coverImage: /images/post-match/match7post.png
 coverAlt: Official IPL match photo from Sunrisers Hyderabad vs Kolkata Knight Riders in Hyderabad
 featured: false
 seoTitle: KKR Spin Collapse Stops SRH in Hyderabad
 seoDescription: Verified match coverage from SRH's IPL 2026 seven-wicket defeat to Kolkata Knight Riders in Hyderabad.
-ogImage: https://assets.bcci.tv/watermarkoutput/bcci/photos/2485/df0c6f0e-daa6-4bb5-82ee-9880e3776b57.jpg
+ogImage: /images/post-match/match7post.png
 relatedSlugs:
   - match-41-mi-vs-srh
 draft: false

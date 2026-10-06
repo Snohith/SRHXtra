@@ -19,27 +19,27 @@ export function FixtureCard({ fixture }: FixtureCardProps) {
   const rightTeam = isHome ? opponent : srh;
 
   return (
-    <article className="glass-panel group p-8 transition-all hover:bg-black/[0.02]">
+    <article className="glass-panel group min-w-0 p-5 transition-all hover:bg-black/[0.02] sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
+        <div className="flex min-w-0 flex-wrap items-center gap-4">
           <Badge tone={isCompleted ? "neutral" : "accent"}>{fixture.status}</Badge>
           <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">{fixture.competition}</span>
         </div>
         <Badge tone="neutral">{fixture.homeAway}</Badge>
       </div>
       
-      <div className="mt-8 flex items-center justify-between gap-6">
-        <div className="flex flex-col gap-2">
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Matchday Encounter</p>
-          <h3 className="text-3xl font-black uppercase tracking-tight text-foreground group-hover:text-accent transition-colors">
+      <div className="mt-8 flex flex-col gap-5 min-[480px]:flex-row min-[480px]:items-center min-[480px]:justify-between sm:gap-6">
+        <div className="flex min-w-0 flex-col gap-2">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">League Fixture</p>
+          <h3 className="break-words text-2xl font-black uppercase tracking-tight text-foreground group-hover:text-accent transition-colors sm:text-3xl">
             {leftTeam.code} <span className="text-muted/40">vs</span> {rightTeam.code}
           </h3>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted/60">
+          <p className="break-words text-[10px] font-bold uppercase tracking-widest text-muted/60">
             {leftTeam.name} vs {rightTeam.name}
           </p>
         </div>
 
-        <div className="relative flex -space-x-3">
+        <div className="relative flex shrink-0 -space-x-3">
           <div className="relative h-14 w-14 overflow-hidden rounded-full border-2 border-surface bg-surface-strong p-2">
             {leftTeam.logo && <Image src={leftTeam.logo} alt={leftTeam.name} fill className="object-contain p-2" unoptimized />}
           </div>
@@ -69,10 +69,10 @@ export function FixtureCard({ fixture }: FixtureCardProps) {
       {fixture.reportSlug ? (
         <div className="mt-8">
           <Link 
-            href={`/match-coverage/${fixture.reportSlug}/`} 
+            href={`/sunrisers-hyderabad/match-coverage/${fixture.reportSlug}/`} 
             className="text-[10px] font-bold uppercase tracking-[0.3em] text-foreground underline decoration-accent underline-offset-8 transition-all hover:text-accent"
           >
-            Open Tactical Report
+            Read match report
           </Link>
         </div>
       ) : null}

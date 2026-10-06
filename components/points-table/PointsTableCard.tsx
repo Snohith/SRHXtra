@@ -13,13 +13,13 @@ export function PointsTableCard({ table, compact = false }: PointsTableCardProps
   const rows = compact ? table.standings.slice(0, 5) : table.standings;
 
   return (
-    <div className="glass-panel overflow-hidden border border-border shadow-xs bg-white">
+    <div className="glass-panel relative overflow-hidden border border-border shadow-xs bg-white">
       <div className="overflow-x-auto [scrollbar-width:thin]">
-        <table className="min-w-[660px] border-separate border-spacing-0 sm:min-w-full">
+        <table className="min-w-[660px] border-separate border-spacing-0">
           <thead className="sticky top-0 z-40 bg-surface/95 text-[10px] font-bold uppercase tracking-[0.2em] text-muted backdrop-blur-md">
             <tr className="border-b border-border">
               <th className="sticky left-0 top-0 z-50 bg-surface px-3 py-4 text-left shadow-[2px_0_10px_rgba(0,0,0,0.03)] sm:px-6 sm:shadow-none">Pos</th>
-              <th className="sticky left-12 top-0 z-50 bg-surface px-3 py-4 text-left shadow-[2px_0_10px_rgba(0,0,0,0.03)] sm:left-16 sm:px-6 sm:shadow-none">Team</th>
+              <th className="sticky left-[52px] top-0 z-50 bg-surface px-3 py-4 text-left shadow-[2px_0_10px_rgba(0,0,0,0.03)] sm:left-[80px] sm:px-6 sm:shadow-none">Team</th>
               <th className="sticky top-0 px-6 py-4 text-center">P</th>
               {!compact && <th className="sticky top-0 px-6 py-4 text-center text-muted/40">Rem</th>}
               <th className="sticky top-0 px-6 py-4 text-center">W</th>
@@ -78,7 +78,7 @@ export function PointsTableCard({ table, compact = false }: PointsTableCardProps
                     </div>
                   </td>
                   <td className={cx(
-                    "sticky left-12 z-10 px-3 py-4 shadow-[2px_0_10px_rgba(0,0,0,0.03)] sm:left-16 sm:px-6 sm:py-5 sm:shadow-none",
+                    "sticky left-[52px] z-10 px-3 py-4 shadow-[2px_0_10px_rgba(0,0,0,0.03)] sm:left-[80px] sm:px-6 sm:py-5 sm:shadow-none",
                     isSrh ? "bg-surface-strong" : (isPlayoffZone ? "bg-surface/60" : "bg-surface")
                   )}>
                     <div className="flex items-center gap-3">
@@ -171,6 +171,10 @@ export function PointsTableCard({ table, compact = false }: PointsTableCardProps
           </tbody>
         </table>
       </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-white via-white/70 to-transparent lg:hidden"
+      />
       {!compact && (
         <div className="border-t border-border bg-black/[0.01] px-6 py-4 sm:px-8">
           <div className="flex flex-wrap items-center justify-between gap-y-4 gap-x-8">

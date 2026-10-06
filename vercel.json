@@ -41,5 +41,52 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/squad/:slug*",
+      "destination": "/sunrisers-hyderabad/squad/:slug*",
+      "permanent": true
+    },
+    {
+      "source": "/schedule/:slug*",
+      "destination": "/sunrisers-hyderabad/schedule/:slug*",
+      "permanent": true
+    },
+    {
+      "source": "/news/:slug*",
+      "destination": "/sunrisers-hyderabad/news/:slug*",
+      "permanent": true
+    },
+    {
+      "source": "/match-coverage/:slug*",
+      "destination": "/sunrisers-hyderabad/match-coverage/:slug*",
+      "permanent": true
+    },
+    {
+      "source": "/match-previews/:slug*",
+      "destination": "/sunrisers-hyderabad/match-previews/:slug*",
+      "permanent": true
+    },
+    {
+      "source": "/points-table/:slug*",
+      "destination": "/sunrisers-hyderabad/points-table/:slug*",
+      "permanent": true
+    },
+    {
+      "source": "/player-poll/:slug*",
+      "destination": "/sunrisers-hyderabad/player-poll/:slug*",
+      "permanent": true
+    },
+    {
+      "source": "/gallery/:slug*",
+      "destination": "/sunrisers-hyderabad/gallery/:slug*",
+      "permanent": true
+    },
+    {
+      "source": "/about-us/:slug*",
+      "destination": "/sunrisers-hyderabad/about-us/:slug*",
+      "permanent": true
+    }
   ]
 }

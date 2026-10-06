@@ -177,7 +177,7 @@ export function PlayerOfTheSeason() {
 
         <div className="relative z-10">
           <div className="shell py-10 sm:py-16 lg:py-20">
-            <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.05fr]">
+            <div className="grid items-center gap-8 lg:grid-cols-[1fr_1.05fr] lg:gap-12">
               {/* Left Content */}
               <div className="order-2 lg:order-1">
                 <p className="eyebrow text-[#ff6d00]">IPL 2026 • SRH</p>
@@ -211,11 +211,11 @@ export function PlayerOfTheSeason() {
                       : "translate-y-8 opacity-0"
                   )}
                 >
-                  <h2 className="text-4xl font-black uppercase text-white sm:text-5xl lg:text-6xl">
+                  <h2 className="break-words text-3xl font-black uppercase text-white sm:text-5xl lg:text-6xl">
                     {FIRST_NAME} <span className="text-[#ff6d00]">{LAST_NAME}</span>
                   </h2>
                   <p className="mt-4 max-w-2xl text-lg text-white/70 sm:text-xl">
-                    The destructive middle-order batter who powered SRH to a historic IPL 2026 campaign with breathtaking innings after innings.
+                    624 runs from 13 innings at a 160 strike rate — the most by any SRH batter in IPL 2026.
                   </p>
                 </div>
 
@@ -228,11 +228,11 @@ export function PlayerOfTheSeason() {
                       : "translate-y-8 opacity-0"
                   )}
                 >
-                  <Button href="/squad/heinrich-klaasen" size="lg">
+                  <Button href="/sunrisers-hyderabad/squad/heinrich-klaasen" size="lg">
                     View Player Profile
                   </Button>
                   <Button
-                    href="/match-coverage/"
+                    href="/sunrisers-hyderabad/match-coverage/"
                     size="lg"
                     variant="secondary"
                     className="border-white/20 bg-white/10 text-white hover:bg-white/20"
@@ -254,7 +254,7 @@ export function PlayerOfTheSeason() {
                     )}
                   >
                     {/* Player Image Frame */}
-                    <div className="relative h-[380px] w-[340px] overflow-hidden rounded-[2rem] border-4 border-[#ff6d00]/40 bg-gradient-to-br from-[#ff6d00]/20 to-[#1a1a2e] shadow-[0_24px_60px_rgba(255,109,0,0.25)] sm:h-[460px] sm:w-[400px]">
+                    <div className="relative mx-auto h-[380px] w-full max-w-[340px] overflow-hidden rounded-[2rem] border-4 border-[#ff6d00]/40 bg-gradient-to-br from-[#ff6d00]/20 to-[#1a1a2e] shadow-[0_24px_60px_rgba(255,109,0,0.25)] sm:h-[460px] sm:max-w-[400px]">
                       <div className="absolute inset-0">
                         <Image
                           src="/images/players/heinrich-klaasen-player-of-the-season.png"
@@ -269,7 +269,7 @@ export function PlayerOfTheSeason() {
                     </div>
 
                     {/* Trophy Badge */}
-                    <div className="absolute -left-6 -top-6 z-20 flex h-32 w-32 flex-col items-center justify-center rounded-full bg-[#ff6d00] shadow-[0_20px_40px_rgba(255,109,0,0.45)]">
+                    <div className="absolute -top-4 left-0 z-20 flex h-24 w-24 flex-col items-center justify-center rounded-full bg-[#ff6d00] shadow-[0_20px_40px_rgba(255,109,0,0.45)] sm:-left-6 sm:-top-6 sm:h-32 sm:w-32">
                       <span className="text-4xl">🏆</span>
                       <span className="mt-1 text-xs font-black uppercase tracking-[0.18em] text-white">
                         WINNER
@@ -277,7 +277,7 @@ export function PlayerOfTheSeason() {
                     </div>
 
                     {/* Stats Floating Card */}
-                    <div className="absolute -bottom-6 right-6 z-20 glass-panel p-4 sm:p-6">
+                    <div className="absolute -bottom-6 right-4 z-20 max-w-[calc(100%-2rem)] glass-panel p-4 sm:right-6 sm:p-6">
                       <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#ff6d00]">
                         2026 SEASON
                       </p>
@@ -305,19 +305,19 @@ export function PlayerOfTheSeason() {
       <section className="shell">
         <SectionHeader
           eyebrow="SEASON NUMBERS"
-          title="RECORD-BREAKING CAMPAIGN"
+          title="HIS 2026 AT A GLANCE"
         />
         <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:gap-6">
           {SEASON_STATS.map((stat, idx) => (
             <div
               key={stat.label}
-              className="panel-strong flex flex-col gap-2 p-6 sm:p-7"
+              className="panel-strong flex min-w-0 flex-col gap-2 p-5 sm:p-7"
               style={{
                 transitionDelay: `${idx * 80}ms`,
               }}
             >
               <p className="text-sm font-medium text-muted">{stat.label}</p>
-              <p className="text-4xl font-black text-foreground sm:text-5xl">
+              <p className="break-words text-3xl font-black text-foreground sm:text-5xl">
                 {stat.value}
                 {stat.suffix && (
                   <span className="ml-1 text-xl font-semibold text-muted">
@@ -335,7 +335,7 @@ export function PlayerOfTheSeason() {
         <div className="shell">
           <SectionHeader
             eyebrow="MATCH-BY-MATCH"
-            title="THE CHAMPION'S JOURNEY"
+            title="GAME BY GAME"
           />
         </div>
         <div className="shell mt-8">
@@ -391,29 +391,29 @@ export function PlayerOfTheSeason() {
       {/* Contribution Comparison Section */}
       <section className="shell">
         <SectionHeader
-          eyebrow="LEADING FROM THE FRONT"
+          eyebrow="SQUAD COMPARISON"
           title="TOP SRH PERFORMERS"
         />
         <div className="mt-8 space-y-8">
           {/* Runs Comparison */}
           <div className="panel-strong p-6 sm:p-7">
-            <div className="flex items-center justify-between">
-              <h4 className="text-lg font-bold text-foreground sm:text-xl">Total Runs</h4>
+            <div className="flex items-center justify-between gap-3">
+              <h4 className="min-w-0 text-lg font-bold text-foreground sm:text-xl">Total Runs</h4>
             </div>
             <div className="mt-6 space-y-4">
               {COMPARISON_PLAYERS.map((player, idx) => (
                 <div key={player.name} className="space-y-2">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-3">
                     <p
                       className={cx(
-                        "text-sm font-semibold",
+                        "min-w-0 truncate text-sm font-semibold",
                         player.isWinner ? "text-[#ff6d00]" : "text-foreground"
                       )}
                     >
                       {player.isWinner && "★ "}
                       {player.name}
                     </p>
-                    <p className="text-sm font-bold text-foreground">
+                    <p className="shrink-0 text-sm font-bold text-foreground">
                       {player.runs}
                     </p>
                   </div>
@@ -436,23 +436,23 @@ export function PlayerOfTheSeason() {
 
           {/* Sixes Comparison */}
           <div className="panel-strong p-6 sm:p-7">
-            <div className="flex items-center justify-between">
-              <h4 className="text-lg font-bold text-foreground sm:text-xl">Total Sixes</h4>
+            <div className="flex items-center justify-between gap-3">
+              <h4 className="min-w-0 text-lg font-bold text-foreground sm:text-xl">Total Sixes</h4>
             </div>
             <div className="mt-6 space-y-4">
               {COMPARISON_PLAYERS.map((player, idx) => (
                 <div key={player.name} className="space-y-2">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-3">
                     <p
                       className={cx(
-                        "text-sm font-semibold",
+                        "min-w-0 truncate text-sm font-semibold",
                         player.isWinner ? "text-[#ff6d00]" : "text-foreground"
                       )}
                     >
                       {player.isWinner && "★ "}
                       {player.name}
                     </p>
-                    <p className="text-sm font-bold text-foreground">
+                    <p className="shrink-0 text-sm font-bold text-foreground">
                       {player.sixes}
                     </p>
                   </div>
@@ -475,23 +475,23 @@ export function PlayerOfTheSeason() {
 
           {/* Strike Rate Comparison */}
           <div className="panel-strong p-6 sm:p-7">
-            <div className="flex items-center justify-between">
-              <h4 className="text-lg font-bold text-foreground sm:text-xl">Strike Rate</h4>
+            <div className="flex items-center justify-between gap-3">
+              <h4 className="min-w-0 text-lg font-bold text-foreground sm:text-xl">Strike Rate</h4>
             </div>
             <div className="mt-6 space-y-4">
               {COMPARISON_PLAYERS.map((player, idx) => (
                 <div key={player.name} className="space-y-2">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-3">
                     <p
                       className={cx(
-                        "text-sm font-semibold",
+                        "min-w-0 truncate text-sm font-semibold",
                         player.isWinner ? "text-[#ff6d00]" : "text-foreground"
                       )}
                     >
                       {player.isWinner && "★ "}
                       {player.name}
                     </p>
-                    <p className="text-sm font-bold text-foreground">
+                    <p className="shrink-0 text-sm font-bold text-foreground">
                       {player.sr}
                     </p>
                   </div>

@@ -7,7 +7,8 @@ This site remains a static export. The poll uses the browser Supabase client, Su
 1. Create a Supabase project.
 2. In Supabase, open **Authentication > Providers** and enable **Anonymous sign-ins**.
 3. Open the SQL editor and run `supabase/player-season-poll.sql`.
-4. In **Table Editor**, use the `poll_results` view to see admin vote counts.
+4. Run `supabase/poll-results-public.sql` so the page can read the live tally (counts only — individual voter rows stay private).
+5. In **Table Editor**, use the `poll_results` view to see admin vote counts.
 
 ## 2. Add Environment Variables
 
@@ -33,3 +34,4 @@ Only use the anon key in the frontend. Do not expose the service role key.
 - Refresh same browser: vote stays locked.
 - Duplicate insert from the same anonymous user is rejected by `unique (poll_id, voter_id)`.
 - Supabase dashboard: `poll_results` shows vote counts by nominee.
+- Without step 4 above, the page saves votes but honestly states the live tally is unavailable instead of showing numbers.

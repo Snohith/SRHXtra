@@ -18,7 +18,7 @@ export function NextMatchHero({ fixture }: { fixture: Fixture }) {
   const opponent = getTeamInfo(fixture.opponent);
   const srh = getTeamInfo("SRH");
   const isCompleted = fixture.status === "completed" || Boolean(fixture.result);
-  const reportHref = fixture.reportSlug ? `/match-coverage/${fixture.reportSlug}/` : null;
+  const reportHref = fixture.reportSlug ? `/sunrisers-hyderabad/match-coverage/${fixture.reportSlug}/` : null;
   
   const [countdown, setCountdown] = useState<CountdownState | null>(null);
   const [isLive, setIsLive] = useState(false);
@@ -67,14 +67,14 @@ export function NextMatchHero({ fixture }: { fixture: Fixture }) {
 
   const handleActionClick = () => {
     if (isCompleted) {
-      setMessage("Match report is being updated");
+      setMessage("The report for this game isn't up yet");
       return;
     }
 
     if (isLive) {
-      setMessage("Match Center will be available soon");
+      setMessage("Live scores aren't on this site — check the IPL app");
     } else {
-      setMessage("Preview available before 4 hrs from start of game");
+      setMessage("The preview goes up about 4 hours before the game");
     }
   };
 
@@ -84,7 +84,7 @@ export function NextMatchHero({ fixture }: { fixture: Fixture }) {
 
   return (
     <section className={cx(
-      "relative overflow-hidden rounded-[1.5rem] bg-surface-strong px-5 py-10 transition-all duration-1000 sm:rounded-3xl sm:px-12 sm:py-16 lg:py-20",
+      "relative overflow-hidden rounded-[1.5rem] bg-surface-strong px-5 py-8 transition-all duration-1000 sm:rounded-3xl sm:px-10 sm:py-10 lg:py-12",
       isLive ? "ring-2 ring-rose-500/20 shadow-[0_0_50px_rgba(244,63,94,0.1)]" : "",
       isCompleted ? "ring-1 ring-emerald-500/15" : "",
     )}>
@@ -114,7 +114,7 @@ export function NextMatchHero({ fixture }: { fixture: Fixture }) {
           )}
         </div>
         
-        <div className="mt-10 flex flex-col items-center justify-center gap-7 sm:mt-12 sm:flex-row sm:gap-16">
+        <div className="mt-8 flex flex-col items-center justify-center gap-6 sm:flex-row sm:gap-10">
           {/* Home/Away Side 1 */}
           <div className="flex flex-col items-center gap-4">
             <div className={cx(
@@ -160,12 +160,12 @@ export function NextMatchHero({ fixture }: { fixture: Fixture }) {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center gap-8">
-          <div className="flex gap-2 sm:gap-4">
+        <div className="mt-8 flex flex-col items-center gap-6">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
             {isLive ? (
               <div className="flex flex-col items-center gap-4 py-4">
                 <span className="text-center text-3xl font-black tracking-tighter text-foreground animate-pulse sm:text-4xl">GAME IN PROGRESS</span>
-                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Tracking Official Scoreboard</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">No live scores here — follow the IPL feed</p>
               </div>
             ) : isCompleted ? (
               <div className="flex max-w-2xl flex-col items-center gap-4 py-4">
@@ -192,7 +192,7 @@ export function NextMatchHero({ fixture }: { fixture: Fixture }) {
             <p className="text-xs font-medium text-muted uppercase tracking-wider">{fixture.venue}</p>
           </div>
 
-          <div className="mt-8 flex flex-col items-center gap-4">
+          <div className="mt-6 flex flex-col items-center gap-4">
             <div className="flex flex-wrap justify-center gap-4">
               {isCompleted && reportHref ? (
                 <Link
