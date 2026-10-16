@@ -11,3 +11,5 @@ out
 coverage
 apps/*/dist
 apps/*/.next
+*.tsbuildinfo
+tsconfig.tsbuildinfo
