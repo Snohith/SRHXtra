@@ -37,8 +37,12 @@ export class UsersService {
 
   /** Resolve staff by UUID or email (sign-in accepts either). */
   async findByIdOrEmail(idOrEmail: string): Promise<StaffUser | null> {
-    const byId = await this.findById(idOrEmail);
-    if (byId) return byId;
+    // UUID lookup first; skip it for non-UUID input (Postgres would raise
+    // `invalid input syntax for type uuid` instead of returning no rows).
+    if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(idOrEmail)) {
+      const byId = await this.findById(idOrEmail);
+      if (byId) return byId;
+    }
     const { rows } = await this.db.query<{
       id: string;
       email: string;
