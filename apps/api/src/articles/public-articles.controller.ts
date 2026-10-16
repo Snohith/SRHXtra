@@ -12,10 +12,18 @@ export class PublicArticlesController {
     @Query("pageSize") pageSize?: string,
     @Query("category") category?: string,
     @Query("search") search?: string,
+    @Query("sort") sort?: string,
   ) {
     const p = Math.max(parseInt(page ?? "1", 10) || 1, 1);
     const ps = Math.min(Math.max(parseInt(pageSize ?? "20", 10) || 20, 1), 100);
-    const { data, total } = await this.articles.publicList({ page: p, pageSize: ps, category, search });
+    const direction = sort === "oldest" ? "oldest" : "newest";
+    const { data, total } = await this.articles.publicList({
+      page: p,
+      pageSize: ps,
+      category,
+      search,
+      sort: direction,
+    });
     return { data, page: p, pageSize: ps, total };
   }
 

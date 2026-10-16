@@ -297,6 +297,7 @@ export class ArticlesService {
     pageSize: number;
     category?: string;
     search?: string;
+    sort?: "newest" | "oldest";
   }): Promise<{ data: ArticleDto[]; total: number }> {
     const conds = ["a.status = 'PUBLISHED'"];
     const params: unknown[] = [];
@@ -315,8 +316,9 @@ export class ArticlesService {
     );
     const limit = Math.min(Math.max(query.pageSize, 1), 100);
     const offset = (Math.max(query.page - 1, 0) || 0) * limit;
+    const order = query.sort === "oldest" ? "ASC" : "DESC";
     const { rows } = await this.db.query<ArticleRow>(
-      `${ARTICLE_SELECT} ${where} ORDER BY a.published_at DESC LIMIT ${limit} OFFSET ${offset}`,
+      `${ARTICLE_SELECT} ${where} ORDER BY a.published_at ${order} LIMIT ${limit} OFFSET ${offset}`,
       params,
     );
     return { data: rows.map(toArticleDto), total: Number(count.rows[0]?.count ?? 0) };
@@ -329,5 +331,17 @@ export class ArticlesService {
     );
     if (rows.length === 0) throw new NotFoundException("Article not found.");
     return toArticleDto(rows[0]);
+  }
+
+  async listCategories(): Promise<
+    { id: number; slug: string; name: string; description: string | null }[]
+  > {
+    const { rows } = await this.db.query<{
+      id: number;
+      slug: string;
+      name: string;
+      description: string | null;
+    }>("SELECT id, slug, name, description FROM categories ORDER BY name");
+    return rows;
   }
 }

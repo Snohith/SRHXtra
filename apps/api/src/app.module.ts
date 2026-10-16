@@ -9,6 +9,7 @@ import { AdminController } from "./admin/admin.controller";
 import { MediaController } from "./media/media.controller";
 import { ArticlesService } from "./articles/articles.service";
 import { PublicArticlesController } from "./articles/public-articles.controller";
+import { CategoriesController } from "./articles/categories.controller";
 import { AdminArticlesController } from "./articles/admin-articles.controller";
 
 @Module({
@@ -18,6 +19,7 @@ import { AdminArticlesController } from "./articles/admin-articles.controller";
     AdminController,
     MediaController,
     PublicArticlesController,
+    CategoriesController,
     AdminArticlesController,
   ],
   providers: [DbService, UsersService, AuditService, AdminAuthGuard, ArticlesService],

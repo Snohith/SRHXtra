@@ -1,4 +1,4 @@
-# SRH News — Turborepo (Steps 1–3)
+# SRH News — Turborepo (Steps 1–4)
 
 Monorepo for the SRH public website, admin dashboard, and NestJS API.
 
@@ -128,6 +128,32 @@ New API endpoints backing it: `GET /api/v1/admin/me`, `/stats`, `/activity`,
 /api/v1/admin/media` (featured-image upload, served at `/uploads/*`, recorded
 in `media_assets`). Migration `002_article_cover` adds
 `articles.cover_image_url`.
+
+## Public website (Step 4)
+
+Fan site at `http://localhost:3000` (`apps/web`, Next.js App Router).
+Server Components fetch published content; client components exist only for
+the mobile menu and the news filters (search/category/sort).
+
+| Page | Route | Notes |
+| ---- | ----- | ----- |
+| Homepage | `/` | Breaking strip, featured story, latest grid, per-category sections, topic chips |
+| Article | `/news/[slug]` | Headline, author, timestamps, hero image, sanitized body, related stories, JSON-LD, canonical + OG/Twitter metadata |
+| News listing | `/news` | URL-driven search, category filter, newest/oldest sort, pagination |
+| Squad / Matches | `/squad`, `/matches` | Nav + coming-soon stubs; structured data lands post-launch |
+
+SEO: `metadataBase` + per-article canonical URLs, Open Graph/Twitter cards,
+`NewsArticle` JSON-LD, `sitemap.xml` (published slugs), `robots.txt`.
+Bodies are sanitized server-side with `sanitize-html` (jsdom-free, so static
+prerendering works). ISR `revalidate = 60` keeps pages fast; newly published
+stories appear within a minute (on-demand revalidation webhook is the
+follow-up). Design tokens: SRH orange `#f26522`, charcoal, white, neutrals —
+mobile-first CSS, no framework.
+
+```bash
+# canonical origin for SEO links (defaults to http://localhost:3000)
+NEXT_PUBLIC_SITE_URL=https://www.example.com pnpm --filter @srh/web build
+```
 
 ## Tooling
 

@@ -104,6 +104,7 @@ export type UpdateArticle = z.infer<typeof UpdateArticleSchema>;
 export const PublicArticlesQuerySchema = PaginationQuerySchema.extend({
   category: z.string().min(1).max(100).optional(),
   search: z.string().min(1).max(200).optional(),
+  sort: z.enum(["newest", "oldest"]).optional().default("newest"),
 });
 export type PublicArticlesQuery = z.infer<typeof PublicArticlesQuerySchema>;
 
