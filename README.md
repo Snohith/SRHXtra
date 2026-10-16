@@ -161,3 +161,19 @@ NEXT_PUBLIC_SITE_URL=https://www.example.com pnpm --filter @srh/web build
 - ESLint flat config: `eslint.config.mjs`
 - Prettier: `.prettierrc`
 - Shared contracts: `@srh/contracts` (import in API + frontends)
+
+## Security posture (hardened post-red-team)
+
+- **Staff auth**: `ADMIN_API_TOKEN` required on every `/api/v1/admin/*` call;
+  production **refuses to boot** with the `dev-admin-token` default — generate
+  with `openssl rand -hex 32`. Actor from `x-admin-user-id` (UUID or email);
+  suspended accounts get 403; publish needs `editor`/`publisher`/`admin`.
+- **Rate limiting**: 200 req/min globally, 60 req/min on admin routes (429s beyond).
+- **CORS**: explicit allowlist (`localhost:3000/3001` + `CORS_ORIGINS`) — no wildcard.
+- **SSRF**: `/_next/image` optimizer allowlists only the API host, site host, and
+  `NEXT_PUBLIC_IMAGE_HOSTS` (arbitrary hosts → 400 without fetching).
+- **Headers**: CSP, `X-Frame-Options: DENY`, nosniff, strict referrer policy,
+  locked-down `Permissions-Policy`, HSTS; `X-Powered-By` disabled on API + web.
+- **Data**: Postgres bound to `127.0.0.1`; article bodies sanitized server-side
+  (`sanitize-html`) before rendering; uploads restricted to image MIME types ≤5MB;
+  drafts return uniform 404s publicly; mass assignment rejected (400).

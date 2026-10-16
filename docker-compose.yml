@@ -4,7 +4,8 @@ services:
     container_name: srh-news-db
     restart: unless-stopped
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      # Loopback-only: the database is a local dev dependency, not a LAN service.
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-srh}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-srh_dev_password}

@@ -1,4 +1,6 @@
 import { Module } from "@nestjs/common";
+import { APP_GUARD } from "@nestjs/core";
+import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { HealthController } from "./health/health.controller";
 import { ApiHealthController } from "./health/api-health.controller";
 import { DbService } from "./db/db.service";
@@ -13,6 +15,13 @@ import { CategoriesController } from "./articles/categories.controller";
 import { AdminArticlesController } from "./articles/admin-articles.controller";
 
 @Module({
+  imports: [
+    // Baseline: generous for the public read API; admin controllers
+    // override with the strict bucket below via @Throttle().
+    ThrottlerModule.forRoot({
+      throttlers: [{ ttl: 60_000, limit: 200 }],
+    }),
+  ],
   controllers: [
     HealthController,
     ApiHealthController,
@@ -22,6 +31,13 @@ import { AdminArticlesController } from "./articles/admin-articles.controller";
     CategoriesController,
     AdminArticlesController,
   ],
-  providers: [DbService, UsersService, AuditService, AdminAuthGuard, ArticlesService],
+  providers: [
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
+    DbService,
+    UsersService,
+    AuditService,
+    AdminAuthGuard,
+    ArticlesService,
+  ],
 })
 export class AppModule {}

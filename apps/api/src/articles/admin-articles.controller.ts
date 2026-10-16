@@ -12,6 +12,7 @@ import {
 } from "@nestjs/common";
 import { ArticlesService, ArticleStatus } from "./articles.service";
 import { CreateArticleDto, UpdateArticleDto } from "./dto";
+import { Throttle } from "@nestjs/throttler";
 import { AdminAuthGuard, RequireRoles } from "../admin-auth/admin-auth.guard";
 import { AdminUser } from "../admin-auth/admin-user.decorator";
 import type { StaffUser } from "../users/users.service";
@@ -19,6 +20,7 @@ import type { StaffUser } from "../users/users.service";
 const STATUSES: ArticleStatus[] = ["DRAFT", "IN_REVIEW", "PUBLISHED"];
 
 /** Staff API — every route requires admin auth (see AdminAuthGuard). */
+@Throttle({ default: { limit: 60, ttl: 60_000 } })
 @UseGuards(AdminAuthGuard)
 @Controller("api/v1/admin/articles")
 export class AdminArticlesController {

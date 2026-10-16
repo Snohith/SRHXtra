@@ -7,6 +7,7 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { Throttle } from "@nestjs/throttler";
 import { diskStorage } from "multer";
 import { existsSync, mkdirSync } from "node:fs";
 import { extname, join } from "node:path";
@@ -28,6 +29,7 @@ const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp", "image/gi
  * Files land on local disk (MVP; object storage later) and are recorded in
  * media_assets with dimensions left null — served back at /uploads/*.
  */
+@Throttle({ default: { limit: 60, ttl: 60_000 } })
 @UseGuards(AdminAuthGuard)
 @Controller("api/v1/admin/media")
 export class MediaController {
