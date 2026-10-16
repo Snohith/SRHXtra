@@ -37,6 +37,16 @@ export class DbService implements OnModuleDestroy {
     }
   }
 
+  /** Typed query helper for repositories/services. Throws if DB is not configured. */
+  async query<T = Record<string, unknown>>(
+    text: string,
+    params?: unknown[],
+  ): Promise<{ rows: T[]; rowCount: number }> {
+    if (!this.pool) throw new Error("DATABASE_URL not set — database unavailable.");
+    const res = await this.pool.query(text, params);
+    return { rows: res.rows as T[], rowCount: res.rowCount ?? 0 };
+  }
+
   async onModuleDestroy() {
     await this.pool?.end().catch(() => undefined);
   }
