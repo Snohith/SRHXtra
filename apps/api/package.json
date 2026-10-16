@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "build": "nest build",
-    "dev": "nest start --watch -p 4000",
-    "start": "nest start -p 4000",
+    "dev": "nest start --watch",
+    "start": "nest start",
     "start:prod": "node dist/main",
     "lint": "eslint src --max-warnings 0",
     "typecheck": "tsc -p tsconfig.json --noEmit",
@@ -26,6 +26,7 @@
   "devDependencies": {
     "@nestjs/cli": "^10.4.5",
     "@types/express": "^4.17.21",
+    "@types/multer": "^2.3.0",
     "@types/node": "^22.7.4",
     "@types/pg": "^8.11.0",
     "typescript": "^5.6.3"

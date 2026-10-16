@@ -11,8 +11,7 @@ export class AuditService {
     resourceType: string;
     resourceId: string;
     metadata?: Record<string, unknown>;
-  }): Promise<void> {
-    await this.db.query(
+  }): Promise<void> {    await this.db.query(
       `INSERT INTO audit_logs (actor_id, action, resource_type, resource_id, metadata)
        VALUES ($1, $2, $3, $4, $5::jsonb)`,
       [

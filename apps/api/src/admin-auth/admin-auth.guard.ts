@@ -68,7 +68,7 @@ export class AdminAuthGuard implements CanActivate {
       throw new UnauthorizedException("Missing or invalid admin credentials.");
     }
     const userId = getUserId(req);
-    const user = await this.users.findById(userId);
+    const user = await this.users.findByIdOrEmail(userId);
     if (!user) throw new UnauthorizedException("Unknown staff user.");
     if (user.status !== "active") throw new ForbiddenException("Staff account is not active.");
 

@@ -50,6 +50,11 @@ export class AdminArticlesController {
     return this.articles.create(dto, actor);
   }
 
+  @Get(":id")
+  async getById(@Param("id", new ParseUUIDPipe()) id: string) {
+    return this.articles.adminGetById(id);
+  }
+
   @Patch(":id")
   async update(
     @Param("id", new ParseUUIDPipe()) id: string,

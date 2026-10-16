@@ -35,6 +35,28 @@ export class UsersService {
     };
   }
 
+  /** Resolve staff by UUID or email (sign-in accepts either). */
+  async findByIdOrEmail(idOrEmail: string): Promise<StaffUser | null> {
+    const byId = await this.findById(idOrEmail);
+    if (byId) return byId;
+    const { rows } = await this.db.query<{
+      id: string;
+      email: string;
+      display_name: string | null;
+      status: string;
+    }>("SELECT id, email, display_name, status FROM users WHERE lower(email) = lower($1)", [
+      idOrEmail,
+    ]);
+    const user = rows[0];
+    if (!user) return null;
+    return {
+      id: user.id,
+      email: user.email,
+      displayName: user.display_name,
+      status: user.status,
+      roles: await this.rolesFor(user.id),
+    };
+  }
   async rolesFor(userId: string): Promise<string[]> {
     const { rows } = await this.db.query<{ name: string }>(
       `SELECT r.name FROM roles r

@@ -62,11 +62,14 @@ export const ArticleSchema = z.object({
   categoryId: z.number().int().nullable(),
   categorySlug: z.string().nullable(),
   categoryName: z.string().nullable(),
+  coverImageUrl: z.string().nullable(),
   publishedAt: z.string().datetime().nullable(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
 });
 export type Article = z.infer<typeof ArticleSchema>;
+
+const CoverImageUrlSchema = z.string().max(2000).optional();
 
 export const CreateArticleSchema = z.object({
   title: z.string().min(1).max(300),
@@ -79,6 +82,7 @@ export const CreateArticleSchema = z.object({
   excerpt: z.string().max(2000).optional(),
   body: z.string().min(1),
   categoryId: z.number().int().positive().optional(),
+  coverImageUrl: CoverImageUrlSchema,
 });
 export type CreateArticle = z.infer<typeof CreateArticleSchema>;
 
@@ -93,6 +97,7 @@ export const UpdateArticleSchema = z.object({
   excerpt: z.string().max(2000).nullable().optional(),
   body: z.string().min(1).optional(),
   categoryId: z.number().int().positive().nullable().optional(),
+  coverImageUrl: CoverImageUrlSchema.nullable(),
 });
 export type UpdateArticle = z.infer<typeof UpdateArticleSchema>;
 
@@ -115,3 +120,62 @@ export const PaginatedArticlesSchema = z.object({
   total: z.number().int(),
 });
 export type PaginatedArticles = z.infer<typeof PaginatedArticlesSchema>;
+
+// ---------------------------------------------------------------------------
+// Admin dashboard (Step 3): stats, activity, categories, media, staff identity.
+// ---------------------------------------------------------------------------
+
+/** Staff user as returned by GET /api/v1/admin/me. */
+export const StaffUserSchema = z.object({
+  id: z.string().uuid(),
+  email: z.string().email(),
+  displayName: z.string().nullable(),
+  status: z.string(),
+  roles: z.array(RoleNameSchema),
+});
+export type StaffUser = z.infer<typeof StaffUserSchema>;
+
+/** Dashboard counters — always computed from live DB rows. */
+export const AdminStatsSchema = z.object({
+  published: z.number().int(),
+  drafts: z.number().int(),
+  inReview: z.number().int(),
+  total: z.number().int(),
+});
+export type AdminStats = z.infer<typeof AdminStatsSchema>;
+
+/** One recent admin action for the dashboard activity feed. */
+export const ActivityItemSchema = z.object({
+  id: z.number().int(),
+  action: z.string(),
+  resourceType: z.string(),
+  resourceId: z.string(),
+  articleTitle: z.string().nullable(),
+  articleSlug: z.string().nullable(),
+  articleStatus: ArticleStatusSchema.nullable(),
+  actorName: z.string().nullable(),
+  createdAt: z.string().datetime(),
+});
+export type ActivityItem = z.infer<typeof ActivityItemSchema>;
+
+/** News category. */
+export const CategorySchema = z.object({
+  id: z.number().int(),
+  slug: z.string(),
+  name: z.string(),
+  description: z.string().nullable(),
+});
+export type Category = z.infer<typeof CategorySchema>;
+
+/** Uploaded media asset (featured images). */
+export const MediaAssetSchema = z.object({
+  id: z.string().uuid(),
+  storageKey: z.string(),
+  url: z.string(),
+  mimeType: z.string().nullable(),
+  byteSize: z.number().int().nullable(),
+  width: z.number().int().nullable(),
+  height: z.number().int().nullable(),
+  altText: z.string().nullable(),
+});
+export type MediaAsset = z.infer<typeof MediaAssetSchema>;

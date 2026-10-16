@@ -1,4 +1,4 @@
-# SRH News — Turborepo (Steps 1–2)
+# SRH News — Turborepo (Steps 1–3)
 
 Monorepo for the SRH public website, admin dashboard, and NestJS API.
 
@@ -106,6 +106,28 @@ curl -X POST localhost:4000/api/v1/admin/articles \
   -d '{"title":"SRH Retention Updates 2026","body":"...","categoryId":1}'
 # → DRAFT; invisible on /api/v1/articles until submit + publish
 ```
+
+## Admin dashboard (Step 3)
+
+CMS at `http://localhost:3001` (`apps/admin`, Next.js + React Hook Form/Zod +
+Tiptap; preview HTML sanitized with DOMPurify in the browser).
+
+| Screen | Route | What it does |
+| ------ | ----- | ------------ |
+| Sign-in | `/login` | Verifies staff token + email/user-ID via `GET /api/v1/admin/me`, stores them for subsequent admin calls |
+| Dashboard | `/` | Published/draft/in-review counters from `GET /api/v1/admin/stats` + recent actions from `GET /api/v1/admin/activity` — all live DB data |
+| Articles | `/articles` | Debounced search, status filter, pagination (10/page), edit links |
+| New article | `/articles/new` | Title, auto-slug, summary, category, featured image (URL or upload ≤5MB), Tiptap body, save-draft, sanitized preview |
+| Edit + publish | `/articles/[id]` | Draft editing plus a publishing panel: readiness checklist, submit-for-review, role-gated publish; every action records a server-side revision |
+
+Staff workflow without touching the DB: sign in → New article → save draft →
+preview → submit for review → publish (editors/publishers/admins only).
+
+New API endpoints backing it: `GET /api/v1/admin/me`, `/stats`, `/activity`,
+`/categories`, `GET /api/v1/admin/articles/:id`, and `POST
+/api/v1/admin/media` (featured-image upload, served at `/uploads/*`, recorded
+in `media_assets`). Migration `002_article_cover` adds
+`articles.cover_image_url`.
 
 ## Tooling
 

@@ -26,6 +26,11 @@ export class CreateArticleDto {
   @IsOptional()
   @IsInt()
   categoryId?: number;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(2000)
+  coverImageUrl?: string;
 }
 
 export class UpdateArticleDto {
@@ -53,4 +58,9 @@ export class UpdateArticleDto {
 
   @IsOptional()
   categoryId?: number | null;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(2000)
+  coverImageUrl?: string | null;
 }

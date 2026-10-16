@@ -11,5 +11,7 @@ out
 coverage
 apps/*/dist
 apps/*/.next
+apps/api/uploads
+uploads
 *.tsbuildinfo
 tsconfig.tsbuildinfo

@@ -24,6 +24,7 @@ export interface ArticleRow {
   category_id: number | null;
   category_slug: string | null;
   category_name: string | null;
+  cover_image_url: string | null;
   published_at: string | null;
   created_at: string;
   updated_at: string;
@@ -41,6 +42,7 @@ export interface ArticleDto {
   categoryId: number | null;
   categorySlug: string | null;
   categoryName: string | null;
+  coverImageUrl: string | null;
   publishedAt: string | null;
   createdAt: string;
   updatedAt: string;
@@ -50,7 +52,7 @@ const ARTICLE_SELECT = `
   SELECT a.id, a.title, a.slug, a.excerpt, a.body, a.status,
          a.author_id, u.display_name AS author_name,
          a.category_id, c.slug AS category_slug, c.name AS category_name,
-         a.published_at, a.created_at, a.updated_at
+         a.cover_image_url, a.published_at, a.created_at, a.updated_at
   FROM articles a
   LEFT JOIN users u ON u.id = a.author_id
   LEFT JOIN categories c ON c.id = a.category_id
@@ -74,6 +76,7 @@ export function toArticleDto(row: ArticleRow): ArticleDto {
     categoryId: row.category_id,
     categorySlug: row.category_slug,
     categoryName: row.category_name,
+    coverImageUrl: row.cover_image_url,
     publishedAt: toIso(row.published_at),
     createdAt: toIso(row.created_at) as string,
     updatedAt: toIso(row.updated_at) as string,
@@ -133,8 +136,8 @@ export class ArticlesService {
     const next = (rows[0]?.max ?? 0) + 1;
     await this.db.query(
       `INSERT INTO article_revisions
-         (article_id, version, title, slug, excerpt, body, status, created_by)
-       SELECT id, $2, title, slug, excerpt, body, status, $3 FROM articles WHERE id = $1`,
+         (article_id, version, title, slug, excerpt, body, status, cover_image_url, created_by)
+       SELECT id, $2, title, slug, excerpt, body, status, cover_image_url, $3 FROM articles WHERE id = $1`,
       [articleId, next, actorId],
     );
   }
@@ -145,15 +148,27 @@ export class ArticlesService {
     return rows[0];
   }
 
+  async adminGetById(id: string): Promise<ArticleDto> {
+    return toArticleDto(await this.getByIdOrThrow(id));
+  }
+
   // -- Admin ---------------------------------------------------------------
 
   async create(input: CreateArticleDto, actor: StaffUser): Promise<ArticleDto> {
     await this.assertCategory(input.categoryId);
     const slug = await this.ensureUniqueSlug(input.slug ?? slugify(input.title));
     const { rows } = await this.db.query<{ id: string }>(
-      `INSERT INTO articles (title, slug, excerpt, body, status, author_id, category_id)
-       VALUES ($1, $2, $3, $4, 'DRAFT', $5, $6) RETURNING id`,
-      [input.title, slug, input.excerpt ?? null, input.body, actor.id, input.categoryId ?? null],
+      `INSERT INTO articles (title, slug, excerpt, body, status, author_id, category_id, cover_image_url)
+       VALUES ($1, $2, $3, $4, 'DRAFT', $5, $6, $7) RETURNING id`,
+      [
+        input.title,
+        slug,
+        input.excerpt ?? null,
+        input.body,
+        actor.id,
+        input.categoryId ?? null,
+        input.coverImageUrl ?? null,
+      ],
     );
     const article = await this.getByIdOrThrow(rows[0].id);
     await this.snapshotRevision(article.id, actor.id);
@@ -187,6 +202,7 @@ export class ArticlesService {
     if (input.excerpt !== undefined) push("excerpt =", input.excerpt);
     if (input.body !== undefined) push("body =", input.body);
     if (input.categoryId !== undefined) push("category_id =", input.categoryId);
+    if (input.coverImageUrl !== undefined) push("cover_image_url =", input.coverImageUrl);
     params.push(id);
     await this.db.query(`UPDATE articles SET ${sets.join(", ")} WHERE id = $${params.length}`, params);
 
