@@ -1,0 +1,9 @@
+{
+  "name": "@srh/config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./index.js",
+  "files": ["*.json", "*.mjs", "*.js"],
+  "license": "UNLICENSED"
+}
