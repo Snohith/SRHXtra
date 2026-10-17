@@ -27,7 +27,12 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   line-height: 1.55;
 }
 
@@ -547,4 +552,190 @@ a {
 
 .footer-inner a:hover {
   color: #fff;
+}
+
+/* Squad page ------------------------------------------------------------ */
+
+.captain {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  background: var(--charcoal);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin: 16px 0 0;
+}
+
+.captain .player-avatar {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.captain-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+.captain strong {
+  display: block;
+  font-size: 19px;
+  line-height: 1.3;
+}
+
+.captain-meta {
+  display: block;
+  font-size: 12.5px;
+  color: #9aa1ab;
+}
+
+.squad-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 14px 0 2px;
+}
+
+@media (min-width: 720px) {
+  .squad-stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.squad-stat {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+
+.squad-stat b {
+  display: block;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.squad-stat span {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.g-num {
+  font-style: normal;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--brand);
+  letter-spacing: 0.04em;
+}
+
+.group-count {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.group-blurb {
+  margin: 8px 0 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.squad-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 560px) {
+  .squad-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .squad-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.player-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.player-card:hover {
+  border-color: var(--brand);
+}
+
+.player-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--charcoal);
+  color: var(--brand);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.player-info {
+  min-width: 0;
+}
+
+.player-info h3 {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.player-info p {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.player-num {
+  margin-left: auto;
+  flex: none;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ink-soft);
+}
+
+.player-badge {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--brand);
+  color: #fff;
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.player-badge.trade {
+  background: var(--ink);
 }
