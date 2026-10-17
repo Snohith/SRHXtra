@@ -180,3 +180,16 @@ export const MediaAssetSchema = z.object({
   altText: z.string().nullable(),
 });
 export type MediaAsset = z.infer<typeof MediaAssetSchema>;
+
+/** Signed direct-upload ticket (Step 5): client PUTs to `uploadUrl`, then completes. */
+export const UploadTicketSchema = z.object({
+  intentId: z.string().uuid(),
+  storageKey: z.string(),
+  provider: z.enum(["local", "s3"]),
+  uploadUrl: z.string(),
+  method: z.literal("PUT"),
+  headers: z.record(z.string()),
+  publicUrl: z.string(),
+  expiresAt: z.string(),
+});
+export type UploadTicket = z.infer<typeof UploadTicketSchema>;

@@ -25,9 +25,14 @@ export function resolveImageUrl(url: string | null): string | null {
   return url;
 }
 
-async function get<T>(path: string, schema: { parse: (v: unknown) => T }, revalidate = 60): Promise<T> {
+async function get<T>(
+  path: string,
+  schema: { parse: (v: unknown) => T },
+  revalidate = 60,
+  tags: string[] = ["articles"],
+): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
-    next: { revalidate },
+    next: { revalidate, tags },
     headers: { Accept: "application/json" },
   });
   if (!res.ok) {
@@ -52,12 +57,18 @@ export async function getFeed(params: FeedParams = {}) {
   });
   if (params.category) q.set("category", params.category);
   if (params.search) q.set("search", params.search);
-  return get(`/api/v1/articles?${q}`, PaginatedArticlesSchema);
+  const tags = params.category
+    ? ["articles", `category:${params.category}`]
+    : ["articles"];
+  return get(`/api/v1/articles?${q}`, PaginatedArticlesSchema, 60, tags);
 }
 
 export async function getArticle(slug: string): Promise<Article | null> {
   try {
-    return await get(`/api/v1/articles/${slug}`, ArticleSchema);
+    return await get(`/api/v1/articles/${slug}`, ArticleSchema, 60, [
+      "articles",
+      `article:${slug}`,
+    ]);
   } catch {
     return null;
   }
@@ -65,7 +76,7 @@ export async function getArticle(slug: string): Promise<Article | null> {
 
 export async function getCategories(): Promise<Category[]> {
   try {
-    return await get("/api/v1/categories", CategorySchema.array(), 300);
+    return await get("/api/v1/categories", CategorySchema.array(), 300, ["categories"]);
   } catch {
     return [];
   }

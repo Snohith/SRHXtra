@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Body,
   Controller,
   Post,
   UploadedFile,
@@ -9,49 +10,82 @@ import {
 import { FileInterceptor } from "@nestjs/platform-express";
 import { Throttle } from "@nestjs/throttler";
 import { diskStorage } from "multer";
-import { existsSync, mkdirSync } from "node:fs";
-import { extname, join } from "node:path";
 import { randomBytes } from "node:crypto";
-import { DbService } from "../db/db.service";
+import { extname } from "node:path";
+import { IsInt, IsOptional, IsString, Max, MaxLength, Min } from "class-validator";
 import { AdminAuthGuard } from "../admin-auth/admin-auth.guard";
 import { AdminUser } from "../admin-auth/admin-user.decorator";
 import type { StaffUser } from "../users/users.service";
+import { ALLOWED_UPLOAD_MIME, MAX_UPLOAD_BYTES, MediaService } from "./media.service";
+import { ensureUploadsDir } from "./uploads";
 
-export function uploadsDir(): string {
-  return process.env.UPLOADS_DIR ?? join(process.cwd(), "uploads");
+export { uploadsDir } from "./uploads";
+
+class SignUploadDto {
+  @IsString()
+  @MaxLength(255)
+  filename!: string;
+
+  @IsString()
+  @MaxLength(100)
+  contentType!: string;
+
+  @IsInt()
+  @Min(1)
+  @Max(MAX_UPLOAD_BYTES)
+  size!: number;
 }
 
-const MAX_BYTES = 5 * 1024 * 1024;
-const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif"]);
+class CompleteUploadDto {
+  @IsString()
+  @MaxLength(64)
+  intentId!: string;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(MAX_UPLOAD_BYTES)
+  size?: number;
+}
 
 /**
  * Featured-image uploads for the admin editor.
- * Files land on local disk (MVP; object storage later) and are recorded in
- * media_assets with dimensions left null — served back at /uploads/*.
+ *
+ * Preferred path (Step 5): POST /sign → PUT bytes to the signed storage URL →
+ * POST /complete. The legacy multipart POST / remains for compatibility.
  */
 @Throttle({ default: { limit: 60, ttl: 60_000 } })
 @UseGuards(AdminAuthGuard)
 @Controller("api/v1/admin/media")
 export class MediaController {
-  constructor(private readonly db: DbService) {}
+  constructor(private readonly media: MediaService) {}
 
+  /** Issue a signed direct-upload ticket (local disk or S3, per MEDIA_DRIVER). */
+  @Post("sign")
+  createSignedUpload(@Body() dto: SignUploadDto, @AdminUser() actor: StaffUser) {
+    return this.media.createUploadIntent(dto, actor);
+  }
+
+  /** Finalize a signed upload and record the media_assets row. */
+  @Post("complete")
+  completeSignedUpload(@Body() dto: CompleteUploadDto, @AdminUser() actor: StaffUser) {
+    return this.media.completeUpload(dto, actor);
+  }
+
+  /** Legacy multipart upload (kept for compatibility). */
   @Post()
   @UseInterceptors(
     FileInterceptor("file", {
       storage: diskStorage({
-        destination: (_req, _file, cb) => {
-          const dir = uploadsDir();
-          if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
-          cb(null, dir);
-        },
+        destination: (_req, _file, cb) => cb(null, ensureUploadsDir()),
         filename: (_req, file, cb) => {
           const ext = extname(file.originalname).toLowerCase() || ".bin";
           cb(null, `${Date.now()}-${randomBytes(8).toString("hex")}${ext}`);
         },
       }),
-      limits: { fileSize: MAX_BYTES },
+      limits: { fileSize: MAX_UPLOAD_BYTES },
       fileFilter: (_req, file, cb) => {
-        if (!ALLOWED_MIME.has(file.mimetype)) {
+        if (!ALLOWED_UPLOAD_MIME.has(file.mimetype)) {
           cb(new BadRequestException("Only JPEG/PNG/WebP/GIF/AVIF images are accepted."), false);
           return;
         }
@@ -64,22 +98,11 @@ export class MediaController {
     @AdminUser() actor: StaffUser,
   ) {
     if (!file) throw new BadRequestException("No image file provided (field: file).");
-    const storageKey = `uploads/${file.filename}`;
-    const url = `/uploads/${file.filename}`;
-    const { rows } = await this.db.query<{ id: string }>(
-      `INSERT INTO media_assets (storage_key, mime_type, byte_size, alt_text, uploaded_by)
-       VALUES ($1, $2, $3, $4, $5) RETURNING id`,
-      [storageKey, file.mimetype, file.size, null, actor.id],
-    );
-    return {
-      id: rows[0].id,
-      storageKey,
-      url,
+    return this.media.recordUploadedFile({
+      filename: file.filename,
       mimeType: file.mimetype,
-      byteSize: file.size,
-      width: null,
-      height: null,
-      altText: null,
-    };
+      size: file.size,
+      actorId: actor.id,
+    });
   }
 }

@@ -5,7 +5,7 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { DbService } from "../db/db.service";
+import { DbService, Queryable } from "../db/db.service";
 import { AuditService } from "../audit/audit.service";
 import type { StaffUser } from "../users/users.service";
 import type { CreateArticleDto, UpdateArticleDto } from "./dto";
@@ -128,13 +128,18 @@ export class ArticlesService {
     if (rows.length === 0) throw new BadRequestException(`Unknown categoryId: ${categoryId}.`);
   }
 
-  private async snapshotRevision(articleId: string, actorId: string): Promise<void> {
-    const { rows } = await this.db.query<{ max: number | null }>(
+  private async snapshotRevision(
+    articleId: string,
+    actorId: string,
+    client?: Queryable,
+  ): Promise<void> {
+    const q: Queryable = client ?? this.db;
+    const { rows } = await q.query<{ max: number | null }>(
       "SELECT MAX(version) AS max FROM article_revisions WHERE article_id = $1",
       [articleId],
     );
     const next = (rows[0]?.max ?? 0) + 1;
-    await this.db.query(
+    await q.query(
       `INSERT INTO article_revisions
          (article_id, version, title, slug, excerpt, body, status, cover_image_url, created_by)
        SELECT id, $2, title, slug, excerpt, body, status, cover_image_url, $3 FROM articles WHERE id = $1`,
@@ -142,8 +147,9 @@ export class ArticlesService {
     );
   }
 
-  private async getByIdOrThrow(id: string): Promise<ArticleRow> {
-    const { rows } = await this.db.query<ArticleRow>(`${ARTICLE_SELECT} WHERE a.id = $1`, [id]);
+  private async getByIdOrThrow(id: string, client?: Queryable): Promise<ArticleRow> {
+    const q: Queryable = client ?? this.db;
+    const { rows } = await q.query<ArticleRow>(`${ARTICLE_SELECT} WHERE a.id = $1`, [id]);
     if (rows.length === 0) throw new NotFoundException("Article not found.");
     return rows[0];
   }
@@ -157,29 +163,34 @@ export class ArticlesService {
   async create(input: CreateArticleDto, actor: StaffUser): Promise<ArticleDto> {
     await this.assertCategory(input.categoryId);
     const slug = await this.ensureUniqueSlug(input.slug ?? slugify(input.title));
-    const { rows } = await this.db.query<{ id: string }>(
-      `INSERT INTO articles (title, slug, excerpt, body, status, author_id, category_id, cover_image_url)
-       VALUES ($1, $2, $3, $4, 'DRAFT', $5, $6, $7) RETURNING id`,
-      [
-        input.title,
-        slug,
-        input.excerpt ?? null,
-        input.body,
-        actor.id,
-        input.categoryId ?? null,
-        input.coverImageUrl ?? null,
-      ],
-    );
-    const article = await this.getByIdOrThrow(rows[0].id);
-    await this.snapshotRevision(article.id, actor.id);
-    await this.audit.record({
-      actorId: actor.id,
-      action: "article.create",
-      resourceType: "article",
-      resourceId: article.id,
-      metadata: { status: "DRAFT", slug },
+    return this.db.withTransaction(async (client) => {
+      const { rows } = await client.query<{ id: string }>(
+        `INSERT INTO articles (title, slug, excerpt, body, status, author_id, category_id, cover_image_url)
+         VALUES ($1, $2, $3, $4, 'DRAFT', $5, $6, $7) RETURNING id`,
+        [
+          input.title,
+          slug,
+          input.excerpt ?? null,
+          input.body,
+          actor.id,
+          input.categoryId ?? null,
+          input.coverImageUrl ?? null,
+        ],
+      );
+      const article = await this.getByIdOrThrow(rows[0].id, client);
+      await this.snapshotRevision(article.id, actor.id, client);
+      await this.audit.record(
+        {
+          actorId: actor.id,
+          action: "article.create",
+          resourceType: "article",
+          resourceId: article.id,
+          metadata: { status: "DRAFT", slug },
+        },
+        client,
+      );
+      return toArticleDto(article);
     });
-    return toArticleDto(article);
   }
 
   async update(id: string, input: UpdateArticleDto, actor: StaffUser): Promise<ArticleDto> {
@@ -204,60 +215,103 @@ export class ArticlesService {
     if (input.categoryId !== undefined) push("category_id =", input.categoryId);
     if (input.coverImageUrl !== undefined) push("cover_image_url =", input.coverImageUrl);
     params.push(id);
-    await this.db.query(`UPDATE articles SET ${sets.join(", ")} WHERE id = $${params.length}`, params);
-
-    const article = await this.getByIdOrThrow(id);
-    await this.snapshotRevision(id, actor.id);
-    await this.audit.record({
-      actorId: actor.id,
-      action: "article.update",
-      resourceType: "article",
-      resourceId: id,
-      metadata: { status: article.status },
+    return this.db.withTransaction(async (client) => {
+      await client.query(`UPDATE articles SET ${sets.join(", ")} WHERE id = $${params.length}`, params);
+      const article = await this.getByIdOrThrow(id, client);
+      await this.snapshotRevision(id, actor.id, client);
+      await this.audit.record(
+        {
+          actorId: actor.id,
+          action: "article.update",
+          resourceType: "article",
+          resourceId: id,
+          metadata: { status: article.status },
+        },
+        client,
+      );
+      return toArticleDto(article);
     });
-    return toArticleDto(article);
   }
 
   async submit(id: string, actor: StaffUser): Promise<ArticleDto> {
-    const current = await this.getByIdOrThrow(id);
-    if (current.status !== "DRAFT") {
-      throw new BadRequestException(`Only DRAFT articles can be submitted (current: ${current.status}).`);
-    }
-    await this.db.query("UPDATE articles SET status = 'IN_REVIEW' WHERE id = $1", [id]);
-    const article = await this.getByIdOrThrow(id);
-    await this.snapshotRevision(id, actor.id);
-    await this.audit.record({
-      actorId: actor.id,
-      action: "article.submit",
-      resourceType: "article",
-      resourceId: id,
-      metadata: { from: "DRAFT", to: "IN_REVIEW" },
+    return this.db.withTransaction(async (client) => {
+      const current = await this.getByIdOrThrow(id, client);
+      if (current.status !== "DRAFT") {
+        throw new BadRequestException(
+          `Only DRAFT articles can be submitted (current: ${current.status}).`,
+        );
+      }
+      await client.query("UPDATE articles SET status = 'IN_REVIEW' WHERE id = $1", [id]);
+      const article = await this.getByIdOrThrow(id, client);
+      await this.snapshotRevision(id, actor.id, client);
+      await this.audit.record(
+        {
+          actorId: actor.id,
+          action: "article.submit",
+          resourceType: "article",
+          resourceId: id,
+          metadata: { from: "DRAFT", to: "IN_REVIEW" },
+        },
+        client,
+      );
+      return toArticleDto(article);
     });
-    return toArticleDto(article);
   }
 
+  /**
+   * Publish is the reliability-critical path (Step 5):
+   * status flip + revision + audit + outbox event commit in ONE transaction.
+   * The worker later consumes the outbox row and triggers web revalidation;
+   * if anything downstream is down, the event is retried, never lost.
+   */
   async publish(id: string, actor: StaffUser): Promise<ArticleDto> {
     if (!PUBLISH_ROLES.some((r) => actor.roles.includes(r))) {
       throw new ForbiddenException("Publishing requires editor, publisher, or admin role.");
     }
-    const current = await this.getByIdOrThrow(id);
-    if (current.status !== "IN_REVIEW") {
-      throw new BadRequestException(`Only IN_REVIEW articles can be published (current: ${current.status}).`);
-    }
-    await this.db.query(
-      "UPDATE articles SET status = 'PUBLISHED', published_at = now() WHERE id = $1",
-      [id],
-    );
-    const article = await this.getByIdOrThrow(id);
-    await this.snapshotRevision(id, actor.id);
-    await this.audit.record({
-      actorId: actor.id,
-      action: "article.publish",
-      resourceType: "article",
-      resourceId: id,
-      metadata: { from: "IN_REVIEW", to: "PUBLISHED" },
+    return this.db.withTransaction(async (client) => {
+      // Row lock serializes concurrent double-publish attempts.
+      const { rows } = await client.query<{ status: ArticleStatus }>(
+        "SELECT status FROM articles WHERE id = $1 FOR UPDATE",
+        [id],
+      );
+      if (rows.length === 0) throw new NotFoundException("Article not found.");
+      if (rows[0].status !== "IN_REVIEW") {
+        throw new BadRequestException(
+          `Only IN_REVIEW articles can be published (current: ${rows[0].status}).`,
+        );
+      }
+      await client.query(
+        "UPDATE articles SET status = 'PUBLISHED', published_at = now() WHERE id = $1",
+        [id],
+      );
+      const article = await this.getByIdOrThrow(id, client);
+      await this.snapshotRevision(id, actor.id, client);
+      await this.audit.record(
+        {
+          actorId: actor.id,
+          action: "article.publish",
+          resourceType: "article",
+          resourceId: id,
+          metadata: { from: "IN_REVIEW", to: "PUBLISHED" },
+        },
+        client,
+      );
+      await client.query(
+        `INSERT INTO outbox_events (event_type, aggregate_type, aggregate_id, payload)
+         VALUES ('article.published', 'article', $1, $2::jsonb)`,
+        [
+          id,
+          JSON.stringify({
+            id,
+            slug: article.slug,
+            title: article.title,
+            publishedAt: article.published_at,
+            categorySlug: article.category_slug,
+          }),
+        ],
+      );
+      return toArticleDto(article);
     });
-    return toArticleDto(article);
   }
 
   async adminList(query: {

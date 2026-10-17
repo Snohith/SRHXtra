@@ -1,19 +1,25 @@
 import { Controller, Get, HttpException, HttpStatus } from "@nestjs/common";
 import { DbService } from "../db/db.service";
+import { PipelineHealthService } from "./pipeline-health.service";
 
 @Controller("health")
 export class HealthController {
   private readonly startedAt = Date.now();
 
-  constructor(private readonly db: DbService) {}
+  constructor(
+    private readonly db: DbService,
+    private readonly pipeline: PipelineHealthService,
+  ) {}
 
-  /** Liveness probe — always 200, reports DB state in body. */
+  /** Liveness probe — always 200, reports DB + pipeline state in body. */
   @Get()
   async check() {
     const db = await this.db.check();
+    const pipeline = await this.pipeline.snapshot();
     return {
       status: "ok" as const,
       db: db.up ? ("up" as const) : ("down" as const),
+      pipeline,
       timestamp: new Date().toISOString(),
       uptimeSeconds: Math.floor((Date.now() - this.startedAt) / 1000),
       version: process.env.npm_package_version ?? "0.1.0",

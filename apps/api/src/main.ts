@@ -4,7 +4,8 @@ import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { AppModule } from "./app.module";
-import { uploadsDir } from "./media/media.controller";
+import { uploadsDir } from "./media/uploads";
+import { AllExceptionsFilter, logJson, requestLogger } from "./logging/observability";
 
 const DEV_TOKEN = "dev-admin-token";
 
@@ -27,10 +28,12 @@ async function bootstrap() {
   }
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: ["warn", "error"],
     cors: {
       origin: corsOrigins(),
-      methods: ["GET", "POST", "PATCH", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization", "x-admin-token", "x-admin-user-id"],
+      methods: ["GET", "POST", "PATCH", "PUT", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization", "x-admin-token", "x-admin-user-id", "x-request-id"],
+      exposedHeaders: ["x-request-id"],
       credentials: false,
       maxAge: 86400,
     },
@@ -38,6 +41,10 @@ async function bootstrap() {
   // Drop the Express fingerprint header.
   const server = app.getHttpAdapter().getInstance() as { disable?: (s: string) => void };
   server.disable?.("x-powered-by");
+
+  // Structured request logs (one JSON line per request, x-request-id).
+  app.use(requestLogger());
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -50,7 +57,14 @@ async function bootstrap() {
   app.useStaticAssets(uploadsDir(), { prefix: "/uploads/" });
   const port = Number(process.env.API_PORT ?? 4000);
   await app.listen(port);
-  console.log(`API listening on http://localhost:${port} (health: /api/v1/health)`);
+  logJson("info", "api listening", {
+    port,
+    health: `/api/v1/health`,
+    mediaDriver: process.env.MEDIA_DRIVER ?? "local",
+  });
 }
 
-void bootstrap();
+void bootstrap().catch((err) => {
+  logJson("error", "api failed to start", { error: err instanceof Error ? err.message : String(err) });
+  process.exit(1);
+});

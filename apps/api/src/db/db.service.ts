@@ -1,5 +1,13 @@
 import { Injectable, Logger, OnModuleDestroy } from "@nestjs/common";
-import { Pool } from "pg";
+import { Pool, PoolClient } from "pg";
+
+/** Anything that can run parameterized SQL: the pool or an open transaction. */
+export interface Queryable {
+  query<T = Record<string, unknown>>(
+    text: string,
+    params?: unknown[],
+  ): Promise<{ rows: T[]; rowCount: number }>;
+}
 
 /**
  * Minimal Postgres client.
@@ -45,6 +53,28 @@ export class DbService implements OnModuleDestroy {
     if (!this.pool) throw new Error("DATABASE_URL not set — database unavailable.");
     const res = await this.pool.query(text, params);
     return { rows: res.rows as T[], rowCount: res.rowCount ?? 0 };
+  }
+
+  /**
+   * Run `fn` in a single transaction (BEGIN/COMMIT), rolling back on any
+   * throw. Used by the publish flow so the article update, revision, audit
+   * row, and outbox event commit atomically — no "published but no event"
+   * or "event but no publish" states are possible.
+   */
+  async withTransaction<T>(fn: (client: PoolClient) => Promise<T>): Promise<T> {
+    if (!this.pool) throw new Error("DATABASE_URL not set — database unavailable.");
+    const client = await this.pool.connect();
+    try {
+      await client.query("BEGIN");
+      const result = await fn(client);
+      await client.query("COMMIT");
+      return result;
+    } catch (err) {
+      await client.query("ROLLBACK").catch(() => undefined);
+      throw err;
+    } finally {
+      client.release();
+    }
   }
 
   async onModuleDestroy() {
