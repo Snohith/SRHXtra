@@ -120,16 +120,17 @@ curl -X POST localhost:4000/api/v1/admin/articles \
 CMS at `http://localhost:3001` (`apps/admin`, Next.js + React Hook Form/Zod +
 Tiptap; preview HTML sanitized with DOMPurify in the browser).
 
-| Screen         | Route            | What it does                                                                                                                                   |
-| -------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| Sign-in        | `/login`         | Verifies staff token + email/user-ID via `GET /api/v1/admin/me`, stores them for subsequent admin calls                                        |
-| Dashboard      | `/`              | Published/draft/in-review counters from `GET /api/v1/admin/stats` + recent actions from `GET /api/v1/admin/activity` — all live DB data        |
-| Articles       | `/articles`      | Debounced search, status filter, pagination (10/page), edit links                                                                              |
-| New article    | `/articles/new`  | Title, auto-slug, summary, category, featured image (URL or upload ≤5MB), Tiptap body, save-draft, sanitized preview                           |
-| Edit + publish | `/articles/[id]` | Draft editing plus a publishing panel: readiness checklist, submit-for-review, role-gated publish; every action records a server-side revision |
+| Screen         | Route            | What it does                                                                                                                                                                                                               |
+| -------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Sign-in        | `/login`         | Verifies staff token + email/user-ID via `GET /api/v1/admin/me`, stores them for subsequent admin calls                                                                                                                    |
+| Dashboard      | `/`              | Published/draft/in-review counters from `GET /api/v1/admin/stats` + recent actions from `GET /api/v1/admin/activity` — all live DB data                                                                                    |
+| Articles       | `/articles`      | Debounced search, status filter, pagination (10/page), edit links                                                                                                                                                          |
+| New article    | `/articles/new`  | Title, auto-slug, summary, category, featured image (URL or upload ≤5MB), Tiptap body, save-draft, sanitized preview                                                                                                       |
+| Edit + publish | `/articles/[id]` | Draft and published-story editing plus a publishing panel: readiness checklist, submit-for-review, role-gated publish; every save records a server-side revision, and published edits refresh the live site within seconds |
 
 Staff workflow without touching the DB: sign in → New article → save draft →
-preview → submit for review → publish (editors/publishers/admins only).
+preview → submit for review → publish (editors/publishers/admins only) →
+edit published stories in place when they need correcting.
 
 New API endpoints backing it: `GET /api/v1/admin/me`, `/stats`, `/activity`,
 `/categories`, `GET /api/v1/admin/articles/:id`, and `POST
@@ -191,6 +192,11 @@ admin UI ──publish──▶ API: role check + IN_REVIEW guard (forward-only)
   are recovered after 2 minutes. Publish never depends on the web tier being
   up — if it is down, events stay `PENDING` and are delivered on recovery
   (verified by stopping worker/web mid-flight and restarting).
+- **Published edits**: saving a published story commits an `article.updated`
+  outbox event in the same transaction; the worker revalidates the same
+  tags/paths, so copy and metadata refresh in seconds. Status transitions stay
+  forward-only — archive/unpublish is not a workflow transition yet; when it
+  ships it reuses this exact event → worker → webhook path.
 - **Ops**: the worker is a plain Node process (`node apps/api/dist/worker.js`,
   via `pnpm worker`) with no HTTP port; it writes a heartbeat to
   `system_state`. **Restart it after rebuilding the API** (it runs the compiled
@@ -227,8 +233,9 @@ already uses this flow; the legacy multipart endpoint remains for compatibility.
 Share cards are rendered server-side with `ImageResponse`: a site-wide
 `/opengraph-image` plus a per-article `/news/<slug>/opengraph-image` that is
 used automatically when a story has no cover photo. Twitter cards are
-`summary_large_image`; canonical URLs, `NewsArticle` JSON-LD, and the
-`/sitemap.xml` (revalidated on publish) stay in sync with the article data.
+`summary_large_image`; canonical URLs and `NewsArticle` JSON-LD stay in sync
+with the article data, and `/sitemap.xml` is rendered per request from the
+tag-cached feed, so it never serves stale slugs.
 
 ### Backups & recovery drill
 
@@ -291,12 +298,12 @@ article samples matched, restore ≈135ms. Schedule `pnpm backup` (hourly) and
 
 ## Testing & verification
 
-| Command               | What it proves                                                                                                                                                                                                                                                                                                                                            |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pnpm e2e`            | Playwright against the live stack: the full editorial flow through the real UI (sign in → draft → **signed-URL cover upload** → submit → publish → readers see it within seconds), the API pipeline contract (forward-only workflow, drafts invisible publicly, republish rejected), and webhook secret-gating. Removes its `e2e-%` fixtures in teardown. |
-| `pnpm security:check` | Auth bypass, mass assignment, draft invisibility, writer-publish `403`, webhook secret, image-optimizer SSRF, security headers. Add `-- --rate-limit` for the 429 burst battery.                                                                                                                                                                          |
-| `pnpm uptime:check`   | Health/DB, outbox, worker heartbeat, web pages, newest-article round-trip.                                                                                                                                                                                                                                                                                |
-| `pnpm restore:test`   | Backup recoverability drill (restore into a scratch DB).                                                                                                                                                                                                                                                                                                  |
+| Command               | What it proves                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm e2e`            | Playwright against the live stack. **Acceptance scenario (8 steps):** writer creates a draft → writer's publish is denied (403) → publisher publishes → homepage shows it → the URL renders correctly on mobile (menu, no overflow) → updating the story refreshes content + og/twitter/JSON-LD metadata → an archived story disappears from homepage, listing, sitemap and 404s → recovery from a killed worker (durable outbox PENDING → fresh worker delivers). Plus the pipeline contract (forward-only workflow, drafts invisible, republish rejected), webhook secret-gating, and the UI publish flow with a real signed-URL cover upload. Removes its `e2e-%` fixtures (and the writer/publisher test staff) in teardown. |
+| `pnpm security:check` | Auth bypass, mass assignment, draft invisibility, writer-publish `403`, webhook secret, image-optimizer SSRF, security headers. Add `-- --rate-limit` for the 429 burst battery.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `pnpm uptime:check`   | Health/DB, outbox, worker heartbeat, web pages, newest-article round-trip.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `pnpm restore:test`   | Backup recoverability drill (restore into a scratch DB).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 
 E2E preconditions: Postgres up, API on `:4000` (built), **worker running**,
 production web on `:3000` (`pnpm --filter @srh/web build && pnpm --filter @srh/web
