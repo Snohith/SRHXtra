@@ -6,6 +6,7 @@ import {
   MediaAssetSchema,
   PaginatedArticlesSchema,
   StaffUserSchema,
+  UploadTicketSchema,
   type ActivityItem,
   type AdminStats,
   type Article,
@@ -151,17 +152,33 @@ export const api = {
   publishArticle(id: string): Promise<Article> {
     return send(`/api/v1/admin/articles/${id}/publish`, ArticleSchema, "POST");
   },
+  /**
+   * Signed direct upload (Step 5): ask the API for a scoped PUT ticket,
+   * send the bytes straight to storage (local disk or S3), then finalize.
+   * The legacy multipart endpoint stays server-side for compatibility.
+   */
   async uploadImage(file: File): Promise<MediaAsset> {
-    const form = new FormData();
-    form.append("file", file);
-    const res = await fetch(`${API_BASE}/api/v1/admin/media`, {
-      method: "POST",
-      headers: authHeaders(),
-      body: form,
+    const ticket = await send("/api/v1/admin/media/sign", UploadTicketSchema, "POST", {
+      filename: file.name || "upload.jpg",
+      contentType: file.type || "application/octet-stream",
+      size: file.size,
     });
-    const body = await res.json().catch(() => null);
-    if (!res.ok) throw new ApiError(res.status, parseApiError(res.status, body));
-    const asset = MediaAssetSchema.parse(body);
+    const put = await fetch(ticket.uploadUrl, {
+      method: "PUT",
+      headers: ticket.headers,
+      body: file,
+    });
+    if (!put.ok) {
+      const text = await put.text().catch(() => "");
+      throw new ApiError(
+        put.status,
+        `Upload to storage failed (${put.status})${text ? `: ${text.slice(0, 120)}` : ""}`,
+      );
+    }
+    const asset = await send("/api/v1/admin/media/complete", MediaAssetSchema, "POST", {
+      intentId: ticket.intentId,
+      size: file.size,
+    });
     // The API returns a site-relative path (/uploads/...) — absolutize for <img>.
     if (asset.url.startsWith("/")) return { ...asset, url: `${API_BASE}${asset.url}` };
     return asset;
