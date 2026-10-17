@@ -1,6 +1,14 @@
 import type { MetadataRoute } from "next";
 import { articleUrl, getFeed, SITE_URL } from "@/lib/api";
 
+/**
+ * Rendered per request: metadata routes like sitemap.xml do not reliably pick
+ * up revalidatePath() from the worker's webhook, so keep the route itself
+ * uncached. The article data still comes from the tag-cached feed
+ * ("articles"), which the webhook purges on publish / update / archive.
+ */
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     "",
