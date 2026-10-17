@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 
 import { SITE_URL } from "@/lib/api";
@@ -40,12 +41,34 @@ const jsonLd = {
   })),
 };
 
+/** Official headshot (zoomed into the face by CSS) or a branded initials avatar. */
+function PlayerAvatar({ player }: { player: SquadPlayer }) {
+  if (player.headshot) {
+    return (
+      <span
+        className={`player-photo${player.headshotPortrait ? " portrait" : ""}`}
+        aria-hidden="true"
+      >
+        <Image
+          src={player.headshot}
+          alt={`${player.name} headshot`}
+          width={160}
+          height={160}
+        />
+      </span>
+    );
+  }
+  return (
+    <span className="player-avatar" aria-hidden="true">
+      {initials(player.name)}
+    </span>
+  );
+}
+
 function PlayerCard({ player }: { player: SquadPlayer }) {
   return (
     <div className="player-card">
-      <span className="player-avatar" aria-hidden="true">
-        {initials(player.name)}
-      </span>
+      <PlayerAvatar player={player} />
       <div className="player-info">
         <h3>
           {player.name}
@@ -97,9 +120,7 @@ export default function SquadPage() {
 
       {CAPTAIN && (
         <div className="captain">
-          <span className="player-avatar" aria-hidden="true">
-            {initials(CAPTAIN.name)}
-          </span>
+          <PlayerAvatar player={CAPTAIN} />
           <div>
             <span className="captain-label">Captain · #{CAPTAIN.number}</span>
             <strong>{CAPTAIN.name}</strong>
@@ -157,7 +178,7 @@ export default function SquadPage() {
       <p className="meta" style={{ marginTop: 22 }}>
         Squad reflects the confirmed T Natarajan (in) / Zeeshan Ansari (out)
         trade with Delhi Capitals, October 2026. Jersey numbers per official IPL
-        listings.
+        listings. Photos: official IPL/SRH headshots.
       </p>
     </div>
   );

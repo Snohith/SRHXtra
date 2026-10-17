@@ -572,6 +572,11 @@ a {
   color: #fff;
 }
 
+.captain .player-photo {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+}
+
 .captain-label {
   display: block;
   font-size: 11px;
@@ -683,18 +688,43 @@ a {
 }
 
 .player-avatar {
-  width: 44px;
-  height: 44px;
+  width: 60px;
+  height: 60px;
   border-radius: 999px;
   background: var(--charcoal);
   color: var(--brand);
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 800;
   letter-spacing: 0.03em;
   display: flex;
   align-items: center;
   justify-content: center;
   flex: none;
+}
+
+.player-photo {
+  width: 60px;
+  height: 60px;
+  border-radius: 999px;
+  overflow: hidden;
+  flex: none;
+  background: #f1ece5;
+  border: 1px solid var(--line);
+}
+
+/* Square official headshots: zoom into the face. */
+.player-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.5);
+  transform-origin: 50% 18%;
+}
+
+/* 3:4 portraits are already tightly framed — no zoom needed. */
+.player-photo.portrait img {
+  transform: none;
+  object-position: 50% 12%;
 }
 
 .player-info {

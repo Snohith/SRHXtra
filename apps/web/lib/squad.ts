@@ -3,6 +3,7 @@
  * Base list curated from the SRHXtra squad page, updated for the confirmed
  * October 2026 trade: T Natarajan in (SRH, revised ₹5 crore), Zeeshan
  * Ansari out (Delhi Capitals, ₹40 lakh). Totals: 25 players, 8 overseas.
+ * Headshots: official IPL/SRH images (documents.iplt20.com, iplt20 image pool).
  */
 
 export type SquadRole =
@@ -18,6 +19,10 @@ export interface SquadPlayer {
   captain?: boolean;
   /** Short tag rendered as a badge (e.g. trade arrivals). */
   tag?: string;
+  /** Official headshot URL; players without one fall back to initials. */
+  headshot?: string;
+  /** True when the headshot is a 3:4 portrait rather than a 1:1 square. */
+  headshotPortrait?: boolean;
 }
 
 export const SQUAD: SquadPlayer[] = [
@@ -28,6 +33,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "Indian",
     bats: "Right-handed",
     role: "Batters",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2025/3576.png",
   },
   {
     name: "Smaran Ravichandran",
@@ -35,6 +41,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "Indian",
     bats: "Left-handed",
     role: "Batters",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/3752.png",
   },
   {
     name: "Travis Head",
@@ -42,6 +49,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "Australian",
     bats: "Left-handed",
     role: "Batters",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/37.png",
   },
 
   // Wicketkeepers --------------------------------------------------------
@@ -51,6 +59,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "South African",
     bats: "Right-handed",
     role: "Wicketkeepers",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/202.png",
   },
   {
     name: "Ishan Kishan",
@@ -58,6 +67,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "Indian",
     bats: "Left-handed",
     role: "Wicketkeepers",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/164.png",
   },
   {
     name: "Salil Arora",
@@ -65,6 +75,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "Indian",
     bats: "Right-handed",
     role: "Wicketkeepers",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/4556.png",
   },
 
   // All-rounders ---------------------------------------------------------
@@ -74,6 +85,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "Indian",
     bats: "Left-handed",
     role: "All-rounders",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/212.png",
   },
   {
     name: "Harsh Dubey",
@@ -81,6 +93,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "Indian",
     bats: "Left-handed",
     role: "All-rounders",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2025/1494.png",
   },
   {
     name: "Harshal Patel",
@@ -88,6 +101,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "Indian",
     bats: "Right-handed",
     role: "All-rounders",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2025/114.png",
   },
   {
     name: "Kamindu Mendis",
@@ -95,6 +109,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "Sri Lankan",
     bats: "Left-handed",
     role: "All-rounders",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/627.png",
   },
   {
     name: "Krains Fuletra",
@@ -102,12 +117,16 @@ export const SQUAD: SquadPlayer[] = [
     country: "Indian",
     bats: "Right-handed",
     role: "All-rounders",
+    headshot:
+      "https://d1zakxcsliwds.cloudfront.net/image-pool/9fecac6eed314bb292f0ba807e53243b.png",
+    headshotPortrait: true,
   },
   {
     name: "Liam Livingstone",
     country: "English",
     bats: "Right-handed",
     role: "All-rounders",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/183.png",
   },
   {
     name: "Nitish Kumar Reddy",
@@ -115,6 +134,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "Indian",
     bats: "Right-handed",
     role: "All-rounders",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/1944.png",
   },
   {
     name: "Shivang Kumar",
@@ -122,6 +142,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "Indian",
     bats: "Right-handed",
     role: "All-rounders",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/4561.png",
   },
 
   // Bowlers --------------------------------------------------------------
@@ -132,6 +153,7 @@ export const SQUAD: SquadPlayer[] = [
     bats: "Right-handed",
     role: "Bowlers",
     captain: true,
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/33.png",
   },
   {
     name: "Amit Kumar",
@@ -139,12 +161,14 @@ export const SQUAD: SquadPlayer[] = [
     country: "Indian",
     bats: "Right-handed",
     role: "Bowlers",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/4559.png",
   },
   {
     name: "Dilshan Madushanka",
     country: "Sri Lankan",
     bats: "Right-handed",
     role: "Bowlers",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/1018.png",
   },
   {
     name: "Eshan Malinga",
@@ -152,12 +176,14 @@ export const SQUAD: SquadPlayer[] = [
     country: "Sri Lankan",
     bats: "Right-handed",
     role: "Bowlers",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/3339.png",
   },
   {
     name: "Gerald Coetzee",
     country: "South African",
     bats: "Right-handed",
     role: "Bowlers",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2025/2535.png",
   },
   {
     name: "Jaydev Unadkat",
@@ -165,6 +191,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "Indian",
     bats: "Right-handed",
     role: "Bowlers",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/180.png",
   },
   {
     name: "Onkar Tarmale",
@@ -172,6 +199,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "Indian",
     bats: "Right-handed",
     role: "Bowlers",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/4560.png",
   },
   {
     name: "Praful Hinge",
@@ -179,6 +207,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "Indian",
     bats: "Right-handed",
     role: "Bowlers",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/4558.png",
   },
   {
     name: "R.S Ambrish",
@@ -192,6 +221,7 @@ export const SQUAD: SquadPlayer[] = [
     country: "Indian",
     bats: "Right-handed",
     role: "Bowlers",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/3104.png",
   },
   {
     name: "T Natarajan",
@@ -200,6 +230,7 @@ export const SQUAD: SquadPlayer[] = [
     bats: "Left-handed",
     role: "Bowlers",
     tag: "Trade signing",
+    headshot: "https://documents.iplt20.com/ipl/IPLHeadshot2026/224.png",
   },
 ];
 
