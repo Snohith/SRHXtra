@@ -7,7 +7,8 @@ import {
 } from "@srh/contracts";
 
 /** API origin (server use). NEXT_PUBLIC_API_URL is shared with the browser. */
-export const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+export const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
 /** Canonical site origin for SEO (canonical URLs, OG tags, sitemap). */
 export const SITE_URL =
@@ -76,7 +77,9 @@ export async function getArticle(slug: string): Promise<Article | null> {
 
 export async function getCategories(): Promise<Category[]> {
   try {
-    return await get("/api/v1/categories", CategorySchema.array(), 300, ["categories"]);
+    return await get("/api/v1/categories", CategorySchema.array(), 300, [
+      "categories",
+    ]);
   } catch {
     return [];
   }

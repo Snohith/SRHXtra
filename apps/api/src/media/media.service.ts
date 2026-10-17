@@ -65,17 +65,28 @@ export class MediaService {
     actor: StaffUser,
   ) {
     if (!ALLOWED_UPLOAD_MIME.has(input.contentType)) {
-      throw new BadRequestException("Only JPEG/PNG/WebP/GIF/AVIF images are accepted.");
+      throw new BadRequestException(
+        "Only JPEG/PNG/WebP/GIF/AVIF images are accepted.",
+      );
     }
     if (input.size < 1 || input.size > MAX_UPLOAD_BYTES) {
-      throw new BadRequestException(`Image must be between 1 byte and ${MAX_UPLOAD_BYTES} bytes.`);
+      throw new BadRequestException(
+        `Image must be between 1 byte and ${MAX_UPLOAD_BYTES} bytes.`,
+      );
     }
     const key = this.storage.buildStorageKey(input.filename);
     const expiresAt = new Date(Date.now() + INTENT_TTL_MS);
     const { rows } = await this.db.query<{ id: string }>(
       `INSERT INTO media_upload_intents (storage_key, mime_type, max_bytes, provider, created_by, expires_at)
        VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
-      [key, input.contentType, input.size, this.storage.provider, actor.id, expiresAt],
+      [
+        key,
+        input.contentType,
+        input.size,
+        this.storage.provider,
+        actor.id,
+        expiresAt,
+      ],
     );
     const intentId = rows[0].id;
     const signature = this.storage.signUpload({
@@ -99,7 +110,10 @@ export class MediaService {
   }
 
   /** Look up an intent that is still writable (not expired/completed). */
-  async getUsableIntent(intentId: string, key: string): Promise<UploadIntentRow | null> {
+  async getUsableIntent(
+    intentId: string,
+    key: string,
+  ): Promise<UploadIntentRow | null> {
     const { rows } = await this.db.query<UploadIntentRow>(
       `SELECT id, storage_key, mime_type, max_bytes, provider, created_by, uploaded_at, expires_at, completed_at
        FROM media_upload_intents
@@ -133,10 +147,14 @@ export class MediaService {
     );
     const intent = rows[0];
     if (!intent) {
-      throw new BadRequestException("Upload intent not found, expired, or already completed.");
+      throw new BadRequestException(
+        "Upload intent not found, expired, or already completed.",
+      );
     }
     if (intent.created_by && intent.created_by !== actor.id) {
-      throw new ForbiddenException("This upload intent belongs to another staff member.");
+      throw new ForbiddenException(
+        "This upload intent belongs to another staff member.",
+      );
     }
 
     let byteSize: number | null = input.size ?? null;
@@ -145,11 +163,15 @@ export class MediaService {
         const info = await stat(this.storage.localFilePath(intent.storage_key));
         byteSize = info.size;
       } catch {
-        throw new BadRequestException("Uploaded file not found on storage — did the PUT succeed?");
+        throw new BadRequestException(
+          "Uploaded file not found on storage — did the PUT succeed?",
+        );
       }
     }
     if (byteSize !== null && byteSize > intent.max_bytes) {
-      throw new PayloadTooLargeException("Uploaded object exceeds the signed size cap.");
+      throw new PayloadTooLargeException(
+        "Uploaded object exceeds the signed size cap.",
+      );
     }
 
     const asset = await this.db.query<{
@@ -189,7 +211,11 @@ export class MediaService {
    * Writes to a temp file first so a partial/failed upload never becomes a
    * publicly served object.
    */
-  async streamLocalUpload(req: Request, key: string, maxBytes: number): Promise<number> {
+  async streamLocalUpload(
+    req: Request,
+    key: string,
+    maxBytes: number,
+  ): Promise<number> {
     const target = this.storage.localFilePath(key);
     const tmp = `${target}.part-${randomBytes(4).toString("hex")}`;
     await mkdir(dirname(target), { recursive: true });
@@ -209,7 +235,11 @@ export class MediaService {
         written += chunk.length;
         if (written > maxBytes) {
           req.destroy();
-          fail(new PayloadTooLargeException("Uploaded object exceeds the signed size cap."));
+          fail(
+            new PayloadTooLargeException(
+              "Uploaded object exceeds the signed size cap.",
+            ),
+          );
         }
       });
       req.on("error", fail);

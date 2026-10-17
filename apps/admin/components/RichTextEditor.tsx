@@ -51,8 +51,12 @@ export default function RichTextEditor({ value, onChange }: Props) {
         {btn("H3", editor.isActive("heading", { level: 3 }), () =>
           editor.chain().focus().toggleHeading({ level: 3 }).run(),
         )}
-        {btn("B", editor.isActive("bold"), () => editor.chain().focus().toggleBold().run())}
-        {btn("I", editor.isActive("italic"), () => editor.chain().focus().toggleItalic().run())}
+        {btn("B", editor.isActive("bold"), () =>
+          editor.chain().focus().toggleBold().run(),
+        )}
+        {btn("I", editor.isActive("italic"), () =>
+          editor.chain().focus().toggleItalic().run(),
+        )}
         {btn("Quote", editor.isActive("blockquote"), () =>
           editor.chain().focus().toggleBlockquote().run(),
         )}

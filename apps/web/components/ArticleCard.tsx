@@ -6,9 +6,13 @@ import { formatDate, resolveImageUrl } from "@/lib/api";
 function Meta({ article }: { article: Article }) {
   return (
     <div className="meta">
-      {article.categoryName && <span className="cat">{article.categoryName}</span>}
+      {article.categoryName && (
+        <span className="cat">{article.categoryName}</span>
+      )}
       <span>{article.authorName ?? "SRH News desk"}</span>
-      <time dateTime={article.publishedAt ?? undefined}>{formatDate(article.publishedAt)}</time>
+      <time dateTime={article.publishedAt ?? undefined}>
+        {formatDate(article.publishedAt)}
+      </time>
     </div>
   );
 }
@@ -19,7 +23,12 @@ export function ArticleCard({ article }: { article: Article }) {
     <Link className="card" href={`/news/${article.slug}`}>
       {cover && (
         <span className="card-img">
-          <Image src={cover} alt="" fill sizes="(max-width: 560px) 100vw, (max-width: 960px) 50vw, 33vw" />
+          <Image
+            src={cover}
+            alt=""
+            fill
+            sizes="(max-width: 560px) 100vw, (max-width: 960px) 50vw, 33vw"
+          />
         </span>
       )}
       <span className="card-body">
@@ -37,7 +46,13 @@ export function FeaturedStory({ article }: { article: Article }) {
     <Link className="hero" href={`/news/${article.slug}`}>
       {cover && (
         <span className="hero-img">
-          <Image src={cover} alt="" fill priority sizes="(max-width: 860px) 100vw, 60vw" />
+          <Image
+            src={cover}
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 860px) 100vw, 60vw"
+          />
         </span>
       )}
       <span className="hero-body">

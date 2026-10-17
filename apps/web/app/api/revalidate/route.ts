@@ -46,13 +46,18 @@ export async function POST(req: NextRequest) {
   if (!secretMatches(provided)) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
   if (rateLimited(ip)) {
     return NextResponse.json({ message: "Too many requests" }, { status: 429 });
   }
 
-  const body = (await req.json().catch(() => ({}))) as { slug?: unknown; event?: unknown };
-  const slug = typeof body.slug === "string" && body.slug.length > 0 ? body.slug : null;
+  const body = (await req.json().catch(() => ({}))) as {
+    slug?: unknown;
+    event?: unknown;
+  };
+  const slug =
+    typeof body.slug === "string" && body.slug.length > 0 ? body.slug : null;
 
   revalidateTag("articles");
   if (slug) revalidateTag(`article:${slug}`);

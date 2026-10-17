@@ -39,7 +39,9 @@ function Editor({ id }: { id: string }) {
       setArticle(a);
       setCategories(c);
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Could not load article.");
+      setError(
+        err instanceof ApiError ? err.message : "Could not load article.",
+      );
     } finally {
       setLoading(false);
     }
@@ -73,7 +75,8 @@ function Editor({ id }: { id: string }) {
   }
 
   if (loading) return <p className="muted">Loading article…</p>;
-  if (!article) return <div className="alert error">{error ?? "Article not found."}</div>;
+  if (!article)
+    return <div className="alert error">{error ?? "Article not found."}</div>;
 
   const checks = readiness(article);
   const ready = checks.every((c) => c.ok);
@@ -86,7 +89,8 @@ function Editor({ id }: { id: string }) {
         <div>
           <h1>{article.title}</h1>
           <p className="sub">
-            <StatusBadge status={article.status} /> · by {article.authorName ?? "—"} · updated{" "}
+            <StatusBadge status={article.status} /> · by{" "}
+            {article.authorName ?? "—"} · updated{" "}
             {new Date(article.updatedAt).toLocaleString()}
           </p>
         </div>
@@ -109,8 +113,8 @@ function Editor({ id }: { id: string }) {
         </ul>
         {!ready && (
           <p className="muted small">
-            Complete every item before submitting — the review queue should never hold
-            unfinished drafts.
+            Complete every item before submitting — the review queue should
+            never hold unfinished drafts.
           </p>
         )}
         <div className="btnrow">
@@ -119,7 +123,11 @@ function Editor({ id }: { id: string }) {
               className="btn primary"
               type="button"
               disabled={acting || !ready}
-              title={!ready ? "Complete all checklist items first." : "Send to review"}
+              title={
+                !ready
+                  ? "Complete all checklist items first."
+                  : "Send to review"
+              }
               onClick={() => void transition("submit")}
             >
               {acting ? "Working…" : "Submit for review"}
@@ -137,14 +145,17 @@ function Editor({ id }: { id: string }) {
           )}
           {article.status === "IN_REVIEW" && !mayPublish && (
             <p className="muted small">
-              Awaiting review — publishing requires an editor, publisher, or admin role.
-              Your role: {me?.roles.join(", ") ?? "none"}.
+              Awaiting review — publishing requires an editor, publisher, or
+              admin role. Your role: {me?.roles.join(", ") ?? "none"}.
             </p>
           )}
           {article.status === "PUBLISHED" && (
             <p className="muted small">
-              Published {article.publishedAt ? new Date(article.publishedAt).toLocaleString() : ""} —
-              articles are forward-only, so this page is now read-only.
+              Published{" "}
+              {article.publishedAt
+                ? new Date(article.publishedAt).toLocaleString()
+                : ""}{" "}
+              — articles are forward-only, so this page is now read-only.
             </p>
           )}
         </div>
@@ -164,8 +175,8 @@ function Editor({ id }: { id: string }) {
         <div className="panel">
           <h2>Content (read-only)</h2>
           <p className="muted small">
-            Only drafts can be edited — every save, submit, and publish records a new
-            revision on the server.
+            Only drafts can be edited — every save, submit, and publish records
+            a new revision on the server.
           </p>
         </div>
       )}
@@ -173,7 +184,11 @@ function Editor({ id }: { id: string }) {
   );
 }
 
-export default function EditArticlePage({ params }: { params: { id: string } }) {
+export default function EditArticlePage({
+  params,
+}: {
+  params: { id: string };
+}) {
   return (
     <RequireAuth>
       <Editor id={params.id} />

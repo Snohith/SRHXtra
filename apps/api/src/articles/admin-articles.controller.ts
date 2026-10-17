@@ -67,13 +67,19 @@ export class AdminArticlesController {
   }
 
   @Post(":id/submit")
-  async submit(@Param("id", new ParseUUIDPipe()) id: string, @AdminUser() actor: StaffUser) {
+  async submit(
+    @Param("id", new ParseUUIDPipe()) id: string,
+    @AdminUser() actor: StaffUser,
+  ) {
     return this.articles.submit(id, actor);
   }
 
   @Post(":id/publish")
   @RequireRoles("admin", "editor", "publisher")
-  async publish(@Param("id", new ParseUUIDPipe()) id: string, @AdminUser() actor: StaffUser) {
+  async publish(
+    @Param("id", new ParseUUIDPipe()) id: string,
+    @AdminUser() actor: StaffUser,
+  ) {
     return this.articles.publish(id, actor);
   }
 }

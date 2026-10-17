@@ -46,7 +46,12 @@ export type PaginationQuery = z.infer<typeof PaginationQuerySchema>;
 export const ArticleStatusSchema = z.enum(["DRAFT", "IN_REVIEW", "PUBLISHED"]);
 export type ArticleStatus = z.infer<typeof ArticleStatusSchema>;
 
-export const RoleNameSchema = z.enum(["admin", "editor", "writer", "publisher"]);
+export const RoleNameSchema = z.enum([
+  "admin",
+  "editor",
+  "writer",
+  "publisher",
+]);
 export type RoleName = z.infer<typeof RoleNameSchema>;
 
 /** Single article as returned by public + admin endpoints. */
@@ -77,7 +82,10 @@ export const CreateArticleSchema = z.object({
     .string()
     .min(1)
     .max(200)
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "slug must be lowercase alphanumeric with hyphens")
+    .regex(
+      /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+      "slug must be lowercase alphanumeric with hyphens",
+    )
     .optional(),
   excerpt: z.string().max(2000).optional(),
   body: z.string().min(1),
@@ -92,7 +100,10 @@ export const UpdateArticleSchema = z.object({
     .string()
     .min(1)
     .max(200)
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "slug must be lowercase alphanumeric with hyphens")
+    .regex(
+      /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+      "slug must be lowercase alphanumeric with hyphens",
+    )
     .optional(),
   excerpt: z.string().max(2000).nullable().optional(),
   body: z.string().min(1).optional(),

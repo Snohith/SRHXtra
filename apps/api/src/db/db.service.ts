@@ -30,7 +30,9 @@ export class DbService implements OnModuleDestroy {
       max: 5,
       connectionTimeoutMillis: 3000,
     });
-    this.pool.on("error", (err) => this.logger.error(`PG pool error: ${err.message}`));
+    this.pool.on("error", (err) =>
+      this.logger.error(`PG pool error: ${err.message}`),
+    );
   }
 
   async check(): Promise<{ up: boolean; latencyMs?: number }> {
@@ -50,7 +52,8 @@ export class DbService implements OnModuleDestroy {
     text: string,
     params?: unknown[],
   ): Promise<{ rows: T[]; rowCount: number }> {
-    if (!this.pool) throw new Error("DATABASE_URL not set — database unavailable.");
+    if (!this.pool)
+      throw new Error("DATABASE_URL not set — database unavailable.");
     const res = await this.pool.query(text, params);
     return { rows: res.rows as T[], rowCount: res.rowCount ?? 0 };
   }
@@ -62,7 +65,8 @@ export class DbService implements OnModuleDestroy {
    * or "event but no publish" states are possible.
    */
   async withTransaction<T>(fn: (client: PoolClient) => Promise<T>): Promise<T> {
-    if (!this.pool) throw new Error("DATABASE_URL not set — database unavailable.");
+    if (!this.pool)
+      throw new Error("DATABASE_URL not set — database unavailable.");
     const client = await this.pool.connect();
     try {
       await client.query("BEGIN");

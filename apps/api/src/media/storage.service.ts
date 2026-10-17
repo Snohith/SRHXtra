@@ -45,8 +45,12 @@ export class StorageService {
   constructor() {
     this.provider = process.env.MEDIA_DRIVER === "s3" ? "s3" : "local";
     this.signingSecret =
-      process.env.MEDIA_SIGNING_SECRET ?? process.env.ADMIN_API_TOKEN ?? "dev-media-signing-secret";
-    this.apiPublicUrl = (process.env.API_PUBLIC_URL ?? "http://localhost:4000").replace(/\/+$/, "");
+      process.env.MEDIA_SIGNING_SECRET ??
+      process.env.ADMIN_API_TOKEN ??
+      "dev-media-signing-secret";
+    this.apiPublicUrl = (
+      process.env.API_PUBLIC_URL ?? "http://localhost:4000"
+    ).replace(/\/+$/, "");
   }
 
   /** Opaque, collision-resistant key: uploads/2026/10/<random>.jpg */
@@ -93,7 +97,9 @@ export class StorageService {
       actorId: input.actorId,
       expiresAtMs: input.expiresAt.getTime(),
     };
-    const payload = Buffer.from(JSON.stringify(claims), "utf8").toString("base64url");
+    const payload = Buffer.from(JSON.stringify(claims), "utf8").toString(
+      "base64url",
+    );
     const signature = this.hmac(payload);
     const token = `${payload}.${signature}`;
     return {
@@ -117,7 +123,9 @@ export class StorageService {
     const b = Buffer.from(provided, "utf8");
     if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
     try {
-      const claims = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as UploadTokenClaims;
+      const claims = JSON.parse(
+        Buffer.from(payload, "base64url").toString("utf8"),
+      ) as UploadTokenClaims;
       if (
         typeof claims.key !== "string" ||
         typeof claims.contentType !== "string" ||
@@ -144,7 +152,8 @@ export class StorageService {
   publicUrlFor(key: string): string {
     if (this.provider === "s3") {
       const base = (process.env.S3_PUBLIC_BASE_URL ?? "").replace(/\/+$/, "");
-      if (!base) throw new Error("S3_PUBLIC_BASE_URL is required with MEDIA_DRIVER=s3.");
+      if (!base)
+        throw new Error("S3_PUBLIC_BASE_URL is required with MEDIA_DRIVER=s3.");
       return `${base}/${key}`;
     }
     return `/${key}`;
@@ -171,6 +180,8 @@ export class StorageService {
   }
 
   private hmac(payload: string): string {
-    return createHmac("sha256", this.signingSecret).update(payload, "utf8").digest("hex");
+    return createHmac("sha256", this.signingSecret)
+      .update(payload, "utf8")
+      .digest("hex");
   }
 }

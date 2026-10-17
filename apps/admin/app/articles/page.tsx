@@ -32,7 +32,9 @@ function ArticlesManager() {
       setArticles(res.data);
       setTotal(res.total);
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Could not load articles.");
+      setError(
+        err instanceof ApiError ? err.message : "Could not load articles.",
+      );
     } finally {
       setLoading(false);
     }
@@ -73,7 +75,13 @@ function ArticlesManager() {
             onChange={(e) => setSearch(e.target.value)}
             style={{ minWidth: 240 }}
           />
-          <select value={status} onChange={(e) => { setPage(1); setStatus(e.target.value); }}>
+          <select
+            value={status}
+            onChange={(e) => {
+              setPage(1);
+              setStatus(e.target.value);
+            }}
+          >
             <option value="">All statuses</option>
             <option value="DRAFT">Drafts</option>
             <option value="IN_REVIEW">In review</option>
@@ -110,7 +118,9 @@ function ArticlesManager() {
                   <td>
                     <StatusBadge status={a.status} />
                   </td>
-                  <td className="small">{new Date(a.updatedAt).toLocaleString()}</td>
+                  <td className="small">
+                    {new Date(a.updatedAt).toLocaleString()}
+                  </td>
                   <td>
                     <Link className="btn" href={`/articles/${a.id}`}>
                       {a.status === "DRAFT" ? "Edit" : "View"}
@@ -122,7 +132,12 @@ function ArticlesManager() {
           </table>
         )}
         <div className="pager">
-          <button className="btn" disabled={page <= 1} onClick={() => setPage(page - 1)} type="button">
+          <button
+            className="btn"
+            disabled={page <= 1}
+            onClick={() => setPage(page - 1)}
+            type="button"
+          >
             ← Prev
           </button>
           <span>

@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useRouter } from "next/navigation";
 import type { StaffUser } from "@srh/contracts";
 import { ApiError, api, clearAuth, getStoredAuth, storeAuth } from "./api";
@@ -56,7 +63,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (err) {
       clearAuth();
       if (err instanceof ApiError) {
-        throw new Error(err.status === 401 ? "Invalid token or unknown staff user." : err.message);
+        throw new Error(
+          err.status === 401
+            ? "Invalid token or unknown staff user."
+            : err.message,
+        );
       }
       throw new Error("Could not reach the API. Is it running?");
     }
@@ -97,5 +108,7 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
 /** Staff roles allowed to publish (mirrors the API guard). */
 export function canPublish(me: StaffUser | null): boolean {
   if (!me) return false;
-  return me.roles.some((r) => r === "admin" || r === "editor" || r === "publisher");
+  return me.roles.some(
+    (r) => r === "admin" || r === "editor" || r === "publisher",
+  );
 }

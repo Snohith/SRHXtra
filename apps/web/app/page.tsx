@@ -1,5 +1,9 @@
 import Link from "next/link";
-import { ArticleCard, BreakingStrip, FeaturedStory } from "@/components/ArticleCard";
+import {
+  ArticleCard,
+  BreakingStrip,
+  FeaturedStory,
+} from "@/components/ArticleCard";
 import { getCategories, getFeed } from "@/lib/api";
 
 export const revalidate = 60;
@@ -13,7 +17,9 @@ export default async function Home() {
   const [featured, ...rest] = latest.data;
   const topCategories = categories.slice(0, 3);
   const byCategory = await Promise.all(
-    topCategories.map((c) => getFeed({ page: 1, pageSize: 3, category: c.slug })),
+    topCategories.map((c) =>
+      getFeed({ page: 1, pageSize: 3, category: c.slug }),
+    ),
   );
 
   return (
@@ -29,7 +35,8 @@ export default async function Home() {
             <div className="empty">
               <strong>No stories yet.</strong>
               <br />
-              Publish an article in the admin dashboard and it appears here automatically.
+              Publish an article in the admin dashboard and it appears here
+              automatically.
             </div>
           </section>
         )}
@@ -55,7 +62,9 @@ export default async function Home() {
             <section className="section" key={cat.id} aria-label={cat.name}>
               <div className="section-head">
                 <h2>{cat.name}</h2>
-                <Link href={`/news?category=${cat.slug}`}>More {cat.name.toLowerCase()} →</Link>
+                <Link href={`/news?category=${cat.slug}`}>
+                  More {cat.name.toLowerCase()} →
+                </Link>
               </div>
               <div className="cards">
                 {feed.data.map((a) => (
@@ -73,7 +82,11 @@ export default async function Home() {
             </div>
             <div className="chips">
               {categories.map((c) => (
-                <Link key={c.id} className="chip" href={`/news?category=${c.slug}`}>
+                <Link
+                  key={c.id}
+                  className="chip"
+                  href={`/news?category=${c.slug}`}
+                >
                   {c.name}
                 </Link>
               ))}

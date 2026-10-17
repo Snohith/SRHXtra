@@ -1,4 +1,10 @@
-import { Controller, Get, NotFoundException, Param, Query } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Query,
+} from "@nestjs/common";
 import { ArticlesService } from "./articles.service";
 
 /** Public read API — published articles only. Drafts never leak here. */

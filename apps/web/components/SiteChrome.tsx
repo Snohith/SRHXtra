@@ -41,7 +41,10 @@ export function SiteFooter() {
           <Link href="/squad">Squad</Link>
           <Link href="/matches">Matches</Link>
         </nav>
-        <span>SRH News — fan-focused Sunrisers Hyderabad coverage. Scores and stats arrive after launch.</span>
+        <span>
+          SRH News — fan-focused Sunrisers Hyderabad coverage. Scores and stats
+          arrive after launch.
+        </span>
       </div>
     </footer>
   );

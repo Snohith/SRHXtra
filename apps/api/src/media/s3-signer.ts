@@ -36,7 +36,10 @@ function rfc3986(value: string): string {
 }
 
 function amzDates(now: Date): { amzDate: string; dateStamp: string } {
-  const iso = now.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, ""); // YYYYMMDDTHHMMSSZ
+  const iso = now
+    .toISOString()
+    .replace(/[-:]/g, "")
+    .replace(/\.\d{3}/, ""); // YYYYMMDDTHHMMSSZ
   return { amzDate: iso, dateStamp: iso.slice(0, 8) };
 }
 
@@ -98,10 +101,15 @@ export function presignPutUrl(
   ].join("\n");
 
   const signingKey = hmac(
-    hmac(hmac(hmac(`AWS4${config.secretAccessKey}`, dateStamp), config.region), "s3"),
+    hmac(
+      hmac(hmac(`AWS4${config.secretAccessKey}`, dateStamp), config.region),
+      "s3",
+    ),
     "aws4_request",
   );
-  const signature = createHmac("sha256", signingKey).update(stringToSign, "utf8").digest("hex");
+  const signature = createHmac("sha256", signingKey)
+    .update(stringToSign, "utf8")
+    .digest("hex");
 
   url.search = `${canonicalQuery}&X-Amz-Signature=${signature}`;
   return url.toString();

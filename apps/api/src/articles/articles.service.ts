@@ -104,7 +104,10 @@ export class ArticlesService {
     private readonly audit: AuditService,
   ) {}
 
-  private async ensureUniqueSlug(base: string, excludeId?: string): Promise<string> {
+  private async ensureUniqueSlug(
+    base: string,
+    excludeId?: string,
+  ): Promise<string> {
     let candidate = base;
     let n = 1;
     for (;;) {
@@ -118,14 +121,21 @@ export class ArticlesService {
       n += 1;
       const suffix = `-${n}`;
       candidate = `${base.slice(0, 200 - suffix.length)}${suffix}`;
-      if (n > 1000) throw new ConflictException("Could not generate a unique slug.");
+      if (n > 1000)
+        throw new ConflictException("Could not generate a unique slug.");
     }
   }
 
-  private async assertCategory(categoryId: number | null | undefined): Promise<void> {
+  private async assertCategory(
+    categoryId: number | null | undefined,
+  ): Promise<void> {
     if (categoryId === undefined || categoryId === null) return;
-    const { rows } = await this.db.query("SELECT id FROM categories WHERE id = $1", [categoryId]);
-    if (rows.length === 0) throw new BadRequestException(`Unknown categoryId: ${categoryId}.`);
+    const { rows } = await this.db.query(
+      "SELECT id FROM categories WHERE id = $1",
+      [categoryId],
+    );
+    if (rows.length === 0)
+      throw new BadRequestException(`Unknown categoryId: ${categoryId}.`);
   }
 
   private async snapshotRevision(
@@ -147,9 +157,15 @@ export class ArticlesService {
     );
   }
 
-  private async getByIdOrThrow(id: string, client?: Queryable): Promise<ArticleRow> {
+  private async getByIdOrThrow(
+    id: string,
+    client?: Queryable,
+  ): Promise<ArticleRow> {
     const q: Queryable = client ?? this.db;
-    const { rows } = await q.query<ArticleRow>(`${ARTICLE_SELECT} WHERE a.id = $1`, [id]);
+    const { rows } = await q.query<ArticleRow>(
+      `${ARTICLE_SELECT} WHERE a.id = $1`,
+      [id],
+    );
     if (rows.length === 0) throw new NotFoundException("Article not found.");
     return rows[0];
   }
@@ -162,7 +178,9 @@ export class ArticlesService {
 
   async create(input: CreateArticleDto, actor: StaffUser): Promise<ArticleDto> {
     await this.assertCategory(input.categoryId);
-    const slug = await this.ensureUniqueSlug(input.slug ?? slugify(input.title));
+    const slug = await this.ensureUniqueSlug(
+      input.slug ?? slugify(input.title),
+    );
     return this.db.withTransaction(async (client) => {
       const { rows } = await client.query<{ id: string }>(
         `INSERT INTO articles (title, slug, excerpt, body, status, author_id, category_id, cover_image_url)
@@ -193,14 +211,23 @@ export class ArticlesService {
     });
   }
 
-  async update(id: string, input: UpdateArticleDto, actor: StaffUser): Promise<ArticleDto> {
+  async update(
+    id: string,
+    input: UpdateArticleDto,
+    actor: StaffUser,
+  ): Promise<ArticleDto> {
     const current = await this.getByIdOrThrow(id);
     if (current.status !== "DRAFT") {
-      throw new BadRequestException("Only DRAFT articles can be edited (submit → publish is forward-only in MVP).");
+      throw new BadRequestException(
+        "Only DRAFT articles can be edited (submit → publish is forward-only in MVP).",
+      );
     }
-    if (input.categoryId !== undefined) await this.assertCategory(input.categoryId);
+    if (input.categoryId !== undefined)
+      await this.assertCategory(input.categoryId);
     const slug =
-      input.slug !== undefined ? await this.ensureUniqueSlug(input.slug, id) : current.slug;
+      input.slug !== undefined
+        ? await this.ensureUniqueSlug(input.slug, id)
+        : current.slug;
 
     const sets: string[] = [];
     const params: unknown[] = [];
@@ -213,10 +240,14 @@ export class ArticlesService {
     if (input.excerpt !== undefined) push("excerpt =", input.excerpt);
     if (input.body !== undefined) push("body =", input.body);
     if (input.categoryId !== undefined) push("category_id =", input.categoryId);
-    if (input.coverImageUrl !== undefined) push("cover_image_url =", input.coverImageUrl);
+    if (input.coverImageUrl !== undefined)
+      push("cover_image_url =", input.coverImageUrl);
     params.push(id);
     return this.db.withTransaction(async (client) => {
-      await client.query(`UPDATE articles SET ${sets.join(", ")} WHERE id = $${params.length}`, params);
+      await client.query(
+        `UPDATE articles SET ${sets.join(", ")} WHERE id = $${params.length}`,
+        params,
+      );
       const article = await this.getByIdOrThrow(id, client);
       await this.snapshotRevision(id, actor.id, client);
       await this.audit.record(
@@ -241,7 +272,10 @@ export class ArticlesService {
           `Only DRAFT articles can be submitted (current: ${current.status}).`,
         );
       }
-      await client.query("UPDATE articles SET status = 'IN_REVIEW' WHERE id = $1", [id]);
+      await client.query(
+        "UPDATE articles SET status = 'IN_REVIEW' WHERE id = $1",
+        [id],
+      );
       const article = await this.getByIdOrThrow(id, client);
       await this.snapshotRevision(id, actor.id, client);
       await this.audit.record(
@@ -266,7 +300,9 @@ export class ArticlesService {
    */
   async publish(id: string, actor: StaffUser): Promise<ArticleDto> {
     if (!PUBLISH_ROLES.some((r) => actor.roles.includes(r))) {
-      throw new ForbiddenException("Publishing requires editor, publisher, or admin role.");
+      throw new ForbiddenException(
+        "Publishing requires editor, publisher, or admin role.",
+      );
     }
     return this.db.withTransaction(async (client) => {
       // Row lock serializes concurrent double-publish attempts.
@@ -328,7 +364,9 @@ export class ArticlesService {
     }
     if (query.search) {
       params.push(`%${query.search}%`);
-      conds.push(`(a.title ILIKE $${params.length} OR a.body ILIKE $${params.length})`);
+      conds.push(
+        `(a.title ILIKE $${params.length} OR a.body ILIKE $${params.length})`,
+      );
     }
     const where = conds.length > 0 ? `WHERE ${conds.join(" AND ")}` : "";
     const count = await this.db.query<{ count: string }>(
@@ -341,7 +379,10 @@ export class ArticlesService {
       `${ARTICLE_SELECT} ${where} ORDER BY a.updated_at DESC LIMIT ${limit} OFFSET ${offset}`,
       params,
     );
-    return { data: rows.map(toArticleDto), total: Number(count.rows[0]?.count ?? 0) };
+    return {
+      data: rows.map(toArticleDto),
+      total: Number(count.rows[0]?.count ?? 0),
+    };
   }
 
   // -- Public (published only) -----------------------------------------------
@@ -361,7 +402,9 @@ export class ArticlesService {
     }
     if (query.search) {
       params.push(`%${query.search}%`);
-      conds.push(`(a.title ILIKE $${params.length} OR a.body ILIKE $${params.length})`);
+      conds.push(
+        `(a.title ILIKE $${params.length} OR a.body ILIKE $${params.length})`,
+      );
     }
     const where = `WHERE ${conds.join(" AND ")}`;
     const count = await this.db.query<{ count: string }>(
@@ -375,7 +418,10 @@ export class ArticlesService {
       `${ARTICLE_SELECT} ${where} ORDER BY a.published_at ${order} LIMIT ${limit} OFFSET ${offset}`,
       params,
     );
-    return { data: rows.map(toArticleDto), total: Number(count.rows[0]?.count ?? 0) };
+    return {
+      data: rows.map(toArticleDto),
+      total: Number(count.rows[0]?.count ?? 0),
+    };
   }
 
   async publicGetBySlug(slug: string): Promise<ArticleDto> {

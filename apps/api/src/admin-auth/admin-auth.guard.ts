@@ -12,14 +12,18 @@ import { UsersService, SEED_ADMIN_ID } from "../users/users.service";
 import type { StaffUser } from "../users/users.service";
 
 export const REQUIRED_ROLES_KEY = "requiredRoles";
-export const RequireRoles = (...roles: string[]) => SetMetadata(REQUIRED_ROLES_KEY, roles);
+export const RequireRoles = (...roles: string[]) =>
+  SetMetadata(REQUIRED_ROLES_KEY, roles);
 
 export interface AdminRequest extends Request {
   adminUser?: StaffUser;
 }
 
 function getToken(req: Request): string | null {
-  const headers = req.headers as unknown as Record<string, string | string[] | undefined>;
+  const headers = req.headers as unknown as Record<
+    string,
+    string | string[] | undefined
+  >;
   const auth = headers["authorization"];
   if (typeof auth === "string" && auth.toLowerCase().startsWith("bearer ")) {
     return auth.slice(7).trim() || null;
@@ -31,7 +35,10 @@ function getToken(req: Request): string | null {
 }
 
 function getUserId(req: Request): string {
-  const headers = req.headers as unknown as Record<string, string | string[] | undefined>;
+  const headers = req.headers as unknown as Record<
+    string,
+    string | string[] | undefined
+  >;
   const id = headers["x-admin-user-id"];
   const raw = Array.isArray(id) ? id[0] : id;
   return raw && raw.length > 0 ? raw : SEED_ADMIN_ID;
@@ -56,7 +63,9 @@ export class AdminAuthGuard implements CanActivate {
   ) {
     const token = process.env.ADMIN_API_TOKEN;
     if (!token) {
-      this.logger.warn("ADMIN_API_TOKEN not set — using dev default. Set a secret in production.");
+      this.logger.warn(
+        "ADMIN_API_TOKEN not set — using dev default. Set a secret in production.",
+      );
     }
     this.expectedToken = token ?? "dev-admin-token";
   }
@@ -70,7 +79,8 @@ export class AdminAuthGuard implements CanActivate {
     const userId = getUserId(req);
     const user = await this.users.findByIdOrEmail(userId);
     if (!user) throw new UnauthorizedException("Unknown staff user.");
-    if (user.status !== "active") throw new ForbiddenException("Staff account is not active.");
+    if (user.status !== "active")
+      throw new ForbiddenException("Staff account is not active.");
 
     (req as unknown as Record<string, unknown>).adminUser = user;
 
@@ -80,7 +90,9 @@ export class AdminAuthGuard implements CanActivate {
         context.getClass(),
       ]) ?? [];
     if (required.length > 0 && !required.some((r) => user.roles.includes(r))) {
-      throw new ForbiddenException(`Requires one of roles: ${required.join(", ")}.`);
+      throw new ForbiddenException(
+        `Requires one of roles: ${required.join(", ")}.`,
+      );
     }
     return true;
   }

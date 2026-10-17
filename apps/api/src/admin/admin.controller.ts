@@ -33,11 +33,18 @@ export class AdminController {
     const { rows } = await this.db.query<{ status: string; count: string }>(
       "SELECT status, COUNT(*) AS count FROM articles GROUP BY status",
     );
-    const byStatus = Object.fromEntries(rows.map((r) => [r.status, Number(r.count)]));
+    const byStatus = Object.fromEntries(
+      rows.map((r) => [r.status, Number(r.count)]),
+    );
     const published = byStatus["PUBLISHED"] ?? 0;
     const drafts = byStatus["DRAFT"] ?? 0;
     const inReview = byStatus["IN_REVIEW"] ?? 0;
-    return { published, drafts, inReview, total: published + drafts + inReview };
+    return {
+      published,
+      drafts,
+      inReview,
+      total: published + drafts + inReview,
+    };
   }
 
   /** Recent staff activity from the audit trail (newest first). */

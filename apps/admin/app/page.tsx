@@ -40,7 +40,9 @@ function Dashboard() {
       } catch (err) {
         if (!cancelled) {
           setError(
-            err instanceof ApiError ? err.message : "Could not load dashboard data.",
+            err instanceof ApiError
+              ? err.message
+              : "Could not load dashboard data.",
           );
         }
       } finally {
@@ -59,7 +61,9 @@ function Dashboard() {
       <div className="pagehead">
         <div>
           <h1>Dashboard</h1>
-          <p className="sub">Editorial pipeline at a glance — live from the database.</p>
+          <p className="sub">
+            Editorial pipeline at a glance — live from the database.
+          </p>
         </div>
         <Link className="btn primary" href="/articles/new">
           New article
@@ -92,11 +96,14 @@ function Dashboard() {
           <ul className="activity">
             {activity.map((item) => (
               <li key={item.id}>
-                <strong>{item.actorName ?? "Unknown"}</strong> {actionLabel(item.action)}{" "}
+                <strong>{item.actorName ?? "Unknown"}</strong>{" "}
+                {actionLabel(item.action)}{" "}
                 {item.articleTitle ? (
                   <>
                     “{item.articleTitle}”{" "}
-                    {item.articleStatus && <StatusBadge status={item.articleStatus} />}
+                    {item.articleStatus && (
+                      <StatusBadge status={item.articleStatus} />
+                    )}
                   </>
                 ) : (
                   <code className="small">{item.resourceId.slice(0, 8)}…</code>

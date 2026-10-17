@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 import type { Category } from "@srh/contracts";
 
 /** Search / category / sort controls — URL is the source of truth. */
-export default function NewsFilters({ categories }: { categories: Category[] }) {
+export default function NewsFilters({
+  categories,
+}: {
+  categories: Category[];
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();

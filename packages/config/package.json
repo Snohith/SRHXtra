@@ -4,6 +4,10 @@
   "private": true,
   "type": "module",
   "main": "./index.js",
-  "files": ["*.json", "*.mjs", "*.js"],
+  "files": [
+    "*.json",
+    "*.mjs",
+    "*.js"
+  ],
   "license": "UNLICENSED"
 }

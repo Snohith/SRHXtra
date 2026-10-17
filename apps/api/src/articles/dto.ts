@@ -1,4 +1,11 @@
-import { IsInt, IsOptional, IsString, MaxLength, MinLength, Matches } from "class-validator";
+import {
+  IsInt,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+  Matches,
+} from "class-validator";
 
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -11,7 +18,9 @@ export class CreateArticleDto {
   @IsOptional()
   @IsString()
   @MaxLength(200)
-  @Matches(SLUG_PATTERN, { message: "slug must be lowercase alphanumeric with hyphens" })
+  @Matches(SLUG_PATTERN, {
+    message: "slug must be lowercase alphanumeric with hyphens",
+  })
   slug?: string;
 
   @IsOptional()
@@ -43,7 +52,9 @@ export class UpdateArticleDto {
   @IsOptional()
   @IsString()
   @MaxLength(200)
-  @Matches(SLUG_PATTERN, { message: "slug must be lowercase alphanumeric with hyphens" })
+  @Matches(SLUG_PATTERN, {
+    message: "slug must be lowercase alphanumeric with hyphens",
+  })
   slug?: string;
 
   @IsOptional()

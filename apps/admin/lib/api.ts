@@ -16,12 +16,16 @@ import {
 } from "@srh/contracts";
 import type { z } from "zod";
 
-export const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+export const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
 const TOKEN_KEY = "srh-admin-token";
 const USER_KEY = "srh-admin-user";
 
-export function getStoredAuth(): { token: string | null; userId: string | null } {
+export function getStoredAuth(): {
+  token: string | null;
+  userId: string | null;
+} {
   if (typeof window === "undefined") return { token: null, userId: null };
   return {
     token: window.localStorage.getItem(TOKEN_KEY),
@@ -81,7 +85,12 @@ async function get<T>(path: string, schema: z.ZodType<T>): Promise<T> {
   return request(path, schema);
 }
 
-async function send<T>(path: string, schema: z.ZodType<T>, method: string, data?: unknown): Promise<T> {
+async function send<T>(
+  path: string,
+  schema: z.ZodType<T>,
+  method: string,
+  data?: unknown,
+): Promise<T> {
   return request(path, schema, {
     method,
     headers: { "Content-Type": "application/json" },
@@ -106,7 +115,8 @@ function toPayload(input: ArticleInput): Record<string, unknown> {
   if (input.slug) payload.slug = input.slug;
   if (input.excerpt !== undefined) payload.excerpt = input.excerpt || null;
   if (input.categoryId !== undefined) payload.categoryId = input.categoryId;
-  if (input.coverImageUrl !== undefined) payload.coverImageUrl = input.coverImageUrl || null;
+  if (input.coverImageUrl !== undefined)
+    payload.coverImageUrl = input.coverImageUrl || null;
   return payload;
 }
 
@@ -118,7 +128,10 @@ export const api = {
     return get("/api/v1/admin/stats", AdminStatsSchema);
   },
   activity(limit = 10): Promise<ActivityItem[]> {
-    return get(`/api/v1/admin/activity?limit=${limit}`, ActivityItemSchema.array());
+    return get(
+      `/api/v1/admin/activity?limit=${limit}`,
+      ActivityItemSchema.array(),
+    );
   },
   categories(): Promise<Category[]> {
     return get("/api/v1/admin/categories", CategorySchema.array());
@@ -128,7 +141,12 @@ export const api = {
     pageSize: number;
     status?: string;
     search?: string;
-  }): Promise<{ data: Article[]; page: number; pageSize: number; total: number }> {
+  }): Promise<{
+    data: Article[];
+    page: number;
+    pageSize: number;
+    total: number;
+  }> {
     const q = new URLSearchParams({
       page: String(params.page),
       pageSize: String(params.pageSize),
@@ -141,10 +159,20 @@ export const api = {
     return get(`/api/v1/admin/articles/${id}`, ArticleSchema);
   },
   createArticle(input: ArticleInput): Promise<Article> {
-    return send("/api/v1/admin/articles", ArticleSchema, "POST", toPayload(input));
+    return send(
+      "/api/v1/admin/articles",
+      ArticleSchema,
+      "POST",
+      toPayload(input),
+    );
   },
   updateArticle(id: string, input: ArticleInput): Promise<Article> {
-    return send(`/api/v1/admin/articles/${id}`, ArticleSchema, "PATCH", toPayload(input));
+    return send(
+      `/api/v1/admin/articles/${id}`,
+      ArticleSchema,
+      "PATCH",
+      toPayload(input),
+    );
   },
   submitArticle(id: string): Promise<Article> {
     return send(`/api/v1/admin/articles/${id}/submit`, ArticleSchema, "POST");
@@ -158,11 +186,16 @@ export const api = {
    * The legacy multipart endpoint stays server-side for compatibility.
    */
   async uploadImage(file: File): Promise<MediaAsset> {
-    const ticket = await send("/api/v1/admin/media/sign", UploadTicketSchema, "POST", {
-      filename: file.name || "upload.jpg",
-      contentType: file.type || "application/octet-stream",
-      size: file.size,
-    });
+    const ticket = await send(
+      "/api/v1/admin/media/sign",
+      UploadTicketSchema,
+      "POST",
+      {
+        filename: file.name || "upload.jpg",
+        contentType: file.type || "application/octet-stream",
+        size: file.size,
+      },
+    );
     const put = await fetch(ticket.uploadUrl, {
       method: "PUT",
       headers: ticket.headers,
@@ -175,12 +208,18 @@ export const api = {
         `Upload to storage failed (${put.status})${text ? `: ${text.slice(0, 120)}` : ""}`,
       );
     }
-    const asset = await send("/api/v1/admin/media/complete", MediaAssetSchema, "POST", {
-      intentId: ticket.intentId,
-      size: file.size,
-    });
+    const asset = await send(
+      "/api/v1/admin/media/complete",
+      MediaAssetSchema,
+      "POST",
+      {
+        intentId: ticket.intentId,
+        size: file.size,
+      },
+    );
     // The API returns a site-relative path (/uploads/...) — absolutize for <img>.
-    if (asset.url.startsWith("/")) return { ...asset, url: `${API_BASE}${asset.url}` };
+    if (asset.url.startsWith("/"))
+      return { ...asset, url: `${API_BASE}${asset.url}` };
     return asset;
   },
 };

@@ -22,7 +22,9 @@ const formSchema = z.object({
   excerpt: z.string().max(2000).optional(),
   categoryId: z.string().optional(),
   coverImageUrl: z.string().max(2000).optional(),
-  body: z.string().refine((html) => !isBodyEmpty(html), "Body cannot be empty."),
+  body: z
+    .string()
+    .refine((html) => !isBodyEmpty(html), "Body cannot be empty."),
 });
 
 export type ArticleFormValues = z.infer<typeof formSchema>;
@@ -49,7 +51,12 @@ function toDefaults(article?: Article): ArticleFormValues {
  * Article editor: title, slug, summary, category, featured image, rich-text
  * body — plus save-draft and a sanitized preview.
  */
-export default function ArticleForm({ article, categories, savingLabel, onSaved }: Props) {
+export default function ArticleForm({
+  article,
+  categories,
+  savingLabel,
+  onSaved,
+}: Props) {
   const [preview, setPreview] = useState(false);
   const [cleanPreview, setCleanPreview] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -83,7 +90,8 @@ export default function ArticleForm({ article, categories, savingLabel, onSaved 
 
   // Auto-generate the slug from the title until the author edits it by hand.
   useEffect(() => {
-    if (!slugTouched.current) setValue("slug", slugifyTitle(title), { shouldValidate: true });
+    if (!slugTouched.current)
+      setValue("slug", slugifyTitle(title), { shouldValidate: true });
   }, [title, setValue]);
 
   // Sanitize in the browser whenever the preview is shown or the body changes.
@@ -107,7 +115,9 @@ export default function ArticleForm({ article, categories, savingLabel, onSaved 
         excerpt: values.excerpt?.trim() ? values.excerpt.trim() : null,
         body: values.body,
         categoryId: values.categoryId ? Number(values.categoryId) : null,
-        coverImageUrl: values.coverImageUrl?.trim() ? values.coverImageUrl.trim() : null,
+        coverImageUrl: values.coverImageUrl?.trim()
+          ? values.coverImageUrl.trim()
+          : null,
       };
       const saved = article
         ? await api.updateArticle(article.id, input)
@@ -151,16 +161,29 @@ export default function ArticleForm({ article, categories, savingLabel, onSaved 
           <h1>{title || "Untitled"}</h1>
           {excerpt && <p className="muted">{excerpt}</p>}
           {coverPreview && (
-            <img className="cover" src={coverPreview} alt="Featured image preview" />
+            <img
+              className="cover"
+              src={coverPreview}
+              alt="Featured image preview"
+            />
           )}
-          <div className="body" dangerouslySetInnerHTML={{ __html: cleanPreview }} />
+          <div
+            className="body"
+            dangerouslySetInnerHTML={{ __html: cleanPreview }}
+          />
         </article>
       ) : (
         <form onSubmit={handleSubmit(save)}>
           <label className="field">
             Title
-            <input type="text" {...register("title")} placeholder="SRH clinch a last-over thriller" />
-            {errors.title && <span className="ferror">{errors.title.message}</span>}
+            <input
+              type="text"
+              {...register("title")}
+              placeholder="SRH clinch a last-over thriller"
+            />
+            {errors.title && (
+              <span className="ferror">{errors.title.message}</span>
+            )}
           </label>
 
           <label className="field">
@@ -168,18 +191,32 @@ export default function ArticleForm({ article, categories, savingLabel, onSaved 
             <span className="hint">URL path — auto-generated, editable.</span>
             <input
               type="text"
-              {...register("slug", { onChange: () => { slugTouched.current = true; } })}
+              {...register("slug", {
+                onChange: () => {
+                  slugTouched.current = true;
+                },
+              })}
               placeholder="srh-clinch-a-last-over-thriller"
             />
-            {errors.slug && <span className="ferror">{errors.slug.message}</span>}
+            {errors.slug && (
+              <span className="ferror">{errors.slug.message}</span>
+            )}
             {slug && <span className="hint">/news/{slug}</span>}
           </label>
 
           <label className="field">
             Summary
-            <span className="hint">Standfirst shown under the headline and in listings.</span>
-            <textarea rows={3} {...register("excerpt")} placeholder="One or two sentences…" />
-            {errors.excerpt && <span className="ferror">{errors.excerpt.message}</span>}
+            <span className="hint">
+              Standfirst shown under the headline and in listings.
+            </span>
+            <textarea
+              rows={3}
+              {...register("excerpt")}
+              placeholder="One or two sentences…"
+            />
+            {errors.excerpt && (
+              <span className="ferror">{errors.excerpt.message}</span>
+            )}
           </label>
 
           <label className="field">
@@ -196,7 +233,10 @@ export default function ArticleForm({ article, categories, savingLabel, onSaved 
 
           <div className="field">
             <label htmlFor="cover-url">Featured image</label>
-            <span className="hint">Paste an image URL or upload a file (JPEG/PNG/WebP/GIF/AVIF, ≤5MB).</span>
+            <span className="hint">
+              Paste an image URL or upload a file (JPEG/PNG/WebP/GIF/AVIF,
+              ≤5MB).
+            </span>
             <input
               id="cover-url"
               type="url"
@@ -230,26 +270,45 @@ export default function ArticleForm({ article, categories, savingLabel, onSaved 
                 <button
                   type="button"
                   className="btn"
-                  onClick={() => setValue("coverImageUrl", "", { shouldValidate: true })}
+                  onClick={() =>
+                    setValue("coverImageUrl", "", { shouldValidate: true })
+                  }
                 >
                   Remove
                 </button>
               )}
             </div>
             {coverPreview && (
-              <img className="coverthumb" src={coverPreview} alt="Featured image" />
+              <img
+                className="coverthumb"
+                src={coverPreview}
+                alt="Featured image"
+              />
             )}
           </div>
 
           <div className="field">
             <label>Body</label>
-            <RichTextEditor value={body} onChange={(html) => setValue("body", html, { shouldValidate: true })} />
-            {errors.body && <span className="ferror">{errors.body.message}</span>}
+            <RichTextEditor
+              value={body}
+              onChange={(html) =>
+                setValue("body", html, { shouldValidate: true })
+              }
+            />
+            {errors.body && (
+              <span className="ferror">{errors.body.message}</span>
+            )}
           </div>
 
           <div className="btnrow">
-            <button className="btn primary" type="submit" disabled={isSubmitting}>
-              {isSubmitting ? (savingLabel ?? "Saving…") : (savingLabel ?? "Save draft")}
+            <button
+              className="btn primary"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting
+                ? (savingLabel ?? "Saving…")
+                : (savingLabel ?? "Save draft")}
             </button>
           </div>
         </form>

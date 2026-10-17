@@ -12,11 +12,22 @@ import { Throttle } from "@nestjs/throttler";
 import { diskStorage } from "multer";
 import { randomBytes } from "node:crypto";
 import { extname } from "node:path";
-import { IsInt, IsOptional, IsString, Max, MaxLength, Min } from "class-validator";
+import {
+  IsInt,
+  IsOptional,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+} from "class-validator";
 import { AdminAuthGuard } from "../admin-auth/admin-auth.guard";
 import { AdminUser } from "../admin-auth/admin-user.decorator";
 import type { StaffUser } from "../users/users.service";
-import { ALLOWED_UPLOAD_MIME, MAX_UPLOAD_BYTES, MediaService } from "./media.service";
+import {
+  ALLOWED_UPLOAD_MIME,
+  MAX_UPLOAD_BYTES,
+  MediaService,
+} from "./media.service";
 import { ensureUploadsDir } from "./uploads";
 
 export { uploadsDir } from "./uploads";
@@ -62,13 +73,19 @@ export class MediaController {
 
   /** Issue a signed direct-upload ticket (local disk or S3, per MEDIA_DRIVER). */
   @Post("sign")
-  createSignedUpload(@Body() dto: SignUploadDto, @AdminUser() actor: StaffUser) {
+  createSignedUpload(
+    @Body() dto: SignUploadDto,
+    @AdminUser() actor: StaffUser,
+  ) {
     return this.media.createUploadIntent(dto, actor);
   }
 
   /** Finalize a signed upload and record the media_assets row. */
   @Post("complete")
-  completeSignedUpload(@Body() dto: CompleteUploadDto, @AdminUser() actor: StaffUser) {
+  completeSignedUpload(
+    @Body() dto: CompleteUploadDto,
+    @AdminUser() actor: StaffUser,
+  ) {
     return this.media.completeUpload(dto, actor);
   }
 
@@ -86,7 +103,12 @@ export class MediaController {
       limits: { fileSize: MAX_UPLOAD_BYTES },
       fileFilter: (_req, file, cb) => {
         if (!ALLOWED_UPLOAD_MIME.has(file.mimetype)) {
-          cb(new BadRequestException("Only JPEG/PNG/WebP/GIF/AVIF images are accepted."), false);
+          cb(
+            new BadRequestException(
+              "Only JPEG/PNG/WebP/GIF/AVIF images are accepted.",
+            ),
+            false,
+          );
           return;
         }
         cb(null, true);
@@ -97,7 +119,8 @@ export class MediaController {
     @UploadedFile() file: Express.Multer.File | undefined,
     @AdminUser() actor: StaffUser,
   ) {
-    if (!file) throw new BadRequestException("No image file provided (field: file).");
+    if (!file)
+      throw new BadRequestException("No image file provided (field: file).");
     return this.media.recordUploadedFile({
       filename: file.filename,
       mimeType: file.mimetype,

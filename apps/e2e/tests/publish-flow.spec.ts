@@ -35,13 +35,11 @@ test("editor publishes an article and readers see it within seconds", async ({
   await page.getByLabel("Slug").fill(slug);
   await page.getByLabel("Summary").fill(`Summary for ${title}.`);
   await page.getByLabel("Category").selectOption({ index: 1 });
-  await page
-    .locator('input[type="file"]')
-    .setInputFiles({
-      name: "e2e-cover.jpg",
-      mimeType: "image/jpeg",
-      buffer: TINY_JPEG,
-    });
+  await page.locator('input[type="file"]').setInputFiles({
+    name: "e2e-cover.jpg",
+    mimeType: "image/jpeg",
+    buffer: TINY_JPEG,
+  });
   await expect(page.locator("img.coverthumb")).toBeVisible({ timeout: 20_000 });
   await page.locator(".tiptap").click();
   await page.keyboard.type(

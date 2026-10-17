@@ -89,16 +89,16 @@ pnpm --filter @srh/api db:migrate
 
 ## API endpoints (Step 2)
 
-| Method | Endpoint                              | Purpose                      |
-| ------ | ------------------------------------- | ---------------------------- |
-| `GET`  | `/api/v1/health`                      | Health check (legacy `/health` kept) |
-| `GET`  | `/api/v1/articles`                    | Public feed — published only |
-| `GET`  | `/api/v1/articles/:slug`              | Published article — 404 otherwise |
-| `POST` | `/api/v1/admin/articles`              | Create a draft               |
-| `PATCH`| `/api/v1/admin/articles/:id`          | Edit a draft (DRAFT only)    |
-| `POST` | `/api/v1/admin/articles/:id/submit`   | DRAFT → IN_REVIEW            |
-| `POST` | `/api/v1/admin/articles/:id/publish`  | IN_REVIEW → PUBLISHED (editor/publisher/admin) |
-| `GET`  | `/api/v1/admin/articles`              | Admin list (all statuses)    |
+| Method  | Endpoint                             | Purpose                                        |
+| ------- | ------------------------------------ | ---------------------------------------------- |
+| `GET`   | `/api/v1/health`                     | Health check (legacy `/health` kept)           |
+| `GET`   | `/api/v1/articles`                   | Public feed — published only                   |
+| `GET`   | `/api/v1/articles/:slug`             | Published article — 404 otherwise              |
+| `POST`  | `/api/v1/admin/articles`             | Create a draft                                 |
+| `PATCH` | `/api/v1/admin/articles/:id`         | Edit a draft (DRAFT only)                      |
+| `POST`  | `/api/v1/admin/articles/:id/submit`  | DRAFT → IN_REVIEW                              |
+| `POST`  | `/api/v1/admin/articles/:id/publish` | IN_REVIEW → PUBLISHED (editor/publisher/admin) |
+| `GET`   | `/api/v1/admin/articles`             | Admin list (all statuses)                      |
 
 Every `/api/v1/admin/*` route requires staff auth: `Authorization: Bearer
 $ADMIN_API_TOKEN` (or `x-admin-token`), with actor from `x-admin-user-id`
@@ -120,12 +120,12 @@ curl -X POST localhost:4000/api/v1/admin/articles \
 CMS at `http://localhost:3001` (`apps/admin`, Next.js + React Hook Form/Zod +
 Tiptap; preview HTML sanitized with DOMPurify in the browser).
 
-| Screen | Route | What it does |
-| ------ | ----- | ------------ |
-| Sign-in | `/login` | Verifies staff token + email/user-ID via `GET /api/v1/admin/me`, stores them for subsequent admin calls |
-| Dashboard | `/` | Published/draft/in-review counters from `GET /api/v1/admin/stats` + recent actions from `GET /api/v1/admin/activity` — all live DB data |
-| Articles | `/articles` | Debounced search, status filter, pagination (10/page), edit links |
-| New article | `/articles/new` | Title, auto-slug, summary, category, featured image (URL or upload ≤5MB), Tiptap body, save-draft, sanitized preview |
+| Screen         | Route            | What it does                                                                                                                                   |
+| -------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Sign-in        | `/login`         | Verifies staff token + email/user-ID via `GET /api/v1/admin/me`, stores them for subsequent admin calls                                        |
+| Dashboard      | `/`              | Published/draft/in-review counters from `GET /api/v1/admin/stats` + recent actions from `GET /api/v1/admin/activity` — all live DB data        |
+| Articles       | `/articles`      | Debounced search, status filter, pagination (10/page), edit links                                                                              |
+| New article    | `/articles/new`  | Title, auto-slug, summary, category, featured image (URL or upload ≤5MB), Tiptap body, save-draft, sanitized preview                           |
 | Edit + publish | `/articles/[id]` | Draft editing plus a publishing panel: readiness checklist, submit-for-review, role-gated publish; every action records a server-side revision |
 
 Staff workflow without touching the DB: sign in → New article → save draft →
@@ -143,12 +143,12 @@ Fan site at `http://localhost:3000` (`apps/web`, Next.js App Router).
 Server Components fetch published content; client components exist only for
 the mobile menu and the news filters (search/category/sort).
 
-| Page | Route | Notes |
-| ---- | ----- | ----- |
-| Homepage | `/` | Breaking strip, featured story, latest grid, per-category sections, topic chips |
-| Article | `/news/[slug]` | Headline, author, timestamps, hero image, sanitized body, related stories, JSON-LD, canonical + OG/Twitter metadata |
-| News listing | `/news` | URL-driven search, category filter, newest/oldest sort, pagination |
-| Squad / Matches | `/squad`, `/matches` | Nav + coming-soon stubs; structured data lands post-launch |
+| Page            | Route                | Notes                                                                                                               |
+| --------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Homepage        | `/`                  | Breaking strip, featured story, latest grid, per-category sections, topic chips                                     |
+| Article         | `/news/[slug]`       | Headline, author, timestamps, hero image, sanitized body, related stories, JSON-LD, canonical + OG/Twitter metadata |
+| News listing    | `/news`              | URL-driven search, category filter, newest/oldest sort, pagination                                                  |
+| Squad / Matches | `/squad`, `/matches` | Nav + coming-soon stubs; structured data lands post-launch                                                          |
 
 SEO: `metadataBase` + per-article canonical URLs, Open Graph/Twitter cards,
 `NewsArticle` JSON-LD, `sitemap.xml` (published slugs), `robots.txt`.
@@ -195,7 +195,7 @@ admin UI ──publish──▶ API: role check + IN_REVIEW guard (forward-only)
   via `pnpm worker`) with no HTTP port; it writes a heartbeat to
   `system_state`. **Restart it after rebuilding the API** (it runs the compiled
   bundle). `GET /api/v1/health` exposes the live snapshot: `outbox
-  {pending,processing,failed,done}` and `worker {lastHeartbeatAt, stale}`.
+{pending,processing,failed,done}` and `worker {lastHeartbeatAt, stale}`.
 - **Env**: `REVALIDATE_SECRET` (must match between web and worker),
   `WEB_REVALIDATE_URL`, `OUTBOX_POLL_MS` (default 2000), `ERROR_WEBHOOK_URL`.
   Full list: root + `apps/*/.env.example` files.
@@ -291,12 +291,12 @@ article samples matched, restore ≈135ms. Schedule `pnpm backup` (hourly) and
 
 ## Testing & verification
 
-| Command | What it proves |
-| ------- | -------------- |
-| `pnpm e2e` | Playwright against the live stack: the full editorial flow through the real UI (sign in → draft → **signed-URL cover upload** → submit → publish → readers see it within seconds), the API pipeline contract (forward-only workflow, drafts invisible publicly, republish rejected), and webhook secret-gating. Removes its `e2e-%` fixtures in teardown. |
-| `pnpm security:check` | Auth bypass, mass assignment, draft invisibility, writer-publish `403`, webhook secret, image-optimizer SSRF, security headers. Add `-- --rate-limit` for the 429 burst battery. |
-| `pnpm uptime:check` | Health/DB, outbox, worker heartbeat, web pages, newest-article round-trip. |
-| `pnpm restore:test` | Backup recoverability drill (restore into a scratch DB). |
+| Command               | What it proves                                                                                                                                                                                                                                                                                                                                            |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm e2e`            | Playwright against the live stack: the full editorial flow through the real UI (sign in → draft → **signed-URL cover upload** → submit → publish → readers see it within seconds), the API pipeline contract (forward-only workflow, drafts invisible publicly, republish rejected), and webhook secret-gating. Removes its `e2e-%` fixtures in teardown. |
+| `pnpm security:check` | Auth bypass, mass assignment, draft invisibility, writer-publish `403`, webhook secret, image-optimizer SSRF, security headers. Add `-- --rate-limit` for the 429 burst battery.                                                                                                                                                                          |
+| `pnpm uptime:check`   | Health/DB, outbox, worker heartbeat, web pages, newest-article round-trip.                                                                                                                                                                                                                                                                                |
+| `pnpm restore:test`   | Backup recoverability drill (restore into a scratch DB).                                                                                                                                                                                                                                                                                                  |
 
 E2E preconditions: Postgres up, API on `:4000` (built), **worker running**,
 production web on `:3000` (`pnpm --filter @srh/web build && pnpm --filter @srh/web

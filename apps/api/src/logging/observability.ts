@@ -39,13 +39,21 @@ interface RequestWithId extends Request {
 export function requestLogger() {
   return (req: RequestWithId, res: Response, next: NextFunction) => {
     const incoming = req.headers["x-request-id"];
-    const reqId = typeof incoming === "string" && incoming.length <= 128 ? incoming : randomUUID();
+    const reqId =
+      typeof incoming === "string" && incoming.length <= 128
+        ? incoming
+        : randomUUID();
     req.reqId = reqId;
     res.setHeader("x-request-id", reqId);
     const start = process.hrtime.bigint();
     res.on("finish", () => {
       const durMs = Number(process.hrtime.bigint() - start) / 1e6;
-      const level = res.statusCode >= 500 ? "error" : res.statusCode >= 400 ? "warn" : "info";
+      const level =
+        res.statusCode >= 500
+          ? "error"
+          : res.statusCode >= 400
+            ? "warn"
+            : "info";
       logJson(level, "http_request", {
         reqId,
         method: req.method,
@@ -60,14 +68,20 @@ export function requestLogger() {
 }
 
 /** Fire-and-forget error report (Slack/generic webhook); never blocks a response. */
-export async function reportError(payload: Record<string, unknown>): Promise<void> {
+export async function reportError(
+  payload: Record<string, unknown>,
+): Promise<void> {
   const url = process.env.ERROR_WEBHOOK_URL;
   if (!url) return;
   try {
     await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ service: "api", ts: new Date().toISOString(), ...payload }),
+      body: JSON.stringify({
+        service: "api",
+        ts: new Date().toISOString(),
+        ...payload,
+      }),
       signal: AbortSignal.timeout(3000),
     });
   } catch {
@@ -88,7 +102,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const req = ctx.getRequest<RequestWithId>();
 
     const isHttp = exception instanceof HttpException;
-    const status = isHttp ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+    const status = isHttp
+      ? exception.getStatus()
+      : HttpStatus.INTERNAL_SERVER_ERROR;
 
     let body: Record<string, unknown> | string;
     if (isHttp) {

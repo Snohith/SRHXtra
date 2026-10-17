@@ -16,11 +16,16 @@ interface SearchParams {
 
 export const metadata: Metadata = {
   title: "Latest SRH news",
-  description: "All Sunrisers Hyderabad stories — news, match reports, squad updates, and analysis.",
+  description:
+    "All Sunrisers Hyderabad stories — news, match reports, squad updates, and analysis.",
   alternates: { canonical: "/news" },
 };
 
-export default async function NewsPage({ searchParams }: { searchParams: SearchParams }) {
+export default async function NewsPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
   const page = Math.max(parseInt(searchParams.page ?? "1", 10) || 1, 1);
   const sort = searchParams.sort === "oldest" ? "oldest" : "newest";
   const [feed, categories] = await Promise.all([
@@ -78,7 +83,8 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
           </button>
         )}
         <span>
-          Page {page} of {pages} · {feed.total} {feed.total === 1 ? "story" : "stories"}
+          Page {page} of {pages} · {feed.total}{" "}
+          {feed.total === 1 ? "story" : "stories"}
         </span>
         {page < pages ? (
           <Link className="btn" href={pageHref(page + 1)}>

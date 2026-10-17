@@ -36,7 +36,9 @@ export default function LoginPage() {
       <div className="pagehead">
         <div>
           <h1>Staff sign-in</h1>
-          <p className="sub">Verify your staff API token to open the dashboard.</p>
+          <p className="sub">
+            Verify your staff API token to open the dashboard.
+          </p>
         </div>
       </div>
       <div className="panel">
@@ -54,7 +56,9 @@ export default function LoginPage() {
           </label>
           <label className="field">
             Staff email or user ID
-            <span className="hint">Identifies whose roles apply to your actions.</span>
+            <span className="hint">
+              Identifies whose roles apply to your actions.
+            </span>
             <input
               type="text"
               value={userId}
@@ -62,15 +66,19 @@ export default function LoginPage() {
               placeholder="admin@srh.local"
             />
           </label>
-          <button className="btn primary" type="submit" disabled={busy || !apiToken || !userId}>
+          <button
+            className="btn primary"
+            type="submit"
+            disabled={busy || !apiToken || !userId}
+          >
             {busy ? "Verifying…" : "Sign in"}
           </button>
         </form>
       </div>
       <p className="muted small">
         Local default token is <code>dev-admin-token</code> with user{" "}
-        <code>admin@srh.local</code>. Credentials are verified server-side on every admin
-        request.
+        <code>admin@srh.local</code>. Credentials are verified server-side on
+        every admin request.
       </p>
     </div>
   );

@@ -19,20 +19,33 @@ import "dotenv/config";
 import { Pool } from "pg";
 
 const connectionString =
-  process.env.DATABASE_URL ?? "postgresql://srh:srh_dev_password@localhost:5432/srh_news";
-const revalidateUrl = process.env.WEB_REVALIDATE_URL ?? "http://localhost:3000/api/revalidate";
-const revalidateSecret = process.env.REVALIDATE_SECRET ?? "dev-revalidate-secret";
+  process.env.DATABASE_URL ??
+  "postgresql://srh:srh_dev_password@localhost:5432/srh_news";
+const revalidateUrl =
+  process.env.WEB_REVALIDATE_URL ?? "http://localhost:3000/api/revalidate";
+const revalidateSecret =
+  process.env.REVALIDATE_SECRET ?? "dev-revalidate-secret";
 const alertWebhook = process.env.ERROR_WEBHOOK_URL ?? "";
 const pollMs = Math.max(Number(process.env.OUTBOX_POLL_MS ?? 2000), 250);
 const HEARTBEAT_STALE_MS = 30_000;
 const STUCK_AFTER_MS = 2 * 60_000;
 
-const pool = new Pool({ connectionString, max: 3, connectionTimeoutMillis: 5000 });
-pool.on("error", (err) => log("error", "pg pool error", { error: err.message }));
+const pool = new Pool({
+  connectionString,
+  max: 3,
+  connectionTimeoutMillis: 5000,
+});
+pool.on("error", (err) =>
+  log("error", "pg pool error", { error: err.message }),
+);
 
 let shuttingDown = false;
 
-function log(level: "info" | "warn" | "error", msg: string, fields: Record<string, unknown> = {}) {
+function log(
+  level: "info" | "warn" | "error",
+  msg: string,
+  fields: Record<string, unknown> = {},
+) {
   const line = JSON.stringify({
     ts: new Date().toISOString(),
     level,
@@ -51,7 +64,12 @@ async function alert(message: string, fields: Record<string, unknown> = {}) {
     await fetch(alertWebhook, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ service: "outbox-worker", message, ...fields, ts: new Date().toISOString() }),
+      body: JSON.stringify({
+        service: "outbox-worker",
+        message,
+        ...fields,
+        ts: new Date().toISOString(),
+      }),
       signal: AbortSignal.timeout(3000),
     });
   } catch {
@@ -74,7 +92,13 @@ async function heartbeat() {
     `INSERT INTO system_state (key, value, updated_at)
      VALUES ('worker.heartbeat', $1::jsonb, now())
      ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now()`,
-    [JSON.stringify({ pid: process.pid, pollMs, startedAt: startedAt.toISOString() })],
+    [
+      JSON.stringify({
+        pid: process.pid,
+        pollMs,
+        startedAt: startedAt.toISOString(),
+      }),
+    ],
   );
 }
 
@@ -146,7 +170,9 @@ async function deliver(event: OutboxEvent): Promise<void> {
   });
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new Error(`webhook ${res.status}: ${text.slice(0, 200) || "no body"}`);
+    throw new Error(
+      `webhook ${res.status}: ${text.slice(0, 200) || "no body"}`,
+    );
   }
 }
 
@@ -212,7 +238,11 @@ async function drain(maxPerTick = 20) {
 const startedAt = new Date();
 
 async function main() {
-  log("info", "outbox worker starting", { revalidateUrl, pollMs, pid: process.pid });
+  log("info", "outbox worker starting", {
+    revalidateUrl,
+    pollMs,
+    pid: process.pid,
+  });
   await recoverStuck();
   await heartbeat();
 
@@ -234,7 +264,9 @@ async function main() {
         lastHeartbeat = Date.now();
       }
     } catch (err) {
-      log("error", "worker tick failed", { error: err instanceof Error ? err.message : String(err) });
+      log("error", "worker tick failed", {
+        error: err instanceof Error ? err.message : String(err),
+      });
     }
     if (shuttingDown) break;
     await new Promise((resolve) => setTimeout(resolve, pollMs));
@@ -243,6 +275,8 @@ async function main() {
 }
 
 main().catch(async (err) => {
-  await alert("outbox worker crashed", { error: err instanceof Error ? err.message : String(err) });
+  await alert("outbox worker crashed", {
+    error: err instanceof Error ? err.message : String(err),
+  });
   process.exit(1);
 });

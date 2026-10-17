@@ -33,24 +33,39 @@ export class SignedUploadController {
   async put(@Query("token") token: string | undefined, @Req() req: Request) {
     if (!token) throw new UnauthorizedException("Missing upload token.");
     const claims = this.storage.verifyUploadToken(token);
-    if (!claims) throw new UnauthorizedException("Invalid or expired upload token.");
+    if (!claims)
+      throw new UnauthorizedException("Invalid or expired upload token.");
 
-    const intent = await this.media.getUsableIntent(claims.intentId, claims.key);
-    if (!intent) throw new BadRequestException("Upload intent expired or already completed.");
+    const intent = await this.media.getUsableIntent(
+      claims.intentId,
+      claims.key,
+    );
+    if (!intent)
+      throw new BadRequestException(
+        "Upload intent expired or already completed.",
+      );
 
     const headerType = String(req.headers["content-type"] ?? "")
       .split(";")[0]
       .trim();
     if (headerType !== claims.contentType) {
-      throw new BadRequestException(`Content-Type must be ${claims.contentType}.`);
+      throw new BadRequestException(
+        `Content-Type must be ${claims.contentType}.`,
+      );
     }
 
     const declared = Number(req.headers["content-length"]);
     if (Number.isFinite(declared) && declared > claims.maxBytes) {
-      throw new PayloadTooLargeException("Content-Length exceeds the signed size cap.");
+      throw new PayloadTooLargeException(
+        "Content-Length exceeds the signed size cap.",
+      );
     }
 
-    const written = await this.media.streamLocalUpload(req, claims.key, claims.maxBytes);
+    const written = await this.media.streamLocalUpload(
+      req,
+      claims.key,
+      claims.maxBytes,
+    );
     await this.media.markUploaded(claims.intentId);
     return {
       key: claims.key,

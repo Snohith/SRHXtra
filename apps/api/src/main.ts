@@ -5,7 +5,11 @@ import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { AppModule } from "./app.module";
 import { uploadsDir } from "./media/uploads";
-import { AllExceptionsFilter, logJson, requestLogger } from "./logging/observability";
+import {
+  AllExceptionsFilter,
+  logJson,
+  requestLogger,
+} from "./logging/observability";
 
 const DEV_TOKEN = "dev-admin-token";
 
@@ -20,7 +24,10 @@ function corsOrigins(): string[] {
 
 async function bootstrap() {
   // Refuse to boot publicly with the documented dev credential.
-  if (process.env.NODE_ENV === "production" && (process.env.ADMIN_API_TOKEN ?? DEV_TOKEN) === DEV_TOKEN) {
+  if (
+    process.env.NODE_ENV === "production" &&
+    (process.env.ADMIN_API_TOKEN ?? DEV_TOKEN) === DEV_TOKEN
+  ) {
     throw new Error(
       "Refusing to start: set a strong ADMIN_API_TOKEN (e.g. `openssl rand -hex 32`). " +
         "The dev default must never run in production.",
@@ -32,14 +39,22 @@ async function bootstrap() {
     cors: {
       origin: corsOrigins(),
       methods: ["GET", "POST", "PATCH", "PUT", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization", "x-admin-token", "x-admin-user-id", "x-request-id"],
+      allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+        "x-admin-token",
+        "x-admin-user-id",
+        "x-request-id",
+      ],
       exposedHeaders: ["x-request-id"],
       credentials: false,
       maxAge: 86400,
     },
   });
   // Drop the Express fingerprint header.
-  const server = app.getHttpAdapter().getInstance() as { disable?: (s: string) => void };
+  const server = app.getHttpAdapter().getInstance() as {
+    disable?: (s: string) => void;
+  };
   server.disable?.("x-powered-by");
 
   // Structured request logs (one JSON line per request, x-request-id).
@@ -65,6 +80,8 @@ async function bootstrap() {
 }
 
 void bootstrap().catch((err) => {
-  logJson("error", "api failed to start", { error: err instanceof Error ? err.message : String(err) });
+  logJson("error", "api failed to start", {
+    error: err instanceof Error ? err.message : String(err),
+  });
   process.exit(1);
 });

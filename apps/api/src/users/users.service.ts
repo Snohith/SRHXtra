@@ -39,7 +39,11 @@ export class UsersService {
   async findByIdOrEmail(idOrEmail: string): Promise<StaffUser | null> {
     // UUID lookup first; skip it for non-UUID input (Postgres would raise
     // `invalid input syntax for type uuid` instead of returning no rows).
-    if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(idOrEmail)) {
+    if (
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        idOrEmail,
+      )
+    ) {
       const byId = await this.findById(idOrEmail);
       if (byId) return byId;
     }
@@ -48,9 +52,10 @@ export class UsersService {
       email: string;
       display_name: string | null;
       status: string;
-    }>("SELECT id, email, display_name, status FROM users WHERE lower(email) = lower($1)", [
-      idOrEmail,
-    ]);
+    }>(
+      "SELECT id, email, display_name, status FROM users WHERE lower(email) = lower($1)",
+      [idOrEmail],
+    );
     const user = rows[0];
     if (!user) return null;
     return {

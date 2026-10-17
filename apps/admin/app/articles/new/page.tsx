@@ -13,9 +13,14 @@ function NewArticle() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    api.categories().then(setCategories).catch((err: unknown) => {
-      setError(err instanceof ApiError ? err.message : "Could not load categories.");
-    });
+    api
+      .categories()
+      .then(setCategories)
+      .catch((err: unknown) => {
+        setError(
+          err instanceof ApiError ? err.message : "Could not load categories.",
+        );
+      });
   }, []);
 
   return (
@@ -23,11 +28,16 @@ function NewArticle() {
       <div className="pagehead">
         <div>
           <h1>New article</h1>
-          <p className="sub">Saved as a draft — publish it from the article page.</p>
+          <p className="sub">
+            Saved as a draft — publish it from the article page.
+          </p>
         </div>
       </div>
       {error && <div className="alert error">{error}</div>}
-      <ArticleForm categories={categories} onSaved={(a) => router.push(`/articles/${a.id}`)} />
+      <ArticleForm
+        categories={categories}
+        onSaved={(a) => router.push(`/articles/${a.id}`)}
+      />
     </>
   );
 }
