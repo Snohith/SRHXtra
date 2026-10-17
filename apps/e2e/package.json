@@ -1,0 +1,15 @@
+{
+  "name": "@srh/e2e",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^22.7.4",
+    "typescript": "^5.6.3"
+  }
+}
