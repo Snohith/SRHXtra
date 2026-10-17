@@ -150,9 +150,13 @@ async function claim(): Promise<OutboxEvent | null> {
   }
 }
 
+/** Event types the web tier knows how to revalidate (an updated published
+ * story refreshes the same tags/paths as the original publish). */
+const DELIVERABLE_EVENTS = new Set(["article.published", "article.updated"]);
+
 /** Deliver one event to the web tier's revalidation webhook (idempotent). */
 async function deliver(event: OutboxEvent): Promise<void> {
-  if (event.event_type !== "article.published") {
+  if (!DELIVERABLE_EVENTS.has(event.event_type)) {
     throw new Error(`Unknown event type: ${event.event_type}`);
   }
   const res = await fetch(revalidateUrl, {

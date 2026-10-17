@@ -217,9 +217,12 @@ export class ArticlesService {
     actor: StaffUser,
   ): Promise<ArticleDto> {
     const current = await this.getByIdOrThrow(id);
-    if (current.status !== "DRAFT") {
+    // Drafts are freely editable; published stories can be corrected in place
+    // (the change revalidates the public site). IN_REVIEW stays locked so the
+    // reviewer always reviews what was submitted.
+    if (current.status !== "DRAFT" && current.status !== "PUBLISHED") {
       throw new BadRequestException(
-        "Only DRAFT articles can be edited (submit → publish is forward-only in MVP).",
+        "Only DRAFT or PUBLISHED articles can be edited.",
       );
     }
     if (input.categoryId !== undefined)
@@ -260,6 +263,23 @@ export class ArticlesService {
         },
         client,
       );
+      // Editing a published story must refresh the public site: the outbox
+      // event commits atomically with the change and the worker revalidates.
+      if (article.status === "PUBLISHED") {
+        await client.query(
+          `INSERT INTO outbox_events (event_type, aggregate_type, aggregate_id, payload)
+           VALUES ('article.updated', 'article', $1, $2::jsonb)`,
+          [
+            id,
+            JSON.stringify({
+              id,
+              slug: article.slug,
+              title: article.title,
+              updatedAt: new Date().toISOString(),
+            }),
+          ],
+        );
+      }
       return toArticleDto(article);
     });
   }
