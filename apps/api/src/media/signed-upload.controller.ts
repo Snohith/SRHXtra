@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Controller,
+  PayloadTooLargeException,
   Put,
   Query,
   Req,
@@ -46,7 +47,7 @@ export class SignedUploadController {
 
     const declared = Number(req.headers["content-length"]);
     if (Number.isFinite(declared) && declared > claims.maxBytes) {
-      throw new BadRequestException("Content-Length exceeds the signed size cap.");
+      throw new PayloadTooLargeException("Content-Length exceeds the signed size cap.");
     }
 
     const written = await this.media.streamLocalUpload(req, claims.key, claims.maxBytes);
