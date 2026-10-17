@@ -80,7 +80,7 @@ function Editor({ id }: { id: string }) {
 
   const checks = readiness(article);
   const ready = checks.every((c) => c.ok);
-  const editable = article.status === "DRAFT";
+  const editable = article.status === "DRAFT" || article.status === "PUBLISHED";
   const mayPublish = canPublish(me);
 
   return (
@@ -155,7 +155,8 @@ function Editor({ id }: { id: string }) {
               {article.publishedAt
                 ? new Date(article.publishedAt).toLocaleString()
                 : ""}{" "}
-              — articles are forward-only, so this page is now read-only.
+              — status changes stay forward-only; saving edits below updates the
+              live story within seconds.
             </p>
           )}
         </div>
@@ -165,18 +166,24 @@ function Editor({ id }: { id: string }) {
         <ArticleForm
           article={article}
           categories={categories}
-          savingLabel="Save draft"
+          savingLabel={
+            article.status === "PUBLISHED" ? "Save changes" : "Save draft"
+          }
           onSaved={(next) => {
             setArticle(next);
-            setNotice("Draft saved — a revision was recorded.");
+            setNotice(
+              article.status === "PUBLISHED"
+                ? "Saved — a revision was recorded and the public story refreshes within seconds."
+                : "Draft saved — a revision was recorded.",
+            );
           }}
         />
       ) : (
         <div className="panel">
           <h2>Content (read-only)</h2>
           <p className="muted small">
-            Only drafts can be edited — every save, submit, and publish records
-            a new revision on the server.
+            Drafts and published articles can be edited — every save, submit,
+            and publish records a new revision on the server.
           </p>
         </div>
       )}
