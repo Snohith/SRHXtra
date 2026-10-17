@@ -3,7 +3,12 @@
  * CSP keeps 'unsafe-inline' for scripts/styles because Next.js + Tiptap
  * require it; the policy still bans plugins/frames/foreign connections,
  * which is where the residual XSS/drive-by value lives.
+ *
+ * Dev builds are compiled with webpack devtool `eval-source-map`, so every
+ * chunk needs `eval()`. Allow 'unsafe-eval' in development only — with a
+ * strict script-src the whole client bundle dies and pages never hydrate.
  */
+const isDev = process.env.NODE_ENV !== "production";
 function apiOrigin() {
   try {
     return new URL(process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000").origin;
@@ -16,7 +21,7 @@ export function securityHeaders({ connectApi = false } = {}) {
   const connect = ["'self'", ...(connectApi ? [apiOrigin()] : [])].join(" ");
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline'",
+    "script-src 'self' 'unsafe-inline'" + (isDev ? " 'unsafe-eval'" : ""),
     "style-src 'self' 'unsafe-inline'",
     `img-src 'self' data: http: https:`,
     "font-src 'self' data:",
