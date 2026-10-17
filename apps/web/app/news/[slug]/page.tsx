@@ -33,7 +33,10 @@ export async function generateMetadata({
   if (!article) return { title: "Story not found" };
   const description = article.excerpt?.trim() || textExcerpt(article.body);
   const url = articleUrl(article.slug);
-  const cover = resolveImageUrl(article.coverImageUrl);
+  // Cover if uploaded; otherwise the generated per-article OG route (Step 5).
+  const ogImage =
+    resolveImageUrl(article.coverImageUrl) ??
+    `/news/${article.slug}/opengraph-image`;
   return {
     title: article.title,
     description,
@@ -46,25 +49,31 @@ export async function generateMetadata({
       description,
       publishedTime: article.publishedAt ?? undefined,
       authors: article.authorName ? [article.authorName] : undefined,
-      ...(cover ? { images: [{ url: cover, alt: article.title }] } : {}),
+      images: [{ url: ogImage, alt: article.title }],
     },
     twitter: {
-      card: cover ? "summary_large_image" : "summary",
+      card: "summary_large_image",
       title: article.title,
       description,
-      ...(cover ? { images: [cover] } : {}),
+      images: [ogImage],
     },
   };
 }
 
-export default async function ArticlePage({ params }: { params: { slug: string } }) {
+export default async function ArticlePage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const article = await getArticle(params.slug);
   if (!article) notFound();
 
   const related = article.categorySlug
-    ? (await getFeed({ page: 1, pageSize: 4, category: article.categorySlug })).data.filter(
-        (a) => a.id !== article.id,
-      ).slice(0, 3)
+    ? (
+        await getFeed({ page: 1, pageSize: 4, category: article.categorySlug })
+      ).data
+        .filter((a) => a.id !== article.id)
+        .slice(0, 3)
     : [];
 
   const cover = resolveImageUrl(article.coverImageUrl);
@@ -83,18 +92,27 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
   return (
     <div className="wrap">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <nav className="meta" aria-label="Breadcrumb" style={{ marginBottom: 4 }}>
         <Link href="/">Home</Link> · <Link href="/news">News</Link>
         {article.categorySlug && (
           <>
-            {" "}· <Link href={`/news?category=${article.categorySlug}`}>{article.categoryName}</Link>
+            {" "}
+            ·{" "}
+            <Link href={`/news?category=${article.categorySlug}`}>
+              {article.categoryName}
+            </Link>
           </>
         )}
       </nav>
       <article>
         <header className="article-head">
-          {article.categoryName && <span className="cat">{article.categoryName}</span>}
+          {article.categoryName && (
+            <span className="cat">{article.categoryName}</span>
+          )}
           <h1>{article.title}</h1>
           {article.excerpt && <p className="standfirst">{article.excerpt}</p>}
           <div className="meta">
@@ -115,14 +133,19 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             />
           </div>
         )}
-        <div className="prose" dangerouslySetInnerHTML={{ __html: cleanBody }} />
+        <div
+          className="prose"
+          dangerouslySetInnerHTML={{ __html: cleanBody }}
+        />
       </article>
       {related.length > 0 && (
         <section className="section" aria-label="Related stories">
           <div className="section-head">
             <h2>Related stories</h2>
             {article.categorySlug && (
-              <Link href={`/news?category=${article.categorySlug}`}>More →</Link>
+              <Link href={`/news?category=${article.categorySlug}`}>
+                More →
+              </Link>
             )}
           </div>
           <div className="cards">

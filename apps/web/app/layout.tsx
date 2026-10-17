@@ -19,9 +19,19 @@ export const metadata: Metadata = {
     description:
       "Breaking SRH news, match reports, squad updates, and tactical analysis.",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "SRH News — Sunrisers Hyderabad news, reports & analysis",
+    description:
+      "Breaking SRH news, match reports, squad updates, and tactical analysis.",
+  },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
