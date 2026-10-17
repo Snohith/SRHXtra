@@ -13,5 +13,8 @@ apps/*/dist
 apps/*/.next
 apps/api/uploads
 uploads
+backups
+test-results
+playwright-report
 *.tsbuildinfo
 tsconfig.tsbuildinfo

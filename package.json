@@ -19,7 +19,13 @@
     "typecheck": "turbo run typecheck",
     "db:up": "docker compose up -d db",
     "db:down": "docker compose down",
-    "db:logs": "docker compose logs -f db"
+    "db:logs": "docker compose logs -f db",
+    "worker": "node apps/api/dist/worker.js",
+    "backup": "node scripts/backup.mjs",
+    "restore:test": "node scripts/restore-test.mjs",
+    "uptime:check": "node scripts/uptime-check.mjs",
+    "security:check": "node scripts/security-check.mjs",
+    "e2e": "pnpm --filter @srh/e2e test"
   },
   "devDependencies": {
     "@eslint/js": "^9.14.0",
