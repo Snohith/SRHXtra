@@ -1,16 +1,19 @@
-# SRH News — Turborepo (Steps 1–4)
+# SRH News — Turborepo (Steps 1–5)
 
-Monorepo for the SRH public website, admin dashboard, and NestJS API.
+Monorepo for the SRH public website, admin dashboard, NestJS API, and the
+reliable publish → revalidate → readers pipeline.
 
 ```
 srh-news/
 ├── apps/
 │   ├── web/             # Public SRH website (Next.js, :3000)
 │   ├── admin/           # Admin dashboard (Next.js, :3001)
-│   └── api/             # NestJS backend (:4000)
+│   ├── api/             # NestJS backend (:4000) + outbox worker
+│   └── e2e/             # Playwright end-to-end tests
 ├── packages/
 │   ├── contracts/       # Shared API types and schemas (zod)
 │   └── config/          # Shared tooling configuration
+├── scripts/             # Ops tooling: backup, restore drill, uptime, security
 ├── package.json
 ├── pnpm-workspace.yaml
 └── turbo.json
@@ -50,6 +53,11 @@ pnpm dev
 pnpm dev:api     # http://localhost:4000/health
 pnpm dev:web     # http://localhost:3000
 pnpm dev:admin   # http://localhost:3001
+
+# 5. Start the outbox worker (separate terminal) — delivers publish events to
+#    the web tier. It runs the compiled bundle, so build the API first.
+pnpm --filter @srh/api build
+pnpm worker       # restart this after rebuilding the API
 ```
 
 ## Health check
@@ -145,15 +153,111 @@ the mobile menu and the news filters (search/category/sort).
 SEO: `metadataBase` + per-article canonical URLs, Open Graph/Twitter cards,
 `NewsArticle` JSON-LD, `sitemap.xml` (published slugs), `robots.txt`.
 Bodies are sanitized server-side with `sanitize-html` (jsdom-free, so static
-prerendering works). ISR `revalidate = 60` keeps pages fast; newly published
-stories appear within a minute (on-demand revalidation webhook is the
-follow-up). Design tokens: SRH orange `#f26522`, charcoal, white, neutrals —
+prerendering works). ISR `revalidate = 60` keeps pages fast; publishing pushes
+on-demand revalidation (worker → webhook, below), so new stories appear within
+seconds. Design tokens: SRH orange `#f26522`, charcoal, white, neutrals —
 mobile-first CSS, no framework.
 
 ```bash
 # canonical origin for SEO links (defaults to http://localhost:3000)
 NEXT_PUBLIC_SITE_URL=https://www.example.com pnpm --filter @srh/web build
 ```
+
+## Publishing pipeline (Step 5)
+
+"Editor publishes → API validates → Postgres commits → worker revalidates →
+readers see it" — with no lost events and no long cache waits:
+
+```
+admin UI ──publish──▶ API: role check + IN_REVIEW guard (forward-only)
+                         │
+                         ▼  ONE Postgres transaction
+              articles.status = PUBLISHED
+              article_revisions snapshot + audit_logs entry
+              outbox_events row (article.published, slug)   ← atomic with the above
+                         │
+                         ▼  outbox worker (pnpm worker, polls every 2s)
+              claim via FOR UPDATE SKIP LOCKED
+              POST /api/revalidate  (x-revalidate-secret)
+                         │
+                         ▼  web (idempotent)
+              revalidateTag('articles' | 'article:<slug>')
+              revalidatePath('/', '/news', '/news/<slug>', '/sitemap.xml')
+```
+
+- **Reliability**: at-least-once delivery; failures retry with backoff
+  (10s → 20s → 40s → 80s … capped at 5m, 5 attempts) before the event is marked
+  `FAILED` and an alert fires. Rows stuck in `PROCESSING` after a worker crash
+  are recovered after 2 minutes. Publish never depends on the web tier being
+  up — if it is down, events stay `PENDING` and are delivered on recovery
+  (verified by stopping worker/web mid-flight and restarting).
+- **Ops**: the worker is a plain Node process (`node apps/api/dist/worker.js`,
+  via `pnpm worker`) with no HTTP port; it writes a heartbeat to
+  `system_state`. **Restart it after rebuilding the API** (it runs the compiled
+  bundle). `GET /api/v1/health` exposes the live snapshot: `outbox
+  {pending,processing,failed,done}` and `worker {lastHeartbeatAt, stale}`.
+- **Env**: `REVALIDATE_SECRET` (must match between web and worker),
+  `WEB_REVALIDATE_URL`, `OUTBOX_POLL_MS` (default 2000), `ERROR_WEBHOOK_URL`.
+  Full list: root + `apps/*/.env.example` files.
+
+### Signed image uploads
+
+Featured images no longer pass through a multipart POST:
+
+1. admin calls `POST /api/v1/admin/media/sign` → short-lived ticket bound to a
+   storage key, MIME type, size cap, and actor (10-minute expiry)
+2. the browser `PUT`s the bytes — local driver: HMAC-signed
+   `PUT /api/v1/media/put?token=…`; `s3` driver: SigV4 presigned upload
+   straight to the bucket (implemented without the AWS SDK, cross-checked
+   byte-for-byte against `@smithy/signature-v4`)
+3. `POST /api/v1/admin/media/complete` verifies the object and records the
+   `media_assets` row.
+
+Tampered, replayed, or expired tickets are rejected (`401`/`400`); wrong
+content types and oversize files fail with `400`/`413`. The admin upload button
+already uses this flow; the legacy multipart endpoint remains for compatibility.
+
+> **Verification note**: this dev environment could not pull a MinIO image
+> (Docker Hub unreachable), so the S3 driver was verified against the official
+> AWS signer instead of a live bucket. When enabling `MEDIA_DRIVER=s3`,
+> configure bucket CORS to allow `PUT` from the admin origin.
+
+### Generated OG images
+
+Share cards are rendered server-side with `ImageResponse`: a site-wide
+`/opengraph-image` plus a per-article `/news/<slug>/opengraph-image` that is
+used automatically when a story has no cover photo. Twitter cards are
+`summary_large_image`; canonical URLs, `NewsArticle` JSON-LD, and the
+`/sitemap.xml` (revalidated on publish) stay in sync with the article data.
+
+### Backups & recovery drill
+
+```bash
+pnpm backup        # docker exec pg_dump -Fc → ./backups + pg_restore --list integrity check
+pnpm restore:test  # restores the newest dump into a scratch DB, compares table
+                   # counts and content samples, then drops it
+```
+
+Custom-format dumps with `BACKUP_KEEP` retention (default 7; `BACKUP_DIR`
+overridable). The drill has been run for real — 12 tables, row counts and
+article samples matched, restore ≈135ms. Schedule `pnpm backup` (hourly) and
+`pnpm restore:test` (weekly).
+
+### Monitoring
+
+- **Structured logs**: every API request logs one JSON line (method, path,
+  status, duration, `reqId` — send `x-request-id` to correlate across
+  services). Unhandled exceptions log stack traces and report through the alert
+  webhook. The worker logs the same shape and alerts on crashes and permanent
+  delivery failures.
+- **Alerts**: set `ERROR_WEBHOOK_URL` (Slack-compatible) to receive API 5xx
+  errors, worker failures, permanently `FAILED` outbox events, and
+  `pnpm uptime:check` failures. Empty = log-only.
+- **Uptime checks**: `pnpm uptime:check` verifies API health + DB, zero FAILED
+  outbox events, a fresh worker heartbeat, web `/` and `/news` (200), and a
+  full round-trip of the newest published article. Exits 1 on failure and
+  optionally POSTs to a webhook — run it from cron (every 5 minutes) or your
+  uptime service.
 
 ## Tooling
 
@@ -177,3 +281,25 @@ NEXT_PUBLIC_SITE_URL=https://www.example.com pnpm --filter @srh/web build
 - **Data**: Postgres bound to `127.0.0.1`; article bodies sanitized server-side
   (`sanitize-html`) before rendering; uploads restricted to image MIME types ≤5MB;
   drafts return uniform 404s publicly; mass assignment rejected (400).
+- **Signed uploads**: upload tickets are HMAC-signed and bound to key/MIME/size/
+  actor with a 10-minute expiry — tampering, replay, and cross-type uploads are
+  rejected (`401`/`400`). The revalidation webhook compares secrets in constant
+  time and is rate limited.
+- **Pipeline**: publishing is forward-only and transactional; an article only
+  becomes publicly visible after the commit plus the (idempotent) revalidation,
+  so nothing half-published can leak through caches.
+
+## Testing & verification
+
+| Command | What it proves |
+| ------- | -------------- |
+| `pnpm e2e` | Playwright against the live stack: the full editorial flow through the real UI (sign in → draft → **signed-URL cover upload** → submit → publish → readers see it within seconds), the API pipeline contract (forward-only workflow, drafts invisible publicly, republish rejected), and webhook secret-gating. Removes its `e2e-%` fixtures in teardown. |
+| `pnpm security:check` | Auth bypass, mass assignment, draft invisibility, writer-publish `403`, webhook secret, image-optimizer SSRF, security headers. Add `-- --rate-limit` for the 429 burst battery. |
+| `pnpm uptime:check` | Health/DB, outbox, worker heartbeat, web pages, newest-article round-trip. |
+| `pnpm restore:test` | Backup recoverability drill (restore into a scratch DB). |
+
+E2E preconditions: Postgres up, API on `:4000` (built), **worker running**,
+production web on `:3000` (`pnpm --filter @srh/web build && pnpm --filter @srh/web
+start`), admin on `:3001`, and Docker available for fixture cleanup
+(`CONTAINER=srh-news-db`). Browsers: a cached Chromium is used; on a fresh
+machine run `pnpm --filter @srh/e2e exec playwright install chromium`.
