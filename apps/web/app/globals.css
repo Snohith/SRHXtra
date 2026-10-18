@@ -1,4 +1,4 @@
-/* SRH News design system — mobile-first.
+/* SRH Xtra design system — mobile-first.
    SRH orange + dark charcoal + white + neutrals. */
 
 :root {
@@ -40,6 +40,73 @@ a {
   color: inherit;
 }
 
+/* Content protection --------------------------------------------------
+   Deterrent layer 1 of 2 (the rest lives in
+   components/ContentProtection.tsx and the API's /uploads hotlink guard).
+   Selection is disabled site-wide and images get the same non-interactive
+   treatment: no selection, no drag ghosts, no long-press callout, no
+   right-click save. Form fields are exempt so search boxes and filters
+   stay usable. None of it is DRM — it only raises the effort for casual
+   copying. */
+
+body {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+input,
+textarea,
+select {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Images are as un-interactable as the text: nothing to select, drag, or
+   long-press — and no right-click "Save image as". Pointer events fall
+   through to the wrapping link, so card/hero navigation is unaffected. */
+img {
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Blocked-copy feedback toast (rendered by ContentProtection.tsx). */
+.copy-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 100;
+  transform: translateX(-50%);
+  background: var(--charcoal);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 999px;
+  box-shadow: 0 10px 24px rgba(20, 22, 26, 0.28);
+  pointer-events: none;
+  animation: copy-toast-in 160ms ease-out;
+}
+
+@keyframes copy-toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copy-toast {
+    animation: none;
+  }
+}
+
 /* Skip link + header ------------------------------------------------ */
 
 .skip {
@@ -75,11 +142,21 @@ a {
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
   font-weight: 800;
   font-size: 19px;
   text-decoration: none;
   letter-spacing: 0.2px;
   white-space: nowrap;
+}
+
+.brand-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  flex: none;
 }
 
 .brand em {
@@ -554,27 +631,162 @@ a {
   color: #fff;
 }
 
+.footer-copy {
+  border-top: 1px solid #262b33;
+  padding-top: 12px;
+  font-size: 12.5px;
+  color: #8a919b;
+}
+
 /* Squad page ------------------------------------------------------------ */
 
-.captain {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-  background: var(--charcoal);
+/* Visually hidden but available to assistive tech. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Hero — dark panel with a floodlight glow. */
+.squad-hero {
+  background:
+    radial-gradient(
+      760px 300px at 88% -60px,
+      rgba(242, 101, 34, 0.35),
+      transparent 65%
+    ),
+    linear-gradient(140deg, #14161a 0%, #1b1f26 55%, #14161a 100%);
   color: #fff;
   border-radius: var(--radius);
-  padding: 14px 16px;
-  margin: 16px 0 0;
+  padding: 22px 18px 18px;
 }
 
-.captain .player-avatar {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+.squad-hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  flex-wrap: wrap;
 }
 
-.captain .player-photo {
-  border-color: rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.06);
+.squad-kicker {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffb584;
+  background: rgba(242, 101, 34, 0.16);
+  border: 1px solid rgba(242, 101, 34, 0.38);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.squad-hero h1 {
+  margin: 12px 0 8px;
+  font-size: clamp(30px, 5.4vw, 44px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.squad-standfirst {
+  margin: 0;
+  max-width: 640px;
+  color: #c9cfd7;
+  font-size: 16px;
+}
+
+.squad-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 18px;
+  margin: 18px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+@media (min-width: 720px) {
+  .squad-facts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.squad-facts dt {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9aa1ab;
+}
+
+.squad-facts dd {
+  margin: 3px 0 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* Lead band — captain feature + composition panel. */
+.squad-lead {
+  display: grid;
+  gap: 12px;
+  margin: 14px 0 4px;
+}
+
+@media (min-width: 880px) {
+  .squad-lead {
+    grid-template-columns: 1.05fr 0.95fr;
+  }
+}
+
+.captain-card {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.captain-card:hover {
+  border-color: var(--brand);
+  box-shadow: 0 8px 20px rgba(20, 22, 26, 0.07);
+  transform: translateY(-1px);
+}
+
+.captain-card:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.captain-go {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--brand-dark);
+}
+
+.captain-card:hover .captain-go {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.captain-card .player-photo,
+.captain-card .player-avatar {
+  box-shadow: 0 0 0 3px rgba(242, 101, 34, 0.22);
 }
 
 .captain-label {
@@ -583,82 +795,269 @@ a {
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--brand);
+  color: var(--brand-dark);
 }
 
-.captain strong {
-  display: block;
-  font-size: 19px;
-  line-height: 1.3;
+.captain-card h2 {
+  margin: 4px 0 2px;
+  font-size: 24px;
+  letter-spacing: -0.01em;
 }
 
 .captain-meta {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.captain-note {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.squad-glance {
+  background: var(--charcoal);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 18px;
+}
+
+.squad-glance h2 {
+  margin: 0 0 14px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffb584;
+}
+
+.comp-bar {
+  display: flex;
+  gap: 3px;
+  height: 14px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.comp-seg {
+  flex: 1 1 0;
   display: block;
+}
+
+.comp-legend {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 14px;
+  margin: 14px 0 0;
+  padding: 0;
+}
+
+.comp-legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 13px;
+  color: #d7dbe0;
+}
+
+.comp-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex: none;
+}
+
+.comp-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.comp-count {
+  margin-left: auto;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+.comp-note {
+  margin: 14px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   font-size: 12.5px;
   color: #9aa1ab;
 }
 
-.squad-stats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin: 14px 0 2px;
+/* Role segment colours — shared by the bar and the legend dots. */
+.seg-batters {
+  background: var(--brand);
 }
 
-@media (min-width: 720px) {
-  .squad-stats {
-    grid-template-columns: repeat(4, 1fr);
-  }
+.seg-wicketkeepers {
+  background: #ffb584;
 }
 
-.squad-stat {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 12px 14px;
+.seg-all-rounders {
+  background: #8a9099;
 }
 
-.squad-stat b {
-  display: block;
-  font-size: 24px;
-  line-height: 1.1;
+.seg-bowlers {
+  background: #4a515c;
 }
 
-.squad-stat span {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
+/* Roster — toolbar, status line, sections, player cards. */
+.roster {
+  margin-top: 30px;
 }
 
-.g-num {
-  font-style: normal;
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--brand);
-  letter-spacing: 0.04em;
+.section-head h3 {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: -0.01em;
 }
 
 .group-count {
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--muted);
   white-space: nowrap;
 }
 
-.group-blurb {
-  margin: 8px 0 12px;
+.roster-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 10px;
+}
+
+.roster-search {
+  position: relative;
+  flex: 1 1 240px;
+}
+
+.roster-search input {
+  width: 100%;
+  font: inherit;
+  font-size: 14px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.roster-search input:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 1px;
+  border-color: var(--brand);
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.f-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-right: 2px;
+}
+
+.f-chip {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.f-chip:hover {
+  border-color: var(--brand);
+  color: var(--brand-dark);
+}
+
+.f-chip[aria-pressed="true"],
+.f-chip[aria-pressed="true"]:hover {
+  background: var(--charcoal);
+  border-color: var(--charcoal);
+  color: #fff;
+}
+
+.f-chip .n {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.f-chip[aria-pressed="true"] .n {
+  color: #ffb584;
+}
+
+.f-chip:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.roster-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 4px 2px 16px;
   font-size: 13px;
   color: var(--muted);
+}
+
+.roster-status .link-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--brand-dark);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.roster-status .link-btn:focus-visible,
+.roster-empty .btn:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.roster-empty .btn {
+  margin-top: 12px;
 }
 
 .squad-grid {
   display: grid;
   gap: 10px;
   grid-template-columns: 1fr;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 @media (min-width: 560px) {
@@ -667,13 +1066,14 @@ a {
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 980px) {
   .squad-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 .player-card {
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -681,19 +1081,48 @@ a {
   display: flex;
   gap: 12px;
   align-items: center;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
 }
 
 .player-card:hover {
   border-color: var(--brand);
+  box-shadow: 0 8px 20px rgba(20, 22, 26, 0.07);
+  transform: translateY(-1px);
+}
+
+.player-card:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.player-card.is-captain {
+  border-color: rgba(242, 101, 34, 0.5);
+}
+
+.player-card.is-captain::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 14px;
+  bottom: 14px;
+  width: 4px;
+  border-radius: 0 999px 999px 0;
+  background: var(--brand);
 }
 
 .player-avatar {
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   border-radius: 999px;
   background: var(--charcoal);
   color: var(--brand);
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.03em;
   display: flex;
@@ -703,8 +1132,8 @@ a {
 }
 
 .player-photo {
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   border-radius: 999px;
   overflow: hidden;
   flex: none;
@@ -727,6 +1156,32 @@ a {
   object-position: 50% 12%;
 }
 
+/* Large feature portrait (captain card). */
+.player-photo.feature,
+.player-avatar.feature {
+  width: 132px;
+  height: 132px;
+}
+
+.player-avatar.feature {
+  font-size: 36px;
+}
+
+@media (max-width: 419px) {
+  .player-photo.feature,
+  .player-avatar.feature {
+    width: 108px;
+    height: 108px;
+  }
+
+  /* Too little room for a side-by-side layout — stack the captain card. */
+  .captain-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
 .player-info {
   min-width: 0;
 }
@@ -741,10 +1196,23 @@ a {
   flex-wrap: wrap;
 }
 
-.player-info p {
-  margin: 2px 0 0;
+.player-meta {
+  margin: 3px 0 0;
   font-size: 12.5px;
   color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.player-meta abbr {
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(104, 112, 123, 0.55);
+  cursor: help;
+}
+
+.player-meta .dot {
+  color: #c3bdb4;
 }
 
 .player-num {
@@ -753,6 +1221,23 @@ a {
   font-size: 17px;
   font-weight: 800;
   color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Card affordance — tells the eye the whole card is a link. */
+.player-go {
+  flex: none;
+  margin-left: 6px;
+  display: inline-flex;
+  color: #c3bdb4;
+  transition:
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.player-card:hover .player-go {
+  color: var(--brand-dark);
+  transform: translateX(2px);
 }
 
 .player-badge {
@@ -760,7 +1245,8 @@ a {
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: var(--brand);
+  /* brand-dark keeps white 10px badge text at WCAG AA (4.8:1). */
+  background: var(--brand-dark);
   color: #fff;
   border-radius: 999px;
   padding: 2px 8px;
@@ -768,4 +1254,544 @@ a {
 
 .player-badge.trade {
   background: var(--ink);
+}
+
+/* Player profile page ----------------------------------------------------- */
+
+/* Breadcrumb trail. */
+.crumbs {
+  margin: 4px 0 14px;
+}
+
+.crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.crumbs li + li::before {
+  content: "/";
+  margin-right: 6px;
+  color: #c3bdb4;
+}
+
+.crumbs a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  color: var(--brand-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.crumbs a:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.crumbs [aria-current="page"] {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* Hero — matchday poster: the kit cutout stands on a floodlight glow. */
+.player-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background:
+    radial-gradient(
+      560px 440px at 15% 68%,
+      rgba(242, 101, 34, 0.34),
+      transparent 68%
+    ),
+    radial-gradient(
+      560px 320px at 96% -4%,
+      rgba(242, 101, 34, 0.14),
+      transparent 60%
+    ),
+    linear-gradient(140deg, #12141a 0%, #1b1f26 55%, #12141a 100%);
+  color: #fff;
+  display: grid;
+  gap: 6px;
+  padding: 22px 18px 26px;
+}
+
+@media (min-width: 720px) {
+  .player-hero {
+    grid-template-columns: minmax(260px, 360px) 1fr;
+    align-items: center;
+    gap: 44px;
+    padding: 34px 40px 34px 30px;
+    min-height: 430px;
+  }
+}
+
+.player-hero-media {
+  position: relative;
+  z-index: 1;
+  height: min(330px, 78vw);
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+@media (min-width: 720px) {
+  .player-hero-media {
+    height: 400px;
+    max-width: none;
+    margin: 0;
+  }
+}
+
+/* The cutout itself — no frame, standing on the glow. */
+.player-hero-media .hero-img {
+  object-fit: contain;
+  object-position: 50% 100%;
+  filter: drop-shadow(0 24px 34px rgba(0, 0, 0, 0.5));
+}
+
+/* Circular headshot badge — squad members the feed has no cutout for. */
+.hero-badge {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-badge-ring {
+  position: relative;
+  width: min(216px, 58vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(242, 101, 34, 0.55);
+  background: #23272e;
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.4);
+}
+
+.hero-badge-ring .hero-img {
+  object-fit: cover;
+  object-position: 50% 14%;
+  filter: none;
+}
+
+/* Poster-style jersey-number watermark behind the copy. */
+.player-hero-num {
+  position: absolute;
+  right: 8px;
+  bottom: -30px;
+  z-index: 0;
+  font-size: clamp(150px, 24vw, 260px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: rgba(255, 255, 255, 0.07);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  user-select: none;
+}
+
+.player-hero-initials {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 54px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #ffb584;
+  background: radial-gradient(
+    160px 140px at 50% 30%,
+    rgba(242, 101, 34, 0.3),
+    transparent 70%
+  );
+}
+
+.player-hero-body {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  display: grid;
+  gap: 14px;
+  align-content: center;
+}
+
+.player-hero-kicker {
+  margin: 0;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffb584;
+}
+
+.player-hero h1 {
+  margin: 0;
+  font-size: clamp(38px, 7.6vw, 62px);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+}
+
+.player-hero-meta {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: #e3e6ea;
+  font-size: 13.5px;
+}
+
+.m-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-weight: 600;
+}
+
+.player-hero-meta .flag {
+  border-radius: 999px;
+  flex: none;
+}
+
+.player-hero-meta abbr {
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.4);
+  cursor: help;
+}
+
+.player-badge-row {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 2px 0 0;
+  padding: 0;
+}
+
+.p-badge {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 4px 11px;
+}
+
+.p-badge.captain {
+  background: var(--brand-dark);
+  color: #fff;
+}
+
+.p-badge.vice {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+
+.p-badge.intl {
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  color: #d7dbe0;
+}
+
+.p-badge.tag {
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ink);
+}
+
+.player-social {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.social-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.social-btn:hover {
+  border-color: var(--brand);
+  color: #ffb584;
+  transform: translateY(-1px);
+}
+
+.social-btn:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.social-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Stats — scoreboard figures separated by hairlines. */
+.player-stats {
+  margin-top: 28px;
+}
+
+.stat-panels {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 760px) {
+  .stat-panels {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+}
+
+.stat-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 18px 6px;
+}
+
+.stat-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.stat-panel-head h3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.stat-panel-head h3::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--brand);
+}
+
+.stat-panel-head span {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.stat-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+  margin: 0;
+}
+
+.stat-tile {
+  min-width: 0;
+  padding: 12px 16px 12px 16px;
+  border-left: 1px solid var(--line);
+}
+
+.stat-tile:first-child {
+  border-left: 0;
+  padding-left: 2px;
+}
+
+.stat-tile dt {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.stat-tile dd {
+  margin: 4px 0 0;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.player-pending {
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+/* Prev / next pager within the squad. */
+.player-pager {
+  display: grid;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+@media (min-width: 620px) {
+  .player-pager {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.pager-link {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.pager-link:hover {
+  border-color: var(--brand);
+  box-shadow: 0 8px 20px rgba(20, 22, 26, 0.07);
+  transform: translateY(-1px);
+}
+
+.pager-link:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.pager-link.is-ghost {
+  visibility: hidden;
+}
+
+.pager-link .player-photo,
+.pager-link .player-avatar {
+  width: 44px;
+  height: 44px;
+}
+
+.pager-link .player-avatar {
+  font-size: 14px;
+}
+
+/* Feed card image (2:3 kit portrait) in the pager. */
+.pager-avatar {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  overflow: hidden;
+  flex: none;
+  background: #f1ece5;
+  border: 1px solid var(--line);
+}
+
+.pager-avatar img {
+  object-fit: cover;
+  object-position: 50% 10%;
+}
+
+.pager-text {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.pager-dir {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pager-name {
+  font-size: 15px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.player-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.player-cta .btn:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .player-card,
+  .captain-card,
+  .f-chip,
+  .pager-link,
+  .social-btn {
+    transition: none;
+  }
+
+  .player-card:hover,
+  .captain-card:hover,
+  .pager-link:hover {
+    transform: none;
+  }
+
+  .social-btn:hover,
+  .player-card:hover .player-go {
+    transform: none;
+  }
+}
+
+/* Print is disabled: paper/PDF output shows a notice instead of content.
+   (Screenshots and DevTools "Save as PDF" remain possible — deterrent,
+   not DRM.) */
+@media print {
+  body * {
+    display: none !important;
+  }
+
+  body::after {
+    content: "© SRH Xtra — copying or printing this page is not permitted.";
+    display: block;
+    padding: 24px;
+    font-size: 16px;
+    color: #000;
+  }
 }

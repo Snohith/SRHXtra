@@ -9,7 +9,7 @@ function Meta({ article }: { article: Article }) {
       {article.categoryName && (
         <span className="cat">{article.categoryName}</span>
       )}
-      <span>{article.authorName ?? "SRH News desk"}</span>
+      <span>{article.authorName ?? "SRH Xtra desk"}</span>
       <time dateTime={article.publishedAt ?? undefined}>
         {formatDate(article.publishedAt)}
       </time>

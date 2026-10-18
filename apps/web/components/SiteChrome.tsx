@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import MobileNav from "./MobileNav";
 
@@ -16,7 +17,15 @@ export function SiteHeader() {
       </a>
       <div className="header-inner">
         <Link className="brand" href="/">
-          SRH <em>News</em>
+          <Image
+            className="brand-logo"
+            src="/logo.png"
+            alt=""
+            width={34}
+            height={34}
+            priority
+          />
+          SRH <em>Xtra</em>
         </Link>
         <nav className="nav-desktop" aria-label="Primary">
           {LINKS.map((l) => (
@@ -40,10 +49,12 @@ export function SiteFooter() {
           <Link href="/news">News</Link>
           <Link href="/squad">Squad</Link>
           <Link href="/matches">Matches</Link>
+          <Link href="/terms">Terms of use</Link>
         </nav>
-        <span>
-          SRH News — fan-focused Sunrisers Hyderabad coverage. Scores and stats
-          arrive after launch.
+        <span>SRH Xtra — fan-focused Sunrisers Hyderabad coverage.</span>
+        <span className="footer-copy">
+          © {new Date().getFullYear()} SRH Xtra. All rights reserved. Text and
+          media may not be reproduced without permission.
         </span>
       </div>
     </footer>

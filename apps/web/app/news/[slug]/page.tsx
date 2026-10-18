@@ -44,7 +44,7 @@ export async function generateMetadata({
     openGraph: {
       type: "article",
       url,
-      siteName: "SRH News",
+      siteName: "SRH Xtra",
       title: article.title,
       description,
       publishedTime: article.publishedAt ?? undefined,
@@ -85,7 +85,7 @@ export default async function ArticlePage({
     description: article.excerpt ?? textExcerpt(article.body),
     datePublished: article.publishedAt,
     dateModified: article.updatedAt,
-    author: { "@type": "Person", name: article.authorName ?? "SRH News desk" },
+    author: { "@type": "Person", name: article.authorName ?? "SRH Xtra desk" },
     ...(cover ? { image: [cover] } : {}),
     mainEntityOfPage: articleUrl(article.slug),
   };
@@ -116,7 +116,7 @@ export default async function ArticlePage({
           <h1>{article.title}</h1>
           {article.excerpt && <p className="standfirst">{article.excerpt}</p>}
           <div className="meta">
-            <span>By {article.authorName ?? "SRH News desk"}</span>
+            <span>By {article.authorName ?? "SRH Xtra desk"}</span>
             <time dateTime={article.publishedAt ?? undefined}>
               {formatDateTime(article.publishedAt)}
             </time>

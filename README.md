@@ -1,4 +1,4 @@
-# SRH News — Turborepo (Steps 1–5)
+# SRH Xtra — Turborepo (Steps 1–5)
 
 Monorepo for the SRH public website, admin dashboard, NestJS API, and the
 reliable publish → revalidate → readers pipeline.
@@ -132,6 +132,27 @@ Staff workflow without touching the DB: sign in → New article → save draft �
 preview → submit for review → publish (editors/publishers/admins only) →
 edit published stories in place when they need correcting.
 
+### Editorial workflow v2
+
+- **Archive / restore**: published stories can be archived (unpublished) from
+  the list or the editor — the worker removes them from the public site within
+  seconds and the story can be restored to draft later. Drafts and in-review
+  stories can be archived too (discarded).
+- **Scheduled publishing**: reviewers can pick a time and the worker publishes
+  the story automatically (transactionally — revision + audit + outbox event).
+  Schedules can be cancelled or published early ("Publish now").
+- **Request changes**: a reviewer can send an in-review story back to the
+  author with a note; the note shows on the draft and clears on resubmission.
+- **Revision history**: every save/submit/publish records a snapshot; the
+  article page lists versions, previews any of them inline, and restores one
+  with a click (restores are append-only — they write a new revision).
+- Dashboard counters now cover scheduled and archived stories, and the
+  activity feed logs every workflow action.
+
+New endpoints: `POST /api/v1/admin/articles/:id/archive|restore|request-changes|schedule|schedule/cancel`,
+`GET /api/v1/admin/articles/:id/revisions` (+ `/:version`, `POST .../restore`),
+and `GET /api/v1/admin/stats` now returns `scheduled`/`archived` counts.
+
 New API endpoints backing it: `GET /api/v1/admin/me`, `/stats`, `/activity`,
 `/categories`, `GET /api/v1/admin/articles/:id`, and `POST
 /api/v1/admin/media` (featured-image upload, served at `/uploads/*`, recorded
@@ -144,15 +165,16 @@ Fan site at `http://localhost:3000` (`apps/web`, Next.js App Router).
 Server Components fetch published content; client components exist only for
 the mobile menu and the news filters (search/category/sort).
 
-| Page            | Route                | Notes                                                                                                               |
-| --------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| Homepage        | `/`                  | Breaking strip, featured story, latest grid, per-category sections, topic chips                                     |
-| Article         | `/news/[slug]`       | Headline, author, timestamps, hero image, sanitized body, related stories, JSON-LD, canonical + OG/Twitter metadata |
-| News listing    | `/news`              | URL-driven search, category filter, newest/oldest sort, pagination                                                  |
-| Squad / Matches | `/squad`, `/matches` | Nav + coming-soon stubs; structured data lands post-launch                                                          |
+| Page            | Route                | Notes                                                                                                                                                                                                                                                                                                                       |
+| --------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Homepage        | `/`                  | Breaking strip, featured story, latest grid, per-category sections, topic chips                                                                                                                                                                                                                                             |
+| Article         | `/news/[slug]`       | Headline, author, timestamps, hero image, sanitized body, related stories, JSON-LD, canonical + OG/Twitter metadata                                                                                                                                                                                                         |
+| News listing    | `/news`              | URL-driven search, category filter, newest/oldest sort, pagination                                                                                                                                                                                                                                                          |
+| Squad / Matches | `/squad`, `/matches` | Full IPL 2026 roster with hero facts, captain feature, composition panel, URL-shareable search/filters (`?q=&role=&origin=`), `SportsTeam` JSON-LD, generated OG image, and a profile page per player (`/squad/[playerSlug]`) with feed-sourced career stats, `Person` JSON-LD and generated OG cards; `/matches` is a stub |
 
 SEO: `metadataBase` + per-article canonical URLs, Open Graph/Twitter cards,
-`NewsArticle` JSON-LD, `sitemap.xml` (published slugs), `robots.txt`.
+`NewsArticle` JSON-LD, `sitemap.xml` (published slugs, squad and player pages),
+`robots.txt`.
 Bodies are sanitized server-side with `sanitize-html` (jsdom-free, so static
 prerendering works). ISR `revalidate = 60` keeps pages fast; publishing pushes
 on-demand revalidation (worker → webhook, below), so new stories appear within
@@ -194,9 +216,13 @@ admin UI ──publish──▶ API: role check + IN_REVIEW guard (forward-only)
   (verified by stopping worker/web mid-flight and restarting).
 - **Published edits**: saving a published story commits an `article.updated`
   outbox event in the same transaction; the worker revalidates the same
-  tags/paths, so copy and metadata refresh in seconds. Status transitions stay
-  forward-only — archive/unpublish is not a workflow transition yet; when it
-  ships it reuses this exact event → worker → webhook path.
+  tags/paths, so copy and metadata refresh in seconds.
+- **Workflow v2**: archiving a published story commits an `article.archived`
+  event on that same path (readers lose the story within seconds, and restore
+  brings it back as a draft); stories left `SCHEDULED` are published by the
+  worker at the due time with the exact transaction shape of a manual publish
+  (status flip + revision + audit + `article.published`), so nothing can
+  half-publish.
 - **Ops**: the worker is a plain Node process (`node apps/api/dist/worker.js`,
   via `pnpm worker`) with no HTTP port; it writes a heartbeat to
   `system_state`. **Restart it after rebuilding the API** (it runs the compiled
@@ -295,6 +321,41 @@ article samples matched, restore ≈135ms. Schedule `pnpm backup` (hourly) and
 - **Pipeline**: publishing is forward-only and transactional; an article only
   becomes publicly visible after the commit plus the (idempotent) revalidation,
   so nothing half-published can leak through caches.
+
+### Copy protection (deterrents — not DRM)
+
+- **Text**: `user-select: none` site-wide (form fields exempt) plus a
+  capture-phase JS layer (`components/ContentProtection.tsx`) that blocks
+  context menu, copy/cut, dragging, selection, and the save/print/view-source
+  shortcuts (Ctrl/Cmd + C/X/A/U/S/P, F12, Ctrl+Shift+I/J/C/K). Blocked copies
+  show a toast instead of silently swallowing the keystroke. Print renders a
+  notice only.
+- **Images**: the same non-interactive treatment as text — `pointer-events`,
+  `-webkit-user-drag`, `-webkit-touch-callout`, and `user-select` disable
+  selection, drag ghosts, right-click saving, and long-press callouts; events
+  fall through to the wrapping link so card/hero navigation is unaffected. No
+  visible marks are added to media.
+- **Hotlinking**: `/uploads/*` (API) and `/_next/image` (web) return 403 for
+  cross-site embeds via Referer + `sec-fetch-site` checks; no-referer and
+  same-origin requests pass. Extend with `CORS_ORIGINS` / `NEXT_PUBLIC_SITE_URL`
+  (API) and `IMAGE_HOTLINK_ALLOWED_HOSTS` (web, inlined at build time).
+- **Legal**: footer copyright line and `/terms` (copyright, permitted use,
+  prohibited use, enforcement; `noindex`, linked in the footer).
+- **Reality check**: this stops casual copy/paste, right-click saving, and
+  embedding. DevTools, View Source, `curl`, screenshots, and JS-disabled
+  browsing bypass all of it by design — treat it as friction, not enforcement.
+
+Self-hosted note: Next 14's `next start` serves `/_next/image` through an early
+asset path where `middleware.ts` never runs (verified on 14.2.35). Behind nginx,
+enforce the same policy at the proxy — which is more robust anyway:
+
+```nginx
+location ^~ /_next/image {
+  valid_referers none blocked server_names *.yourdomain.com;
+  if ($invalid_referer) { return 403; }
+  proxy_pass http://127.0.0.1:3000;
+}
+```
 
 ## Testing & verification
 

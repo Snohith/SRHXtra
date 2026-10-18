@@ -38,6 +38,10 @@ const nextConfig = {
   transpilePackages: ["@srh/contracts"],
   images: {
     remotePatterns: imageHosts(),
+    // Feed media is content-hashed and effectively immutable; keep optimized
+    // variants on disk for 30 days instead of the 60s default so repeat views
+    // never re-validate against the 4MB+ source PNGs.
+    minimumCacheTTL: 60 * 60 * 24 * 30,
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders() }];

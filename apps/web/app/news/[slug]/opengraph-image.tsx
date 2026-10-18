@@ -1,5 +1,7 @@
 import { ImageResponse } from "next/og";
+
 import { API_BASE } from "@/lib/api";
+import { logoDataUri } from "@/lib/og-logo";
 
 /**
  * Per-article Open Graph image (Step 5 SEO). Rendered on demand from the
@@ -7,7 +9,7 @@ import { API_BASE } from "@/lib/api";
  * stories with no uploaded cover photo.
  */
 export const runtime = "nodejs";
-export const alt = "Article on SRH News";
+export const alt = "Article on SRH Xtra";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -43,7 +45,7 @@ export default async function ArticleOpengraphImage({
   params: { slug: string };
 }) {
   const article = await fetchHeadline(params.slug);
-  const title = article?.title || "SRH News — Sunrisers Hyderabad coverage";
+  const title = article?.title || "SRH Xtra — Sunrisers Hyderabad coverage";
   const fontSize = title.length > 95 ? 52 : title.length > 65 ? 62 : 74;
 
   return new ImageResponse(
@@ -68,24 +70,15 @@ export default async function ArticleOpengraphImage({
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <div
-            style={{
-              width: 56,
-              height: 56,
-              background: "#f26522",
-              borderRadius: 13,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 26,
-              fontWeight: 800,
-              color: "#191c20",
-            }}
-          >
-            SRH
-          </div>
+          <img
+            src={logoDataUri()}
+            width={56}
+            height={56}
+            alt=""
+            style={{ borderRadius: 13 }}
+          />
           <div style={{ fontSize: 30, fontWeight: 700, letterSpacing: 3 }}>
-            SRH NEWS
+            SRH XTRA
           </div>
         </div>
         {article?.category ? (

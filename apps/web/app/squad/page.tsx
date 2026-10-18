@@ -1,185 +1,188 @@
-import Image from "next/image";
 import type { Metadata } from "next";
+import Link from "next/link";
 
+import PlayerAvatar from "@/components/PlayerAvatar";
+import SquadRoster from "@/components/SquadRoster";
 import { SITE_URL } from "@/lib/api";
+import { getAllProfiles } from "@/lib/players";
 import {
   CAPTAIN,
+  countryInfo,
+  DOMESTIC_COUNT,
   HEAD_COACH,
-  initials,
   OVERSEAS_COUNT,
+  playerSlug,
   roleCount,
+  roleInfo,
   SQUAD,
-  SQUAD_GROUPS,
-  type SquadPlayer,
+  SQUAD_ROLES,
 } from "@/lib/squad";
 
 export const metadata: Metadata = {
   title: "SRH squad — IPL 2026",
   description:
-    "The full Sunrisers Hyderabad squad for IPL 2026 — 25 players, 8 overseas, captain Pat Cummins. Updated for the October trade: T Natarajan back home, Zeeshan Ansari to Delhi Capitals.",
+    "Every Sunriser for IPL 2026: all 25 players by role, 8 overseas stars, captain Pat Cummins and head coach Daniel Vettori.",
   alternates: { canonical: "/squad" },
   openGraph: {
     title: "SRH squad — IPL 2026",
     description:
-      "Every Sunriser for IPL 2026: 25 players, 8 overseas, captain Pat Cummins — updated after the October trade window.",
+      "All 25 Sunrisers for IPL 2026 by role — 8 overseas, captain Pat Cummins, head coach Daniel Vettori.",
     url: `${SITE_URL}/squad`,
     type: "website",
   },
 };
 
+/**
+ * SportsTeam structured data: the roster as `athlete` Persons (country +
+ * role), the coach, and the captain's role — the same OrganizationRole
+ * pattern schema.org documents for team members.
+ */
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SportsTeam",
   name: "Sunrisers Hyderabad",
+  alternateName: "SRH",
   sport: "Cricket",
   url: `${SITE_URL}/squad`,
-  coach: { "@type": "Person", name: HEAD_COACH },
-  athlete: SQUAD.map((p) => ({
+  memberOf: { "@type": "SportsOrganization", name: "Indian Premier League" },
+  award: "Indian Premier League champion (2016)",
+  coach: { "@type": "Person", name: HEAD_COACH, jobTitle: "Head coach" },
+  ...(CAPTAIN && {
+    member: {
+      "@type": "OrganizationRole",
+      roleName: "Captain",
+      member: { "@type": "Person", name: CAPTAIN.name },
+    },
+  }),
+  athlete: SQUAD.map((player) => ({
     "@type": "Person",
-    name: p.name,
-    nationality: p.country,
+    name: player.name,
+    url: `${SITE_URL}/squad/${playerSlug(player.name)}`,
+    ...(player.headshot ? { image: player.headshot } : {}),
+    nationality: {
+      "@type": "Country",
+      name: countryInfo(player.country).country,
+    },
+    jobTitle: roleInfo(player.role).singular,
   })),
 };
 
-/** Official headshot (zoomed into the face by CSS) or a branded initials avatar. */
-function PlayerAvatar({ player }: { player: SquadPlayer }) {
-  if (player.headshot) {
-    return (
-      <span
-        className={`player-photo${player.headshotPortrait ? " portrait" : ""}`}
-        aria-hidden="true"
-      >
-        <Image
-          src={player.headshot}
-          alt={`${player.name} headshot`}
-          width={160}
-          height={160}
-        />
-      </span>
-    );
-  }
-  return (
-    <span className="player-avatar" aria-hidden="true">
-      {initials(player.name)}
-    </span>
-  );
-}
-
-function PlayerCard({ player }: { player: SquadPlayer }) {
-  return (
-    <div className="player-card">
-      <PlayerAvatar player={player} />
-      <div className="player-info">
-        <h3>
-          {player.name}
-          {player.captain && <span className="player-badge">Captain</span>}
-          {player.tag && (
-            <span className="player-badge trade">{player.tag}</span>
-          )}
-        </h3>
-        <p>
-          {player.country} · {player.bats}
-        </p>
-      </div>
-      {player.number !== undefined && (
-        <span
-          className="player-num"
-          aria-label={`Squad number ${player.number}`}
-        >
-          #{player.number}
-        </span>
-      )}
-    </div>
-  );
-}
+/**
+ * Official feed kit portraits keyed by squad name. The images are referenced
+ * by the exact URLs published in the SRH player feed — nothing is re-hosted —
+ * and the roster falls back to IPL headshots for players the feed misses.
+ */
+const AVATARS: Record<string, string> = Object.fromEntries(
+  getAllProfiles().flatMap((profile) =>
+    profile.cardImage ? [[profile.player.name, profile.cardImage]] : [],
+  ),
+);
 
 export default function SquadPage() {
+  const compositionLabel = `Squad by role: ${SQUAD_ROLES.map(
+    (info) => `${info.role} ${roleCount(info.role)}`,
+  ).join(", ")}`;
+
   return (
-    <div className="wrap">
+    <div className="wrap squad-page">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <header style={{ marginTop: 4 }}>
-        <span className="cat">IPL 2026 · Orange Army</span>
-        <h1
-          style={{
-            margin: "6px 0 4px",
-            fontSize: 34,
-            letterSpacing: "-0.02em",
-          }}
-        >
-          The 2026 squad
-        </h1>
-        <p className="standfirst" style={{ maxWidth: 720 }}>
-          {SQUAD.length} players · {OVERSEAS_COUNT} overseas · one attacking
-          plan. Every Sunriser for IPL 2026, updated after the October trade
-          window.
+
+      <header className="squad-hero">
+        <div className="squad-hero-top">
+          <span className="squad-kicker">IPL 2026 · Orange Army</span>
+        </div>
+        <h1>The 2026 squad</h1>
+        <p className="squad-standfirst">
+          {SQUAD.length} players, {OVERSEAS_COUNT} overseas, one attacking plan.
+          Every Sunriser for IPL 2026 — captain {CAPTAIN?.name} and head coach{" "}
+          {HEAD_COACH} lead the way.
         </p>
+        <dl className="squad-facts">
+          <div>
+            <dt>Captain</dt>
+            <dd>{CAPTAIN?.name ?? "—"}</dd>
+          </div>
+          <div>
+            <dt>Head coach</dt>
+            <dd>{HEAD_COACH}</dd>
+          </div>
+          <div>
+            <dt>Squad</dt>
+            <dd>{SQUAD.length} players</dd>
+          </div>
+          <div>
+            <dt>Overseas</dt>
+            <dd>{OVERSEAS_COUNT} players</dd>
+          </div>
+        </dl>
       </header>
 
-      {CAPTAIN && (
-        <div className="captain">
-          <PlayerAvatar player={CAPTAIN} />
-          <div>
-            <span className="captain-label">Captain · #{CAPTAIN.number}</span>
-            <strong>{CAPTAIN.name}</strong>
-            <span className="captain-meta">
-              {CAPTAIN.country} · {CAPTAIN.bats} · Head coach {HEAD_COACH}
-            </span>
-          </div>
-        </div>
-      )}
-
-      <div className="squad-stats">
-        <div className="squad-stat">
-          <b>{SQUAD.length}</b>
-          <span>Players</span>
-        </div>
-        <div className="squad-stat">
-          <b>{OVERSEAS_COUNT}</b>
-          <span>Overseas</span>
-        </div>
-        <div className="squad-stat">
-          <b>{roleCount("Wicketkeepers")}</b>
-          <span>Wicketkeepers</span>
-        </div>
-        <div className="squad-stat">
-          <b>{roleCount("Bowlers")}</b>
-          <span>Bowlers</span>
-        </div>
-      </div>
-
-      {SQUAD_GROUPS.map((group, index) => {
-        const players = SQUAD.filter((p) => p.role === group.role);
-        return (
-          <section className="section" key={group.role}>
-            <div className="section-head">
-              <h2>
-                <span className="g-num">
-                  {String(index + 1).padStart(2, "0")}
-                </span>{" "}
-                {group.role}
-              </h2>
-              <span className="group-count">
-                {players.length} {players.length === 1 ? "player" : "players"}
+      <div className="squad-lead">
+        {CAPTAIN && (
+          <Link
+            className="captain-card"
+            href={`/squad/${playerSlug(CAPTAIN.name)}`}
+            aria-labelledby="captain-heading"
+          >
+            <PlayerAvatar
+              player={CAPTAIN}
+              variant="feature"
+              priority
+              src={AVATARS[CAPTAIN.name]}
+            />
+            <div className="captain-body">
+              <span className="captain-label">
+                Captain{CAPTAIN.number !== undefined && ` · #${CAPTAIN.number}`}
+              </span>
+              <h2 id="captain-heading">{CAPTAIN.name}</h2>
+              <p className="captain-meta">
+                {countryInfo(CAPTAIN.country).country} · {CAPTAIN.bats} ·{" "}
+                {roleInfo(CAPTAIN.role).singular}
+              </p>
+              <p className="captain-note">
+                Leads a {SQUAD.length}-strong squad under head coach{" "}
+                {HEAD_COACH}.
+              </p>
+              <span className="captain-go" aria-hidden="true">
+                View full profile →
               </span>
             </div>
-            <p className="group-blurb">{group.blurb}</p>
-            <div className="squad-grid">
-              {players.map((player) => (
-                <PlayerCard key={player.name} player={player} />
-              ))}
-            </div>
-          </section>
-        );
-      })}
+          </Link>
+        )}
 
-      <p className="meta" style={{ marginTop: 22 }}>
-        Squad reflects the confirmed T Natarajan (in) / Zeeshan Ansari (out)
-        trade with Delhi Capitals, October 2026. Jersey numbers per official IPL
-        listings. Photos: official IPL/SRH headshots.
-      </p>
+        <section className="squad-glance" aria-labelledby="glance-heading">
+          <h2 id="glance-heading">Squad composition</h2>
+          <div className="comp-bar" role="img" aria-label={compositionLabel}>
+            {SQUAD_ROLES.map((info) => (
+              <span
+                key={info.slug}
+                className={`comp-seg seg-${info.slug}`}
+                style={{ flexGrow: roleCount(info.role) }}
+              />
+            ))}
+          </div>
+          <ul className="comp-legend" role="list">
+            {SQUAD_ROLES.map((info) => (
+              <li key={info.slug}>
+                <span
+                  className={`comp-dot seg-${info.slug}`}
+                  aria-hidden="true"
+                />
+                <span className="comp-name">{info.role}</span>
+                <b className="comp-count">{roleCount(info.role)}</b>
+              </li>
+            ))}
+          </ul>
+          <p className="comp-note">
+            {DOMESTIC_COUNT} domestic · {OVERSEAS_COUNT} overseas
+          </p>
+        </section>
+      </div>
+
+      <SquadRoster avatars={AVATARS} />
     </div>
   );
 }

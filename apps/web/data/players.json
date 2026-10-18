@@ -1,0 +1,671 @@
+{
+  "source": "https://backend-srh.doableworks.in/api/v1/players",
+  "fetched_at_utc": "2026-10-17T07:53:54Z",
+  "notice": "Publicly-served JSON. Stats/names are facts; images are © Sun TV Network / SunRisers Hyderabad and are referenced by URL only -- not relicensed here.",
+  "count": 25,
+  "players": [
+    {
+      "id": "player_2026_b429d6e7727946ffa5d5201400350ba3",
+      "name": "Abhishek Sharma",
+      "first_name": "Abhishek",
+      "last_name": "Sharma",
+      "role": "All-Rounder",
+      "jersey_number": "4",
+      "jersey_number_raw": "04",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": ["Vice Captain"],
+      "cap_awards": [],
+      "stats": {
+        "runs": 1823,
+        "matches": 78,
+        "hundreds_fifties": "1/9",
+        "best_score": 141,
+        "strike_rate": 162.47
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/6f132a786c2d40b9aaf406a39bf64c9d.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/6fec254b55dd4248a5232bb702b4220e.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {
+        "instagram": "https://www.instagram.com/abhisheksharma_4/",
+        "twitter": "https://x.com/OfficialAbhi04"
+      }
+    },
+    {
+      "id": "player_2026_c144daceac194808b2a547e99ec2f439",
+      "name": "Ishan Kishan",
+      "first_name": "Ishan",
+      "last_name": "Kishan",
+      "role": "Wicketkeeper-Batter",
+      "jersey_number": "23",
+      "jersey_number_raw": "23",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "runs": 3078,
+        "matches": 120,
+        "hundreds_fifties": "1/18",
+        "best_score": "106*",
+        "strike_rate": 138.89
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/e2dedcec226e44f5a099d3cf887000a9.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/715632c885bd482f8331feb7462a84b8.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {
+        "instagram": "https://www.instagram.com/ishankishan23/",
+        "twitter": "https://x.com/ishankishan51"
+      }
+    },
+    {
+      "id": "player_2026_e5e3ebae92754f5a8ad6dd47258f794d",
+      "name": "Travis Head",
+      "first_name": "Travis",
+      "last_name": "Head",
+      "role": "Batter",
+      "jersey_number": "62",
+      "jersey_number_raw": "62",
+      "nationality": "Australian",
+      "country_code": "AU",
+      "badges": ["International"],
+      "cap_awards": [],
+      "stats": {
+        "runs": 1157,
+        "matches": 39,
+        "hundreds_fifties": "1/8",
+        "best_score": 102,
+        "strike_rate": 169.39
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/a9c68ab5d28247f4ae6bf4c745a4c006.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/aa20a32d702c4e01b791e042aca3cad7.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/3709186067814b48ab6bed26c0e7ac23.webp"
+      },
+      "social": {
+        "instagram": "https://instagram.com/travishead34",
+        "twitter": "https://x.com/travishead34"
+      }
+    },
+    {
+      "id": "player_2026_4eeb1c9dfe674b59afaf7c64a0605f7d",
+      "name": "Heinrich Klaasen",
+      "first_name": "Heinrich",
+      "last_name": "Klaasen",
+      "role": "Wicketkeeper Batter",
+      "jersey_number": "45",
+      "jersey_number_raw": "45",
+      "nationality": "South African",
+      "country_code": "SA",
+      "badges": ["International"],
+      "cap_awards": [],
+      "stats": {
+        "runs": 1511,
+        "matches": 50,
+        "hundreds_fifties": "2/7",
+        "best_score": "105*",
+        "strike_rate": 169.01
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/c87cd11c723e4ed7a86f147389a29dce.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/bbc09b892f1846cfa88080c40434922a.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/9026ac9bf9fd447999fefaa34185a757.png"
+      },
+      "social": {
+        "instagram": "https://www.instagram.com/heinie45/"
+      }
+    },
+    {
+      "id": "player_2026_1f4368d5746b423fa1afb4bde5cf4d4c",
+      "name": "Jaydev Unadkat",
+      "first_name": "Jaydev",
+      "last_name": "Unadkat",
+      "role": "Bowler",
+      "jersey_number": "7",
+      "jersey_number_raw": "07",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "economy": 9.08,
+        "matches": 36,
+        "wickets": 69,
+        "best_figures": "5/25",
+        "four_wicket_hauls": 2
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/a5669d06297b4ff89e3a67e6365118cf.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/93f43b6f9e334d0a8be07c5d1b7c2be9.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {
+        "instagram": "https://www.instagram.com/jd_unadkat/",
+        "twitter": "https://x.com/JUnadkat"
+      }
+    },
+    {
+      "id": "player_2026_17597545d0814706821b943739573cc9",
+      "name": "Nitish Reddy",
+      "first_name": "Nitish",
+      "last_name": "Reddy",
+      "role": "All-Rounder",
+      "jersey_number": "88",
+      "jersey_number_raw": "88",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "runs": 1051,
+        "matches": 54,
+        "wickets": 20,
+        "best_score": "76*",
+        "strike_rate": 130.99
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/b14052c12a5a4a74b79a506d061fc2f5.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/f183a14a03a84cceb4c6288eb013e751.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_e8d7fc3d1b234f229b46004a80e4a6d0",
+      "name": "Pat Cummins",
+      "first_name": "Pat",
+      "last_name": "Cummins",
+      "role": "Bowler",
+      "jersey_number": "30",
+      "jersey_number_raw": "30",
+      "nationality": "Australian",
+      "country_code": "AU",
+      "badges": ["Captain"],
+      "cap_awards": [],
+      "stats": {
+        "runs": 615,
+        "economy": 8.96,
+        "matches": 67,
+        "wickets": 79,
+        "best_figures": "4/34"
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/b05b97fe0933472abfde3b592609d575.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/86ed30b6fc9f4c42a6771bffcf561666.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/3709186067814b48ab6bed26c0e7ac23.webp"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_e69299893ef14849bb966fe5e415ea93",
+      "name": "Shivam Mavi",
+      "first_name": "Shivam",
+      "last_name": "Mavi",
+      "role": "Bowler",
+      "jersey_number": "91",
+      "jersey_number_raw": "91",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "economy": 8.55,
+        "matches": 18,
+        "wickets": 47,
+        "best_figures": "4/21",
+        "four_wicket_hauls": 1
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/cef85d257c8044fb81fca2bb0aaa30a3.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/a0dc1575f53b44bda85b714d7314096b.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_f24df63f636a4b89a26befaa6f6b46bf",
+      "name": "Harshal Patel",
+      "first_name": "Harshal",
+      "last_name": "Patel",
+      "role": "All-Rounder",
+      "jersey_number": "16",
+      "jersey_number_raw": "16",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "economy": 9.12,
+        "matches": 67,
+        "wickets": 115,
+        "best_figures": "5/27",
+        "four_wicket_hauls": 5
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/cbea1a5890cb4c748d922d12fbcadea0.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/5b792738a9fd44b285f69ec0db4723e3.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_426c415f870546498ab55cda97b43b98",
+      "name": "Liam Livingstone",
+      "first_name": "Liam",
+      "last_name": "Livingstone",
+      "role": "All-Rounder",
+      "jersey_number": "23",
+      "jersey_number_raw": "23",
+      "nationality": "English",
+      "country_code": "GB",
+      "badges": ["International"],
+      "cap_awards": [],
+      "stats": {
+        "runs": 4841,
+        "matches": 214,
+        "wickets": 93,
+        "hundreds_fifties": 9.01,
+        "strike_rate": 158.76
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/68df092bf3c548f8901bb0959637e045.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/3e4bec214dde44ebbc6134e9a23f6f6e.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/8be618b504914fbb904457f2d601d6b9.jpeg"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_8fbc2368c910415ca195f40b419b1ca5",
+      "name": "Kamindu Mendis",
+      "first_name": "Kamindu",
+      "last_name": "Mendis",
+      "role": "All-Rounder",
+      "jersey_number": "21",
+      "jersey_number_raw": "21",
+      "nationality": "Sri Lankan",
+      "country_code": "LK",
+      "badges": ["International"],
+      "cap_awards": [],
+      "stats": {
+        "runs": 925,
+        "matches": 48,
+        "wickets": 14,
+        "best_score": "32*",
+        "strike_rate": 133.33
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/969a8458ce9a46278be6f1d6cb3a45ec.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/b023c1f4a15643ac98bc6f6209459f18.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/d237d8b3d8b24fb09c7c0abeaa23c53f.webp"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_3a0c906ca33740e8b370913cff51783a",
+      "name": "Eshan Malinga",
+      "first_name": "Eshan",
+      "last_name": "Malinga",
+      "role": "Bowler",
+      "jersey_number": "81",
+      "jersey_number_raw": "81",
+      "nationality": "Sri Lankan",
+      "country_code": "LK",
+      "badges": ["International"],
+      "cap_awards": [],
+      "stats": {
+        "catches": 4,
+        "economy": 9.25,
+        "matches": 19,
+        "wickets": 37,
+        "best_figures": "3/31"
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/218e58a9085740fcb3ddcefa17f2b55b.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/fa5ffd893ea64577b00e0ee79dfc44a7.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/d237d8b3d8b24fb09c7c0abeaa23c53f.webp"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_550a141011984eb2bc53644ded923987",
+      "name": "Harsh Dubey",
+      "first_name": "Harsh",
+      "last_name": "Dubey",
+      "role": "All-Rounder",
+      "jersey_number": "7",
+      "jersey_number_raw": "07",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "runs": 88,
+        "economy": 10.23,
+        "wickets": 6,
+        "matches": 19,
+        "strike_rate": 127.54
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/f26f24b29ba542ef9bc74235946297a2.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/f26f24b29ba542ef9bc74235946297a2.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_6cba969cf01f41bd9f1a59a6bd7a73d1",
+      "name": "Zeeshan Ansari",
+      "first_name": "Zeeshan",
+      "last_name": "Ansari",
+      "role": "Bowler",
+      "jersey_number": "27",
+      "jersey_number_raw": "27",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "catches": 4,
+        "economy": 8.73,
+        "matches": 13,
+        "wickets": 21,
+        "best_figures": "3/42"
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/a4bb7689ebbc4344a7770e16e11732ff.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/d28e332eaba9414a9cdd83d9ccca7076.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_43130da0ffdd4b0ab9ce644e5e90dc41",
+      "name": "Aniket Verma",
+      "first_name": "Aniket",
+      "last_name": "Verma",
+      "role": "Batter",
+      "jersey_number": "108",
+      "jersey_number_raw": "108",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "runs": 315,
+        "fours_sixes": "15/24",
+        "matches": 29,
+        "best_score": 74,
+        "strike_rate": 174.37
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/614a2c5b812547e3a729834dac2fb7d1.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/f90d152a859647fea1cdd007ade615b2.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_6cf77679049743d59f56902e08f26aff",
+      "name": "Sakib Hussain",
+      "first_name": "Sakib",
+      "last_name": "Hussain",
+      "role": "Bowler",
+      "jersey_number": "44",
+      "jersey_number_raw": "44",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "economy": 9.45,
+        "matches": 13,
+        "wickets": 15,
+        "four_wicket_hauls": 1,
+        "best_figures": "--"
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/573be17b60bc42bb8e10f56b0071b6a6.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/49ac07239a6a4281b40bcd46e0530c7e.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_55f548cc16ce43428b0d96bf84f3cc0f",
+      "name": "Onkar Tarmale",
+      "first_name": "Onkar",
+      "last_name": "Tarmale",
+      "role": "Bowler",
+      "jersey_number": "22",
+      "jersey_number_raw": "22",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "economy": 8.89,
+        "matches": 4,
+        "wickets": 6,
+        "four_wicket_hauls": 0,
+        "best_figures": "--"
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/a10363287da446129b54b98478c88afc.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/4aa3bf2af3404b86aa4fdbb069d57cf9.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_c7b28c2ca80842b9bb3aaeb170086690",
+      "name": "Praful Hinge",
+      "first_name": "Praful",
+      "last_name": "Hinge",
+      "role": "Bowler",
+      "jersey_number": "33",
+      "jersey_number_raw": "33",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "economy": 11.73,
+        "matches": 12,
+        "wickets": 14,
+        "four_wicket_hauls": 1,
+        "best_figures": "--"
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/fba122d046d245c7ad0f92ee0a4b2c7f.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/a8d1e63aea3041f3859ad1e45a2f542b.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_ec4b415ee4c643659c0eb8394039f4de",
+      "name": "Smaran Ravichandran",
+      "first_name": "Smaran",
+      "last_name": "Ravichandran",
+      "role": "Batter",
+      "jersey_number": "10",
+      "jersey_number_raw": "10",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "runs": 19,
+        "matches": 13,
+        "hundreds_fifties": "--",
+        "best_score": "--",
+        "strike_rate": "--"
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/cdef284303e142d68091f0aba35d637d.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/2eb34d00c39446aca7e1ce8932dbb6cf.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_2d7ef51c10844de3ad90bb93e2777984",
+      "name": "Salil Arora",
+      "first_name": "Salil",
+      "last_name": "Arora",
+      "role": "Wicketkeeper-Batter",
+      "jersey_number": "15",
+      "jersey_number_raw": "15",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "runs": 156,
+        "fours_sixes": "0/1",
+        "matches": 15,
+        "best_score": 9,
+        "strike_rate": 150
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/ca9e68b28e124e6fbabeea7c327a4175.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/80930b224c6a4416b7be0c4ca10f93a6.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_da45a877696f4667897f25552e90c268",
+      "name": "Brydon Carse",
+      "first_name": "Brydon",
+      "last_name": "Carse",
+      "role": "All-Rounder",
+      "jersey_number": "98",
+      "jersey_number_raw": "98",
+      "nationality": "English",
+      "country_code": "GB",
+      "badges": ["International"],
+      "cap_awards": [],
+      "stats": {
+        "economy": 8.77,
+        "matches": 44,
+        "wickets": 31,
+        "four_wicket_hauls": 0,
+        "best_figures": "--"
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/d59bec96e00d44dfb2d4037129e34978.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/1bead81e4df6452c8eccd03cd037895d.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/8be618b504914fbb904457f2d601d6b9.jpeg"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_81f15a27e4064c4a90af0cba024ab119",
+      "name": "Shivang Kumar",
+      "first_name": "Shivang",
+      "last_name": "Kumar",
+      "role": "All-Rounder",
+      "jersey_number": "8",
+      "jersey_number_raw": "08",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "economy": 9.62,
+        "matches": 15,
+        "wickets": 9,
+        "four_wicket_hauls": 0,
+        "best_figures": "--"
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/f7f6e62eacc642c4948017ed50c24a36.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/bcf9f250d81648e09ab6931b8756320a.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_53d9217fe5af4309b1bc7b9049b85f5f",
+      "name": "Amit Kumar",
+      "first_name": "Amit",
+      "last_name": "Kumar",
+      "role": "Bowler",
+      "jersey_number": "5",
+      "jersey_number_raw": "05",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "economy": "--",
+        "matches": "--",
+        "wickets": "--",
+        "best_figures": "--"
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/09486bfd206043728907da2a33e2ebe4.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/ceca6dcb83314847885984e91a980a15.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_f693a1d3189e44128b3b2ff0a33e080b",
+      "name": "Krains Fuletra",
+      "first_name": "Krains",
+      "last_name": "Fuletra",
+      "role": "All-Rounder",
+      "jersey_number": "12",
+      "jersey_number_raw": "12",
+      "nationality": "Indian",
+      "country_code": "IN",
+      "badges": [],
+      "cap_awards": [],
+      "stats": {
+        "economy": "--",
+        "matches": "--",
+        "wickets": "--",
+        "four_wicket_hauls": "--",
+        "best_figures": "--"
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/9fecac6eed314bb292f0ba807e53243b.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/29e283be6e7d4899a982f5b4c9b30b18.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/152ca2d642bc425899b43d9fbea64e6e.png"
+      },
+      "social": {}
+    },
+    {
+      "id": "player_2026_2093533cb3b24834ab180ead3e447e4f",
+      "name": "David Payne",
+      "first_name": "David",
+      "last_name": "Payne",
+      "role": "Bowler",
+      "jersey_number": "14",
+      "jersey_number_raw": "14",
+      "nationality": "English",
+      "country_code": "GB",
+      "badges": ["International"],
+      "cap_awards": [],
+      "stats": {
+        "economy": 7.59,
+        "matches": 80,
+        "wickets": 189,
+        "four_wicket_hauls": 5,
+        "best_figures": "2/35"
+      },
+      "images": {
+        "card": "https://d1zakxcsliwds.cloudfront.net/image-pool/0fba5ed8fc754e3ba15a2ba407a27222.png",
+        "portrait": "https://d1zakxcsliwds.cloudfront.net/image-pool/0fba5ed8fc754e3ba15a2ba407a27222.png",
+        "flag": "https://d1zakxcsliwds.cloudfront.net/image-pool/8be618b504914fbb904457f2d601d6b9.jpeg"
+      },
+      "social": {}
+    }
+  ]
+}

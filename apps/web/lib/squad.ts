@@ -234,20 +234,105 @@ export const SQUAD: SquadPlayer[] = [
   },
 ];
 
-export const SQUAD_GROUPS: { role: SquadRole; blurb: string }[] = [
-  { role: "Batters", blurb: "Powerplay destroyers and middle-order anchors" },
-  { role: "Wicketkeepers", blurb: "Gloves on, finishers at the death" },
-  { role: "All-rounders", blurb: "Batting and bowling in the same player" },
-  { role: "Bowlers", blurb: "Quick pace and spin — led by the captain" },
+/** Role metadata: order, URL slug, labels, and editorial blurbs. */
+export interface SquadRoleInfo {
+  role: SquadRole;
+  /** Lowercase key used in filter state and the ?role= URL parameter. */
+  slug: string;
+  /** Singular label for a single player ("Bowler"). */
+  singular: string;
+  /** Group blurb shown above each roster section. */
+  blurb: string;
+}
+
+export const SQUAD_ROLES: SquadRoleInfo[] = [
+  {
+    role: "Batters",
+    slug: "batters",
+    singular: "Batter",
+    blurb: "Powerplay destroyers and middle-order anchors.",
+  },
+  {
+    role: "Wicketkeepers",
+    slug: "wicketkeepers",
+    singular: "Wicketkeeper",
+    blurb: "Gloves on, finishers at the death.",
+  },
+  {
+    role: "All-rounders",
+    slug: "all-rounders",
+    singular: "All-rounder",
+    blurb: "Batting and bowling in the same player.",
+  },
+  {
+    role: "Bowlers",
+    slug: "bowlers",
+    singular: "Bowler",
+    blurb: "Quick pace and spin, led by the captain.",
+  },
 ];
+
+const ROLE_BY_SLUG = new Map(SQUAD_ROLES.map((r) => [r.slug, r.role]));
+
+/** Resolve a ?role= slug to a SquadRole; null when absent or unknown. */
+export function roleFromSlug(slug: string | null): SquadRole | null {
+  return slug ? (ROLE_BY_SLUG.get(slug) ?? null) : null;
+}
+
+export function roleInfo(role: SquadRole): SquadRoleInfo {
+  const info = SQUAD_ROLES.find((r) => r.role === role);
+  if (!info) throw new Error(`Unknown squad role: ${role}`);
+  return info;
+}
+
+/** Country metadata for badges, filters, and structured data. */
+export interface CountryInfo {
+  /** Cricket-style three-letter code (IND, AUS, …). */
+  code: string;
+  /** Country name for structured data. */
+  country: string;
+  /** True for players outside India — the IPL "overseas" quota. */
+  overseas: boolean;
+}
+
+export const COUNTRIES: Record<string, CountryInfo> = {
+  Indian: { code: "IND", country: "India", overseas: false },
+  Australian: { code: "AUS", country: "Australia", overseas: true },
+  English: { code: "ENG", country: "England", overseas: true },
+  "South African": {
+    code: "SA",
+    country: "South Africa",
+    overseas: true,
+  },
+  "Sri Lankan": { code: "SL", country: "Sri Lanka", overseas: true },
+};
+
+export function countryInfo(demonym: string): CountryInfo {
+  return (
+    COUNTRIES[demonym] ?? {
+      code: demonym.slice(0, 3).toUpperCase(),
+      country: demonym,
+      overseas: true,
+    }
+  );
+}
+
+export function isOverseas(player: SquadPlayer): boolean {
+  return countryInfo(player.country).overseas;
+}
+
+/** "Right-handed" → "RHB" (batting-hand shorthand used on team sheets). */
+export function battingCode(player: SquadPlayer): "RHB" | "LHB" {
+  return player.bats === "Right-handed" ? "RHB" : "LHB";
+}
 
 export const HEAD_COACH = "Daniel Vettori";
 
 export const CAPTAIN = SQUAD.find((p) => p.captain);
 
-export const OVERSEAS_COUNT = SQUAD.filter(
-  (p) => p.country !== "Indian",
-).length;
+export const OVERSEAS_COUNT = SQUAD.filter(isOverseas).length;
+
+export const DOMESTIC_COUNT = SQUAD.length - OVERSEAS_COUNT;
 
 export function roleCount(role: SquadRole): number {
   return SQUAD.filter((p) => p.role === role).length;
@@ -261,4 +346,13 @@ export function initials(name: string): string {
     .join("")
     .slice(0, 2)
     .toUpperCase();
+}
+
+/** "T Natarajan" → "t-natarajan" — canonical profile URL segment. */
+export function playerSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/['.]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
