@@ -17,7 +17,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
     <div className="shell">
       <aside className="sidebar">
         <div className="brand">
-          SRH <span>News</span> · Admin
+          SRH <span>Xtra</span> · Admin
         </div>
         {LINKS.map((l) => (
           <Link

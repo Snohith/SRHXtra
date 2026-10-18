@@ -18,6 +18,7 @@ function ArticlesManager() {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [busyId, setBusyId] = useState<string | null>(null);
 
   const load = useCallback(async (p: number, s: string, q: string) => {
     setLoading(true);
@@ -55,6 +56,52 @@ function ArticlesManager() {
 
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
+  async function archive(a: Article) {
+    if (
+      !window.confirm(
+        `Archive “${a.title}”?${
+          a.status === "PUBLISHED"
+            ? " It will disappear from the public site."
+            : ""
+        }`,
+      )
+    )
+      return;
+    setBusyId(a.id);
+    setError(null);
+    try {
+      await api.archiveArticle(a.id);
+      await load(page, status, committedSearch);
+    } catch (err) {
+      setError(
+        err instanceof ApiError ? err.message : "Could not archive article.",
+      );
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  async function restore(a: Article) {
+    setBusyId(a.id);
+    setError(null);
+    try {
+      await api.restoreArticle(a.id);
+      await load(page, status, committedSearch);
+    } catch (err) {
+      setError(
+        err instanceof ApiError ? err.message : "Could not restore article.",
+      );
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  function openLabel(s: Article["status"]): string {
+    if (s === "DRAFT") return "Edit";
+    if (s === "IN_REVIEW") return "Review";
+    return "View";
+  }
+
   return (
     <>
       <div className="pagehead">
@@ -85,7 +132,9 @@ function ArticlesManager() {
             <option value="">All statuses</option>
             <option value="DRAFT">Drafts</option>
             <option value="IN_REVIEW">In review</option>
+            <option value="SCHEDULED">Scheduled</option>
             <option value="PUBLISHED">Published</option>
+            <option value="ARCHIVED">Archived</option>
           </select>
         </div>
         {error && <div className="alert error">{error}</div>}
@@ -122,9 +171,32 @@ function ArticlesManager() {
                     {new Date(a.updatedAt).toLocaleString()}
                   </td>
                   <td>
-                    <Link className="btn" href={`/articles/${a.id}`}>
-                      {a.status === "DRAFT" ? "Edit" : "View"}
-                    </Link>
+                    <div className="btnrow">
+                      {a.status !== "ARCHIVED" && (
+                        <Link className="btn small" href={`/articles/${a.id}`}>
+                          {openLabel(a.status)}
+                        </Link>
+                      )}
+                      {a.status === "ARCHIVED" ? (
+                        <button
+                          className="btn small"
+                          disabled={busyId === a.id}
+                          onClick={() => void restore(a)}
+                          type="button"
+                        >
+                          {busyId === a.id ? "Restoring…" : "Restore"}
+                        </button>
+                      ) : (
+                        <button
+                          className="btn small danger"
+                          disabled={busyId === a.id}
+                          onClick={() => void archive(a)}
+                          type="button"
+                        >
+                          {busyId === a.id ? "Archiving…" : "Archive"}
+                        </button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}

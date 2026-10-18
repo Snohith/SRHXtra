@@ -1,6 +1,8 @@
 import {
   ActivityItemSchema,
   AdminStatsSchema,
+  ArticleRevisionSchema,
+  ArticleRevisionSummarySchema,
   ArticleSchema,
   CategorySchema,
   MediaAssetSchema,
@@ -10,6 +12,8 @@ import {
   type ActivityItem,
   type AdminStats,
   type Article,
+  type ArticleRevision,
+  type ArticleRevisionSummary,
   type Category,
   type MediaAsset,
   type StaffUser,
@@ -179,6 +183,56 @@ export const api = {
   },
   publishArticle(id: string): Promise<Article> {
     return send(`/api/v1/admin/articles/${id}/publish`, ArticleSchema, "POST");
+  },
+  // -- Workflow v2 (archive / restore / request changes / scheduling) --------
+  archiveArticle(id: string): Promise<Article> {
+    return send(`/api/v1/admin/articles/${id}/archive`, ArticleSchema, "POST");
+  },
+  restoreArticle(id: string): Promise<Article> {
+    return send(`/api/v1/admin/articles/${id}/restore`, ArticleSchema, "POST");
+  },
+  requestChanges(id: string, note: string): Promise<Article> {
+    return send(
+      `/api/v1/admin/articles/${id}/request-changes`,
+      ArticleSchema,
+      "POST",
+      { note },
+    );
+  },
+  scheduleArticle(id: string, scheduledFor: string): Promise<Article> {
+    return send(
+      `/api/v1/admin/articles/${id}/schedule`,
+      ArticleSchema,
+      "POST",
+      { scheduledFor },
+    );
+  },
+  cancelSchedule(id: string): Promise<Article> {
+    return send(
+      `/api/v1/admin/articles/${id}/schedule/cancel`,
+      ArticleSchema,
+      "POST",
+    );
+  },
+  // -- Revision history ------------------------------------------------------
+  revisions(id: string): Promise<ArticleRevisionSummary[]> {
+    return get(
+      `/api/v1/admin/articles/${id}/revisions`,
+      ArticleRevisionSummarySchema.array(),
+    );
+  },
+  revision(id: string, version: number): Promise<ArticleRevision> {
+    return get(
+      `/api/v1/admin/articles/${id}/revisions/${version}`,
+      ArticleRevisionSchema,
+    );
+  },
+  restoreRevision(id: string, version: number): Promise<Article> {
+    return send(
+      `/api/v1/admin/articles/${id}/revisions/${version}/restore`,
+      ArticleSchema,
+      "POST",
+    );
   },
   /**
    * Signed direct upload (Step 5): ask the API for a scoped PUT ticket,

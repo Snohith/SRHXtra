@@ -4,7 +4,7 @@ import Shell from "@/components/Shell";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SRH News — Admin",
+  title: "SRH Xtra — Admin",
   description: "SRH editorial dashboard: drafts, review, and publishing.",
 };
 

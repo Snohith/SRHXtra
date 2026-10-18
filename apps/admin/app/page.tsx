@@ -17,6 +17,20 @@ function actionLabel(action: string): string {
       return "submitted for review";
     case "article.publish":
       return "published";
+    case "article.publish.scheduled":
+      return "auto-published (scheduled)";
+    case "article.schedule":
+      return "scheduled";
+    case "article.schedule.cancel":
+      return "cancelled the schedule for";
+    case "article.request_changes":
+      return "requested changes on";
+    case "article.archive":
+      return "archived";
+    case "article.restore":
+      return "restored";
+    case "article.revision.restore":
+      return "restored a revision of";
     default:
       return action;
   }
@@ -82,6 +96,14 @@ function Dashboard() {
         <div className="card">
           <div className="label">Awaiting review</div>
           <div className="num">{stats?.inReview ?? 0}</div>
+        </div>
+        <div className="card">
+          <div className="label">Scheduled</div>
+          <div className="num">{stats?.scheduled ?? 0}</div>
+        </div>
+        <div className="card">
+          <div className="label">Archived</div>
+          <div className="num">{stats?.archived ?? 0}</div>
         </div>
         <div className="card">
           <div className="label">Total articles</div>
