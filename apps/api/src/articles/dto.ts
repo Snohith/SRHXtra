@@ -1,4 +1,5 @@
 import {
+  IsDateString,
   IsInt,
   IsOptional,
   IsString,
@@ -74,4 +75,18 @@ export class UpdateArticleDto {
   @IsString()
   @MaxLength(2000)
   coverImageUrl?: string | null;
+}
+
+/** Reviewer sends an in-review story back to the author with a note. */
+export class RequestChangesDto {
+  @IsString()
+  @MinLength(1)
+  @MaxLength(1000)
+  note!: string;
+}
+
+/** Schedule an in-review story for automatic publishing (ISO-8601). */
+export class ScheduleArticleDto {
+  @IsDateString()
+  scheduledFor!: string;
 }

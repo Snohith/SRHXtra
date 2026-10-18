@@ -10,7 +10,8 @@ import { AuditService } from "../audit/audit.service";
 import type { StaffUser } from "../users/users.service";
 import type { CreateArticleDto, UpdateArticleDto } from "./dto";
 
-export type ArticleStatus = "DRAFT" | "IN_REVIEW" | "PUBLISHED";
+export type ArticleStatus =
+  "DRAFT" | "IN_REVIEW" | "SCHEDULED" | "PUBLISHED" | "ARCHIVED";
 
 export interface ArticleRow {
   id: string;
@@ -26,6 +27,8 @@ export interface ArticleRow {
   category_name: string | null;
   cover_image_url: string | null;
   published_at: string | null;
+  scheduled_for: string | null;
+  review_note: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -44,15 +47,36 @@ export interface ArticleDto {
   categoryName: string | null;
   coverImageUrl: string | null;
   publishedAt: string | null;
+  scheduledFor: string | null;
+  reviewNote: string | null;
   createdAt: string;
   updatedAt: string;
+}
+
+/** Revision metadata for the history panel. */
+export interface RevisionSummaryDto {
+  version: number;
+  title: string;
+  status: string;
+  createdBy: string | null;
+  createdAt: string;
+}
+
+/** Full revision snapshot (view + restore). */
+export interface RevisionDto extends RevisionSummaryDto {
+  id: string;
+  slug: string;
+  excerpt: string | null;
+  body: string;
+  coverImageUrl: string | null;
 }
 
 const ARTICLE_SELECT = `
   SELECT a.id, a.title, a.slug, a.excerpt, a.body, a.status,
          a.author_id, u.display_name AS author_name,
          a.category_id, c.slug AS category_slug, c.name AS category_name,
-         a.cover_image_url, a.published_at, a.created_at, a.updated_at
+         a.cover_image_url, a.published_at, a.scheduled_for, a.review_note,
+         a.created_at, a.updated_at
   FROM articles a
   LEFT JOIN users u ON u.id = a.author_id
   LEFT JOIN categories c ON c.id = a.category_id
@@ -78,6 +102,8 @@ export function toArticleDto(row: ArticleRow): ArticleDto {
     categoryName: row.category_name,
     coverImageUrl: row.cover_image_url,
     publishedAt: toIso(row.published_at),
+    scheduledFor: toIso(row.scheduled_for),
+    reviewNote: row.review_note,
     createdAt: toIso(row.created_at) as string,
     updatedAt: toIso(row.updated_at) as string,
   };
@@ -266,19 +292,7 @@ export class ArticlesService {
       // Editing a published story must refresh the public site: the outbox
       // event commits atomically with the change and the worker revalidates.
       if (article.status === "PUBLISHED") {
-        await client.query(
-          `INSERT INTO outbox_events (event_type, aggregate_type, aggregate_id, payload)
-           VALUES ('article.updated', 'article', $1, $2::jsonb)`,
-          [
-            id,
-            JSON.stringify({
-              id,
-              slug: article.slug,
-              title: article.title,
-              updatedAt: new Date().toISOString(),
-            }),
-          ],
-        );
+        await this.enqueueArticleUpdated(toArticleDto(article), client);
       }
       return toArticleDto(article);
     });
@@ -293,7 +307,7 @@ export class ArticlesService {
         );
       }
       await client.query(
-        "UPDATE articles SET status = 'IN_REVIEW' WHERE id = $1",
+        "UPDATE articles SET status = 'IN_REVIEW', review_note = NULL WHERE id = $1",
         [id],
       );
       const article = await this.getByIdOrThrow(id, client);
@@ -331,13 +345,16 @@ export class ArticlesService {
         [id],
       );
       if (rows.length === 0) throw new NotFoundException("Article not found.");
-      if (rows[0].status !== "IN_REVIEW") {
+      if (rows[0].status !== "IN_REVIEW" && rows[0].status !== "SCHEDULED") {
         throw new BadRequestException(
-          `Only IN_REVIEW articles can be published (current: ${rows[0].status}).`,
+          `Only IN_REVIEW or SCHEDULED articles can be published (current: ${rows[0].status}).`,
         );
       }
+      const from = rows[0].status;
       await client.query(
-        "UPDATE articles SET status = 'PUBLISHED', published_at = now() WHERE id = $1",
+        `UPDATE articles
+         SET status = 'PUBLISHED', published_at = now(), scheduled_for = NULL
+         WHERE id = $1`,
         [id],
       );
       const article = await this.getByIdOrThrow(id, client);
@@ -348,7 +365,7 @@ export class ArticlesService {
           action: "article.publish",
           resourceType: "article",
           resourceId: id,
-          metadata: { from: "IN_REVIEW", to: "PUBLISHED" },
+          metadata: { from, to: "PUBLISHED" },
         },
         client,
       );
@@ -368,6 +385,335 @@ export class ArticlesService {
       );
       return toArticleDto(article);
     });
+  }
+
+  /**
+   * Archive (unpublish / discard). Stories that were PUBLISHED leave the
+   * public site; the worker revalidates via an `article.archived` event.
+   * Drafts and in-review stories can also be archived — no web event needed
+   * because they were never public.
+   */
+  async archive(id: string, actor: StaffUser): Promise<ArticleDto> {
+    return this.db.withTransaction(async (client) => {
+      const current = await this.getByIdOrThrow(id, client);
+      if (current.status === "ARCHIVED") {
+        throw new BadRequestException("Article is already archived.");
+      }
+      const wasPublic = current.status === "PUBLISHED";
+      await client.query(
+        "UPDATE articles SET status = 'ARCHIVED', scheduled_for = NULL WHERE id = $1",
+        [id],
+      );
+      const article = await this.getByIdOrThrow(id, client);
+      await this.snapshotRevision(id, actor.id, client);
+      await this.audit.record(
+        {
+          actorId: actor.id,
+          action: "article.archive",
+          resourceType: "article",
+          resourceId: id,
+          metadata: { from: current.status, to: "ARCHIVED" },
+        },
+        client,
+      );
+      if (wasPublic) {
+        await client.query(
+          `INSERT INTO outbox_events (event_type, aggregate_type, aggregate_id, payload)
+           VALUES ('article.archived', 'article', $1, $2::jsonb)`,
+          [
+            id,
+            JSON.stringify({
+              id,
+              slug: article.slug,
+              title: article.title,
+              archivedAt: new Date().toISOString(),
+            }),
+          ],
+        );
+      }
+      return toArticleDto(article);
+    });
+  }
+
+  /** Restore an archived article to DRAFT (it can be resubmitted). */
+  async restore(id: string, actor: StaffUser): Promise<ArticleDto> {
+    return this.db.withTransaction(async (client) => {
+      const current = await this.getByIdOrThrow(id, client);
+      if (current.status !== "ARCHIVED") {
+        throw new BadRequestException(
+          `Only ARCHIVED articles can be restored (current: ${current.status}).`,
+        );
+      }
+      // Back to the draft lifecycle: clear the old publish date (it stays in
+      // revision history and audit); a republish stamps a fresh one.
+      await client.query(
+        "UPDATE articles SET status = 'DRAFT', published_at = NULL WHERE id = $1",
+        [id],
+      );
+      const article = await this.getByIdOrThrow(id, client);
+      await this.snapshotRevision(id, actor.id, client);
+      await this.audit.record(
+        {
+          actorId: actor.id,
+          action: "article.restore",
+          resourceType: "article",
+          resourceId: id,
+          metadata: { from: "ARCHIVED", to: "DRAFT" },
+        },
+        client,
+      );
+      return toArticleDto(article);
+    });
+  }
+
+  /**
+   * Send an in-review story back to the author with a reviewer note.
+   * The note is surfaced on the draft and cleared on the next submission.
+   */
+  async requestChanges(
+    id: string,
+    note: string,
+    actor: StaffUser,
+  ): Promise<ArticleDto> {
+    return this.db.withTransaction(async (client) => {
+      const current = await this.getByIdOrThrow(id, client);
+      if (current.status !== "IN_REVIEW") {
+        throw new BadRequestException(
+          `Only IN_REVIEW articles can be sent back (current: ${current.status}).`,
+        );
+      }
+      await client.query(
+        "UPDATE articles SET status = 'DRAFT', review_note = $2 WHERE id = $1",
+        [id, note],
+      );
+      const article = await this.getByIdOrThrow(id, client);
+      await this.snapshotRevision(id, actor.id, client);
+      await this.audit.record(
+        {
+          actorId: actor.id,
+          action: "article.request_changes",
+          resourceType: "article",
+          resourceId: id,
+          metadata: { from: "IN_REVIEW", to: "DRAFT", note },
+        },
+        client,
+      );
+      return toArticleDto(article);
+    });
+  }
+
+  /** Schedule an in-review story to publish automatically (worker-driven). */
+  async schedule(
+    id: string,
+    scheduledFor: string,
+    actor: StaffUser,
+  ): Promise<ArticleDto> {
+    if (!PUBLISH_ROLES.some((r) => actor.roles.includes(r))) {
+      throw new ForbiddenException(
+        "Scheduling requires editor, publisher, or admin role.",
+      );
+    }
+    const when = new Date(scheduledFor);
+    if (Number.isNaN(when.getTime())) {
+      throw new BadRequestException("scheduledFor must be a valid ISO date.");
+    }
+    if (when.getTime() < Date.now() + 30_000) {
+      throw new BadRequestException(
+        "scheduledFor must be at least 30 seconds in the future.",
+      );
+    }
+    return this.db.withTransaction(async (client) => {
+      const { rows } = await client.query<{ status: ArticleStatus }>(
+        "SELECT status FROM articles WHERE id = $1 FOR UPDATE",
+        [id],
+      );
+      if (rows.length === 0) throw new NotFoundException("Article not found.");
+      if (rows[0].status !== "IN_REVIEW") {
+        throw new BadRequestException(
+          `Only IN_REVIEW articles can be scheduled (current: ${rows[0].status}).`,
+        );
+      }
+      await client.query(
+        "UPDATE articles SET status = 'SCHEDULED', scheduled_for = $2 WHERE id = $1",
+        [id, when.toISOString()],
+      );
+      const article = await this.getByIdOrThrow(id, client);
+      await this.snapshotRevision(id, actor.id, client);
+      await this.audit.record(
+        {
+          actorId: actor.id,
+          action: "article.schedule",
+          resourceType: "article",
+          resourceId: id,
+          metadata: {
+            from: "IN_REVIEW",
+            to: "SCHEDULED",
+            scheduledFor: when.toISOString(),
+          },
+        },
+        client,
+      );
+      return toArticleDto(article);
+    });
+  }
+
+  /** Cancel a pending schedule and return the story to the review queue. */
+  async cancelSchedule(id: string, actor: StaffUser): Promise<ArticleDto> {
+    return this.db.withTransaction(async (client) => {
+      const current = await this.getByIdOrThrow(id, client);
+      if (current.status !== "SCHEDULED") {
+        throw new BadRequestException(
+          `Only SCHEDULED articles can have their schedule cancelled (current: ${current.status}).`,
+        );
+      }
+      await client.query(
+        "UPDATE articles SET status = 'IN_REVIEW', scheduled_for = NULL WHERE id = $1",
+        [id],
+      );
+      const article = await this.getByIdOrThrow(id, client);
+      await this.snapshotRevision(id, actor.id, client);
+      await this.audit.record(
+        {
+          actorId: actor.id,
+          action: "article.schedule.cancel",
+          resourceType: "article",
+          resourceId: id,
+          metadata: { from: "SCHEDULED", to: "IN_REVIEW" },
+        },
+        client,
+      );
+      return toArticleDto(article);
+    });
+  }
+
+  // -- Revisions (history, view, restore) ------------------------------------
+
+  /** Revision history (newest first) for the article detail screen. */
+  async listRevisions(id: string): Promise<RevisionSummaryDto[]> {
+    await this.getByIdOrThrow(id);
+    const { rows } = await this.db.query<{
+      version: number;
+      title: string;
+      status: string;
+      created_by_name: string | null;
+      created_at: string;
+    }>(
+      `SELECT r.version, r.title, r.status, u.display_name AS created_by_name, r.created_at
+       FROM article_revisions r
+       LEFT JOIN users u ON u.id = r.created_by
+       WHERE r.article_id = $1
+       ORDER BY r.version DESC`,
+      [id],
+    );
+    return rows.map((r) => ({
+      version: r.version,
+      title: r.title,
+      status: r.status,
+      createdBy: r.created_by_name,
+      createdAt: new Date(r.created_at).toISOString(),
+    }));
+  }
+
+  /** Full snapshot of one revision. */
+  async getRevision(id: string, version: number): Promise<RevisionDto> {
+    await this.getByIdOrThrow(id);
+    const { rows } = await this.db.query<{
+      id: string;
+      version: number;
+      title: string;
+      slug: string;
+      excerpt: string | null;
+      body: string;
+      status: string;
+      cover_image_url: string | null;
+      created_by_name: string | null;
+      created_at: string;
+    }>(
+      `SELECT r.id, r.version, r.title, r.slug, r.excerpt, r.body, r.status,
+              r.cover_image_url, u.display_name AS created_by_name, r.created_at
+       FROM article_revisions r
+       LEFT JOIN users u ON u.id = r.created_by
+       WHERE r.article_id = $1 AND r.version = $2`,
+      [id, version],
+    );
+    if (rows.length === 0) throw new NotFoundException("Revision not found.");
+    const r = rows[0];
+    return {
+      id: r.id,
+      version: r.version,
+      title: r.title,
+      slug: r.slug,
+      excerpt: r.excerpt,
+      body: r.body,
+      status: r.status,
+      coverImageUrl: r.cover_image_url,
+      createdBy: r.created_by_name,
+      createdAt: new Date(r.created_at).toISOString(),
+    };
+  }
+
+  /**
+   * Restore a previous version's content onto the article. Status is kept;
+   * history stays append-only (the restore writes a NEW revision). Published
+   * stories revalidate like any other published edit.
+   */
+  async restoreRevision(
+    id: string,
+    version: number,
+    actor: StaffUser,
+  ): Promise<ArticleDto> {
+    const current = await this.getByIdOrThrow(id);
+    if (current.status !== "DRAFT" && current.status !== "PUBLISHED") {
+      throw new BadRequestException(
+        "Only DRAFT or PUBLISHED articles can restore a revision.",
+      );
+    }
+    const rev = await this.getRevision(id, version);
+    const slug = await this.ensureUniqueSlug(rev.slug, id);
+    return this.db.withTransaction(async (client) => {
+      await client.query(
+        `UPDATE articles
+         SET title = $2, slug = $3, excerpt = $4, body = $5, cover_image_url = $6
+         WHERE id = $1`,
+        [id, rev.title, slug, rev.excerpt, rev.body, rev.coverImageUrl],
+      );
+      const article = await this.getByIdOrThrow(id, client);
+      await this.snapshotRevision(id, actor.id, client);
+      await this.audit.record(
+        {
+          actorId: actor.id,
+          action: "article.revision.restore",
+          resourceType: "article",
+          resourceId: id,
+          metadata: { version, status: article.status },
+        },
+        client,
+      );
+      if (article.status === "PUBLISHED") {
+        await this.enqueueArticleUpdated(toArticleDto(article), client);
+      }
+      return toArticleDto(article);
+    });
+  }
+
+  /** Enqueue the "published story changed" event (atomic with the change). */
+  private async enqueueArticleUpdated(
+    article: ArticleDto,
+    client: Queryable,
+  ): Promise<void> {
+    await client.query(
+      `INSERT INTO outbox_events (event_type, aggregate_type, aggregate_id, payload)
+       VALUES ('article.updated', 'article', $1, $2::jsonb)`,
+      [
+        article.id,
+        JSON.stringify({
+          id: article.id,
+          slug: article.slug,
+          title: article.title,
+          updatedAt: new Date().toISOString(),
+        }),
+      ],
+    );
   }
 
   async adminList(query: {

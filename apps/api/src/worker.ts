@@ -151,8 +151,13 @@ async function claim(): Promise<OutboxEvent | null> {
 }
 
 /** Event types the web tier knows how to revalidate (an updated published
- * story refreshes the same tags/paths as the original publish). */
-const DELIVERABLE_EVENTS = new Set(["article.published", "article.updated"]);
+ * story refreshes the same tags/paths as the original publish; an archived
+ * story disappears from them). */
+const DELIVERABLE_EVENTS = new Set([
+  "article.published",
+  "article.updated",
+  "article.archived",
+]);
 
 /** Deliver one event to the web tier's revalidation webhook (idempotent). */
 async function deliver(event: OutboxEvent): Promise<void> {
@@ -239,6 +244,83 @@ async function drain(maxPerTick = 20) {
   }
 }
 
+/**
+ * Publish scheduled articles whose time has come. Mirrors the API's publish
+ * transaction: status flip + revision snapshot + audit row + outbox event in
+ * ONE transaction (the drain loop delivers the event on the next tick).
+ * Row locking (FOR UPDATE SKIP LOCKED) serializes concurrent workers; the
+ * `status = 'SCHEDULED'` guard inside the lock makes double-publishing
+ * impossible.
+ */
+async function publishDue(maxPerTick = 5) {
+  for (let i = 0; i < maxPerTick && !shuttingDown; i += 1) {
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      const { rows } = await client.query<{
+        id: string;
+        slug: string;
+        title: string;
+        category_slug: string | null;
+      }>(
+        `SELECT a.id, a.slug, a.title, c.slug AS category_slug
+         FROM articles a
+         LEFT JOIN categories c ON c.id = a.category_id
+         WHERE a.status = 'SCHEDULED' AND a.scheduled_for <= now()
+         ORDER BY a.scheduled_for ASC
+         LIMIT 1
+         FOR UPDATE OF a SKIP LOCKED`,
+      );
+      if (rows.length === 0) {
+        await client.query("COMMIT");
+        return;
+      }
+      const { id, slug, title, category_slug } = rows[0];
+      await client.query(
+        `UPDATE articles
+         SET status = 'PUBLISHED', published_at = now(), scheduled_for = NULL
+         WHERE id = $1`,
+        [id],
+      );
+      await client.query(
+        `INSERT INTO article_revisions
+           (article_id, version, title, slug, excerpt, body, status, cover_image_url, created_by)
+         SELECT id,
+                COALESCE((SELECT MAX(version) FROM article_revisions WHERE article_id = $1), 0) + 1,
+                title, slug, excerpt, body, status, cover_image_url, NULL
+         FROM articles WHERE id = $1`,
+        [id],
+      );
+      await client.query(
+        `INSERT INTO audit_logs (actor_id, action, resource_type, resource_id, metadata)
+         VALUES (NULL, 'article.publish.scheduled', 'article', $1, $2::jsonb)`,
+        [id, JSON.stringify({ from: "SCHEDULED", to: "PUBLISHED" })],
+      );
+      await client.query(
+        `INSERT INTO outbox_events (event_type, aggregate_type, aggregate_id, payload)
+         VALUES ('article.published', 'article', $1, $2::jsonb)`,
+        [
+          id,
+          JSON.stringify({
+            id,
+            slug,
+            title,
+            publishedAt: new Date().toISOString(),
+            categorySlug: category_slug,
+          }),
+        ],
+      );
+      await client.query("COMMIT");
+      log("info", "scheduled article published", { articleId: id, slug });
+    } catch (err) {
+      await client.query("ROLLBACK").catch(() => undefined);
+      throw err;
+    } finally {
+      client.release();
+    }
+  }
+}
+
 const startedAt = new Date();
 
 async function main() {
@@ -262,6 +344,7 @@ async function main() {
   let lastHeartbeat = Date.now();
   for (;;) {
     try {
+      await publishDue();
       await drain();
       if (Date.now() - lastHeartbeat > HEARTBEAT_STALE_MS / 2) {
         await heartbeat();

@@ -43,7 +43,13 @@ export type PaginationQuery = z.infer<typeof PaginationQuerySchema>;
 // DB is the source of truth; these schemas describe the HTTP contract.
 // ---------------------------------------------------------------------------
 
-export const ArticleStatusSchema = z.enum(["DRAFT", "IN_REVIEW", "PUBLISHED"]);
+export const ArticleStatusSchema = z.enum([
+  "DRAFT",
+  "IN_REVIEW",
+  "SCHEDULED",
+  "PUBLISHED",
+  "ARCHIVED",
+]);
 export type ArticleStatus = z.infer<typeof ArticleStatusSchema>;
 
 export const RoleNameSchema = z.enum([
@@ -69,6 +75,8 @@ export const ArticleSchema = z.object({
   categoryName: z.string().nullable(),
   coverImageUrl: z.string().nullable(),
   publishedAt: z.string().datetime().nullable(),
+  scheduledFor: z.string().datetime().nullable(),
+  reviewNote: z.string().nullable(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
 });
@@ -125,6 +133,40 @@ export const AdminArticlesQuerySchema = PaginationQuerySchema.extend({
 });
 export type AdminArticlesQuery = z.infer<typeof AdminArticlesQuerySchema>;
 
+/** Workflow v2 request bodies. */
+export const RequestChangesSchema = z.object({
+  note: z.string().min(1).max(1000),
+});
+export type RequestChanges = z.infer<typeof RequestChangesSchema>;
+
+export const ScheduleArticleSchema = z.object({
+  /** ISO-8601 instant; must be in the future (server enforces). */
+  scheduledFor: z.string().datetime(),
+});
+export type ScheduleArticle = z.infer<typeof ScheduleArticleSchema>;
+
+/** One entry in an article's revision history (metadata only). */
+export const ArticleRevisionSummarySchema = z.object({
+  version: z.number().int(),
+  title: z.string(),
+  status: z.string(),
+  createdBy: z.string().nullable(),
+  createdAt: z.string().datetime(),
+});
+export type ArticleRevisionSummary = z.infer<
+  typeof ArticleRevisionSummarySchema
+>;
+
+/** Full content snapshot of a single revision. */
+export const ArticleRevisionSchema = ArticleRevisionSummarySchema.extend({
+  id: z.string().uuid(),
+  slug: z.string(),
+  excerpt: z.string().nullable(),
+  body: z.string(),
+  coverImageUrl: z.string().nullable(),
+});
+export type ArticleRevision = z.infer<typeof ArticleRevisionSchema>;
+
 export const PaginatedArticlesSchema = z.object({
   data: z.array(ArticleSchema),
   page: z.number().int(),
@@ -152,6 +194,8 @@ export const AdminStatsSchema = z.object({
   published: z.number().int(),
   drafts: z.number().int(),
   inReview: z.number().int(),
+  scheduled: z.number().int(),
+  archived: z.number().int(),
   total: z.number().int(),
 });
 export type AdminStats = z.infer<typeof AdminStatsSchema>;

@@ -39,11 +39,15 @@ export class AdminController {
     const published = byStatus["PUBLISHED"] ?? 0;
     const drafts = byStatus["DRAFT"] ?? 0;
     const inReview = byStatus["IN_REVIEW"] ?? 0;
+    const scheduled = byStatus["SCHEDULED"] ?? 0;
+    const archived = byStatus["ARCHIVED"] ?? 0;
     return {
       published,
       drafts,
       inReview,
-      total: published + drafts + inReview,
+      scheduled,
+      archived,
+      total: published + drafts + inReview + scheduled + archived,
     };
   }
 
@@ -52,7 +56,7 @@ export class AdminController {
   async activity(@Query("limit") limit?: string) {
     const take = Math.min(Math.max(parseInt(limit ?? "10", 10) || 10, 1), 50);
     const { rows } = await this.db.query<{
-      id: number;
+      id: string; // BIGSERIAL → node-postgres returns BIGINT as string
       action: string;
       resource_type: string;
       resource_id: string;
@@ -71,7 +75,7 @@ export class AdminController {
        ORDER BY l.id DESC LIMIT ${take}`,
     );
     return rows.map((r) => ({
-      id: r.id,
+      id: Number(r.id),
       action: r.action,
       resourceType: r.resource_type,
       resourceId: r.resource_id,
