@@ -57,7 +57,8 @@ test("editor publishes an article and readers see it within seconds", async ({
   // 5. Submit for review, then publish.
   await page.getByRole("button", { name: "Submit for review" }).click();
   await expect(page.getByText("Submitted for review")).toBeVisible();
-  await page.getByRole("button", { name: "Publish", exact: true }).click();
+  // Workflow v2 renamed the action; reviewers/publishers get "Publish now".
+  await page.getByRole("button", { name: "Publish now" }).click();
   await expect(
     page.getByText("Published — a revision was recorded."),
   ).toBeVisible();
