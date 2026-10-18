@@ -9,6 +9,13 @@ const LINKS = [
   { href: "/matches", label: "Matches" },
 ];
 
+const COMPANY_LINKS = [
+  { href: "/about", label: "About us" },
+  { href: "/contact", label: "Contact us" },
+  { href: "/privacy", label: "Privacy policy" },
+  { href: "/terms", label: "Terms of use" },
+];
+
 /** SRH Xtra's official channels (icons: simple-icons paths). */
 const SOCIALS = [
   {
@@ -92,10 +99,21 @@ export function SiteFooter() {
             </nav>
           </div>
 
-          <nav className="footer-col" aria-label="Footer">
+          <nav className="footer-col" aria-label="Coverage">
             <h2>Coverage</h2>
             <ul>
               {LINKS.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href}>{l.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav className="footer-col" aria-label="Company">
+            <h2>Company</h2>
+            <ul>
+              {COMPANY_LINKS.map((l) => (
                 <li key={l.href}>
                   <Link href={l.href}>{l.label}</Link>
                 </li>
@@ -109,12 +127,11 @@ export function SiteFooter() {
             © {new Date().getFullYear()} SRH Xtra. All rights reserved. Text and
             media may not be reproduced without permission.
           </span>
-          <nav className="footer-legal" aria-label="Legal">
-            <Link href="/terms">Terms of use</Link>
+          <div className="footer-legal">
             <a href="#top">
               Back to top <span aria-hidden="true">↑</span>
             </a>
-          </nav>
+          </div>
         </div>
       </div>
     </footer>
