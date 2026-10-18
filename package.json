@@ -25,6 +25,7 @@
     "restore:test": "node scripts/restore-test.mjs",
     "uptime:check": "node scripts/uptime-check.mjs",
     "security:check": "node scripts/security-check.mjs",
+    "security:auth": "node scripts/auth-redteam.mjs",
     "e2e": "pnpm --filter @srh/e2e test"
   },
   "devDependencies": {
