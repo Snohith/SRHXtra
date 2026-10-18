@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: "%s · SRH Xtra",
   },
   description:
-    "Breaking SRH news, match reports, squad updates, and tactical analysis for Sunrisers Hyderabad fans.",
+    "Breaking SRH news, match reports, squad updates, and tactical analysis for Sunrisers Hyderabad.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -36,7 +36,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body id="top">
         <ContentProtection />
         <SiteHeader />
         <main id="content">{children}</main>
