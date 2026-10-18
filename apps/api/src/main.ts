@@ -4,6 +4,7 @@ import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { AppModule } from "./app.module";
+import { hotlinkGuard } from "./media/hotlink-guard";
 import { uploadsDir } from "./media/uploads";
 import {
   AllExceptionsFilter,
@@ -19,7 +20,10 @@ function corsOrigins(): string[] {
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean);
-  return [...new Set([...defaults, ...extra])];
+  // The canonical site origin browses and embeds the API's media, so it is
+  // always allowed — for CORS and for the /uploads hotlink guard alike.
+  const site = process.env.NEXT_PUBLIC_SITE_URL;
+  return [...new Set([...defaults, ...extra, ...(site ? [site] : [])])];
 }
 
 async function bootstrap() {
@@ -34,10 +38,11 @@ async function bootstrap() {
     );
   }
 
+  const origins = corsOrigins();
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: ["warn", "error"],
     cors: {
-      origin: corsOrigins(),
+      origin: origins,
       methods: ["GET", "POST", "PATCH", "PUT", "OPTIONS"],
       allowedHeaders: [
         "Content-Type",
@@ -69,6 +74,8 @@ async function bootstrap() {
       transformOptions: { enableImplicitConversion: true },
     }),
   );
+  // Hotlink guard mirrors the web app's /_next/image policy for originals.
+  app.use("/uploads", hotlinkGuard(origins));
   app.useStaticAssets(uploadsDir(), { prefix: "/uploads/" });
   const port = Number(process.env.API_PORT ?? 4000);
   await app.listen(port);
