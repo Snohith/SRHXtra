@@ -3,10 +3,11 @@ import { DbService } from "../db/db.service";
 import { PipelineHealthService } from "./pipeline-health.service";
 
 /**
- * Versioned health endpoint (Step 2 contract: GET /api/v1/health).
- * Step 5 adds publishing-pipeline visibility: outbox backlog + worker heartbeat.
+ * Health endpoints (Step 2 contract: GET /api/v1/health; the legacy
+ * GET /health path is kept for probes and old runbooks). Step 5 adds
+ * publishing-pipeline visibility: outbox backlog + worker heartbeat.
  */
-@Controller("api/v1/health")
+@Controller(["api/v1/health", "health"])
 export class ApiHealthController {
   private readonly startedAt = Date.now();
 
@@ -15,6 +16,7 @@ export class ApiHealthController {
     private readonly pipeline: PipelineHealthService,
   ) {}
 
+  /** Liveness probe — always 200, reports DB + pipeline state in body. */
   @Get()
   async check() {
     const db = await this.db.check();
@@ -29,6 +31,7 @@ export class ApiHealthController {
     };
   }
 
+  /** Readiness probe — 200 when DB is up, 503 when down. */
   @Get("db")
   async checkDb() {
     const db = await this.db.check();

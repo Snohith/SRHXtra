@@ -6,6 +6,7 @@ import {
   adminHeaders,
   createDraft,
   expectArticleVisibleOnWeb,
+  sql,
 } from "./helpers";
 
 /**
@@ -78,6 +79,60 @@ test("publish commits transactionally and reaches readers quickly", async ({
   expect(republish.status()).toBe(400);
 });
 
+test("scheduled publishing flips the article live via the worker", async ({
+  request,
+}) => {
+  const stamp = Date.now();
+  const title = `E2E Scheduled ${stamp}`;
+  const slug = `e2e-scheduled-${stamp}`;
+  const created = await createDraft(request, title, slug);
+
+  const submitted = await request.post(
+    `${API_URL}/api/v1/admin/articles/${created.id}/submit`,
+    { headers: adminHeaders() },
+  );
+  expect(submitted.status()).toBe(201);
+
+  const scheduled = await request.post(
+    `${API_URL}/api/v1/admin/articles/${created.id}/schedule`,
+    {
+      headers: adminHeaders(),
+      data: { scheduledFor: new Date(Date.now() + 31_000).toISOString() },
+    },
+  );
+  expect(scheduled.status(), await scheduled.text()).toBe(201);
+  expect((await scheduled.json()).status).toBe("SCHEDULED");
+
+  // Still invisible while it waits.
+  expect(
+    (await request.get(`${API_URL}/api/v1/articles/${slug}`)).status(),
+  ).toBe(404);
+
+  // The worker publishes when due — no manual click.
+  await expect
+    .poll(
+      async () =>
+        (
+          await (
+            await request.get(
+              `${API_URL}/api/v1/admin/articles/${created.id}`,
+              { headers: adminHeaders() },
+            )
+          ).json()
+        ).status,
+      { timeout: 70_000, intervals: [1000, 2000] },
+    )
+    .toBe("PUBLISHED");
+
+  // Exactly one publish event was written by the scheduled path.
+  expect(
+    sql(
+      `SELECT COUNT(*) FROM outbox_events WHERE aggregate_id = '${created.id}' AND event_type = 'article.published';`,
+    ),
+  ).toBe("1");
+  await expectArticleVisibleOnWeb(request, slug, title);
+});
+
 test("revalidation webhook is secret-gated and idempotent", async ({
   request,
 }) => {
@@ -92,4 +147,24 @@ test("revalidation webhook is secret-gated and idempotent", async ({
   });
   expect(ok.status()).toBe(200);
   expect((await ok.json()).revalidated).toBe(true);
+});
+
+test("revalidation webhook throttles repeated invalid secrets but not the worker", async ({
+  request,
+}) => {
+  const statuses: number[] = [];
+  for (let i = 0; i < 31; i += 1) {
+    const res = await request.post(`${WEB_URL}/api/revalidate`, {
+      headers: { "x-revalidate-secret": `wrong-${i}` },
+      data: { event: "article.published", slug: "e2e-whatever" },
+    });
+    statuses.push(res.status());
+  }
+  expect(statuses).toContain(429);
+
+  const valid = await request.post(`${WEB_URL}/api/revalidate`, {
+    headers: { "x-revalidate-secret": REVALIDATE_SECRET },
+    data: { event: "article.published", slug: "e2e-whatever" },
+  });
+  expect(valid.status()).toBe(200);
 });

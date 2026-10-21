@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { ArticleCard } from "@/components/ArticleCard";
+import ReadingProgress from "@/components/ReadingProgress";
 import {
   articleUrl,
   formatDateTime,
@@ -10,6 +11,7 @@ import {
   getFeed,
   resolveImageUrl,
 } from "@/lib/api";
+import { serializeJsonLd } from "@/lib/jsonld";
 import { sanitizeBody, textExcerpt } from "@/lib/sanitize";
 
 export const revalidate = 60;
@@ -27,33 +29,39 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const article = await getArticle(params.slug);
+  const { slug } = await params;
+  const article = await getArticle(slug);
   if (!article) return { title: "Story not found" };
-  const description = article.excerpt?.trim() || textExcerpt(article.body);
+  // SEO overrides (admin panel) take priority; fall back to headline/summary.
+  const metaTitle = article.seoTitle?.trim() || article.title;
+  const description =
+    article.seoDescription?.trim() ||
+    article.excerpt?.trim() ||
+    textExcerpt(article.body);
   const url = articleUrl(article.slug);
   // Cover if uploaded; otherwise the generated per-article OG route (Step 5).
   const ogImage =
     resolveImageUrl(article.coverImageUrl) ??
     `/news/${article.slug}/opengraph-image`;
   return {
-    title: article.title,
+    title: metaTitle,
     description,
     alternates: { canonical: url },
     openGraph: {
       type: "article",
       url,
       siteName: "SRH Xtra",
-      title: article.title,
+      title: metaTitle,
       description,
       publishedTime: article.publishedAt ?? undefined,
       authors: article.authorName ? [article.authorName] : undefined,
-      images: [{ url: ogImage, alt: article.title }],
+      images: [{ url: ogImage, alt: metaTitle }],
     },
     twitter: {
       card: "summary_large_image",
-      title: article.title,
+      title: metaTitle,
       description,
       images: [ogImage],
     },
@@ -63,10 +71,14 @@ export async function generateMetadata({
 export default async function ArticlePage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const article = await getArticle(params.slug);
+  const { slug } = await params;
+  const article = await getArticle(slug);
   if (!article) notFound();
+  // An old published slug resolves to the article's current slug: send readers
+  // and crawlers to the canonical URL instead of rendering a duplicate page.
+  if (article.slug !== slug) redirect(`/news/${article.slug}`);
 
   const related = article.categorySlug
     ? (
@@ -92,9 +104,10 @@ export default async function ArticlePage({
 
   return (
     <div className="wrap">
+      <ReadingProgress />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       <nav className="meta" aria-label="Breadcrumb" style={{ marginBottom: 4 }}>
         <Link href="/">Home</Link> · <Link href="/news">News</Link>
@@ -109,7 +122,7 @@ export default async function ArticlePage({
         )}
       </nav>
       <article>
-        <header className="article-head">
+        <header className="article-head" data-reveal="">
           {article.categoryName && (
             <span className="cat">{article.categoryName}</span>
           )}
@@ -123,7 +136,7 @@ export default async function ArticlePage({
           </div>
         </header>
         {cover && (
-          <div className="hero-single">
+          <div className="hero-single" data-reveal="" data-parallax="16">
             <Image
               src={cover}
               alt={article.title}
@@ -135,12 +148,13 @@ export default async function ArticlePage({
         )}
         <div
           className="prose"
+          data-reveal=""
           dangerouslySetInnerHTML={{ __html: cleanBody }}
         />
       </article>
       {related.length > 0 && (
         <section className="section" aria-label="Related stories">
-          <div className="section-head">
+          <div className="section-head" data-reveal="">
             <h2>Related stories</h2>
             {article.categorySlug && (
               <Link href={`/news?category=${article.categorySlug}`}>
@@ -149,8 +163,8 @@ export default async function ArticlePage({
             )}
           </div>
           <div className="cards">
-            {related.map((a) => (
-              <ArticleCard key={a.id} article={a} />
+            {related.map((a, i) => (
+              <ArticleCard key={a.id} article={a} revealDelay={(i % 3) * 60} />
             ))}
           </div>
         </section>

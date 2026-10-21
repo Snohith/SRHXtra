@@ -4,7 +4,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import PlayerAvatar from "@/components/PlayerAvatar";
+import CountUp from "@/components/CountUp";
 import { SITE_URL } from "@/lib/api";
+import { serializeJsonLd } from "@/lib/jsonld";
 import {
   badgeKind,
   getAllProfiles,
@@ -29,12 +31,13 @@ export function generateStaticParams() {
   return getAllProfiles().map((profile) => ({ playerSlug: profile.slug }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { playerSlug: string };
-}): Metadata {
-  const profile = getProfile(params.playerSlug);
+  params: Promise<{ playerSlug: string }>;
+}): Promise<Metadata> {
+  const { playerSlug } = await params;
+  const profile = getProfile(playerSlug);
   if (!profile) return { title: "Player not found" };
 
   const { player, roleLabel, country } = profile;
@@ -144,7 +147,9 @@ function StatTiles({ tiles }: { tiles: StatTile[] }) {
       {tiles.map((tile) => (
         <div className="stat-tile" key={tile.label}>
           <dt>{tile.label}</dt>
-          <dd>{tile.value}</dd>
+          <dd>
+            <CountUp value={tile.value} />
+          </dd>
         </div>
       ))}
     </dl>
@@ -168,12 +173,13 @@ function NeighbourAvatar({ neighbour }: { neighbour: ProfileNeighbour }) {
   );
 }
 
-export default function PlayerProfilePage({
+export default async function PlayerProfilePage({
   params,
 }: {
-  params: { playerSlug: string };
+  params: Promise<{ playerSlug: string }>;
 }) {
-  const profile = getProfile(params.playerSlug);
+  const { playerSlug } = await params;
+  const profile = getProfile(playerSlug);
   if (!profile) notFound();
 
   const { player, country, batting, bowling, prev, next } = profile;
@@ -185,13 +191,13 @@ export default function PlayerProfilePage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(personJsonLd(profile)),
+          __html: serializeJsonLd(personJsonLd(profile)),
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbJsonLd(profile)),
+          __html: serializeJsonLd(breadcrumbJsonLd(profile)),
         }}
       />
 
@@ -204,7 +210,7 @@ export default function PlayerProfilePage({
         </ol>
       </nav>
 
-      <header className="player-hero">
+      <header className="player-hero" data-reveal="">
         <div className="player-hero-media">
           {cutout ? (
             <Image
@@ -307,7 +313,7 @@ export default function PlayerProfilePage({
       </header>
 
       <section className="player-stats" aria-labelledby="player-stats-heading">
-        <div className="section-head">
+        <div className="section-head" data-reveal="">
           <h2 id="player-stats-heading">IPL career stats</h2>
           {profile.matches !== undefined && (
             <span className="group-count">{profile.matches} matches</span>
@@ -315,7 +321,7 @@ export default function PlayerProfilePage({
         </div>
 
         {hasStats ? (
-          <div className="stat-panels">
+          <div className="stat-panels" data-reveal="">
             {batting.length > 0 && (
               <section
                 className="stat-panel"
@@ -342,14 +348,18 @@ export default function PlayerProfilePage({
             )}
           </div>
         ) : (
-          <div className="player-pending">
+          <div className="player-pending" data-reveal="">
             <strong>Career stats coming soon.</strong>
           </div>
         )}
       </section>
 
       {(prev || next) && (
-        <nav className="player-pager" aria-label="Squad navigation">
+        <nav
+          className="player-pager"
+          aria-label="Squad navigation"
+          data-reveal=""
+        >
           {prev ? (
             <Link
               className="pager-link"

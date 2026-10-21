@@ -16,7 +16,7 @@ interface AuthState {
   token: string | null;
   me: StaffUser | null;
   loading: boolean;
-  signIn: (token: string, userId: string) => Promise<void>;
+  signIn: (token: string) => Promise<void>;
   signOut: () => void;
   refresh: () => Promise<void>;
 }
@@ -54,8 +54,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     void refresh();
   }, [refresh]);
 
-  const signIn = useCallback(async (nextToken: string, userId: string) => {
-    storeAuth(nextToken.trim(), userId.trim());
+  const signIn = useCallback(async (nextToken: string) => {
+    storeAuth(nextToken.trim());
     try {
       const user = await api.me();
       setToken(nextToken.trim());
@@ -64,9 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       clearAuth();
       if (err instanceof ApiError) {
         throw new Error(
-          err.status === 401
-            ? "Invalid token or unknown staff user."
-            : err.message,
+          err.status === 401 ? "Invalid staff API token." : err.message,
         );
       }
       throw new Error("Could not reach the API. Is it running?");

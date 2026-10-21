@@ -1,10 +1,27 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
-import { extname, join } from "node:path";
+import { resolve, sep } from "node:path";
 import { uploadsDir } from "./uploads";
 import { presignPutUrl } from "./s3-signer";
 
 export type StorageProvider = "local" | "s3";
+
+/**
+ * Allowed image MIME → extension. Extensions are always derived from the
+ * validated MIME, never from the client's filename: otherwise an `evil.html`
+ * upload declared as image/png would be stored and served as HTML.
+ */
+const MIME_EXTENSIONS: Record<string, string> = {
+  "image/jpeg": ".jpg",
+  "image/png": ".png",
+  "image/webp": ".webp",
+  "image/gif": ".gif",
+  "image/avif": ".avif",
+};
+
+export function extensionForMime(mimeType: string): string {
+  return MIME_EXTENSIONS[mimeType.toLowerCase()] ?? ".bin";
+}
 
 export interface UploadSignature {
   uploadUrl: string;
@@ -44,22 +61,26 @@ export class StorageService {
 
   constructor() {
     this.provider = process.env.MEDIA_DRIVER === "s3" ? "s3" : "local";
-    this.signingSecret =
-      process.env.MEDIA_SIGNING_SECRET ??
-      process.env.ADMIN_API_TOKEN ??
-      "dev-media-signing-secret";
+    // `||` (not `??`): an empty configured secret must not become an empty
+    // HMAC key that anyone can forge signed upload URLs with.
+    const secret =
+      process.env.MEDIA_SIGNING_SECRET || process.env.ADMIN_API_TOKEN;
+    if (!secret && process.env.NODE_ENV === "production") {
+      throw new Error(
+        "MEDIA_SIGNING_SECRET or ADMIN_API_TOKEN is required in production.",
+      );
+    }
+    this.signingSecret = secret || "dev-media-signing-secret";
     this.apiPublicUrl = (
       process.env.API_PUBLIC_URL ?? "http://localhost:4000"
     ).replace(/\/+$/, "");
   }
 
   /** Opaque, collision-resistant key: uploads/2026/10/<random>.jpg */
-  buildStorageKey(originalFilename: string): string {
-    const rawExt = extname(originalFilename).toLowerCase();
-    const ext = /^\.[a-z0-9]{1,8}$/.test(rawExt) ? rawExt : ".bin";
+  buildStorageKey(mimeType: string): string {
     const now = new Date();
     const month = String(now.getUTCMonth() + 1).padStart(2, "0");
-    return `uploads/${now.getUTCFullYear()}/${month}/${randomBytes(10).toString("hex")}${ext}`;
+    return `uploads/${now.getUTCFullYear()}/${month}/${randomBytes(10).toString("hex")}${extensionForMime(mimeType)}`;
   }
 
   /** Sign an upload scoped to the given key/content-type/size/actor. */
@@ -78,7 +99,12 @@ export class StorageService {
         60,
         Math.floor((input.expiresAt.getTime() - Date.now()) / 1000),
       );
-      const uploadUrl = presignPutUrl(config, input.key, expiresInSeconds);
+      const uploadUrl = presignPutUrl(
+        config,
+        input.key,
+        expiresInSeconds,
+        input.contentType,
+      );
       return {
         uploadUrl,
         method: "PUT",
@@ -145,7 +171,14 @@ export class StorageService {
 
   /** Disk path for a local storage key (`uploads/2026/10/x.jpg`). */
   localFilePath(key: string): string {
-    return join(uploadsDir(), key.replace(/^uploads\//, ""));
+    const root = resolve(uploadsDir());
+    const target = resolve(root, key.replace(/^uploads\//, ""));
+    // Keys are HMAC-signed, but a leaked/empty secret must not become an
+    // arbitrary-file-write primitive via ../ segments.
+    if (!target.startsWith(root + sep)) {
+      throw new Error("Invalid storage key.");
+    }
+    return target;
   }
 
   /** Site-relative (/uploads/…) or absolute (CDN/S3) public URL for a key. */

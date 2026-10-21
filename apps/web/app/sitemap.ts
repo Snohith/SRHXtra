@@ -33,11 +33,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   try {
-    const feed = await getFeed({ page: 1, pageSize: 100 });
-    const articles: MetadataRoute.Sitemap = feed.data.map((a) => ({
-      url: articleUrl(a.slug),
-      lastModified: new Date(a.updatedAt),
-    }));
+    // The public API caps pageSize at 100; walk every page so older stories
+    // stay discoverable once the archive passes that many.
+    const articles: MetadataRoute.Sitemap = [];
+    const pageSize = 100;
+    for (let page = 1; ; page += 1) {
+      const feed = await getFeed({ page, pageSize });
+      articles.push(
+        ...feed.data.map((a) => ({
+          url: articleUrl(a.slug),
+          lastModified: new Date(a.updatedAt),
+        })),
+      );
+      if (articles.length >= feed.total || feed.data.length === 0) break;
+    }
     return [...staticRoutes, ...playerProfiles, ...articles];
   } catch {
     return [...staticRoutes, ...playerProfiles];

@@ -74,7 +74,7 @@ export class MediaService {
         `Image must be between 1 byte and ${MAX_UPLOAD_BYTES} bytes.`,
       );
     }
-    const key = this.storage.buildStorageKey(input.filename);
+    const key = this.storage.buildStorageKey(input.contentType);
     const expiresAt = new Date(Date.now() + INTENT_TTL_MS);
     const { rows } = await this.db.query<{ id: string }>(
       `INSERT INTO media_upload_intents (storage_key, mime_type, max_bytes, provider, created_by, expires_at)
@@ -203,6 +203,64 @@ export class MediaService {
       width: row.width,
       height: row.height,
       altText: row.alt_text,
+    };
+  }
+
+  /**
+   * Browse the media library (newest first, searchable by file name).
+   * Used by the admin media page and the editor's "choose from library" picker.
+   */
+  async listAssets(query: {
+    page: number;
+    pageSize: number;
+    search?: string;
+  }): Promise<{
+    data: MediaAssetDto[];
+    page: number;
+    pageSize: number;
+    total: number;
+  }> {
+    const params: unknown[] = [];
+    let where = "";
+    if (query.search) {
+      params.push(`%${query.search}%`);
+      where = `WHERE storage_key ILIKE $${params.length}`;
+    }
+    const pageSize = Math.min(Math.max(query.pageSize, 1), 100);
+    const page = Math.max(query.page, 1);
+    const count = await this.db.query<{ count: string }>(
+      `SELECT COUNT(*)::text AS count FROM media_assets ${where}`,
+      params,
+    );
+    const { rows } = await this.db.query<{
+      id: string;
+      storage_key: string;
+      mime_type: string | null;
+      byte_size: number | null;
+      width: number | null;
+      height: number | null;
+      alt_text: string | null;
+    }>(
+      `SELECT id, storage_key, mime_type, byte_size, width, height, alt_text
+       FROM media_assets ${where}
+       ORDER BY created_at DESC, id DESC
+       LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
+      [...params, pageSize, (page - 1) * pageSize],
+    );
+    return {
+      data: rows.map((row) => ({
+        id: row.id,
+        storageKey: row.storage_key,
+        url: this.storage.publicUrlFor(row.storage_key),
+        mimeType: row.mime_type,
+        byteSize: row.byte_size,
+        width: row.width,
+        height: row.height,
+        altText: row.alt_text,
+      })),
+      page,
+      pageSize,
+      total: Number(count.rows[0]?.count ?? 0),
     };
   }
 

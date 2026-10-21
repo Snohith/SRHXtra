@@ -21,7 +21,7 @@ export default function ContactPage() {
           at the address below.
         </p>
       </header>
-      <div className="prose">
+      <div className="prose" data-reveal="">
         <div className="contact-card">
           <p className="contact-label">Email</p>
           <a className="contact-email" href="mailto:srhxtra@outlook.com">

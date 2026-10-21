@@ -24,16 +24,17 @@ export const metadata: Metadata = {
 export default async function NewsPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }) {
-  const page = Math.max(parseInt(searchParams.page ?? "1", 10) || 1, 1);
-  const sort = searchParams.sort === "oldest" ? "oldest" : "newest";
+  const params = await searchParams;
+  const page = Math.max(parseInt(params.page ?? "1", 10) || 1, 1);
+  const sort = params.sort === "oldest" ? "oldest" : "newest";
   const [feed, categories] = await Promise.all([
     getFeed({
       page,
       pageSize: 12,
-      category: searchParams.category || undefined,
-      search: searchParams.search || undefined,
+      category: params.category || undefined,
+      search: params.search || undefined,
       sort,
     }),
     getCategories(),
@@ -41,8 +42,8 @@ export default async function NewsPage({
 
   const pages = Math.max(1, Math.ceil(feed.total / 12));
   const q = new URLSearchParams();
-  if (searchParams.category) q.set("category", searchParams.category);
-  if (searchParams.search) q.set("search", searchParams.search);
+  if (params.category) q.set("category", params.category);
+  if (params.search) q.set("search", params.search);
   if (sort !== "newest") q.set("sort", sort);
   const pageHref = (p: number) => {
     const next = new URLSearchParams(q);
@@ -60,19 +61,19 @@ export default async function NewsPage({
         <NewsFilters categories={categories} />
       </Suspense>
       {feed.data.length === 0 ? (
-        <div className="empty">
+        <div className="empty" data-reveal="">
           <strong>No stories match.</strong>
           <br />
           Try a different search or topic.
         </div>
       ) : (
         <div className="cards">
-          {feed.data.map((a) => (
-            <ArticleCard key={a.id} article={a} />
+          {feed.data.map((a, i) => (
+            <ArticleCard key={a.id} article={a} revealDelay={(i % 3) * 60} />
           ))}
         </div>
       )}
-      <nav className="pager" aria-label="Pagination">
+      <nav className="pager" aria-label="Pagination" data-reveal="">
         {page > 1 ? (
           <Link className="btn" href={pageHref(page - 1)}>
             ← Newer

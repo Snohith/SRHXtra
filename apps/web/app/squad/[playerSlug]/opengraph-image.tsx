@@ -14,12 +14,13 @@ export const alt = "SRH Xtra player profile";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpengraphImage({
+export default async function OpengraphImage({
   params,
 }: {
-  params: { playerSlug: string };
+  params: Promise<{ playerSlug: string }>;
 }) {
-  const profile = getProfile(params.playerSlug);
+  const { playerSlug } = await params;
+  const profile = getProfile(playerSlug);
   const name = profile?.player.name ?? "Sunrisers Hyderabad";
   const kicker = profile
     ? `${profile.roleLabel.toUpperCase()} · IPL 2026`

@@ -18,12 +18,60 @@ export function articleUrl(slug: string): string {
   return `${SITE_URL}/news/${slug}`;
 }
 
+/**
+ * Same allowlist next.config.mjs gives the image optimizer. A cover on any
+ * other host would make Next/Image throw at render time (500 page), so treat
+ * it as "no cover" instead.
+ */
+const IMAGE_ORIGINS = (() => {
+  const origins = new Set<string>();
+  for (const raw of [
+    API_BASE,
+    SITE_URL,
+    ...(process.env.NEXT_PUBLIC_IMAGE_HOSTS ?? "").split(","),
+  ]) {
+    const value = raw.trim();
+    if (!value) continue;
+    try {
+      origins.add(
+        new URL(value.includes("://") ? value : `https://${value}`).origin,
+      );
+    } catch {
+      /* ignore malformed env entries */
+    }
+  }
+  return origins;
+})();
+
 /** Covers may be API-relative (/uploads/…) or absolute — absolutize for <img>/OG. */
 export function resolveImageUrl(url: string | null): string | null {
   if (!url) return null;
-  if (url.startsWith("http://") || url.startsWith("https://")) return url;
-  if (url.startsWith("/")) return `${API_BASE}${url}`;
-  return url;
+  if (url.startsWith("/") && !url.startsWith("//")) {
+    return `${API_BASE}${url}`;
+  }
+  try {
+    const parsed = new URL(url);
+    if (
+      (parsed.protocol === "http:" || parsed.protocol === "https:") &&
+      IMAGE_ORIGINS.has(parsed.origin)
+    ) {
+      return url;
+    }
+  } catch {
+    /* not an absolute URL */
+  }
+  return null;
+}
+
+/** Non-2xx API response, so callers can tell 404s from an API outage. */
+export class ApiError extends Error {
+  constructor(
+    readonly status: number,
+    message: string,
+  ) {
+    super(message);
+    this.name = "ApiError";
+  }
 }
 
 async function get<T>(
@@ -35,9 +83,11 @@ async function get<T>(
   const res = await fetch(`${API_BASE}${path}`, {
     next: { revalidate, tags },
     headers: { Accept: "application/json" },
+    // A hung API must not hang the reader's page request forever.
+    signal: AbortSignal.timeout(8000),
   });
   if (!res.ok) {
-    throw new Error(`API ${path} responded ${res.status}`);
+    throw new ApiError(res.status, `API ${path} responded ${res.status}`);
   }
   return schema.parse(await res.json());
 }
@@ -70,19 +120,16 @@ export async function getArticle(slug: string): Promise<Article | null> {
       "articles",
       `article:${slug}`,
     ]);
-  } catch {
-    return null;
+  } catch (err) {
+    // A missing story is a 404; an outage or bad payload must surface as an
+    // error, not as a (cached) not-found page.
+    if (err instanceof ApiError && err.status === 404) return null;
+    throw err;
   }
 }
 
 export async function getCategories(): Promise<Category[]> {
-  try {
-    return await get("/api/v1/categories", CategorySchema.array(), 300, [
-      "categories",
-    ]);
-  } catch {
-    return [];
-  }
+  return get("/api/v1/categories", CategorySchema.array(), 300, ["categories"]);
 }
 
 export function formatDate(iso: string | null): string {

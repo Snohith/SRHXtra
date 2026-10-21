@@ -4,6 +4,7 @@ import Link from "next/link";
 import PlayerAvatar from "@/components/PlayerAvatar";
 import SquadRoster from "@/components/SquadRoster";
 import { SITE_URL } from "@/lib/api";
+import { serializeJsonLd } from "@/lib/jsonld";
 import { getAllProfiles } from "@/lib/players";
 import {
   CAPTAIN,
@@ -87,10 +88,10 @@ export default function SquadPage() {
     <div className="wrap squad-page">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
 
-      <header className="squad-hero">
+      <header className="squad-hero" data-reveal="">
         <div className="squad-hero-top">
           <span className="squad-kicker">IPL 2026 · Orange Army</span>
         </div>
@@ -120,7 +121,7 @@ export default function SquadPage() {
         </dl>
       </header>
 
-      <div className="squad-lead">
+      <div className="squad-lead" data-reveal="">
         {CAPTAIN && (
           <Link
             className="captain-card"

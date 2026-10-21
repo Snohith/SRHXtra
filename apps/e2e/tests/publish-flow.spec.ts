@@ -1,7 +1,6 @@
 import { expect, test } from "@playwright/test";
 import {
   ADMIN_URL,
-  ADMIN_USER,
   TINY_JPEG,
   TOKEN,
   WEB_URL,
@@ -25,13 +24,12 @@ test("editor publishes an article and readers see it within seconds", async ({
   // 1. Staff sign-in (credentials verified server-side on every request).
   await page.goto(`${ADMIN_URL}/login`);
   await page.getByLabel("Staff API token").fill(TOKEN);
-  await page.getByLabel("Staff email or user ID").fill(ADMIN_USER);
   await page.getByRole("button", { name: "Sign in" }).click();
   await expect(page).toHaveURL(`${ADMIN_URL}/`);
 
   // 2. New draft, including a real featured-image upload through the signed flow.
   await page.goto(`${ADMIN_URL}/articles/new`);
-  await page.getByLabel("Title").fill(title);
+  await page.getByLabel("Title", { exact: true }).fill(title);
   await page.getByLabel("Slug").fill(slug);
   await page.getByLabel("Summary").fill(`Summary for ${title}.`);
   await page.getByLabel("Category").selectOption({ index: 1 });
@@ -49,7 +47,7 @@ test("editor publishes an article and readers see it within seconds", async ({
 
   // 3. Land on the article page; the draft round-tripped through the API.
   await expect(page).toHaveURL(new RegExp(`/articles/[0-9a-f-]{36}$`));
-  await expect(page.getByLabel("Title")).toHaveValue(title);
+  await expect(page.getByLabel("Title", { exact: true })).toHaveValue(title);
 
   // 4. The draft must be invisible to readers.
   expect((await request.get(`${WEB_URL}/news/${slug}`)).status()).toBe(404);

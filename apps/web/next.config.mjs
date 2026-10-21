@@ -37,6 +37,9 @@ const nextConfig = {
   poweredByHeader: false,
   transpilePackages: ["@srh/contracts"],
   images: {
+    // The optimizer only emits WebP. AVIF is intentionally not enabled: it
+    // reduces the supported attack surface and keeps cached variants small.
+    formats: ["image/webp"],
     remotePatterns: imageHosts(),
     // Feed media is content-hashed and effectively immutable; keep optimized
     // variants on disk for 30 days instead of the 60s default so repeat views

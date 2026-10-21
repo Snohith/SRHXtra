@@ -1,7 +1,6 @@
 import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
-import { HealthController } from "./health/health.controller";
 import { ApiHealthController } from "./health/api-health.controller";
 import { PipelineHealthService } from "./health/pipeline-health.service";
 import { DbService } from "./db/db.service";
@@ -27,7 +26,6 @@ import { AdminArticlesController } from "./articles/admin-articles.controller";
     }),
   ],
   controllers: [
-    HealthController,
     ApiHealthController,
     AdminController,
     MediaController,

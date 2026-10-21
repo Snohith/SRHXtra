@@ -13,6 +13,7 @@ import {
 } from "@nestjs/common";
 import { ArticlesService, ArticleStatus } from "./articles.service";
 import {
+  BulkArticlesDto,
   CreateArticleDto,
   RequestChangesDto,
   ScheduleArticleDto,
@@ -47,9 +48,26 @@ export class AdminArticlesController {
     @Query("pageSize") pageSize?: string,
     @Query("status") status?: string,
     @Query("search") search?: string,
+    @Query("categoryId") categoryId?: string,
+    @Query("sort") sort?: string,
+    @Query("dir") dir?: string,
   ) {
     if (status !== undefined && !(STATUSES as string[]).includes(status)) {
       throw new BadRequestException(`Invalid status filter: ${status}.`);
+    }
+    const SORTS = ["updated", "created", "published", "title"];
+    if (sort !== undefined && !SORTS.includes(sort)) {
+      throw new BadRequestException(`Invalid sort field: ${sort}.`);
+    }
+    if (dir !== undefined && dir !== "asc" && dir !== "desc") {
+      throw new BadRequestException(`Invalid sort direction: ${dir}.`);
+    }
+    let category: number | undefined;
+    if (categoryId !== undefined && categoryId !== "") {
+      category = parseInt(categoryId, 10);
+      if (Number.isNaN(category) || category < 1) {
+        throw new BadRequestException(`Invalid categoryId: ${categoryId}.`);
+      }
     }
     const p = Math.max(parseInt(page ?? "1", 10) || 1, 1);
     const ps = Math.min(Math.max(parseInt(pageSize ?? "20", 10) || 20, 1), 100);
@@ -58,6 +76,9 @@ export class AdminArticlesController {
       pageSize: ps,
       status: status as ArticleStatus | undefined,
       search,
+      categoryId: category,
+      sort: sort as "updated" | "created" | "published" | "title" | undefined,
+      dir: dir as "asc" | "desc" | undefined,
     });
     return { data, page: p, pageSize: ps, total };
   }
@@ -65,6 +86,13 @@ export class AdminArticlesController {
   @Post()
   async create(@Body() dto: CreateArticleDto, @AdminUser() actor: StaffUser) {
     return this.articles.create(dto, actor);
+  }
+
+  /** Bulk workflow actions (archive / restore / publish / set-category). */
+  @Post("bulk")
+  @RequireRoles(...WORKFLOW_ROLES)
+  async bulk(@Body() dto: BulkArticlesDto, @AdminUser() actor: StaffUser) {
+    return this.articles.bulkAction(dto, actor);
   }
 
   @Get(":id")
@@ -77,8 +105,12 @@ export class AdminArticlesController {
     @Param("id", new ParseUUIDPipe()) id: string,
     @Body() dto: UpdateArticleDto,
     @AdminUser() actor: StaffUser,
+    @Query("quiet") quiet?: string,
   ) {
-    return this.articles.update(id, dto, actor);
+    // quiet=1 is the editor autosave path: persist content without writing a
+    // revision, audit entry, or revalidation event (the explicit Save click
+    // does all three).
+    return this.articles.update(id, dto, actor, { quiet: quiet === "1" });
   }
 
   @Post(":id/submit")
@@ -164,6 +196,7 @@ export class AdminArticlesController {
   }
 
   @Post(":id/revisions/:version/restore")
+  @RequireRoles(...WORKFLOW_ROLES)
   async restoreRevision(
     @Param("id", new ParseUUIDPipe()) id: string,
     @Param("version", new ParseIntPipe()) version: number,

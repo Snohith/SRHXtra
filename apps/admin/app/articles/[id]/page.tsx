@@ -2,11 +2,27 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import {
+  AlertCircle,
+  AlertTriangle,
+  Archive,
+  ArchiveRestore,
+  CalendarClock,
+  CheckCircle2,
+  CircleDashed,
+  CircleX,
+  ListChecks,
+  PenLine,
+  Rocket,
+  Send,
+} from "lucide-react";
 import type { Article, Category } from "@srh/contracts";
 import { ApiError, api } from "@/lib/api";
 import { RequireAuth, canPublish, useAuth } from "@/lib/auth";
 import { isBodyEmpty } from "@/lib/content";
+import { timeAgo } from "@/lib/format";
 import ArticleForm from "@/components/ArticleForm";
+import Avatar from "@/components/Avatar";
 import RevisionHistory from "@/components/RevisionHistory";
 import StatusBadge from "@/components/StatusBadge";
 
@@ -23,6 +39,43 @@ function readiness(article: Article): Checklist[] {
     { ok: !!article.excerpt?.trim(), label: "Summary" },
     { ok: !!article.coverImageUrl, label: "Featured image" },
   ];
+}
+
+function EditorSkeleton() {
+  return (
+    <>
+      <div className="pagehead">
+        <div>
+          <div className="sk sk-title" style={{ width: 320, height: 24 }} />
+          <div className="sk sk-line" style={{ width: 220, marginTop: 10 }} />
+        </div>
+      </div>
+      <div className="panel">
+        <div className="sk sk-line" style={{ width: 130 }} />
+        <div className="hstack" style={{ marginTop: 16 }}>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <span
+              className="sk"
+              key={i}
+              style={{ width: 104, height: 30, borderRadius: 999 }}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="editor-grid">
+        <div className="editor-main">
+          <div className="sk" style={{ height: 54, borderRadius: 12 }} />
+          <div className="sk" style={{ height: 44, borderRadius: 12 }} />
+          <div className="sk" style={{ height: 120, borderRadius: 12 }} />
+          <div className="sk" style={{ height: 420, borderRadius: 14 }} />
+        </div>
+        <div className="editor-rail">
+          <div className="sk" style={{ height: 96, borderRadius: 15 }} />
+          <div className="sk" style={{ height: 210, borderRadius: 15 }} />
+        </div>
+      </div>
+    </>
+  );
 }
 
 function Editor({ id }: { id: string }) {
@@ -128,52 +181,100 @@ function Editor({ id }: { id: string }) {
     }
   }
 
-  if (loading) return <p className="muted">Loading article…</p>;
+  if (loading) return <EditorSkeleton />;
   if (!article)
-    return <div className="alert error">{error ?? "Article not found."}</div>;
+    return (
+      <div className="alert error">
+        <AlertCircle size={16} />
+        {error ?? "Article not found."}
+      </div>
+    );
 
   const checks = readiness(article);
   const ready = checks.every((c) => c.ok);
-  const editable = article.status === "DRAFT" || article.status === "PUBLISHED";
+  const editable =
+    article.status === "DRAFT" ||
+    (article.status === "PUBLISHED" && canPublish(me));
   const mayPublish = canPublish(me);
 
   return (
     <>
       <div className="pagehead">
-        <div>
-          <h1>{article.title}</h1>
+        <div style={{ minWidth: 0 }}>
+          <h1>{article.title || "Untitled"}</h1>
           <p className="sub">
-            <StatusBadge status={article.status} /> · by{" "}
-            {article.authorName ?? "—"} · updated{" "}
-            {new Date(article.updatedAt).toLocaleString()}
+            <StatusBadge status={article.status} />
+            <span className="hstack" style={{ gap: 6 }}>
+              <Avatar name={article.authorName} size={22} />
+              {article.authorName ?? "—"}
+            </span>
+            <span aria-hidden="true">·</span>
+            updated{" "}
+            <time
+              dateTime={article.updatedAt}
+              title={new Date(article.updatedAt).toLocaleString()}
+            >
+              {timeAgo(article.updatedAt)}
+            </time>
           </p>
         </div>
-        <Link className="btn" href="/articles">
-          ← All articles
-        </Link>
+        <div className="head-actions">
+          <Link className="btn" href="/articles">
+            ← All articles
+          </Link>
+        </div>
       </div>
 
-      {error && <div className="alert error">{error}</div>}
+      {error && (
+        <div className="alert error">
+          <AlertCircle size={16} />
+          {error}
+        </div>
+      )}
       {notice && <div className="alert ok">{notice}</div>}
 
       {article.reviewNote && article.status === "DRAFT" && (
         <div className="alert warn">
-          <strong>Reviewer note:</strong> {article.reviewNote}
+          <AlertTriangle size={16} />
+          <span>
+            <strong>Reviewer note:</strong> {article.reviewNote}
+          </span>
         </div>
       )}
 
-      <div className="panel">
-        <h2>Publishing</h2>
+      <div className="panel reveal">
+        <div className="panel-head">
+          <span className="panel-title">
+            <ListChecks size={17} />
+            Workflow
+          </span>
+          <span className="hstack">
+            {ready && article.status === "DRAFT" && (
+              <span className="ready-pill">
+                <CheckCircle2 size={14} />
+                Ready to submit
+              </span>
+            )}
+            <StatusBadge status={article.status} />
+          </span>
+        </div>
+
         <ul className="checklist">
           {checks.map((c) => (
             <li key={c.label} className={c.ok ? "yes" : "no"}>
-              {c.ok ? "✓" : "○"} {c.label}
+              {c.ok ? (
+                <CheckCircle2 size={14} strokeWidth={2.4} />
+              ) : (
+                <CircleDashed size={14} strokeWidth={2.4} />
+              )}
+              {c.label}
             </li>
           ))}
         </ul>
+
         {!ready &&
           (article.status === "DRAFT" || article.status === "IN_REVIEW") && (
-            <p className="muted small">
+            <p className="muted small" style={{ marginTop: 0 }}>
               Complete every item before submitting — the review queue should
               never hold unfinished drafts.
             </p>
@@ -197,6 +298,7 @@ function Editor({ id }: { id: string }) {
                 )
               }
             >
+              <Send size={15} />
               {acting ? "Working…" : "Submit for review"}
             </button>
             <button
@@ -205,6 +307,7 @@ function Editor({ id }: { id: string }) {
               disabled={acting}
               onClick={() => void archive()}
             >
+              <Archive size={14} />
               Archive
             </button>
           </div>
@@ -212,7 +315,7 @@ function Editor({ id }: { id: string }) {
 
         {article.status === "IN_REVIEW" && mayPublish && (
           <>
-            <div className="btnrow" style={{ marginBottom: 10 }}>
+            <div className="btnrow" style={{ marginBottom: 12 }}>
               <button
                 className="btn primary"
                 type="button"
@@ -224,6 +327,7 @@ function Editor({ id }: { id: string }) {
                   )
                 }
               >
+                <Rocket size={15} />
                 {acting ? "Publishing…" : "Publish now"}
               </button>
               <button
@@ -232,10 +336,12 @@ function Editor({ id }: { id: string }) {
                 disabled={acting}
                 onClick={() => void archive()}
               >
+                <Archive size={14} />
                 Archive
               </button>
             </div>
-            <div className="btnrow" style={{ marginBottom: 10 }}>
+            <div className="hstack" style={{ marginBottom: 12 }}>
+              <CalendarClock size={15} className="muted" />
               <label className="hint" htmlFor="schedule-at">
                 Schedule
               </label>
@@ -244,6 +350,7 @@ function Editor({ id }: { id: string }) {
                 type="datetime-local"
                 value={scheduleAt}
                 onChange={(e) => setScheduleAt(e.target.value)}
+                style={{ width: "auto" }}
               />
               <button
                 className="btn"
@@ -255,25 +362,25 @@ function Editor({ id }: { id: string }) {
               </button>
             </div>
             {noteOpen ? (
-              <div>
+              <div className="stack" style={{ maxWidth: 560 }}>
                 <textarea
                   rows={3}
                   placeholder="What needs to change before this can be published?"
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
-                  style={{ width: "100%" }}
                 />
-                <div className="btnrow" style={{ marginTop: 8 }}>
+                <div className="btnrow">
                   <button
                     className="btn primary"
                     type="button"
                     disabled={acting}
                     onClick={() => void requestChanges()}
                   >
+                    <Send size={14} />
                     Send back to author
                   </button>
                   <button
-                    className="btn"
+                    className="btn ghost"
                     type="button"
                     disabled={acting}
                     onClick={() => {
@@ -287,11 +394,12 @@ function Editor({ id }: { id: string }) {
               </div>
             ) : (
               <button
-                className="btn"
+                className="btn ghost"
                 type="button"
                 disabled={acting}
                 onClick={() => setNoteOpen(true)}
               >
+                <PenLine size={14} />
                 Request changes…
               </button>
             )}
@@ -299,19 +407,24 @@ function Editor({ id }: { id: string }) {
         )}
 
         {article.status === "IN_REVIEW" && !mayPublish && (
-          <p className="muted small">
-            Awaiting review — publishing requires an editor, publisher, or admin
-            role. Your role: {me?.roles.join(", ") ?? "none"}.
-          </p>
+          <div className="alert info mb0">
+            <CalendarClock size={16} />
+            <span>
+              Awaiting review — publishing requires an editor, publisher, or
+              admin role. Your role: {me?.roles.join(", ") ?? "none"}.
+            </span>
+          </div>
         )}
 
         {article.status === "SCHEDULED" && (
           <>
             <p className="muted small">
               Scheduled for{" "}
-              {article.scheduledFor
-                ? new Date(article.scheduledFor).toLocaleString()
-                : "—"}{" "}
+              <strong>
+                {article.scheduledFor
+                  ? new Date(article.scheduledFor).toLocaleString()
+                  : "—"}
+              </strong>{" "}
               — the worker publishes it automatically within seconds of that
               time.
             </p>
@@ -328,6 +441,7 @@ function Editor({ id }: { id: string }) {
                     )
                   }
                 >
+                  <Rocket size={15} />
                   Publish now
                 </button>
                 <button
@@ -341,6 +455,7 @@ function Editor({ id }: { id: string }) {
                     )
                   }
                 >
+                  <CircleX size={14} />
                   Cancel schedule
                 </button>
                 <button
@@ -349,6 +464,7 @@ function Editor({ id }: { id: string }) {
                   disabled={acting}
                   onClick={() => void archive()}
                 >
+                  <Archive size={14} />
                   Archive
                 </button>
               </div>
@@ -363,7 +479,7 @@ function Editor({ id }: { id: string }) {
 
         {article.status === "PUBLISHED" && (
           <div className="btnrow">
-            <p className="muted small" style={{ flex: 1 }}>
+            <p className="muted small grow mb0">
               Published{" "}
               {article.publishedAt
                 ? new Date(article.publishedAt).toLocaleString()
@@ -377,6 +493,7 @@ function Editor({ id }: { id: string }) {
               disabled={acting}
               onClick={() => void archive()}
             >
+              <Archive size={14} />
               Archive
             </button>
           </div>
@@ -384,7 +501,7 @@ function Editor({ id }: { id: string }) {
 
         {article.status === "ARCHIVED" && (
           <div className="btnrow">
-            <p className="muted small" style={{ flex: 1 }}>
+            <p className="muted small grow mb0">
               Archived — hidden from the public site. Original content and
               history are untouched.
             </p>
@@ -399,6 +516,7 @@ function Editor({ id }: { id: string }) {
                 )
               }
             >
+              <ArchiveRestore size={15} />
               {acting ? "Restoring…" : "Restore to draft"}
             </button>
           </div>
@@ -423,18 +541,22 @@ function Editor({ id }: { id: string }) {
         />
       ) : (
         <div className="panel">
-          <h2>Content (read-only)</h2>
-          <p className="muted small">
-            Drafts and published articles can be edited — every save, submit,
-            and publish records a new revision on the server. In-review and
-            scheduled stories are locked until the workflow moves them on.
+          <div className="panel-head">
+            <span className="panel-title">Content (read-only)</span>
+          </div>
+          <p className="muted small mb0">
+            Drafts can be edited by their writer. Published stories can only be
+            edited by editors, publishers, and admins — every explicit save,
+            submit, and publish records a new revision on the server (draft
+            autosaves are quiet). In-review and scheduled stories are locked
+            until the workflow moves them on.
           </p>
         </div>
       )}
 
       <RevisionHistory
-        articleId={article.id}
-        status={article.status}
+        article={article}
+        canRestorePublished={mayPublish}
         onRestored={(next) => {
           setArticle(next);
           setNotice(
@@ -446,14 +568,15 @@ function Editor({ id }: { id: string }) {
   );
 }
 
-export default function EditArticlePage({
+export default async function EditArticlePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
   return (
     <RequireAuth>
-      <Editor id={params.id} />
+      <Editor id={id} />
     </RequireAuth>
   );
 }

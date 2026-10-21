@@ -16,8 +16,11 @@ export const API_URL = (process.env.API_URL ?? "http://localhost:4000").replace(
 );
 export const TOKEN = process.env.ADMIN_API_TOKEN ?? "dev-admin-token";
 export const ADMIN_USER = process.env.ADMIN_USER ?? "admin@srh.local";
+export const WRITER_TOKEN = process.env.WRITER_TOKEN ?? "e2e-writer-token";
+export const PUBLISHER_TOKEN =
+  process.env.PUBLISHER_TOKEN ?? "e2e-publisher-token";
 export const REVALIDATE_SECRET =
-  process.env.REVALIDATE_SECRET ?? "dev-revalidate-secret";
+  process.env.REVALIDATE_SECRET ?? "e2e-revalidate-secret";
 
 /** Repo root (this file lives in apps/e2e/tests). */
 export const REPO_ROOT = resolve(__dirname, "..", "..", "..");
@@ -26,9 +29,17 @@ const WORKER_PATTERN = "node apps/api/dist/worker.js";
 const DB_CONTAINER = process.env.CONTAINER ?? "srh-news-db";
 const DB_USER = process.env.DB_USER ?? "srh";
 const DB_NAME = process.env.DB_NAME ?? "srh_news";
+const PSQL_URL = process.env.PSQL_URL;
 
-/** Run SQL against the dev Postgres container (fixtures + assertions). */
+/** Run SQL against the test Postgres (container locally, PSQL_URL in CI). */
 export function sql(query: string): string {
+  if (PSQL_URL) {
+    return execFileSync(
+      "psql",
+      [PSQL_URL, "-v", "ON_ERROR_STOP=1", "-t", "-A", "-c", query],
+      { encoding: "utf8" },
+    ).trim();
+  }
   return execFileSync(
     "docker",
     [
@@ -56,14 +67,21 @@ export const TINY_JPEG = Buffer.from(
   "base64",
 );
 
-/** Staff headers for a given actor (email or UUID), authorized by the API token. */
+const ACTOR_TOKENS: Record<string, string> = {
+  [ADMIN_USER]: TOKEN,
+  "writer@srh.local": WRITER_TOKEN,
+  "publisher@srh.local": PUBLISHER_TOKEN,
+};
+
+/** Staff headers for a given actor's own API credential. */
 export function adminHeadersFor(
   actor: string,
   withJson = false,
 ): Record<string, string> {
+  const token = ACTOR_TOKENS[actor];
+  if (!token) throw new Error(`No e2e API token configured for ${actor}.`);
   const headers: Record<string, string> = {
-    Authorization: `Bearer ${TOKEN}`,
-    "x-admin-user-id": actor,
+    Authorization: `Bearer ${token}`,
   };
   if (withJson) headers["Content-Type"] = "application/json";
   return headers;
@@ -173,7 +191,7 @@ export function ensureWorkerRunning(): void {
         process.env.WEB_REVALIDATE_URL ??
         "http://localhost:3000/api/revalidate",
       REVALIDATE_SECRET:
-        process.env.REVALIDATE_SECRET ?? "dev-revalidate-secret",
+        process.env.REVALIDATE_SECRET ?? "e2e-revalidate-secret",
     },
   });
   child.unref();

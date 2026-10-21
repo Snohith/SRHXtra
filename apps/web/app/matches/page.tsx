@@ -14,7 +14,7 @@ export default function MatchesPage() {
       <p className="meta" style={{ marginBottom: 12 }}>
         Fixtures, results, previews, and post-match analysis.
       </p>
-      <div className="empty">
+      <div className="empty" data-reveal="">
         <strong>Coming soon.</strong>
         <br />
         Meanwhile, read the latest{" "}

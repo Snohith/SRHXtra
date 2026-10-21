@@ -1,0 +1,117 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "24"
+  PNPM_VERSION: "12.14.0"
+  TURBO_TELEMETRY_DISABLED: "1"
+  NEXT_TELEMETRY_DISABLED: "1"
+
+jobs:
+  verify:
+    name: Typecheck, lint, format, audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm format:check
+      # The remaining moderate advisory is the Nest SSE-only issue documented
+      # in the README; fail on critical/high, not on that accepted exposure.
+      - run: pnpm audit --prod --audit-level=high
+
+  e2e:
+    name: Build, security checks, Playwright
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: srh
+          POSTGRES_PASSWORD: srh_ci_password
+          POSTGRES_DB: srh_news
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U srh -d srh_news"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://srh:srh_ci_password@localhost:5432/srh_news
+      PSQL_URL: postgresql://srh:srh_ci_password@localhost:5432/srh_news
+      ADMIN_API_TOKEN: ci-admin-token-${{ github.run_id }}
+      ADMIN_USER: admin@srh.local
+      NEXT_PUBLIC_API_URL: http://localhost:4000
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      REVALIDATE_SECRET: ci-revalidate-secret
+      WEB_REVALIDATE_URL: http://localhost:3000/api/revalidate
+      API_PORT: "4000"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - run: pnpm --filter @srh/e2e exec playwright install --with-deps chromium
+      - run: pnpm --filter @srh/api db:migrate
+      - run: pnpm --filter @srh/api... build
+      - name: Start API
+        run: |
+          NODE_ENV=production node apps/api/dist/main.js > /tmp/api.log 2>&1 &
+          echo $! > /tmp/api.pid
+          for i in $(seq 1 30); do
+            curl -fsS http://localhost:4000/api/v1/health >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/api.log
+          exit 1
+      # The public web build pre-renders ISR pages from the running API.
+      - run: pnpm build
+      - name: Start web, admin, and worker
+        run: |
+          NODE_ENV=production pnpm --filter @srh/web start > /tmp/web.log 2>&1 &
+          NODE_ENV=production pnpm --filter @srh/admin start > /tmp/admin.log 2>&1 &
+          node apps/api/dist/worker.js > /tmp/worker.log 2>&1 &
+          for i in $(seq 1 60); do
+            web=$(curl -sS -o /dev/null -w '%{http_code}' http://localhost:3000/ || true)
+            admin=$(curl -sS -o /dev/null -w '%{http_code}' http://localhost:3001/ || true)
+            [ "$web" = 200 ] && [ "$admin" = 200 ] && exit 0
+            sleep 1
+          done
+          cat /tmp/web.log /tmp/admin.log
+          exit 1
+      - run: pnpm e2e
+      - run: pnpm security:check
+      - run: pnpm security:auth
+      - name: Rate-limit probe
+        run: pnpm security:check -- --rate-limit
+      - name: Upload failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-results
+          path: apps/e2e/test-results
+          if-no-files-found: ignore
+          retention-days: 7

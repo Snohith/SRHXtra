@@ -14,6 +14,13 @@ export default function NewsFilters({
   const pathname = usePathname();
   const params = useSearchParams();
   const [search, setSearch] = useState(params.get("search") ?? "");
+  const urlSearch = params.get("search") ?? "";
+
+  // URL → state, so Back/Forward (or a shared link) wins over stale input.
+  // The debounce effect below then sees the two values equal and stays quiet.
+  useEffect(() => {
+    setSearch(urlSearch);
+  }, [urlSearch]);
 
   // Debounce search typing into the URL (resets to page 1).
   useEffect(() => {
@@ -39,7 +46,7 @@ export default function NewsFilters({
   }
 
   return (
-    <div className="toolbar" role="search">
+    <div className="toolbar" role="search" data-reveal="">
       <input
         type="text"
         placeholder="Search headlines…"

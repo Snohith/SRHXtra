@@ -2,9 +2,9 @@ import { devices, expect, test } from "@playwright/test";
 import {
   ADMIN_URL,
   API_URL,
-  REVALIDATE_SECRET,
-  TOKEN,
+  PUBLISHER_TOKEN,
   WEB_URL,
+  WRITER_TOKEN,
   adminHeaders,
   adminHeadersFor,
   createDraftAs,
@@ -53,6 +53,10 @@ test.beforeAll(() => {
     INSERT INTO user_roles (user_id, role_id)
     SELECT u.id, r.id FROM users u JOIN roles r ON r.name = 'publisher' WHERE u.email = '${PUBLISHER}'
     ON CONFLICT DO NOTHING;
+    UPDATE users SET api_token_hash = encode(digest('${WRITER_TOKEN}', 'sha256'), 'hex')
+    WHERE email = '${WRITER}';
+    UPDATE users SET api_token_hash = encode(digest('${PUBLISHER_TOKEN}', 'sha256'), 'hex')
+    WHERE email = '${PUBLISHER}';
   `);
 });
 
@@ -113,8 +117,7 @@ test("3. an authorized publisher approves and publishes it", async ({
 
   // In the admin UI the writer sees it waiting, with no publish control.
   await page.goto(`${ADMIN_URL}/login`);
-  await page.getByLabel("Staff API token").fill(TOKEN);
-  await page.getByLabel("Staff email or user ID").fill(WRITER);
+  await page.getByLabel("Staff API token").fill(WRITER_TOKEN);
   await page.getByRole("button", { name: "Sign in" }).click();
   await page.goto(`${ADMIN_URL}/articles/${articleId}`);
   await expect(page.getByText("Awaiting review")).toBeVisible();
@@ -241,31 +244,37 @@ test("6. updating the article refreshes its public content and metadata", async 
 
   // The admin UI offers the published article as editable, with the new title.
   await page.goto(`${ADMIN_URL}/login`);
-  await page.getByLabel("Staff API token").fill(TOKEN);
-  await page.getByLabel("Staff email or user ID").fill(PUBLISHER);
+  await page.getByLabel("Staff API token").fill(PUBLISHER_TOKEN);
   await page.getByRole("button", { name: "Sign in" }).click();
   await page.goto(`${ADMIN_URL}/articles/${articleId}`);
   await expect(
     page.getByRole("button", { name: "Save changes" }),
   ).toBeVisible();
-  await expect(page.getByLabel("Title")).toHaveValue(updatedTitle);
+  await expect(page.getByLabel("Title", { exact: true })).toHaveValue(
+    updatedTitle,
+  );
 });
 
-test("7. an archived/unpublished article disappears from public listings", async ({
+test("7. an archived article disappears from public listings", async ({
   request,
 }) => {
-  // MVP note: the workflow is forward-only, so there is no archive endpoint
-  // yet. An ops archival is applied at the data layer, then the revalidation
-  // webhook is called exactly as a future worker "article.archived" event would.
-  sql(
-    `UPDATE articles SET status = 'DRAFT', published_at = NULL WHERE id = '${articleId}';`,
+  // Real workflow path: a publisher archives the live story. The status,
+  // audit row and article.archived outbox event commit in one transaction,
+  // then the worker revalidates the public pages.
+  const archived = await request.post(
+    `${API_URL}/api/v1/admin/articles/${articleId}/archive`,
+    { headers: adminHeadersFor(PUBLISHER) },
   );
-
-  const revalidate = await request.post(`${WEB_URL}/api/revalidate`, {
-    headers: { "x-revalidate-secret": REVALIDATE_SECRET },
-    data: { event: "article.archived", slug },
-  });
-  expect(revalidate.status()).toBe(200);
+  expect(archived.status(), await archived.text()).toBe(201);
+  expect((await archived.json()).status).toBe("ARCHIVED");
+  expect(sql(`SELECT status FROM articles WHERE id = '${articleId}';`)).toBe(
+    "ARCHIVED",
+  );
+  expect(
+    sql(
+      `SELECT COUNT(*) FROM outbox_events WHERE aggregate_id = '${articleId}' AND event_type = 'article.archived';`,
+    ),
+  ).toBe("1");
 
   await expect
     .poll(async () => (await request.get(`${WEB_URL}/`)).text(), {

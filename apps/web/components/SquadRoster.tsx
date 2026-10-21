@@ -217,7 +217,7 @@ export default function SquadRoster({
         <h2 id="roster-heading">The full roster</h2>
       </div>
 
-      <div className="roster-toolbar">
+      <div className="roster-toolbar" data-reveal="">
         <div className="roster-search" role="search">
           <label className="sr-only" htmlFor="squad-search">
             Search players
@@ -294,7 +294,7 @@ export default function SquadRoster({
 
       <div id="squad-roster-list">
         {filtered.length === 0 ? (
-          <div className="empty roster-empty">
+          <div className="empty roster-empty" data-reveal="">
             <strong>
               No players match
               {state.query.trim()
@@ -325,7 +325,7 @@ export default function SquadRoster({
                 key={info.role}
                 aria-labelledby={headingId}
               >
-                <div className="section-head">
+                <div className="section-head" data-reveal="">
                   <h3 id={headingId}>
                     <span className="g-num">
                       {String(index + 1).padStart(2, "0")}
@@ -339,8 +339,12 @@ export default function SquadRoster({
                 </div>
                 <p className="group-blurb">{info.blurb}</p>
                 <ul className="squad-grid" role="list">
-                  {players.map((player) => (
-                    <li key={player.name}>
+                  {players.map((player, i) => (
+                    <li
+                      key={player.name}
+                      data-reveal=""
+                      data-reveal-delay={(i % 3) * 50 || undefined}
+                    >
                       <PlayerCard
                         player={player}
                         avatar={avatars[player.name]}

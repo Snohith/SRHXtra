@@ -139,6 +139,7 @@ img {
   padding: 12px 16px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 12px;
 }
 
@@ -195,19 +196,122 @@ img {
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
 }
 
+.menu-btn:hover {
+  border-color: #5a6270;
+  background: #1b1f26;
+}
+
+.menu-btn:active {
+  transform: scale(0.97);
+}
+
+.menu-btn:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* Hamburger that morphs into a close mark when the menu is open. */
+.menu-icon {
+  position: relative;
+  width: 16px;
+  height: 12px;
+  flex: none;
+}
+
+.menu-icon span {
+  position: absolute;
+  left: 0;
+  width: 16px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition:
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 160ms ease;
+}
+
+.menu-icon span:nth-child(1) {
+  top: 0;
+}
+
+.menu-icon span:nth-child(2) {
+  top: 5px;
+}
+
+.menu-icon span:nth-child(3) {
+  top: 10px;
+}
+
+.menu-btn[aria-expanded="true"] .menu-icon span:nth-child(1) {
+  transform: translateY(5px) rotate(45deg);
+}
+
+.menu-btn[aria-expanded="true"] .menu-icon span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0.3);
+}
+
+.menu-btn[aria-expanded="true"] .menu-icon span:nth-child(3) {
+  transform: translateY(-5px) rotate(-45deg);
+}
+
+/* Mobile menu — collapses via an animated grid row instead of snapping in
+   and out; the inner wrapper is what gets clipped, and `visibility` rides
+   the transition so collapsed links stay out of the tab order. */
 .nav-mobile {
+  flex-basis: 100%;
   display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s 320ms;
+}
+
+.nav-mobile.is-open {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition:
+    grid-template-rows 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s;
+}
+
+.nav-mobile-inner {
+  min-height: 0;
+  overflow: hidden;
   border-top: 1px solid #2b313a;
 }
 
 .nav-mobile a {
+  display: block;
   color: #e8ebef;
   text-decoration: none;
   font-weight: 600;
   padding: 12px 16px;
   border-bottom: 1px solid #23282f;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.nav-mobile a:hover {
+  background: #1b1f26;
+  color: #fff;
+}
+
+.nav-mobile a[aria-current="page"] {
+  color: #fff;
+  background: rgba(242, 101, 34, 0.14);
+  box-shadow: inset 3px 0 0 var(--brand);
 }
 
 @media (min-width: 720px) {
@@ -246,6 +350,19 @@ img {
   padding: 3px 8px;
   border-radius: 999px;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* Live "on air" pulse — see the keyframes in the motion section below. */
+.breaking-tag::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: live-pulse 2.2s ease-out infinite;
 }
 
 .breaking a {
@@ -391,6 +508,7 @@ img {
   position: relative;
   aspect-ratio: 16 / 9;
   min-height: 200px;
+  overflow: hidden;
 }
 
 .hero-img img {
@@ -1196,7 +1314,8 @@ img {
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease,
-    color 0.15s ease;
+    color 0.15s ease,
+    transform 0.15s ease;
 }
 
 .f-chip:hover {
@@ -1984,6 +2103,461 @@ img {
 
   .social-btn:hover,
   .player-card:hover .player-go {
+    transform: none;
+  }
+}
+
+/* Motion & micro-interactions ---------------------------------------------
+   The animation layer: page transitions, scroll reveals, hero parallax,
+   reading progress, and hover/press feedback (see components/Motion.tsx for
+   the JS half). Everything animates compositor-friendly properties only
+   (opacity/transform) and, under `prefers-reduced-motion: reduce`, all of
+   it disappears into the static site. */
+
+/* Page transitions — app/template.tsx re-mounts per route change, which
+   replays this short fade + rise. */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.page-transition {
+  animation: page-in 460ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+/* Scroll reveals — the controller swaps .is-pending → .is-in the moment an
+   element reaches the viewport. `backwards` fill keeps it hidden through
+   its stagger delay, and once the animation ends the element returns to
+   its natural styles, so hover transitions on the same node are untouched.
+   Nothing is ever pre-hidden without JS (see Motion.tsx). */
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+[data-reveal].is-pending {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+[data-reveal].is-in {
+  animation: reveal-in 680ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+/* Hero parallax — Motion adds .parallax-on and writes --parallax-y each
+   frame; the slight overscan keeps the shifted edges inside the clipped
+   card. */
+[data-parallax].parallax-on img {
+  transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1.14);
+  will-change: transform;
+}
+
+/* Sticky header — compacts and lifts a shadow once the page scrolls. */
+.site-header {
+  transition: box-shadow 300ms ease;
+}
+
+.site-header .header-inner {
+  transition: padding 300ms ease;
+}
+
+.site-header.is-scrolled {
+  box-shadow: 0 14px 34px rgba(10, 12, 16, 0.38);
+}
+
+.site-header.is-scrolled .header-inner {
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+
+/* Desktop nav — hover underline slides in; the current section keeps it. */
+.nav-desktop a {
+  position: relative;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.nav-desktop a::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 4px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--brand);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-desktop a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* Live pulse for the breaking-news tag. */
+@keyframes live-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.55);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0);
+  }
+}
+
+/* Reading progress (article pages) — a scaleX transform, no layout cost. */
+.read-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 40;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--brand) 0%, #ffb584 100%);
+  pointer-events: none;
+}
+
+/* Floating back-to-top — fades in past the first viewport. */
+.to-top {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 40;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(242, 101, 34, 0.45);
+  background: rgba(20, 22, 26, 0.92);
+  color: #fff;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px) scale(0.94);
+  box-shadow: 0 10px 26px rgba(20, 22, 26, 0.32);
+  transition:
+    opacity 240ms ease,
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s 240ms,
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 240ms ease,
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.to-top:hover {
+  background: var(--brand);
+  border-color: var(--brand);
+}
+
+.to-top:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+.to-top svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Shared press/edges feedback (state changes, not hover flourishes). */
+.btn {
+  transition:
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: none;
+}
+
+.chip {
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease,
+    box-shadow 200ms ease;
+}
+
+.chip:active {
+  transform: scale(0.97);
+}
+
+.f-chip:active {
+  transform: scale(0.96);
+}
+
+.card:focus-visible,
+.hero:focus-visible,
+.chip:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* Focus glow for the filter fields. */
+.roster-search input,
+.toolbar input,
+.toolbar select {
+  transition:
+    border-color 160ms ease,
+    box-shadow 200ms ease;
+}
+
+.roster-search input:focus,
+.toolbar input:focus,
+.toolbar select:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(242, 101, 34, 0.16);
+}
+
+@media (hover: hover) {
+  /* Cards — lift, brand border, a slow image push-in, headline tint. */
+  .card {
+    transition:
+      border-color 200ms ease,
+      box-shadow 280ms ease,
+      transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .card:hover {
+    box-shadow: 0 16px 34px rgba(20, 22, 26, 0.1);
+    transform: translateY(-3px);
+  }
+
+  .card h3 {
+    transition: color 180ms ease;
+  }
+
+  .card:hover h3 {
+    color: var(--brand-dark);
+  }
+
+  .card-img img {
+    transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .card:hover .card-img img {
+    transform: scale(1.055);
+  }
+
+  /* Featured hero — a soft lift plus one sheen sweep across the image. */
+  .hero {
+    transition:
+      box-shadow 300ms ease,
+      transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .hero:hover {
+    box-shadow: 0 24px 48px rgba(20, 22, 26, 0.18);
+    transform: translateY(-3px);
+  }
+
+  .hero > .hero-img::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      115deg,
+      transparent 32%,
+      rgba(255, 255, 255, 0.16) 50%,
+      transparent 68%
+    );
+    transform: translateX(-130%);
+  }
+
+  .hero:hover > .hero-img::after {
+    transform: translateX(130%);
+    transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Buttons — nudge plus a light sweep across primary fills. */
+  .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(20, 22, 26, 0.1);
+  }
+
+  .btn:disabled:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .btn.primary {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn.primary::after {
+    content: "";
+    position: absolute;
+    top: -25%;
+    bottom: -25%;
+    left: 0;
+    width: 45%;
+    background: linear-gradient(
+      100deg,
+      transparent,
+      rgba(255, 255, 255, 0.38),
+      transparent
+    );
+    transform: translateX(-130%) skewX(-18deg);
+    pointer-events: none;
+  }
+
+  .btn.primary:hover::after {
+    transform: translateX(300%) skewX(-18deg);
+    transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .btn.primary:disabled::after {
+    content: none;
+  }
+
+  /* Chips and "more →" links. */
+  .chip:hover {
+    border-color: var(--brand);
+    box-shadow: 0 6px 16px rgba(20, 22, 26, 0.08);
+    transform: translateY(-1px);
+  }
+
+  .section-head a {
+    transition:
+      color 160ms ease,
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .section-head a:hover {
+    color: var(--brand);
+    transform: translateX(3px);
+  }
+
+  .nav-desktop a:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Brand mark — a small tilt on hover. */
+  .brand-logo {
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .brand:hover .brand-logo {
+    transform: rotate(-6deg) scale(1.06);
+  }
+
+  /* Player portraits — heads lean into the card on hover. */
+  .player-photo img {
+    transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .player-card:hover .player-photo img {
+    transform: scale(1.58);
+  }
+
+  .player-card:hover .player-photo.portrait img {
+    transform: scale(1.08);
+  }
+
+  .pager-avatar img {
+    transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .pager-link:hover .pager-avatar img {
+    transform: scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition,
+  [data-reveal].is-in,
+  .breaking-tag::before {
+    animation: none;
+  }
+
+  [data-reveal].is-pending {
+    opacity: 1;
+    transform: none;
+  }
+
+  [data-parallax].parallax-on img {
+    transform: none;
+    will-change: auto;
+  }
+
+  .site-header,
+  .site-header .header-inner,
+  .card,
+  .card h3,
+  .card-img img,
+  .hero,
+  .btn,
+  .chip,
+  .section-head a,
+  .nav-desktop a,
+  .nav-desktop a::after,
+  .menu-btn,
+  .menu-icon span,
+  .nav-mobile,
+  .nav-mobile a,
+  .f-chip,
+  .roster-search input,
+  .toolbar input,
+  .toolbar select,
+  .player-photo img,
+  .pager-avatar img,
+  .brand-logo,
+  .to-top {
+    transition: none;
+  }
+
+  .card:hover,
+  .hero:hover,
+  .btn:hover,
+  .btn:active,
+  .chip:hover,
+  .chip:active,
+  .f-chip:active,
+  .section-head a:hover,
+  .brand:hover .brand-logo {
+    transform: none;
+  }
+
+  .card:hover .card-img img,
+  .pager-link:hover .pager-avatar img {
+    transform: none;
+  }
+
+  /* Keep portrait framing; only the hover zoom goes away. */
+  .player-card:hover .player-photo img {
+    transform: scale(1.5);
+  }
+
+  .player-card:hover .player-photo.portrait img {
     transform: none;
   }
 }

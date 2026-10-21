@@ -58,6 +58,7 @@ export class AdminController {
     const { rows } = await this.db.query<{
       id: string; // BIGSERIAL → node-postgres returns BIGINT as string
       action: string;
+      metadata: Record<string, unknown> | null;
       resource_type: string;
       resource_id: string;
       article_title: string | null;
@@ -66,7 +67,7 @@ export class AdminController {
       actor_name: string | null;
       created_at: string;
     }>(
-      `SELECT l.id, l.action, l.resource_type, l.resource_id,
+      `SELECT l.id, l.action, l.metadata, l.resource_type, l.resource_id,
               a.title AS article_title, a.slug AS article_slug, a.status AS article_status,
               u.display_name AS actor_name, l.created_at
        FROM audit_logs l
@@ -77,6 +78,7 @@ export class AdminController {
     return rows.map((r) => ({
       id: Number(r.id),
       action: r.action,
+      metadata: r.metadata ?? {},
       resourceType: r.resource_type,
       resourceId: r.resource_id,
       articleTitle: r.article_title,

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SITE_URL } from "@/lib/api";
+import { serializeJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
   title: "About us",
@@ -26,7 +27,7 @@ export default function AboutPage() {
     <div className="wrap">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       <nav className="meta" aria-label="Breadcrumb" style={{ marginBottom: 4 }}>
         <Link href="/">Home</Link> · About us
@@ -38,7 +39,7 @@ export default function AboutPage() {
           Hyderabad across the season.
         </p>
       </header>
-      <div className="prose">
+      <div className="prose" data-reveal="">
         <h2>What we cover</h2>
         <p>
           SRH Xtra follows the Sunrisers Hyderabad through the season: team news

@@ -20,23 +20,37 @@
  */
 import { spawnSync } from "node:child_process";
 
-const API = (process.env.API_URL ?? "http://localhost:4000").replace(/\/+$/, "");
-const WEB = (process.env.WEB_URL ?? "http://localhost:3000").replace(/\/+$/, "");
+const API = (process.env.API_URL ?? "http://localhost:4000").replace(
+  /\/+$/,
+  "",
+);
+const WEB = (process.env.WEB_URL ?? "http://localhost:3000").replace(
+  /\/+$/,
+  "",
+);
 const TOKEN = process.env.ADMIN_API_TOKEN ?? "dev-admin-token";
+const ADMIN_EMAIL = process.env.ADMIN_USER ?? "admin@srh.local";
 const CONTAINER = process.env.CONTAINER ?? "srh-news-db";
 const DB = process.env.DB_NAME ?? "srh_news";
 const USER = process.env.DB_USER ?? "srh";
+const PSQL_URL = process.env.PSQL_URL;
 
 const results = [];
 function check(name, ok, detail = "") {
   results.push({ name, ok });
-  console.log(`${ok ? "PASS" : "FAIL"}  ${name}${detail ? ` — ${detail}` : ""}`);
+  console.log(
+    `${ok ? "PASS" : "FAIL"}  ${name}${detail ? ` — ${detail}` : ""}`,
+  );
 }
 
-async function call(method, path, { token = TOKEN, userId, body, raw = false, base = API } = {}) {
+async function call(
+  method,
+  path,
+  { token = TOKEN, actor, body, raw = false, base = API } = {},
+) {
   const headers = {};
   if (token !== null) headers.Authorization = `Bearer ${token}`;
-  if (userId) headers["x-admin-user-id"] = userId;
+  if (actor) headers["x-admin-user-id"] = actor;
   if (body !== undefined) headers["Content-Type"] = "application/json";
   try {
     const res = await fetch(`${base}${path}`, {
@@ -58,13 +72,21 @@ async function call(method, path, { token = TOKEN, userId, body, raw = false, ba
 }
 
 function psql(sql) {
+  const args = PSQL_URL
+    ? [PSQL_URL, "-v", "ON_ERROR_STOP=1", "-t", "-A", "-c", sql]
+    : [CONTAINER, "psql", "-U", USER, "-d", DB, "-t", "-A", "-c", sql];
   const res = spawnSync(
-    "docker",
-    ["exec", CONTAINER, "psql", "-U", USER, "-d", DB, "-t", "-A", "-c", sql],
-    { encoding: "utf8" },
+    PSQL_URL ? "psql" : "docker",
+    PSQL_URL ? args : ["exec", ...args],
+    {
+      encoding: "utf8",
+    },
   );
-  if (res.status !== 0) throw new Error(`psql failed: ${res.stderr.trim().slice(0, 200)}`);
-  return res.stdout.trim();
+  if (res.error || res.status !== 0) {
+    const detail = res.stderr || res.error?.message || "unknown psql error";
+    throw new Error(`psql failed: ${detail.trim().slice(0, 200)}`);
+  }
+  return (res.stdout ?? "").trim();
 }
 
 async function main() {
@@ -72,57 +94,96 @@ async function main() {
 
   try {
     // 1. Auth bypass attempts
-    check("no token -> 401", (await call("GET", "/api/v1/admin/me", { token: null })).status === 401);
-    check("wrong token -> 401", (await call("GET", "/api/v1/admin/me", { token: "wrong" })).status === 401);
-    check("empty bearer -> 401", (await call("GET", "/api/v1/admin/me", { token: "" })).status === 401);
     check(
-      "unknown user -> 401",
-      (
-        await call("GET", "/api/v1/admin/me", {
-          userId: "00000000-0000-0000-0000-000000000000",
-        })
-      ).status === 401,
+      "no token -> 401",
+      (await call("GET", "/api/v1/admin/me", { token: null })).status === 401,
+    );
+    check(
+      "wrong token -> 401",
+      (await call("GET", "/api/v1/admin/me", { token: "wrong" })).status ===
+        401,
+    );
+    check(
+      "empty bearer -> 401",
+      (await call("GET", "/api/v1/admin/me", { token: "" })).status === 401,
+    );
+    const me = await call("GET", "/api/v1/admin/me", {
+      actor: "00000000-0000-0000-0000-000000000000",
+    });
+    check(
+      "client-chosen actor header is ignored",
+      me.status === 200 && me.body?.email === ADMIN_EMAIL,
+      `status=${me.status} email=${me.body?.email ?? "?"}`,
     );
 
     // 2. Mass assignment
     const mass = await call("POST", "/api/v1/admin/articles", {
-      body: { title: "security-check fixture", body: "x", status: "PUBLISHED", publishedAt: "2020-01-01" },
+      body: {
+        title: "security-check fixture",
+        body: "x",
+        status: "PUBLISHED",
+        publishedAt: "2020-01-01",
+      },
     });
     check("mass assignment -> 400", mass.status === 400);
 
     // 3. Draft invisibility + admin-only visibility
     const created = await call("POST", "/api/v1/admin/articles", {
-      body: { title: `Security Check Draft ${Date.now()}`, body: "<p>fixture</p>" },
+      body: {
+        title: `Security Check Draft ${Date.now()}`,
+        body: "<p>fixture</p>",
+      },
     });
-    if (created.status !== 201) throw new Error(`fixture create failed: ${created.status}`);
+    if (created.status !== 201)
+      throw new Error(`fixture create failed: ${created.status}`);
     fixtures.articles.push(created.body.id);
     const slug = created.body.slug;
-    check("draft public GET -> 404", (await call("GET", `/api/v1/articles/${slug}`)).status === 404);
+    check(
+      "draft public GET -> 404",
+      (await call("GET", `/api/v1/articles/${slug}`)).status === 404,
+    );
     check(
       "draft visible to admins",
-      (await call("GET", `/api/v1/admin/articles/${created.body.id}`)).status === 200,
+      (await call("GET", `/api/v1/admin/articles/${created.body.id}`))
+        .status === 200,
     );
 
     // 4. RBAC: writer cannot publish
     const writerEmail = `security-writer-${Date.now()}@srh.local`;
+    const writerToken = `security-writer-token-${Date.now()}`;
     const writerId = psql(
       `INSERT INTO users (email, display_name) VALUES ('${writerEmail}', 'Security Writer') ON CONFLICT (email) DO UPDATE SET display_name=EXCLUDED.display_name RETURNING id;`,
-    ).match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?.[0];
+    ).match(
+      /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/,
+    )?.[0];
     if (!writerId) throw new Error("could not create writer fixture");
     fixtures.users.push(writerEmail);
     psql(
-      `INSERT INTO user_roles (user_id, role_id) SELECT '${writerId}', id FROM roles WHERE name='writer' ON CONFLICT DO NOTHING;`,
+      `INSERT INTO user_roles (user_id, role_id) SELECT '${writerId}', id FROM roles WHERE name='writer' ON CONFLICT DO NOTHING;
+       UPDATE users SET api_token_hash=encode(digest('${writerToken}', 'sha256'), 'hex') WHERE id='${writerId}';`,
     );
-    await call("POST", `/api/v1/admin/articles/${created.body.id}/submit`, { userId: writerId });
-    const writerPublish = await call("POST", `/api/v1/admin/articles/${created.body.id}/publish`, {
-      userId: writerId,
+    await call("POST", `/api/v1/admin/articles/${created.body.id}/submit`, {
+      token: writerToken,
     });
+    const writerPublish = await call(
+      "POST",
+      `/api/v1/admin/articles/${created.body.id}/publish`,
+      {
+        token: writerToken,
+      },
+    );
     check("writer publish -> 403", writerPublish.status === 403);
 
-    // 5. Revalidation webhook secret
+    // 5. Revalidation webhook secret. A prior Playwright run may have exhausted
+    // the invalid-secret throttle; 429 is the safe outcome too.
+    const revalidateWrong = await call("POST", "/api/revalidate", {
+      token: null,
+      body: { slug: "x" },
+      base: WEB,
+    });
     check(
-      "revalidate wrong secret -> 401",
-      (await call("POST", "/api/revalidate", { token: null, body: { slug: "x" }, base: WEB })).status === 401,
+      "revalidate wrong secret -> 401/429",
+      revalidateWrong.status === 401 || revalidateWrong.status === 429,
     );
 
     // 6. SSRF: optimizer rejects arbitrary host pre-fetch
@@ -137,8 +198,14 @@ async function main() {
     const home = await call("GET", "/", { token: null, base: WEB });
     const csp = home.headers?.get("content-security-policy") ?? "";
     check("CSP header present", csp.includes("default-src 'self'"));
-    check("nosniff header present", home.headers?.get("x-content-type-options") === "nosniff");
-    check("frame deny present", home.headers?.get("x-frame-options") === "DENY");
+    check(
+      "nosniff header present",
+      home.headers?.get("x-content-type-options") === "nosniff",
+    );
+    check(
+      "frame deny present",
+      home.headers?.get("x-frame-options") === "DENY",
+    );
 
     // 8. Optional rate-limit probe
     if (process.argv.includes("--rate-limit")) {
@@ -148,12 +215,18 @@ async function main() {
         statuses.push(res.status);
       }
       const got429 = statuses.filter((s) => s === 429).length;
-      check(`rate limit kicks in (${got429} x 429)`, got429 > 0, `200s=${statuses.filter((s) => s === 200).length}`);
+      check(
+        `rate limit kicks in (${got429} x 429)`,
+        got429 > 0,
+        `200s=${statuses.filter((s) => s === 200).length}`,
+      );
     }
   } finally {
     // Cleanup fixtures regardless of outcome.
     for (const id of fixtures.articles) {
-      psql(`DELETE FROM articles WHERE id='${id}'; DELETE FROM audit_logs WHERE resource_id='${id}';`);
+      psql(
+        `DELETE FROM articles WHERE id='${id}'; DELETE FROM audit_logs WHERE resource_id='${id}';`,
+      );
     }
     for (const email of fixtures.users) {
       psql(`DELETE FROM users WHERE email='${email}';`);
@@ -162,7 +235,11 @@ async function main() {
 
   const failed = results.filter((r) => !r.ok);
   console.log("");
-  console.log(failed.length === 0 ? `ALL ${results.length} SECURITY CHECKS PASSED` : `${failed.length} CHECK(S) FAILED`);
+  console.log(
+    failed.length === 0
+      ? `ALL ${results.length} SECURITY CHECKS PASSED`
+      : `${failed.length} CHECK(S) FAILED`,
+  );
   process.exit(failed.length === 0 ? 0 : 1);
 }
 

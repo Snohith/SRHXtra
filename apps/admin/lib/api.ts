@@ -4,9 +4,11 @@ import {
   ArticleRevisionSchema,
   ArticleRevisionSummarySchema,
   ArticleSchema,
+  BulkArticlesResponseSchema,
   CategorySchema,
   MediaAssetSchema,
   PaginatedArticlesSchema,
+  PaginatedMediaSchema,
   StaffUserSchema,
   UploadTicketSchema,
   type ActivityItem,
@@ -14,8 +16,12 @@ import {
   type Article,
   type ArticleRevision,
   type ArticleRevisionSummary,
+  type ArticleSummary,
+  type BulkArticleAction,
+  type BulkArticlesResponse,
   type Category,
   type MediaAsset,
+  type PaginatedMedia,
   type StaffUser,
 } from "@srh/contracts";
 import type { z } from "zod";
@@ -24,27 +30,21 @@ export const API_BASE =
   process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
 const TOKEN_KEY = "srh-admin-token";
-const USER_KEY = "srh-admin-user";
 
-export function getStoredAuth(): {
-  token: string | null;
-  userId: string | null;
-} {
-  if (typeof window === "undefined") return { token: null, userId: null };
-  return {
-    token: window.localStorage.getItem(TOKEN_KEY),
-    userId: window.localStorage.getItem(USER_KEY),
-  };
+export function getStoredAuth(): { token: string | null } {
+  if (typeof window === "undefined") return { token: null };
+  return { token: window.localStorage.getItem(TOKEN_KEY) };
 }
 
-export function storeAuth(token: string, userId: string) {
+export function storeAuth(token: string) {
   window.localStorage.setItem(TOKEN_KEY, token);
-  window.localStorage.setItem(USER_KEY, userId);
+  // Remove the identity key stored by older builds; it is no longer trusted.
+  window.localStorage.removeItem("srh-admin-user");
 }
 
 export function clearAuth() {
   window.localStorage.removeItem(TOKEN_KEY);
-  window.localStorage.removeItem(USER_KEY);
+  window.localStorage.removeItem("srh-admin-user");
 }
 
 export class ApiError extends Error {
@@ -56,11 +56,8 @@ export class ApiError extends Error {
 }
 
 function authHeaders(): Record<string, string> {
-  const { token, userId } = getStoredAuth();
-  const headers: Record<string, string> = {};
-  if (token) headers["Authorization"] = `Bearer ${token}`;
-  if (userId) headers["x-admin-user-id"] = userId;
-  return headers;
+  const { token } = getStoredAuth();
+  return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
 function parseApiError(status: number, body: unknown): string {
@@ -79,6 +76,7 @@ async function request<T>(
   const res = await fetch(`${API_BASE}${path}`, {
     ...init,
     headers: { ...authHeaders(), ...(init?.headers ?? {}) },
+    signal: init?.signal ?? AbortSignal.timeout(15_000),
   });
   const body = await res.json().catch(() => null);
   if (!res.ok) throw new ApiError(res.status, parseApiError(res.status, body));
@@ -109,6 +107,8 @@ export interface ArticleInput {
   body: string;
   categoryId?: number | null;
   coverImageUrl?: string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
 }
 
 function toPayload(input: ArticleInput): Record<string, unknown> {
@@ -121,6 +121,9 @@ function toPayload(input: ArticleInput): Record<string, unknown> {
   if (input.categoryId !== undefined) payload.categoryId = input.categoryId;
   if (input.coverImageUrl !== undefined)
     payload.coverImageUrl = input.coverImageUrl || null;
+  if (input.seoTitle !== undefined) payload.seoTitle = input.seoTitle || null;
+  if (input.seoDescription !== undefined)
+    payload.seoDescription = input.seoDescription || null;
   return payload;
 }
 
@@ -145,8 +148,11 @@ export const api = {
     pageSize: number;
     status?: string;
     search?: string;
+    categoryId?: number;
+    sort?: string;
+    dir?: string;
   }): Promise<{
-    data: Article[];
+    data: ArticleSummary[];
     page: number;
     pageSize: number;
     total: number;
@@ -157,6 +163,9 @@ export const api = {
     });
     if (params.status) q.set("status", params.status);
     if (params.search) q.set("search", params.search);
+    if (params.categoryId) q.set("categoryId", String(params.categoryId));
+    if (params.sort) q.set("sort", params.sort);
+    if (params.dir) q.set("dir", params.dir);
     return get(`/api/v1/admin/articles?${q}`, PaginatedArticlesSchema);
   },
   getArticle(id: string): Promise<Article> {
@@ -170,13 +179,15 @@ export const api = {
       toPayload(input),
     );
   },
-  updateArticle(id: string, input: ArticleInput): Promise<Article> {
-    return send(
-      `/api/v1/admin/articles/${id}`,
-      ArticleSchema,
-      "PATCH",
-      toPayload(input),
-    );
+  updateArticle(
+    id: string,
+    input: ArticleInput,
+    opts: { quiet?: boolean } = {},
+  ): Promise<Article> {
+    // quiet=1 is the autosave path: content is persisted but no revision,
+    // audit row, or public revalidation is written (explicit Save does that).
+    const path = `/api/v1/admin/articles/${id}${opts.quiet ? "?quiet=1" : ""}`;
+    return send(path, ArticleSchema, "PATCH", toPayload(input));
   },
   submitArticle(id: string): Promise<Article> {
     return send(`/api/v1/admin/articles/${id}/submit`, ArticleSchema, "POST");
@@ -214,6 +225,20 @@ export const api = {
       "POST",
     );
   },
+  // -- Bulk actions ----------------------------------------------------------
+  /** Bulk workflow actions (max 50 ids; per-id results come back). */
+  bulkArticles(input: {
+    ids: string[];
+    action: BulkArticleAction;
+    categoryId?: number | null;
+  }): Promise<BulkArticlesResponse> {
+    return send(
+      "/api/v1/admin/articles/bulk",
+      BulkArticlesResponseSchema,
+      "POST",
+      input,
+    );
+  },
   // -- Revision history ------------------------------------------------------
   revisions(id: string): Promise<ArticleRevisionSummary[]> {
     return get(
@@ -233,6 +258,20 @@ export const api = {
       ArticleSchema,
       "POST",
     );
+  },
+  // -- Media library ----------------------------------------------------------
+  /** Browse uploaded media (newest first, searchable by file name). */
+  adminMedia(params: {
+    page: number;
+    pageSize: number;
+    search?: string;
+  }): Promise<PaginatedMedia> {
+    const q = new URLSearchParams({
+      page: String(params.page),
+      pageSize: String(params.pageSize),
+    });
+    if (params.search) q.set("search", params.search);
+    return get(`/api/v1/admin/media?${q}`, PaginatedMediaSchema);
   },
   /**
    * Signed direct upload (Step 5): ask the API for a scoped PUT ticket,
@@ -282,6 +321,6 @@ export const api = {
 export function resolveImageUrl(url: string | null): string | null {
   if (!url) return null;
   if (url.startsWith("http://") || url.startsWith("https://")) return url;
-  if (url.startsWith("/")) return `${API_BASE}${url}`;
-  return url;
+  if (url.startsWith("/") && !url.startsWith("//")) return `${API_BASE}${url}`;
+  return null;
 }

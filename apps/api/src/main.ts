@@ -27,20 +27,30 @@ function corsOrigins(): string[] {
 }
 
 async function bootstrap() {
-  // Refuse to boot publicly with the documented dev credential.
+  // Refuse to boot publicly with the documented dev credential. An empty
+  // value is treated as missing too: `ADMIN_API_TOKEN=` must never slip past.
+  const adminToken = process.env.ADMIN_API_TOKEN?.trim();
   if (
     process.env.NODE_ENV === "production" &&
-    (process.env.ADMIN_API_TOKEN ?? DEV_TOKEN) === DEV_TOKEN
+    (!adminToken || adminToken === DEV_TOKEN)
   ) {
     throw new Error(
-      "Refusing to start: set a strong ADMIN_API_TOKEN (e.g. `openssl rand -hex 32`). " +
-        "The dev default must never run in production.",
+      "Refusing to start: set a strong ADMIN_API_TOKEN bootstrap credential " +
+        "(e.g. `openssl rand -hex 32`). The dev default must never run in production.",
+    );
+  }
+  if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+    throw new Error(
+      "Refusing to start: DATABASE_URL is required in production.",
     );
   }
 
   const origins = corsOrigins();
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: ["warn", "error"],
+    // Article HTML can exceed body-parser's 100 kB default; register explicit
+    // limits below instead of turning a long feature into a 500.
+    bodyParser: false,
     cors: {
       origin: origins,
       methods: ["GET", "POST", "PATCH", "PUT", "OPTIONS"],
@@ -48,7 +58,6 @@ async function bootstrap() {
         "Content-Type",
         "Authorization",
         "x-admin-token",
-        "x-admin-user-id",
         "x-request-id",
       ],
       exposedHeaders: ["x-request-id"],
@@ -59,8 +68,24 @@ async function bootstrap() {
   // Drop the Express fingerprint header.
   const server = app.getHttpAdapter().getInstance() as {
     disable?: (s: string) => void;
+    set?: (key: string, value: unknown) => void;
   };
   server.disable?.("x-powered-by");
+
+  app.useBodyParser("json", { limit: "2mb" });
+  app.useBodyParser("urlencoded", { extended: true, limit: "2mb" });
+
+  // req.ip must be the real reader behind a reverse proxy, otherwise the
+  // throttler puts every reader in one bucket. Set TRUST_PROXY to the hop
+  // count (e.g. 1) or a subnet/IP list in production; leave unset when the
+  // API is exposed directly.
+  const trustProxy = process.env.TRUST_PROXY;
+  if (trustProxy) {
+    server.set?.(
+      "trust proxy",
+      /^\d+$/.test(trustProxy) ? Number(trustProxy) : trustProxy,
+    );
+  }
 
   // Structured request logs (one JSON line per request, x-request-id).
   app.use(requestLogger());
@@ -76,7 +101,15 @@ async function bootstrap() {
   );
   // Hotlink guard mirrors the web app's /_next/image policy for originals.
   app.use("/uploads", hotlinkGuard(origins));
-  app.useStaticAssets(uploadsDir(), { prefix: "/uploads/" });
+  app.useStaticAssets(uploadsDir(), {
+    prefix: "/uploads/",
+    // Uploads are images; never let a browser sniff one into an active type.
+    setHeaders: (res) => {
+      res.setHeader("X-Content-Type-Options", "nosniff");
+    },
+  });
+  // Close the Postgres pool on SIGTERM/SIGINT instead of dropping connections.
+  app.enableShutdownHooks();
   const port = Number(process.env.API_PORT ?? 4000);
   await app.listen(port);
   logJson("info", "api listening", {

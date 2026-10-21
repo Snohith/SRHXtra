@@ -2,7 +2,9 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   Post,
+  Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -11,11 +13,11 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { Throttle } from "@nestjs/throttler";
 import { diskStorage } from "multer";
 import { randomBytes } from "node:crypto";
-import { extname } from "node:path";
 import {
   IsInt,
   IsOptional,
   IsString,
+  IsUUID,
   Max,
   MaxLength,
   Min,
@@ -28,6 +30,7 @@ import {
   MAX_UPLOAD_BYTES,
   MediaService,
 } from "./media.service";
+import { extensionForMime } from "./storage.service";
 import { ensureUploadsDir } from "./uploads";
 
 export { uploadsDir } from "./uploads";
@@ -48,8 +51,7 @@ class SignUploadDto {
 }
 
 class CompleteUploadDto {
-  @IsString()
-  @MaxLength(64)
+  @IsUUID()
   intentId!: string;
 
   @IsOptional()
@@ -70,6 +72,20 @@ class CompleteUploadDto {
 @Controller("api/v1/admin/media")
 export class MediaController {
   constructor(private readonly media: MediaService) {}
+
+  /** Browse the media library (newest first, optional name search). */
+  @Get()
+  list(
+    @Query("page") page?: string,
+    @Query("pageSize") pageSize?: string,
+    @Query("search") search?: string,
+  ) {
+    return this.media.listAssets({
+      page: Number.parseInt(page ?? "1", 10) || 1,
+      pageSize: Number.parseInt(pageSize ?? "24", 10) || 24,
+      search: search?.trim() || undefined,
+    });
+  }
 
   /** Issue a signed direct-upload ticket (local disk or S3, per MEDIA_DRIVER). */
   @Post("sign")
@@ -96,11 +112,24 @@ export class MediaController {
       storage: diskStorage({
         destination: (_req, _file, cb) => cb(null, ensureUploadsDir()),
         filename: (_req, file, cb) => {
-          const ext = extname(file.originalname).toLowerCase() || ".bin";
+          const ext = extensionForMime(file.mimetype);
           cb(null, `${Date.now()}-${randomBytes(8).toString("hex")}${ext}`);
         },
       }),
-      limits: { fileSize: MAX_UPLOAD_BYTES },
+      limits: {
+        fileSize: MAX_UPLOAD_BYTES,
+        files: 1,
+        fields: 4,
+        fieldNameSize: 200,
+        fieldSize: 8 * 1024,
+        parts: 8,
+        // Not in Nest 10's bundled options type, but supported by Multer
+        // 2.4's busboy limits (and by @types/multer 2.3).
+        ...({
+          fieldNestingDepth: 4,
+          fieldArrayIndexLimit: 100,
+        } as Record<string, number>),
+      },
       fileFilter: (_req, file, cb) => {
         if (!ALLOWED_UPLOAD_MIME.has(file.mimetype)) {
           cb(

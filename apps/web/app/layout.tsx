@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import BackToTop from "@/components/BackToTop";
 import ContentProtection from "@/components/ContentProtection";
+import Motion from "@/components/Motion";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { SITE_URL } from "@/lib/api";
 import "./globals.css";
@@ -38,9 +40,11 @@ export default function RootLayout({
     <html lang="en">
       <body id="top">
         <ContentProtection />
+        <Motion />
         <SiteHeader />
         <main id="content">{children}</main>
         <SiteFooter />
+        <BackToTop />
       </body>
     </html>
   );

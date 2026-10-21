@@ -24,7 +24,7 @@ export default function TermsPage() {
           text or lift our media.
         </p>
       </header>
-      <div className="prose">
+      <div className="prose" data-reveal="">
         <h2>Copyright</h2>
         <p>
           Original editorial text on this site is © {year} SRH Xtra. Copying,

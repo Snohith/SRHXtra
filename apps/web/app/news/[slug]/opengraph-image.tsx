@@ -42,9 +42,10 @@ async function fetchHeadline(
 export default async function ArticleOpengraphImage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const article = await fetchHeadline(params.slug);
+  const { slug } = await params;
+  const article = await fetchHeadline(slug);
   const title = article?.title || "SRH Xtra — Sunrisers Hyderabad coverage";
   const fontSize = title.length > 95 ? 52 : title.length > 65 ? 62 : 74;
 

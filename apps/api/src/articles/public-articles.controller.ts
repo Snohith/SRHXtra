@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Get,
-  NotFoundException,
-  Param,
-  Query,
-} from "@nestjs/common";
+import { Controller, Get, Param, Query } from "@nestjs/common";
 import { ArticlesService } from "./articles.service";
 
 /** Public read API — published articles only. Drafts never leak here. */
@@ -35,11 +29,7 @@ export class PublicArticlesController {
 
   @Get(":slug")
   async getBySlug(@Param("slug") slug: string) {
-    try {
-      return await this.articles.publicGetBySlug(slug);
-    } catch {
-      // Generic 404 so draft existence is not revealed.
-      throw new NotFoundException("Article not found.");
-    }
+    // Missing drafts and unknown slugs both come back as the same 404.
+    return this.articles.publicGetBySlug(slug);
   }
 }

@@ -1,13 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
-
-const LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/news", label: "News" },
-  { href: "/squad", label: "Squad" },
-  { href: "/matches", label: "Matches" },
-];
+import { NAV_LINKS } from "@/lib/nav";
 
 const COMPANY_LINKS = [
   { href: "/about", label: "About us" },
@@ -48,13 +43,7 @@ export function SiteHeader() {
           />
           SRH <em>Xtra</em>
         </Link>
-        <nav className="nav-desktop" aria-label="Primary">
-          {LINKS.map((l) => (
-            <Link key={l.href} href={l.href}>
-              {l.label}
-            </Link>
-          ))}
-        </nav>
+        <DesktopNav />
         <MobileNav />
       </div>
     </header>
@@ -65,7 +54,7 @@ export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="footer-inner">
-        <div className="footer-grid">
+        <div className="footer-grid" data-reveal="">
           <div className="footer-brand">
             <Link className="footer-wordmark" href="/">
               <Image src="/logo.png" alt="" width={30} height={30} />
@@ -102,7 +91,7 @@ export function SiteFooter() {
           <nav className="footer-col" aria-label="Coverage">
             <h2>Coverage</h2>
             <ul>
-              {LINKS.map((l) => (
+              {NAV_LINKS.map((l) => (
                 <li key={l.href}>
                   <Link href={l.href}>{l.label}</Link>
                 </li>

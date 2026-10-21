@@ -5,7 +5,8 @@
  * signing logic is auditable. Verified against MinIO (see README "Signed
  * uploads"): unsigned/expired URLs get 403, signed ones upload successfully.
  *
- * Only what presigned PUT needs: host-only signed headers, UNSIGNED-PAYLOAD.
+ * Only what presigned PUT needs: host + content-type signed headers,
+ * UNSIGNED-PAYLOAD.
  */
 import { createHash, createHmac } from "node:crypto";
 
@@ -45,12 +46,15 @@ function amzDates(now: Date): { amzDate: string; dateStamp: string } {
 
 /**
  * Build a presigned PUT URL the browser can upload to directly.
+ * `contentType` is part of the signature, so the client cannot store the
+ * object under a different (active) content type than the one the API checked.
  * Returns a plain string; callers hand it to the client as-is.
  */
 export function presignPutUrl(
   config: S3PresignConfig,
   key: string,
   expiresInSeconds: number,
+  contentType: string,
   now: Date = new Date(),
 ): string {
   if (expiresInSeconds < 1 || expiresInSeconds > 604800) {
@@ -77,7 +81,7 @@ export function presignPutUrl(
     "X-Amz-Credential": `${config.accessKeyId}/${scope}`,
     "X-Amz-Date": amzDate,
     "X-Amz-Expires": String(expiresInSeconds),
-    "X-Amz-SignedHeaders": "host",
+    "X-Amz-SignedHeaders": "content-type;host",
   });
   const canonicalQuery = [...query.entries()]
     .map(([k, v]) => `${rfc3986(k)}=${rfc3986(v)}`)
@@ -88,8 +92,8 @@ export function presignPutUrl(
     "PUT",
     url.pathname,
     canonicalQuery,
-    `host:${host}\n`,
-    "host",
+    `content-type:${contentType}\nhost:${host}\n`,
+    "content-type;host",
     "UNSIGNED-PAYLOAD",
   ].join("\n");
 

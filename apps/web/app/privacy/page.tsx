@@ -24,7 +24,7 @@ export default function PrivacyPage() {
           you send us to reply.
         </p>
       </header>
-      <div className="prose">
+      <div className="prose" data-reveal="">
         <h2>Scope</h2>
         <p>
           This policy explains how SRH Xtra handles information in connection

@@ -16,7 +16,10 @@
  * Run (after `pnpm --filter @srh/api build`): node apps/api/dist/worker.js
  */
 import "dotenv/config";
+import { readdir, rm, stat } from "node:fs/promises";
+import { join } from "node:path";
 import { Pool } from "pg";
+import { uploadsDir } from "./media/uploads";
 
 const connectionString =
   process.env.DATABASE_URL ??
@@ -284,10 +287,12 @@ async function publishDue(maxPerTick = 5) {
       );
       await client.query(
         `INSERT INTO article_revisions
-           (article_id, version, title, slug, excerpt, body, status, cover_image_url, created_by)
+           (article_id, version, title, slug, excerpt, body, status, cover_image_url,
+            seo_title, seo_description, created_by)
          SELECT id,
                 COALESCE((SELECT MAX(version) FROM article_revisions WHERE article_id = $1), 0) + 1,
-                title, slug, excerpt, body, status, cover_image_url, NULL
+                title, slug, excerpt, body, status, cover_image_url,
+                seo_title, seo_description, NULL
          FROM articles WHERE id = $1`,
         [id],
       );
@@ -322,8 +327,68 @@ async function publishDue(maxPerTick = 5) {
 }
 
 const startedAt = new Date();
+const SWEEP_INTERVAL_MS = 60 * 60_000;
+
+/** Remove `.part-*` upload temp files older than a day (crashed PUTs). */
+async function removeStaleParts(
+  dir: string,
+  olderThanMs: number,
+): Promise<number> {
+  let entries;
+  try {
+    entries = await readdir(dir, { withFileTypes: true });
+  } catch {
+    return 0; // no local uploads directory (S3 driver or nothing uploaded yet)
+  }
+  let removed = 0;
+  for (const entry of entries) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      removed += await removeStaleParts(full, olderThanMs);
+    } else if (/\.part-[0-9a-f]+$/.test(entry.name)) {
+      const info = await stat(full);
+      if (info.mtimeMs < olderThanMs) {
+        await rm(full, { force: true });
+        removed += 1;
+      }
+    }
+  }
+  return removed;
+}
+
+/**
+ * Housekeeping (hourly): expired upload intents, orphaned upload temp files,
+ * and delivered outbox rows. Without it those tables and temp files only grow.
+ */
+async function sweep() {
+  const intents = await pool.query(
+    `DELETE FROM media_upload_intents
+     WHERE completed_at IS NULL AND expires_at < now() - interval '1 day'`,
+  );
+  const outbox = await pool.query(
+    `DELETE FROM outbox_events
+     WHERE status = 'DONE' AND processed_at < now() - interval '30 days'`,
+  );
+  const parts = await removeStaleParts(
+    uploadsDir(),
+    Date.now() - 24 * 60 * 60_000,
+  );
+  log("info", "sweep complete", {
+    expiredIntents: intents.rowCount ?? 0,
+    deliveredEvents: outbox.rowCount ?? 0,
+    stalePartFiles: parts,
+  });
+}
 
 async function main() {
+  if (
+    process.env.NODE_ENV === "production" &&
+    revalidateSecret === "dev-revalidate-secret"
+  ) {
+    throw new Error(
+      "Refusing to start: set REVALIDATE_SECRET (same value as the web app).",
+    );
+  }
   log("info", "outbox worker starting", {
     revalidateUrl,
     pollMs,
@@ -342,10 +407,15 @@ async function main() {
   process.on("SIGTERM", () => shutdown("SIGTERM"));
 
   let lastHeartbeat = Date.now();
+  let lastSweep = 0;
   for (;;) {
     try {
       await publishDue();
       await drain();
+      if (Date.now() - lastSweep > SWEEP_INTERVAL_MS) {
+        await sweep();
+        lastSweep = Date.now();
+      }
       if (Date.now() - lastHeartbeat > HEARTBEAT_STALE_MS / 2) {
         await heartbeat();
         lastHeartbeat = Date.now();

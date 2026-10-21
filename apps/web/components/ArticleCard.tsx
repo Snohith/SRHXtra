@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { Article } from "@srh/contracts";
+import type { ArticleSummary } from "@srh/contracts";
 import { formatDate, resolveImageUrl } from "@/lib/api";
 
-function Meta({ article }: { article: Article }) {
+function Meta({ article }: { article: ArticleSummary }) {
   return (
     <div className="meta">
       {article.categoryName && (
@@ -17,10 +17,22 @@ function Meta({ article }: { article: Article }) {
   );
 }
 
-export function ArticleCard({ article }: { article: Article }) {
+export function ArticleCard({
+  article,
+  revealDelay = 0,
+}: {
+  article: ArticleSummary;
+  /** Optional stagger (ms) for the scroll reveal — see components/Motion.tsx. */
+  revealDelay?: number;
+}) {
   const cover = resolveImageUrl(article.coverImageUrl);
   return (
-    <Link className="card" href={`/news/${article.slug}`}>
+    <Link
+      className="card"
+      href={`/news/${article.slug}`}
+      data-reveal=""
+      data-reveal-delay={revealDelay || undefined}
+    >
       {cover && (
         <span className="card-img">
           <Image
@@ -40,12 +52,12 @@ export function ArticleCard({ article }: { article: Article }) {
   );
 }
 
-export function FeaturedStory({ article }: { article: Article }) {
+export function FeaturedStory({ article }: { article: ArticleSummary }) {
   const cover = resolveImageUrl(article.coverImageUrl);
   return (
-    <Link className="hero" href={`/news/${article.slug}`}>
+    <Link className="hero" href={`/news/${article.slug}`} data-reveal="">
       {cover && (
-        <span className="hero-img">
+        <span className="hero-img" data-parallax="14">
           <Image
             src={cover}
             alt=""
@@ -65,7 +77,7 @@ export function FeaturedStory({ article }: { article: Article }) {
 }
 
 /** Latest-headlines strip linking straight to canonical article URLs. */
-export function BreakingStrip({ articles }: { articles: Article[] }) {
+export function BreakingStrip({ articles }: { articles: ArticleSummary[] }) {
   if (articles.length === 0) return null;
   return (
     <div className="breaking" role="region" aria-label="Latest headlines">

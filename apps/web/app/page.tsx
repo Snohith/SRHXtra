@@ -32,7 +32,7 @@ export default async function Home() {
           </section>
         ) : (
           <section className="section">
-            <div className="empty">
+            <div className="empty" data-reveal="">
               <strong>No stories yet.</strong>
               <br />
               Publish an article in the admin dashboard and it appears here
@@ -43,13 +43,17 @@ export default async function Home() {
 
         {rest.length > 0 && (
           <section className="section" aria-label="Latest news">
-            <div className="section-head">
+            <div className="section-head" data-reveal="">
               <h2>Latest news</h2>
               <Link href="/news">All stories →</Link>
             </div>
             <div className="cards">
-              {rest.slice(0, 6).map((a) => (
-                <ArticleCard key={a.id} article={a} />
+              {rest.slice(0, 6).map((a, i) => (
+                <ArticleCard
+                  key={a.id}
+                  article={a}
+                  revealDelay={(i % 3) * 60}
+                />
               ))}
             </div>
           </section>
@@ -60,15 +64,19 @@ export default async function Home() {
           if (feed.data.length === 0) return null;
           return (
             <section className="section" key={cat.id} aria-label={cat.name}>
-              <div className="section-head">
+              <div className="section-head" data-reveal="">
                 <h2>{cat.name}</h2>
                 <Link href={`/news?category=${cat.slug}`}>
                   More {cat.name.toLowerCase()} →
                 </Link>
               </div>
               <div className="cards">
-                {feed.data.map((a) => (
-                  <ArticleCard key={a.id} article={a} />
+                {feed.data.map((a, j) => (
+                  <ArticleCard
+                    key={a.id}
+                    article={a}
+                    revealDelay={(j % 3) * 60}
+                  />
                 ))}
               </div>
             </section>
@@ -77,10 +85,10 @@ export default async function Home() {
 
         {categories.length > 0 && (
           <section className="section" aria-label="Browse by category">
-            <div className="section-head">
+            <div className="section-head" data-reveal="">
               <h2>Browse topics</h2>
             </div>
-            <div className="chips">
+            <div className="chips" data-reveal="">
               {categories.map((c) => (
                 <Link
                   key={c.id}

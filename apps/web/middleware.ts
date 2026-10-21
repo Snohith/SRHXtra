@@ -14,11 +14,10 @@ import { NextRequest, NextResponse } from "next/server";
  * allowlisted. Deterministic scripts can spoof Referer with curl — this
  * guard stops casual embedding, nothing more.
  *
- * Platform note: Next 14's self-hosted `next start` serves `/_next/image`
- * through an asset fast path that never reaches middleware (verified on
- * 14.2.35), so there this guard is inert and hotlink enforcement belongs to
- * the reverse proxy (see README "Copy protection"). Where middleware runs
- * before image serving (e.g. Vercel), it applies as written.
+ * Platform note: self-hosted `next start` serves `/_next/image` through an
+ * asset fast path that may not reach middleware; there hotlink enforcement
+ * belongs to the reverse proxy (see README "Copy protection"). Where
+ * middleware runs before image serving (e.g. Vercel), it applies as written.
  */
 
 /** Extra hostnames whose pages may still load optimized images. */

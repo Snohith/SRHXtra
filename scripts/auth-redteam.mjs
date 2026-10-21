@@ -126,7 +126,7 @@ async function sqlProbe(label, url, headers = {}) {
 
 async function main() {
   const adminHeaders = TOKEN
-    ? { Authorization: `Bearer ${TOKEN}`, "x-admin-user-id": "admin@srh.local" }
+    ? { Authorization: `Bearer ${TOKEN}` }
     : null;
 
   // Baseline first — confirms the API (and admin token) actually work.

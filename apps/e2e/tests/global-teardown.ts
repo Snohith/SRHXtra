@@ -13,6 +13,7 @@ export default async function globalTeardown() {
       DELETE FROM audit_logs WHERE resource_id IN (SELECT id::text FROM articles WHERE slug LIKE 'e2e-%');
       DELETE FROM outbox_events WHERE aggregate_id IN (SELECT id::text FROM articles WHERE slug LIKE 'e2e-%');
       DELETE FROM articles WHERE slug LIKE 'e2e-%';
+      DELETE FROM media_assets WHERE storage_key LIKE 'e2e-%';
       DELETE FROM users WHERE email IN ('writer@srh.local', 'publisher@srh.local');
     `);
     console.log("[e2e] teardown removed e2e fixtures");
