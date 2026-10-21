@@ -18,7 +18,15 @@ function apiOrigin() {
 }
 
 export function securityHeaders({ connectApi = false } = {}) {
-  const connect = ["'self'", ...(connectApi ? [apiOrigin()] : [])].join(" ");
+const connect = [
+  "'self'",
+  ...(connectApi
+    ? [
+        apiOrigin(),
+        "https://lyefjkfvcyinsxaxrimw.storage.supabase.co",
+      ]
+    : []),
+].join(" ");
   const csp = [
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline'" + (isDev ? " 'unsafe-eval'" : ""),
