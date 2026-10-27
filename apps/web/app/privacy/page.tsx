@@ -20,8 +20,8 @@ export default function PrivacyPage() {
         <h1>Privacy policy</h1>
         <p className="standfirst">
           The short version: you can read everything on SRH Xtra without an
-          account, we do not run advertising or tracking, and we only use what
-          you send us to reply.
+          account, we run no advertising, and the only analytics we use is
+          Google Analytics — which you can block.
         </p>
       </header>
       <div className="prose" data-reveal="">
@@ -36,8 +36,39 @@ export default function PrivacyPage() {
         <p>
           You do not need an account or any personal details to read this site,
           and we do not ask for them. The site is not supported by advertising,
-          we do not use third-party analytics or tracking tools, and we do not
-          set cookies on your device.
+          and we do not sell or share reader data.
+        </p>
+
+        <h2>Analytics</h2>
+        <p>
+          We use Google Analytics 4 (measurement ID G-51L8S5M17X) to understand
+          how the site is used — which stories are read, how readers arrive, and
+          which devices and regions they use. Google Analytics sets cookies and
+          receives technical information such as your IP address, browser,
+          device, approximate location, and the pages you view. We only read
+          aggregated reports, and we do not use this data to identify
+          individuals or for advertising.
+        </p>
+        <p>
+          You can refuse analytics by blocking cookies or tracking scripts in
+          your browser, using a tracking blocker, or installing Google’s{" "}
+          <a
+            href="https://tools.google.com/dlpage/gaoptout"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Analytics opt-out browser add-on
+          </a>
+          . Blocking analytics does not affect your access to any part of the
+          site. Google’s handling of this data is described in the{" "}
+          <a
+            href="https://policies.google.com/privacy"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Google privacy policy
+          </a>
+          .
         </p>
 
         <h2>Server logs</h2>

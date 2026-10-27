@@ -4,26 +4,30 @@ import { useEffect } from "react";
 
 /**
  * Site-wide motion controller — the JS half of the animation layer
- * (`globals.css` holds the CSS half): scroll reveals, hero parallax, and
- * the sticky-header state.
+ * (`globals.css` holds the CSS half): scroll reveals, hero parallax, a
+ * pointer-following spotlight, and the sticky-header state.
  *
- * One IntersectionObserver and one rAF-throttled scroll listener drive
- * everything, and only compositor-friendly properties (opacity/transform)
- * are ever written. Progressive enhancement is deliberate: reveal targets
- * stay visible by default and this controller only hides `[data-reveal]`
- * elements that are clearly below the viewport edge when it meets them —
- * no-JS readers, crawlers, and `prefers-reduced-motion` visitors always
- * get the full static page, and nothing above the fold waits on JS.
+ * IntersectionObservers and one rAF-throttled scroll loop drive the viewport
+ * work. Scroll and reveal code writes only compositor-friendly properties
+ * (opacity/transform); the spotlight writes two offsets for a transform-only
+ * glow. Progressive enhancement is deliberate: reveal targets stay visible by
+ * default and this controller only hides `[data-reveal]` elements that are
+ * clearly below the viewport edge when it meets them — no-JS readers,
+ * crawlers, and `prefers-reduced-motion` visitors always get the full static
+ * page, and nothing above the fold waits on JS.
  *
  * Reveal targets (server markup):
  *   data-reveal                     — fade/slide in when scrolled into view
  *   data-reveal-delay="120"         — optional stagger, in milliseconds
  *   data-parallax="14"              — drift strength for hero images, in px
+ *   data-spotlight                  — soft floodlight following the pointer
  */
 
 const REVEAL_SELECTOR = "[data-reveal]";
 const PARALLAX_SELECTOR = "[data-parallax]";
+const SPOTLIGHT_SELECTOR = "[data-spotlight]";
 const MOTION_TARGETS = `${REVEAL_SELECTOR}, ${PARALLAX_SELECTOR}`;
+const FINE_POINTER = "(hover: hover) and (pointer: fine)";
 
 /**
  * Reveal threshold: an element is only pre-hidden while its top edge sits
@@ -151,6 +155,48 @@ export default function Motion() {
       }
     };
 
+    /* ---------------- Pointer spotlight ---------------- */
+
+    // The glow itself is a CSS pseudo-element; this only writes the pointer
+    // position as two custom properties. A document-level pointermove avoids
+    // per-element listeners and survives route swaps. Touch input is ignored,
+    // and a single rAF caps writes at one per frame.
+    const finePointer = window.matchMedia(FINE_POINTER);
+    let spotFrame = 0;
+    let spotTarget: HTMLElement | null = null;
+    let spotX = 0;
+    let spotY = 0;
+
+    const paintSpotlight = () => {
+      spotFrame = 0;
+      const el = spotTarget;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+      // Offset from the panel centre: a fixed-size glow is moved by transform
+      // (compositor-friendly), never a repainted background gradient.
+      el.style.setProperty(
+        "--spot-dx",
+        `${(spotX - (rect.left + rect.width / 2)).toFixed(0)}px`,
+      );
+      el.style.setProperty(
+        "--spot-dy",
+        `${(spotY - (rect.top + rect.height / 2)).toFixed(0)}px`,
+      );
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (!finePointer.matches || !(event.target instanceof Element)) return;
+      const el = event.target.closest<HTMLElement>(SPOTLIGHT_SELECTOR);
+      if (!el) return;
+      spotTarget = el;
+      spotX = event.clientX;
+      spotY = event.clientY;
+      if (!spotFrame) spotFrame = requestAnimationFrame(paintSpotlight);
+    };
+
+    document.addEventListener("pointermove", onPointerMove, { passive: true });
+
     /* ---------------- Frame scheduler ---------------- */
 
     let frame = 0;
@@ -217,9 +263,11 @@ export default function Motion() {
 
     return () => {
       if (frame) cancelAnimationFrame(frame);
+      if (spotFrame) cancelAnimationFrame(spotFrame);
       reveal.disconnect();
       parallaxWatch.disconnect();
       dom.disconnect();
+      document.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       // Strict-mode remounts (dev) restart from a clean slate: un-hide

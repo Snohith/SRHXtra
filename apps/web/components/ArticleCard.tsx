@@ -55,7 +55,12 @@ export function ArticleCard({
 export function FeaturedStory({ article }: { article: ArticleSummary }) {
   const cover = resolveImageUrl(article.coverImageUrl);
   return (
-    <Link className="hero" href={`/news/${article.slug}`} data-reveal="">
+    <Link
+      className="hero"
+      href={`/news/${article.slug}`}
+      data-reveal=""
+      data-spotlight=""
+    >
       {cover && (
         <span className="hero-img" data-parallax="14">
           <Image

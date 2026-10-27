@@ -451,6 +451,7 @@ img {
   position: relative;
   aspect-ratio: 16 / 9;
   background: #ece7df;
+  overflow: hidden;
 }
 
 .card-img img {
@@ -707,6 +708,156 @@ img {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
+}
+
+/* Article share -------------------------------------------------------- */
+
+.article-share {
+  max-width: 760px;
+  margin: 14px 0 18px;
+  padding: 10px 0;
+  border-block: 1px solid var(--line);
+}
+
+/* After the story: a quiet card so the actions read as an invitation,
+   not another chunk of article furniture. */
+.article-share-end {
+  margin: 32px 0 8px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.share-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.share-label {
+  margin-right: 2px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.share-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    border-color 0.18s ease,
+    color 0.18s ease,
+    background-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.share-btn svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.share-btn:active {
+  transform: scale(0.97);
+}
+
+.share-btn:focus-visible {
+  outline: 3px solid rgba(242, 101, 34, 0.35);
+  outline-offset: 2px;
+}
+
+.share-copy[data-status="copied"] {
+  border-color: #1a7f37;
+  background: #f2fbf5;
+  color: #1a7f37;
+}
+
+.share-copy[data-status="failed"] {
+  border-color: #b42318;
+  background: #fef3f2;
+  color: #b42318;
+}
+
+.share-native {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: #fff;
+}
+
+@media (hover: hover) {
+  .share-btn:hover {
+    border-color: var(--brand);
+    background: #fff7f2;
+    color: var(--brand-dark);
+  }
+
+  .share-wa:hover {
+    border-color: #25d366;
+    background: #f0fdf4;
+    color: #0f766e;
+  }
+
+  .share-x:hover {
+    border-color: var(--charcoal);
+    background: #f4f5f6;
+    color: var(--charcoal);
+  }
+
+  .share-native:hover {
+    border-color: var(--brand-dark);
+    background: var(--brand-dark);
+    color: #fff;
+  }
+}
+
+@media (max-width: 559px) {
+  .article-share-end {
+    padding: 14px;
+  }
+
+  .share-row {
+    gap: 6px;
+  }
+
+  .share-btn {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+  }
+
+  .share-text {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .share-btn {
+    transition: none;
+  }
+
+  .share-btn:active {
+    transform: none;
+  }
 }
 
 /* Empty states / footer ------------------------------------------------------------ */
@@ -2108,11 +2259,12 @@ img {
 }
 
 /* Motion & micro-interactions ---------------------------------------------
-   The animation layer: page transitions, scroll reveals, hero parallax,
-   reading progress, and hover/press feedback (see components/Motion.tsx for
-   the JS half). Everything animates compositor-friendly properties only
-   (opacity/transform) and, under `prefers-reduced-motion: reduce`, all of
-   it disappears into the static site. */
+   The animation layer: page transitions, entrance choreography, scroll
+   reveals, hero parallax, pointer spotlights, reading progress, and
+   hover/press feedback (see components/Motion.tsx for the JS half). Motion
+   uses compositor-friendly opacity/transform, plus one small painted glow;
+   under `prefers-reduced-motion: reduce` the movement disappears and only
+   the static brand accents remain. */
 
 /* Page transitions — app/template.tsx re-mounts per route change, which
    replays this short fade + rise. */
@@ -2149,12 +2301,145 @@ img {
   animation-delay: var(--reveal-delay, 0ms);
 }
 
+/* First-screen choreography — hero copy rises in reading order, the player
+   portrait settles, and the headline rule draws itself. Pure CSS, so it
+   starts before hydration; the no-preference wrapper leaves the static page
+   untouched for motion-sensitive readers. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@keyframes portrait-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-body > *,
+  .squad-hero > *,
+  .article-head > *,
+  .player-hero-body > * {
+    animation: rise-in 620ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+
+  .hero-body > :nth-child(2),
+  .squad-hero > :nth-child(2),
+  .article-head > :nth-child(2),
+  .player-hero-body > :nth-child(2) {
+    animation-delay: 80ms;
+  }
+
+  .hero-body > :nth-child(3),
+  .squad-hero > :nth-child(3),
+  .article-head > :nth-child(3),
+  .player-hero-body > :nth-child(3) {
+    animation-delay: 160ms;
+  }
+
+  .hero-body > :nth-child(4),
+  .squad-hero > :nth-child(4),
+  .article-head > :nth-child(4),
+  .player-hero-body > :nth-child(4) {
+    animation-delay: 240ms;
+  }
+
+  .player-hero-body > :nth-child(5) {
+    animation-delay: 320ms;
+  }
+
+  .player-hero-media {
+    animation: portrait-in 780ms cubic-bezier(0.22, 1, 0.36, 1) 100ms backwards;
+  }
+
+  .player-hero-num {
+    animation: rise-in 900ms cubic-bezier(0.22, 1, 0.36, 1) 220ms backwards;
+  }
+}
+
+/* Section rules — a short brand tick draws across the black rule as the
+   heading enters view. Above-fold headings keep the finished tick, so the
+   enhanced state is also the no-JS state. */
+.section-head {
+  position: relative;
+}
+
+.section-head::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 64px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--brand);
+  transform-origin: 0 50%;
+}
+
+.section-head.is-pending::after {
+  transform: scaleX(0);
+}
+
+.section-head.is-in::after {
+  animation: rule-draw 600ms cubic-bezier(0.22, 1, 0.36, 1) 90ms backwards;
+}
+
+@keyframes rule-draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
 /* Hero parallax — Motion adds .parallax-on and writes --parallax-y each
    frame; the slight overscan keeps the shifted edges inside the clipped
    card. */
 [data-parallax].parallax-on img {
   transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1.14);
   will-change: transform;
+}
+
+/* Pointer spotlight — a soft floodlight that tracks the cursor across the
+   dark hero panels. Motion.tsx writes --spot-dx / --spot-dy; a fixed-size
+   glow is moved with a transform, so tracking never repaints the gradient.
+   The negative-z pseudo sits above the panel background but below its copy. */
+[data-spotlight] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-spotlight]::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: -1;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+      circle,
+      rgba(242, 101, 34, 0.2),
+      transparent 68%
+    );
+    transform: translate3d(
+      calc(-50% + var(--spot-dx, 0px)),
+      calc(-50% + var(--spot-dy, 0px)),
+      0
+    );
+    transition: opacity 320ms ease;
+  }
+
+  [data-spotlight]:hover::after {
+    opacity: 1;
+  }
 }
 
 /* Sticky header — compacts and lifts a shadow once the page scrolls. */
@@ -2490,6 +2775,130 @@ img {
   .pager-link:hover .pager-avatar img {
     transform: scale(1.1);
   }
+
+  .share-btn:hover svg {
+    transform: translateY(-1px) scale(1.06);
+  }
+
+  .to-top:hover svg {
+    transform: translateY(-2px);
+  }
+}
+
+/* Component micro-interactions -------------------------------------------- */
+
+/* Card images settle from a slight push-in as their reveal lands. The
+   animation ends at the natural transform, leaving the hover zoom in charge
+   afterwards; its delay matches the card's own reveal stagger. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal].is-in .card-img img {
+    animation: image-settle 900ms cubic-bezier(0.22, 1, 0.36, 1)
+      var(--reveal-delay, 0ms);
+  }
+
+  /* Squad composition bar fills segment by segment. */
+  [data-reveal].is-in .comp-seg {
+    animation: comp-grow 720ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    transform-origin: 0 50%;
+  }
+
+  [data-reveal].is-in .comp-seg:nth-child(2) {
+    animation-delay: 60ms;
+  }
+
+  [data-reveal].is-in .comp-seg:nth-child(3) {
+    animation-delay: 120ms;
+  }
+
+  [data-reveal].is-in .comp-seg:nth-child(4) {
+    animation-delay: 180ms;
+  }
+
+  /* Mobile menu links cascade instead of appearing as one block. */
+  .nav-mobile.is-open a {
+    animation: nav-link-in 300ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+
+  .nav-mobile.is-open a:nth-child(2) {
+    animation-delay: 35ms;
+  }
+
+  .nav-mobile.is-open a:nth-child(3) {
+    animation-delay: 70ms;
+  }
+
+  .nav-mobile.is-open a:nth-child(4) {
+    animation-delay: 105ms;
+  }
+
+  .nav-mobile.is-open a:nth-child(5) {
+    animation-delay: 140ms;
+  }
+
+  /* Copy confirmation: the check pops and a ring dissolves outward. */
+  .share-copy[data-status="copied"] svg {
+    animation: check-pop 360ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .share-copy[data-status="copied"] {
+    animation: copy-glow 520ms ease-out;
+  }
+}
+
+@keyframes image-settle {
+  from {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes comp-grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes nav-link-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes check-pop {
+  from {
+    opacity: 0.4;
+    transform: scale(0.55);
+  }
+}
+
+@keyframes copy-glow {
+  from {
+    box-shadow: 0 0 0 5px rgba(26, 127, 55, 0.18);
+  }
+}
+
+.share-btn svg {
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.to-top svg {
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.to-top:active svg {
+  transform: translateY(1px) scale(0.9);
+}
+
+/* Touch-friendly press feedback for whole-card links, which otherwise only
+   had hover states. Kept to a hairline scale so it reads as a press, not a
+   bounce, and it doubles as keyboard activation feedback. */
+.card:active,
+.hero:active,
+.player-card:active,
+.captain-card:active,
+.pager-link:active {
+  transform: scale(0.995);
+  transition-duration: 120ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2507,6 +2916,10 @@ img {
   [data-parallax].parallax-on img {
     transform: none;
     will-change: auto;
+  }
+
+  [data-spotlight]::after {
+    display: none;
   }
 
   .site-header,
@@ -2531,19 +2944,29 @@ img {
   .player-photo img,
   .pager-avatar img,
   .brand-logo,
-  .to-top {
+  .share-btn svg,
+  .to-top,
+  .to-top svg {
     transition: none;
   }
 
   .card:hover,
+  .card:active,
   .hero:hover,
+  .hero:active,
   .btn:hover,
   .btn:active,
   .chip:hover,
   .chip:active,
   .f-chip:active,
+  .player-card:active,
+  .captain-card:active,
+  .pager-link:active,
   .section-head a:hover,
-  .brand:hover .brand-logo {
+  .brand:hover .brand-logo,
+  .share-btn:hover svg,
+  .to-top:hover svg,
+  .to-top:active svg {
     transform: none;
   }
 

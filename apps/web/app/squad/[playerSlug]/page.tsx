@@ -210,7 +210,7 @@ export default async function PlayerProfilePage({
         </ol>
       </nav>
 
-      <header className="player-hero" data-reveal="">
+      <header className="player-hero" data-reveal="" data-spotlight="">
         <div className="player-hero-media">
           {cutout ? (
             <Image

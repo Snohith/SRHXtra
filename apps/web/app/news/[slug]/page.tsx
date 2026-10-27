@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { ArticleCard } from "@/components/ArticleCard";
+import ArticleViewTracker from "@/components/ArticleViewTracker";
 import ReadingProgress from "@/components/ReadingProgress";
+import ShareRow from "@/components/ShareRow";
 import {
   articleUrl,
   formatDateTime,
@@ -105,6 +107,12 @@ export default async function ArticlePage({
   return (
     <div className="wrap">
       <ReadingProgress />
+      <ArticleViewTracker
+        slug={article.slug}
+        title={article.title}
+        category={article.categoryName}
+        author={article.authorName}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
@@ -135,6 +143,9 @@ export default async function ArticlePage({
             </time>
           </div>
         </header>
+        <div className="article-share">
+          <ShareRow url={articleUrl(article.slug)} title={article.title} />
+        </div>
         {cover && (
           <div className="hero-single" data-reveal="" data-parallax="16">
             <Image
@@ -152,6 +163,9 @@ export default async function ArticlePage({
           dangerouslySetInnerHTML={{ __html: cleanBody }}
         />
       </article>
+      <div className="article-share article-share-end" data-reveal="">
+        <ShareRow url={articleUrl(article.slug)} title={article.title} />
+      </div>
       {related.length > 0 && (
         <section className="section" aria-label="Related stories">
           <div className="section-head" data-reveal="">

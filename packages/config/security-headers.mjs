@@ -18,6 +18,10 @@ function apiOrigin() {
 }
 
 export function securityHeaders({ connectApi = false } = {}) {
+// Google Analytics 4: the loader is a script; hits go to the GA4 collectors.
+const GA_SCRIPT = "https://www.googletagmanager.com";
+const GA_CONNECT =
+  "https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com";
 const connect = [
   "'self'",
   ...(connectApi
@@ -29,11 +33,12 @@ const connect = [
 ].join(" ");
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline'" + (isDev ? " 'unsafe-eval'" : ""),
+    `script-src 'self' 'unsafe-inline' ${GA_SCRIPT}` +
+      (isDev ? " 'unsafe-eval'" : ""),
     "style-src 'self' 'unsafe-inline'",
     `img-src 'self' data: http: https:`,
     "font-src 'self' data:",
-    `connect-src ${connect}`,
+    `connect-src ${connect} ${GA_CONNECT}`,
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",

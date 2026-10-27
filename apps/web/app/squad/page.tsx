@@ -91,7 +91,7 @@ export default function SquadPage() {
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
 
-      <header className="squad-hero" data-reveal="">
+      <header className="squad-hero" data-reveal="" data-spotlight="">
         <div className="squad-hero-top">
           <span className="squad-kicker">IPL 2026 · Orange Army</span>
         </div>
@@ -127,6 +127,7 @@ export default function SquadPage() {
             className="captain-card"
             href={`/squad/${playerSlug(CAPTAIN.name)}`}
             aria-labelledby="captain-heading"
+            data-spotlight=""
           >
             <PlayerAvatar
               player={CAPTAIN}
@@ -154,7 +155,11 @@ export default function SquadPage() {
           </Link>
         )}
 
-        <section className="squad-glance" aria-labelledby="glance-heading">
+        <section
+          className="squad-glance"
+          aria-labelledby="glance-heading"
+          data-spotlight=""
+        >
           <h2 id="glance-heading">Squad composition</h2>
           <div className="comp-bar" role="img" aria-label={compositionLabel}>
             {SQUAD_ROLES.map((info) => (

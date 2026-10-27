@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
+import Analytics from "@/components/Analytics";
 import BackToTop from "@/components/BackToTop";
 import ContentProtection from "@/components/ContentProtection";
 import Motion from "@/components/Motion";
@@ -39,6 +41,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body id="top">
+        <Suspense fallback={null}>
+          <Analytics />
+        </Suspense>
         <ContentProtection />
         <Motion />
         <SiteHeader />
